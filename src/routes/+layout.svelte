@@ -37,7 +37,7 @@
 				</Breadcrumb.Root>
 			</header>
 			<div class="p-4">
-				{@render children()}
+				{@render children?.()}
 			</div>
 		</Sidebar.Inset>
 	</Sidebar.Provider>

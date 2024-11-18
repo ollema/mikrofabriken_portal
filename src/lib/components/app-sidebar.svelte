@@ -5,6 +5,7 @@
 	import Mikrofabriken from '$lib/icons/Mikrofabriken.svelte';
 	import { navigation } from '$lib/config/navigation.js';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 </script>
 
 <Sidebar.Root>
@@ -14,7 +15,6 @@
 				<Sidebar.MenuButton
 					size="lg"
 					onclick={() => {
-						console.log('clicked');
 						goto('/');
 					}}
 				>
@@ -52,33 +52,47 @@
 	<Sidebar.Footer>
 		<Sidebar.Menu>
 			<Sidebar.MenuItem>
-				<DropdownMenu.Root>
-					<DropdownMenu.Trigger>
+				{#if $page.data.user !== null}
+					{@const user = $page.data.user}
+					<DropdownMenu.Root>
+						<DropdownMenu.Trigger>
+							{#snippet child({ props })}
+								<Sidebar.MenuButton
+									{...props}
+									class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+								>
+									{user.name}
+									<ChevronUp class="ml-auto" />
+								</Sidebar.MenuButton>
+							{/snippet}
+						</DropdownMenu.Trigger>
+						<DropdownMenu.Content side="top" class="w-[--bits-dropdown-menu-anchor-width]">
+							<DropdownMenu.Item>
+								<span>Profile</span>
+							</DropdownMenu.Item>
+							<DropdownMenu.Item>
+								<span>Invoices</span>
+							</DropdownMenu.Item>
+							<DropdownMenu.Item>
+								<span>Purchases</span>
+							</DropdownMenu.Item>
+							<DropdownMenu.Item>
+								<!-- TODO: fix me, the width is off -->
+								{#snippet child({ props })}
+									<form action="/auth/sign_out" method="post" class="contents">
+										<button class="w-full" {...props}>Sign out</button>
+									</form>
+								{/snippet}
+							</DropdownMenu.Item>
+						</DropdownMenu.Content>
+					</DropdownMenu.Root>
+				{:else}
+					<Sidebar.MenuButton>
 						{#snippet child({ props })}
-							<Sidebar.MenuButton
-								{...props}
-								class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-							>
-								Username
-								<ChevronUp class="ml-auto" />
-							</Sidebar.MenuButton>
+							<a href="/auth/sign_in" {...props}>Sign in</a>
 						{/snippet}
-					</DropdownMenu.Trigger>
-					<DropdownMenu.Content side="top" class="w-[--bits-dropdown-menu-anchor-width]">
-						<DropdownMenu.Item>
-							<span>Profile</span>
-						</DropdownMenu.Item>
-						<DropdownMenu.Item>
-							<span>Invoices</span>
-						</DropdownMenu.Item>
-						<DropdownMenu.Item>
-							<span>Purchases</span>
-						</DropdownMenu.Item>
-						<DropdownMenu.Item>
-							<span>Sign out</span>
-						</DropdownMenu.Item>
-					</DropdownMenu.Content>
-				</DropdownMenu.Root>
+					</Sidebar.MenuButton>
+				{/if}
 			</Sidebar.MenuItem>
 		</Sidebar.Menu>
 	</Sidebar.Footer>

@@ -1,9 +1,14 @@
 import type { RequestEvent } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 import { sha256 } from '@oslojs/crypto/sha2';
-import { encodeBase64url, encodeHexLowerCase } from '@oslojs/encoding';
+import { encodeBase32LowerCase, encodeBase64url, encodeHexLowerCase } from '@oslojs/encoding';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
+
+import type { Member } from '$lib/types/members';
+import { parseMemberList } from '$lib/server/members';
+
+import { env } from '$env/dynamic/private';
 
 const DAY_IN_MS = 1000 * 60 * 60 * 24;
 
@@ -30,8 +35,16 @@ export async function validateSessionToken(token: string) {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
 	const [result] = await db
 		.select({
-			// Adjust user table here to tweak returned data
-			user: { id: table.user.id, username: table.user.username },
+			user: {
+				id: table.user.id,
+				slackId: table.user.slackId,
+				email: table.user.email,
+				role: table.user.role,
+				claims: table.user.claims,
+				name: table.user.name,
+				image: table.user.image,
+				token: table.user.token
+			},
 			session: table.session
 		})
 		.from(table.session)
@@ -78,4 +91,78 @@ export function deleteSessionTokenCookie(event: RequestEvent) {
 	event.cookies.delete(sessionCookieName, {
 		path: '/'
 	});
+}
+
+export function generateUserId() {
+	const bytes = crypto.getRandomValues(new Uint8Array(15));
+	const id = encodeBase32LowerCase(bytes);
+	return id;
+}
+
+/**
+ * Represents the result of a membership check.
+ * If the check was successful, `success` will be `true` and `member` will contain the member information.
+ * If the check was unsuccessful, `success` will be `false` and `reason` will contain the reason for the failure.
+ */
+type MembershipCheckResult = { success: true; member: Member } | { success: false; reason: string };
+
+/**
+ * Checks if a user is a member based on their email address and membership status.
+ * @param email - The email address of the user.
+ * @param email_verified - Whether the user's email address has been verified.
+ * @returns A `MembershipCheckResult` object indicating whether the user is a member and the reason if not.
+ */
+export function isMember(email: string, email_verified: boolean): MembershipCheckResult {
+	// users need to have verified email addresses
+	if (!email_verified) {
+		return { success: false, reason: `Your email used in Slack (${email}) is not verified` };
+	}
+
+	// users need to exist in the members.json file
+	const members = parseMemberList();
+	const member = members.find((member) => member.slackEmail.toLowerCase() === email.toLowerCase());
+	if (!member) {
+		return {
+			success: false,
+			reason: `Your email used in Slack (${email}) is not found in members.json`
+		};
+	}
+
+	// users need to have an active membership agreement
+	const activeMembership = member.agreements.some((agreement) => {
+		return (
+			agreement.type === 'membership' &&
+			(!agreement.endDate || new Date(agreement.endDate) > new Date())
+		);
+	});
+	if (!activeMembership) {
+		return { success: false, reason: `You do not have an active membership agreement` };
+	}
+
+	return { success: true, member };
+}
+
+/**
+ * Checks if a given member is an admin.
+ * @param member - The member to check.
+ * @returns True if the member is an admin, false otherwise.
+ */
+export function isAdmin(member: Member) {
+	// board members are admins
+	let admin = false;
+	for (const commission of member.commissions) {
+		if (commission.type.startsWith('board/')) {
+			// ensure that commission.endDate is not set or at least in the future so that the board member is still active
+			if (!commission.endDate || new Date(commission.endDate) > new Date()) {
+				admin = true;
+			}
+		}
+	}
+
+	// selected list of users are also admins
+	if (env.ADMINS?.split(',').includes(member.slackEmail.toLowerCase())) {
+		admin = true;
+	}
+
+	return admin;
 }
