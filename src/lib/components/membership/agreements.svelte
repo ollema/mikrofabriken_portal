@@ -35,14 +35,14 @@
 	{#if activeMembershipAgreement}
 		<div>
 			You have an active <span class="font-semibold">membership agreement</span> since
-			<span class="semibold">{activeMembershipAgreement.startDate}</span>.
+			<span class="font-semibold">{activeMembershipAgreement.startDate}</span>.
 		</div>
 	{/if}
 
 	{#if activeInvestmentAgreement}
 		<div>
 			You have an active <span class="font-semibold">investment agreement</span> since
-			<span class="semibold">{activeInvestmentAgreement.startDate}</span>.
+			<span class="font-semibold">{activeInvestmentAgreement.startDate}</span>.
 		</div>
 	{/if}
 
@@ -50,7 +50,7 @@
 		<div>
 			You have an active <span class="font-semibold">asylum agreement</span> of size
 			<span class="font-semibold">{activeAsylumAgreement.attributes?.size ?? 0} m<sup>2</sup></span>
-			since <span class="semibold">{activeAsylumAgreement.startDate}</span>.
+			since <span class="font-semibold">{activeAsylumAgreement.startDate}</span>.
 		</div>
 	{/if}
 
@@ -60,7 +60,7 @@
 			<span class="font-semibold">
 				{activeAsylumOutsideAgreement.attributes?.size ?? 0} m<sup>2</sup>
 			</span>
-			since <span class="semibold">{activeAsylumOutsideAgreement.startDate}</span>.
+			since <span class="font-semibold">{activeAsylumOutsideAgreement.startDate}</span>.
 		</div>
 	{/if}
 
@@ -74,7 +74,7 @@
 			<span class="font-semibold">
 				{activePalletAgreement.attributes?.palletIds?.join(', ') ?? 'N/A'}
 			</span>
-			since <span class="semibold">{activePalletAgreement.startDate}</span>.
+			since <span class="font-semibold">{activePalletAgreement.startDate}</span>.
 		</div>
 	{/if}
 </div>

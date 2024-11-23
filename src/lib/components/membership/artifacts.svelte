@@ -18,9 +18,11 @@
 <div class="space-y-4">
 	{#if activeRFIDArtifact}
 		<div>
-			You have an active <span class="font-semibold">RFID tag</span> since
-			<span class="semibold">{activeRFIDArtifact.startDate}</span> with RFID data
-			{activeRFIDArtifact.attributes?.data} and code hash {activeRFIDArtifact.attributes?.codeHash}.
+			You have an active <span class="font-semibold">RFID tag</span> with RFID data
+			<span class="font-mono">{activeRFIDArtifact.attributes?.data}</span> and code hash
+			<span class="font-mono">{activeRFIDArtifact.attributes?.codeHash}</span>
+			since
+			<span class="font-semibold">{activeRFIDArtifact.startDate}</span>.
 		</div>
 	{/if}
 
@@ -29,7 +31,7 @@
 			You have been entrusted with <span class="font-semibold">
 				key #{activeKeyArtifact.attributes?.number ?? 0}
 			</span>
-			since <span class="semibold">{activeKeyArtifact.startDate}</span>.
+			since <span class="font-semibold">{activeKeyArtifact.startDate}</span>.
 		</div>
 	{/if}
 </div>
