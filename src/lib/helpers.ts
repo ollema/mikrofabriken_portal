@@ -1,4 +1,4 @@
-import type { Agreement, Commission, CommissionType } from '$lib/types/members';
+import type { Agreement, Artifact, Commission, CommissionType } from '$lib/types/members';
 import type { Claims } from './types/cog';
 
 export function appendPossessive(name: string): string {
@@ -34,6 +34,16 @@ export function isAgreementActive(agreement: Agreement) {
 	}
 
 	return !agreement.endDate || new Date(agreement.endDate) > currentDate;
+}
+
+export function isArtifactActive(artifact: Artifact) {
+	const currentDate = new Date();
+
+	if (artifact.startDate && new Date(artifact.startDate) > currentDate) {
+		return false;
+	}
+
+	return !artifact.endDate || new Date(artifact.endDate) > currentDate;
 }
 
 export function isCommissionActive(commission: Commission): boolean {

@@ -5,6 +5,7 @@ import CompanyForm from './company-form.svelte';
 // import NewProductForm from './new-product-form.svelte';
 // import ProductForm from './product-form.svelte';
 import ProfileForm from './profile-form.svelte';
+import RfidForm from './rfid-form.svelte';
 
 // export { AdminProfileForm };
 export { CompanyForm };
@@ -13,3 +14,4 @@ export { CompanyForm };
 // export { NewProductForm };
 // export { ProductForm };
 export { ProfileForm };
+export { RfidForm };

@@ -152,6 +152,15 @@ export const formSchema = MemberSchema.omit({
 
 export type FormSchema = typeof formSchema;
 
+export const rfidFormSchema = z.object({
+	rfidData: z.string(),
+	rfidCode: z.string().regex(new RegExp('^[0-9]{4}$'), {
+		message: 'Code must be 4 digits long'
+	})
+});
+
+export type RfidFormSchema = typeof rfidFormSchema;
+
 export const adminFormSchema = MemberSchema.omit({
 	agreements: true,
 	artifacts: true,
