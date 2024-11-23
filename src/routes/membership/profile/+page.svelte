@@ -2,7 +2,7 @@
 	import * as PageHeader from '$lib/components/page-header';
 	import * as Popover from '$lib/components/ui/popover';
 	import { Button } from '$lib/components/ui/button';
-	import { Profile, Company, Pending } from '$lib/components/profile';
+	import { Profile, Company, Pending } from '$lib/components/membership/index.js';
 
 	let { data } = $props();
 

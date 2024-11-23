@@ -4,6 +4,7 @@ import Item from './profile-item.svelte';
 import Profile from './profile.svelte';
 import Company from './company.svelte';
 import Pending from './pending.svelte';
+import Agreements from './agreements.svelte';
 
 export {
 	Root,
@@ -12,6 +13,7 @@ export {
 	Profile,
 	Company,
 	Pending,
+	Agreements,
 	//
 	Root as ProfileRoot,
 	Group as ProfileGroup,
