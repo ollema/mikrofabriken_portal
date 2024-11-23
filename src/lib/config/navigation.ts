@@ -37,23 +37,23 @@ export const navigation: Navigation[] = [
 		items: [
 			{
 				title: 'Profile',
-				href: '/profile'
+				href: '/membership/profile'
 			},
 			{
 				title: 'Agreements',
-				href: '/agreements'
+				href: '/membership/agreements'
 			},
 			{
 				title: 'Artifacts',
-				href: '/artifacts'
+				href: '/membership/artifacts'
 			},
 			{
 				title: 'Commissions',
-				href: '/commissions'
+				href: '/membership/commissions'
 			},
 			{
 				title: 'Invoices',
-				href: '/invoices'
+				href: '/membership/invoices'
 			}
 		]
 	},

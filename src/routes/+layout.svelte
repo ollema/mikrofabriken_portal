@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { ModeWatcher } from 'mode-watcher';
+	import { getFlash } from 'sveltekit-flash-message';
+	import { toast } from 'svelte-sonner';
 	import { Toaster } from '$lib/components/ui/sonner/index.js';
 	import Metadata from '$lib/components/metadata.svelte';
 	import * as Tooltip from '$lib/components/ui/tooltip/index.js';
@@ -9,6 +11,30 @@
 	import { page } from '$app/stores';
 
 	import '../app.css';
+
+	const flash = getFlash(page);
+
+	flash.subscribe(($flash) => {
+		if (!$flash) return;
+
+		switch ($flash.type) {
+			case 'info':
+				toast.info($flash.message);
+				break;
+			case 'success':
+				toast.success($flash.message);
+				break;
+			case 'warning':
+				toast.warning($flash.message);
+				break;
+			case 'error':
+				toast.error($flash.message);
+				break;
+		}
+
+		// clear flash message to avoid double-toasting
+		flash.set(undefined);
+	});
 
 	let { children } = $props();
 
