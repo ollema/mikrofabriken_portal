@@ -6,10 +6,32 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as Breadcrumb from '$lib/components/ui/breadcrumb/index.js';
 	import AppSidebar from '$lib/components/app-sidebar.svelte';
+	import { page } from '$app/stores';
 
 	import '../app.css';
+	import { index } from 'drizzle-orm/mysql-core';
 
 	let { children } = $props();
+
+	function capitalize(str: string) {
+		return str.charAt(0).toUpperCase() + str.slice(1);
+	}
+
+	let breadcrumbs = $derived($page.url.pathname.split('/').filter((x) => x !== ''));
+	let breadcrumbsLinks = $derived(
+		breadcrumbs.map((breadcrumb, index) => {
+			const href = '/' + breadcrumbs.slice(0, index + 1).join('/');
+			let label: string;
+			if (breadcrumb.includes('@')) {
+				label = breadcrumb.toLowerCase();
+			} else if (breadcrumb.includes('_')) {
+				label = breadcrumb.split('_').map(capitalize).join(' ');
+			} else {
+				label = capitalize(breadcrumb);
+			}
+			return { href, label };
+		})
+	);
 </script>
 
 <ModeWatcher defaultMode={'dark'} />
@@ -26,17 +48,34 @@
 				<Sidebar.Trigger class="-ml-1" />
 				<Breadcrumb.Root>
 					<Breadcrumb.List>
-						<Breadcrumb.Item class="hidden md:block">
+						{#each breadcrumbsLinks as breadcrumb, index}
+							{#if index === 0}
+								<Breadcrumb.Item>
+									{breadcrumb.label}
+								</Breadcrumb.Item>
+								<Breadcrumb.Separator />
+							{:else if index === breadcrumbsLinks.length - 1}
+								<Breadcrumb.Item>
+									<Breadcrumb.Page>{breadcrumb.label}</Breadcrumb.Page>
+								</Breadcrumb.Item>
+							{:else}
+								<Breadcrumb.Item>
+									<Breadcrumb.Link href={breadcrumb.href}>{breadcrumb.label}</Breadcrumb.Link>
+								</Breadcrumb.Item>
+								<Breadcrumb.Separator />
+							{/if}
+						{/each}
+						<!-- <Breadcrumb.Item class="hidden md:block">
 							<Breadcrumb.Link href="#">Building Your Application</Breadcrumb.Link>
 						</Breadcrumb.Item>
 						<Breadcrumb.Separator class="hidden md:block" />
 						<Breadcrumb.Item>
 							<Breadcrumb.Page>Data Fetching</Breadcrumb.Page>
-						</Breadcrumb.Item>
+						</Breadcrumb.Item> -->
 					</Breadcrumb.List>
 				</Breadcrumb.Root>
 			</header>
-			<div class="p-4">
+			<div class="w-full max-w-screen-xl p-2 md:p-4">
 				{@render children?.()}
 			</div>
 		</Sidebar.Inset>

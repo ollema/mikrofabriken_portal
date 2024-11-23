@@ -1,4 +1,4 @@
-import type { RequestEvent } from '@sveltejs/kit';
+import { error, redirect, type RequestEvent } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 import { sha256 } from '@oslojs/crypto/sha2';
 import { encodeBase32LowerCase, encodeBase64url, encodeHexLowerCase } from '@oslojs/encoding';
@@ -97,6 +97,22 @@ export function generateUserId() {
 	const bytes = crypto.getRandomValues(new Uint8Array(15));
 	const id = encodeBase32LowerCase(bytes);
 	return id;
+}
+
+export function getUser(locals: App.Locals, url?: URL) {
+	const redirectUrl = url ? `?redirect=${encodeURIComponent(url.pathname)}` : '';
+	if (locals.user === null) {
+		redirect(302, '/sign_in' + redirectUrl);
+	}
+
+	return locals.user;
+}
+
+export function getToken(locals: App.Locals) {
+	if (locals.user?.token === undefined) {
+		error(401, 'Unauthorized: no token set');
+	}
+	return locals.user.token;
 }
 
 /**
