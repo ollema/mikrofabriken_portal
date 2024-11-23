@@ -1,7 +1,7 @@
 import { getUser } from '$lib/server/auth';
-import { getOpenPeriods } from '$lib/server/cog';
 import { parseMemberList } from '$lib/server/members';
-import { getFormattedMembers } from '../utils.js';
+import { getOpenPeriods } from '$lib/server/cog';
+import { getFormattedMembersBasedOnCommissions } from '../utils';
 
 export const load = async ({ locals, url }) => {
 	getUser(locals, url);
@@ -18,7 +18,9 @@ export const load = async ({ locals, url }) => {
 		{} as Record<string, boolean>
 	);
 
+	const { board } = getFormattedMembersBasedOnCommissions(members, here);
+
 	return {
-		members: getFormattedMembers(members, here)
+		board: board
 	};
 };

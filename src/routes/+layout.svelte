@@ -9,7 +9,6 @@
 	import { page } from '$app/stores';
 
 	import '../app.css';
-	import { index } from 'drizzle-orm/mysql-core';
 
 	let { children } = $props();
 
