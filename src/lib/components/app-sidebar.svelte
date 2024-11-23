@@ -6,7 +6,18 @@
 	import { navigation } from '$lib/config/navigation.js';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+
+	let signoutForm: HTMLFormElement | undefined = $state(undefined);
+
+	function submitSignoutForm() {
+		if (signoutForm) {
+			console.log('submitting signout form');
+			signoutForm.requestSubmit();
+		}
+	}
 </script>
+
+<form action="/auth/sign_out" method="post" bind:this={signoutForm}></form>
 
 <Sidebar.Root>
 	<Sidebar.Header>
@@ -76,13 +87,8 @@
 							<DropdownMenu.Item>
 								<span>Purchases</span>
 							</DropdownMenu.Item>
-							<DropdownMenu.Item>
-								<!-- TODO: fix me, the width is off -->
-								{#snippet child({ props })}
-									<form action="/auth/sign_out" method="post" class="contents">
-										<button class="w-full" {...props}>Sign out</button>
-									</form>
-								{/snippet}
+							<DropdownMenu.Item onSelect={submitSignoutForm}>
+								<span>Sign out</span>
 							</DropdownMenu.Item>
 						</DropdownMenu.Content>
 					</DropdownMenu.Root>
