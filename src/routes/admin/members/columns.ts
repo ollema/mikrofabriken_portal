@@ -61,15 +61,24 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 	},
 	{
 		accessorKey: 'slackEmail',
-		header: 'Slack email'
+		header: 'Slack email',
+		enableSorting: false,
+		enableHiding: true
 	},
 	{
 		accessorKey: 'phone',
-		header: 'Phone'
+		header: 'Phone',
+		enableSorting: false,
+		enableHiding: true
 	},
 	{
 		accessorKey: 'membership',
-		header: 'Membership'
+		header: 'Membership',
+		filterFn: (row, id, value) => {
+			return value.includes(row.getValue(id));
+		},
+		enableSorting: false,
+		enableHiding: true
 	},
 	{
 		accessorKey: 'memberSince',
@@ -77,7 +86,9 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 			renderComponent(DataTableColumnHeader<ExtendedMember, unknown>, {
 				column,
 				title: 'Member since'
-			})
+			}),
+		enableSorting: true,
+		enableHiding: true
 	},
 	{
 		accessorKey: 'hasInvestment',
@@ -86,6 +97,9 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 			return renderComponent(DataTableBooleanCell, {
 				value: row.original.hasInvestment
 			});
+		},
+		filterFn: (row, id, value) => {
+			return value.includes(row.getValue(id));
 		}
 	},
 	{
@@ -107,6 +121,9 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 			return renderComponent(DataTableBooleanCell, {
 				value: row.original.hasAsylumOutside
 			});
+		},
+		filterFn: (row, id, value) => {
+			return value.includes(row.getValue(id));
 		}
 	},
 	{
@@ -116,6 +133,9 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 			return renderComponent(DataTableBooleanCell, {
 				value: row.original.hasPallet
 			});
+		},
+		filterFn: (row, id, value) => {
+			return value.includes(row.getValue(id));
 		}
 	},
 	{
@@ -125,6 +145,9 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 			return renderComponent(DataTableBooleanCell, {
 				value: row.original.hasCompany
 			});
+		},
+		filterFn: (row, id, value) => {
+			return value.includes(row.getValue(id));
 		}
 	}
 ];

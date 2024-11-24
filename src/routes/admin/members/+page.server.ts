@@ -9,8 +9,7 @@ export const load = async ({ locals }) => {
 	const refinedMembers = members.map((member) => {
 		return {
 			...member,
-			...getAgreementStatuses(member),
-			...{ hasCompany: member.company !== null }
+			...getExtendedMemberProperties(member)
 		} as ExtendedMember;
 	});
 
@@ -19,12 +18,7 @@ export const load = async ({ locals }) => {
 	};
 };
 
-/**
- * Returns an object containing the agreement statuses of a member.
- * @param member - The member to check agreement statuses for.
- * @returns An object containing the agreement statuses of the member.
- */
-function getAgreementStatuses(member: Member) {
+function getExtendedMemberProperties(member: Member) {
 	let hasActiveMembership = false;
 	let hasActivePassiveMembership = false;
 	let memberSince: string | false = false;
@@ -32,6 +26,7 @@ function getAgreementStatuses(member: Member) {
 	let hasPallet = false;
 	let hasAsylumInside = false;
 	let hasAsylumOutside = false;
+	let hasCompany = false;
 
 	// single pass over agreements to check for membership type and various agreements
 	for (const agreement of member.agreements) {
@@ -63,12 +58,16 @@ function getAgreementStatuses(member: Member) {
 			hasAsylumOutside = true;
 		}
 	}
+
+	hasCompany = member.company !== undefined;
+
 	return {
 		membership: hasActivePassiveMembership ? 'passive' : hasActiveMembership ? 'active' : 'none',
 		memberSince: memberSince ? memberSince : null,
-		hasInvestment,
-		hasPallet,
-		hasAsylumInside,
-		hasAsylumOutside
+		hasInvestment: hasInvestment.toString(),
+		hasPallet: hasPallet.toString(),
+		hasAsylumInside: hasAsylumInside.toString(),
+		hasAsylumOutside: hasAsylumOutside.toString(),
+		hasCompany: hasCompany.toString()
 	};
 }

@@ -9,11 +9,11 @@ type MembershipStatus = 'active' | 'passive' | 'none';
 export type ExtendedMember = Member & {
 	membership: MembershipStatus;
 	memberSince: string | null;
-	hasInvestment: boolean;
-	hasAsylumInside: boolean;
-	hasAsylumOutside: boolean;
-	hasPallet: boolean;
-	hasCompany: boolean;
+	hasInvestment: string;
+	hasAsylumInside: string;
+	hasAsylumOutside: string;
+	hasPallet: string;
+	hasCompany: string;
 };
 
 export type Agreement = z.infer<typeof MembersSchema.element.shape.agreements.element>;

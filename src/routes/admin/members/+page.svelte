@@ -1,13 +1,20 @@
 <script lang="ts">
 	import * as PageHeader from '$lib/components/page-header';
 	import { ssp, queryParameters } from 'sveltekit-search-params';
-	import type { SortingState, PaginationState, VisibilityState } from '@tanstack/table-core';
+	import type {
+		ColumnFiltersState,
+		SortingState,
+		PaginationState,
+		VisibilityState
+	} from '@tanstack/table-core';
 	import { DataTable } from '$lib/components/data-table/index.js';
 	import { columns } from './columns.js';
 
 	const params = queryParameters(
 		{
-			filter: true,
+			columnFilters: ssp.object<ColumnFiltersState>([
+				{ id: 'membership', value: ['active', 'passive'] }
+			]),
 			sorting: ssp.object<SortingState>([{ id: 'memberSince', desc: false }]),
 			pagination: ssp.object<PaginationState>({
 				pageIndex: 1,
@@ -16,6 +23,7 @@
 			visibility: ssp.object<VisibilityState>({
 				email: false,
 				slackEmail: false,
+				phone: false,
 				memberSince: false
 			})
 		},

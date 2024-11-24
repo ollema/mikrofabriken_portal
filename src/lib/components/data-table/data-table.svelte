@@ -31,7 +31,7 @@
 
 	let rowSelection = $state<RowSelectionState>({});
 	let columnVisibility = $state<VisibilityState>(params.visibility);
-	let columnFilters = $state<ColumnFiltersState>([]);
+	let columnFilters = $state<ColumnFiltersState>(params.columnFilters);
 	let sorting = $state<SortingState>(params.sorting);
 	let pagination = $state<PaginationState>({
 		pageIndex: params.pagination.pageIndex - 1,
@@ -82,6 +82,7 @@
 			} else {
 				columnFilters = updater;
 			}
+			params.columnFilters = columnFilters;
 		},
 		onColumnVisibilityChange: (updater) => {
 			if (typeof updater === 'function') {

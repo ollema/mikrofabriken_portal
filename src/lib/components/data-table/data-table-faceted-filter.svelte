@@ -18,6 +18,7 @@
 	type Props<TData, TValue> = {
 		column: Column<TData, TValue>;
 		title: string;
+		enableSearch?: boolean;
 		options: {
 			label: string;
 			value: string;
@@ -28,7 +29,7 @@
 		}[];
 	};
 
-	let { column, title, options }: Props<TData, TValue> = $props();
+	let { column, title, enableSearch, options }: Props<TData, TValue> = $props();
 
 	const facets = $derived(column?.getFacetedUniqueValues());
 	const selectedValues = $derived(new SvelteSet(column?.getFilterValue() as string[]));
@@ -64,7 +65,9 @@
 	</Popover.Trigger>
 	<Popover.Content class="w-[200px] p-0" align="start">
 		<Command.Root>
-			<Command.Input placeholder={title} />
+			{#if enableSearch}
+				<Command.Input placeholder={title} />
+			{/if}
 			<Command.List>
 				<Command.Empty>No results found.</Command.Empty>
 				<Command.Group>
