@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as PageHeader from '$lib/components/page-header';
-	import MemberInfoDialog from '$lib/components/member-info/MemberInfoDialog.svelte';
-	import MemberGrid from '$lib/components/member-info/MemberGrid.svelte';
+	import MemberInfoDialog from '$lib/components/mikrofabriken/MemberInfoDialog.svelte';
+	import MemberGrid from '$lib/components/mikrofabriken/MemberGrid.svelte';
 
 	let { data } = $props();
 

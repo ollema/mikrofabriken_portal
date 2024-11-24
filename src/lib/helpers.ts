@@ -1,4 +1,10 @@
-import type { Agreement, Artifact, Commission, CommissionType } from '$lib/types/members';
+import type {
+	Agreement,
+	AgreementType,
+	Artifact,
+	Commission,
+	CommissionType
+} from '$lib/types/members';
 import type { Claims } from './types/cog';
 
 export function appendPossessive(name: string): string {
@@ -54,6 +60,31 @@ export function isCommissionActive(commission: Commission): boolean {
 	}
 
 	return !commission.endDate || new Date(commission.endDate) > currentDate;
+}
+
+export function agreementToHumanReadable(agreement: AgreementType): string {
+	switch (agreement) {
+		case 'membership':
+			return 'membership';
+		case 'investment':
+			return 'investment';
+		case 'passive':
+			return 'passive';
+		case 'asylumInside':
+			return 'asylum';
+		case 'asylumOutside':
+			return 'asylum (outside)';
+		case 'palletInside':
+			return 'pallet';
+		case 'palletOutside':
+			return 'pallet (outside)';
+		case 'containerStorage':
+			return 'container storage';
+		default: {
+			const exhaustive: never = agreement;
+			return exhaustive;
+		}
+	}
 }
 
 export function commissionToHumanReadable(commission: CommissionType): string {

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { Artifact } from '$lib/types/members';
 	import { isArtifactActive } from '$lib/helpers';
+	import Nfc from 'lucide-svelte/icons/nfc';
+	import KeyRound from 'lucide-svelte/icons/key-round';
 
 	interface Props {
 		artifacts: Artifact[];
@@ -18,17 +20,16 @@
 <div class="space-y-4">
 	{#if activeRFIDArtifact}
 		<div>
-			You have an active <span class="font-semibold">RFID tag</span> with RFID data
-			<span class="font-mono">{activeRFIDArtifact.attributes?.data}</span> and code hash
-			<span class="font-mono">{activeRFIDArtifact.attributes?.codeHash}</span>
-			since
+			<Nfc class="mr-2 inline" /> Active <span class="font-semibold">RFID tag</span> with RFID data
+			<span class="font-mono">{activeRFIDArtifact.attributes?.data}</span> since
 			<span class="font-semibold">{activeRFIDArtifact.startDate}</span>.
 		</div>
 	{/if}
 
 	{#if activeKeyArtifact}
 		<div>
-			You have been entrusted with <span class="font-semibold">
+			<KeyRound class="mr-2 inline" /> entrusted with
+			<span class="font-semibold">
 				key #{activeKeyArtifact.attributes?.number ?? 0}
 			</span>
 			since <span class="font-semibold">{activeKeyArtifact.startDate}</span>.

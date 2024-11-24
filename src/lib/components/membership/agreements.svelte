@@ -1,6 +1,12 @@
 <script lang="ts">
 	import type { Agreement } from '$lib/types/members';
-	import { isAgreementActive } from '$lib/helpers';
+	import { agreementToHumanReadable, isAgreementActive } from '$lib/helpers';
+	import * as Alert from '$lib/components/ui/alert';
+	import Handshake from 'lucide-svelte/icons/handshake';
+	import Coins from 'lucide-svelte/icons/coins';
+	import Box from 'lucide-svelte/icons/box';
+	import Container from 'lucide-svelte/icons/container';
+	import Package from 'lucide-svelte/icons/package';
 
 	interface Props {
 		agreements: Agreement[];
@@ -10,71 +16,77 @@
 
 	let activeAgreements = $derived(agreements.filter((agreement) => isAgreementActive(agreement)));
 
-	let activeMembershipAgreement = $derived(
-		activeAgreements.find((agreement) => agreement.type === 'membership')
+	let activeMembershipAgreements = $derived(
+		activeAgreements.filter((agreement) => agreement.type === 'membership')
 	);
 
-	let activeInvestmentAgreement = $derived(
-		activeAgreements.find((agreement) => agreement.type === 'investment')
+	let activeInvestmentAgreements = $derived(
+		activeAgreements.filter((agreement) => agreement.type === 'investment')
 	);
 
-	let activeAsylumAgreement = $derived(
-		activeAgreements.find((agreement) => agreement.type === 'asylumInside')
+	let activeAsylumAgreements = $derived(
+		activeAgreements.filter((agreement) => agreement.type === 'asylumInside')
 	);
 
-	let activeAsylumOutsideAgreement = $derived(
-		activeAgreements.find((agreement) => agreement.type === 'asylumOutside')
+	let activeAsylumOutsideAgreements = $derived(
+		activeAgreements.filter((agreement) => agreement.type === 'asylumOutside')
 	);
 
-	let activePalletAgreement = $derived(
-		activeAgreements.find((agreement) => agreement.type === 'palletInside')
+	let activePalletAgreements = $derived(
+		activeAgreements.filter((agreement) => agreement.type === 'palletInside')
 	);
 </script>
 
+{#snippet activeAgreementsSection({
+	agreements,
+	Icon
+}: {
+	agreements: Agreement[];
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	Icon: any;
+})}
+	{#each agreements as agreement, index}
+		<div>
+			<Icon class="mr-2 inline" /> Active {agreementToHumanReadable(agreement.type)} agreement since
+			<span class="font-semibold">{agreement.startDate}</span>.
+		</div>
+		{#if index === 1 && (agreement.type === 'membership' || agreement.type === 'investment')}
+			<Alert.Root class="my-6 w-full max-w-screen-md" variant={'destructive'}>
+				<Alert.Title class="text-lg font-semibold">Heads up!</Alert.Title>
+				<Alert.Description class="mt-2">
+					<div>
+						You have more than one active {agreementToHumanReadable(agreement.type)} agreement. This
+						is unexpected. Please contact the board.
+					</div>
+				</Alert.Description>
+			</Alert.Root>
+		{/if}
+	{/each}
+{/snippet}
+
 <div class="space-y-4">
-	{#if activeMembershipAgreement}
-		<div>
-			You have an active <span class="font-semibold">membership agreement</span> since
-			<span class="font-semibold">{activeMembershipAgreement.startDate}</span>.
-		</div>
-	{/if}
+	{@render activeAgreementsSection({
+		agreements: activeMembershipAgreements,
+		Icon: Handshake
+	})}
 
-	{#if activeInvestmentAgreement}
-		<div>
-			You have an active <span class="font-semibold">investment agreement</span> since
-			<span class="font-semibold">{activeInvestmentAgreement.startDate}</span>.
-		</div>
-	{/if}
+	{@render activeAgreementsSection({
+		agreements: activeInvestmentAgreements,
+		Icon: Coins
+	})}
 
-	{#if activeAsylumAgreement}
-		<div>
-			You have an active <span class="font-semibold">asylum agreement</span> of size
-			<span class="font-semibold">{activeAsylumAgreement.attributes?.size ?? 0} m<sup>2</sup></span>
-			since <span class="font-semibold">{activeAsylumAgreement.startDate}</span>.
-		</div>
-	{/if}
+	{@render activeAgreementsSection({
+		agreements: activeAsylumAgreements,
+		Icon: Box
+	})}
 
-	{#if activeAsylumOutsideAgreement}
-		<div>
-			You have an active <span class="font-semibold">asylum (outside) agreement</span> of size
-			<span class="font-semibold">
-				{activeAsylumOutsideAgreement.attributes?.size ?? 0} m<sup>2</sup>
-			</span>
-			since <span class="font-semibold">{activeAsylumOutsideAgreement.startDate}</span>.
-		</div>
-	{/if}
+	{@render activeAgreementsSection({
+		agreements: activeAsylumOutsideAgreements,
+		Icon: Container
+	})}
 
-	{#if activePalletAgreement}
-		<div>
-			You have an active <span class="font-semibold">pallet agreement</span> with
-			<span class="font-semibold">
-				{activePalletAgreement.attributes?.palletCount ?? 0} pallets
-			</span>
-			and pallet IDs
-			<span class="font-semibold">
-				{activePalletAgreement.attributes?.palletIds?.join(', ') ?? 'N/A'}
-			</span>
-			since <span class="font-semibold">{activePalletAgreement.startDate}</span>.
-		</div>
-	{/if}
+	{@render activeAgreementsSection({
+		agreements: activePalletAgreements,
+		Icon: Package
+	})}
 </div>

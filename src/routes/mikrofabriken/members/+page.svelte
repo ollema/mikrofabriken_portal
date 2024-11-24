@@ -2,8 +2,8 @@
 	import * as PageHeader from '$lib/components/page-header';
 	import { Switch } from '$lib/components/ui/switch';
 	import { Label } from '$lib/components/ui/label';
-	import MemberInfoDialog from '$lib/components/member-info/MemberInfoDialog.svelte';
-	import MemberGrid from '$lib/components/member-info/MemberGrid.svelte';
+	import MemberInfoDialog from '$lib/components/mikrofabriken/MemberInfoDialog.svelte';
+	import MemberGrid from '$lib/components/mikrofabriken/MemberGrid.svelte';
 
 	let open = $state(false);
 
