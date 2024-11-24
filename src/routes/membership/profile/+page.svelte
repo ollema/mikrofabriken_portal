@@ -2,24 +2,26 @@
 	import * as PageHeader from '$lib/components/page-header';
 	import * as Popover from '$lib/components/ui/popover';
 	import { Button } from '$lib/components/ui/button';
+	import { type Member } from '$lib/types/members.js';
 	import {
 		Profile,
 		Company,
 		Pending,
 		Agreements,
-		Artifacts
+		Artifacts,
+		Commissions
 	} from '$lib/components/membership/index.js';
+	import { isAgreementActive, isArtifactActive, isCommissionActive } from '$lib/helpers.js';
 
 	let { data } = $props();
 
 	let showPending = $state(false);
 </script>
 
-<div class="mx-auto w-full min-w-0">
+<div class="mx-auto w-full">
 	<PageHeader.Root>
 		<PageHeader.Heading>
 			<PageHeader.Title>Profile</PageHeader.Title>
-			<PageHeader.Description>Your personal information.</PageHeader.Description>
 		</PageHeader.Heading>
 		<PageHeader.Actions>
 			<Popover.Root>
@@ -30,7 +32,7 @@
 					<div class="flex w-full flex-col items-center gap-2">
 						<div class="w-full">
 							<Button variant="outline" href="/membership/profile/edit" class="w-full">
-								Edit profile
+								Edit personal info
 							</Button>
 						</div>
 						<div class="w-full">
@@ -53,44 +55,45 @@
 		</PageHeader.Actions>
 	</PageHeader.Root>
 
-	{#await data.pending}
-		<Profile member={data.member} />
+	{#snippet subtitle(title: string)}
+		<div class="mb-4 mt-6 w-full text-3xl font-semibold">{title}</div>
+	{/snippet}
 
-		{#if data.member.company}
-			<PageHeader.Root class="mt-8">
-				<PageHeader.Heading>
-					<PageHeader.Description>Your company.</PageHeader.Description>
-				</PageHeader.Heading>
-			</PageHeader.Root>
+	{@render subtitle('Personal information')}
 
-			<Company company={data.member.company} />
+	{#snippet profile(member: Member)}
+		<Profile {member} />
+
+		{#if member.company}
+			{@render subtitle('Company information')}
+			<Company company={member.company} />
 		{/if}
 
-		<Agreements agreements={data.member.agreements} />
+		{#if member.agreements.filter((agreement) => isAgreementActive(agreement)).length > 0}
+			{@render subtitle('Agreements')}
+			<Agreements agreements={member.agreements} />
+		{/if}
 
-		<Artifacts artifacts={data.member.artifacts} />
+		{#if member.artifacts.filter((artifact) => isArtifactActive(artifact)).length > 0}
+			{@render subtitle('RFID tags & keys')}
+			<Artifacts artifacts={member.artifacts} />
+		{/if}
+
+		{#if member.commissions.filter((commission) => isCommissionActive(commission)).length > 0}
+			{@render subtitle('Engagements')}
+			<Commissions commissions={member.commissions} />
+		{/if}
+	{/snippet}
+
+	{#await data.pending}
+		{@render profile(data.member)}
 	{:then pending}
 		{#if pending.member}
 			<Pending bind:showPending />
 		{/if}
 
 		{@const member = showPending ? (pending.member ?? data.member) : data.member}
-		{@const company = showPending ? pending.member?.company : data.member.company}
 
-		<Profile {member} />
-
-		{#if company}
-			<PageHeader.Root class="mt-8">
-				<PageHeader.Heading>
-					<PageHeader.Description>Your company.</PageHeader.Description>
-				</PageHeader.Heading>
-			</PageHeader.Root>
-
-			<Company {company} />
-		{/if}
-
-		<Agreements agreements={member.agreements} />
-
-		<Artifacts artifacts={member.artifacts} />
+		{@render profile(member)}
 	{/await}
 </div>

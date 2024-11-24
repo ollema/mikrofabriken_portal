@@ -17,8 +17,6 @@
 	let activeKeyArtifact = $derived(activeArtifacts.find((artifacts) => artifacts.type === 'key'));
 </script>
 
-<div class="mb-4 mt-6 w-full text-3xl font-bold">RFID tags</div>
-
 <div class="space-y-4">
 	{#if activeRFIDArtifact}
 		<div>

@@ -64,8 +64,6 @@
 	{/each}
 {/snippet}
 
-<div class="mb-4 mt-6 w-full text-3xl font-bold">Agreements</div>
-
 <div class="space-y-4">
 	{@render activeAgreementsSection({
 		agreements: activeMembershipAgreements,

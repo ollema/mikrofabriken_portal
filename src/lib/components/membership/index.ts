@@ -6,6 +6,7 @@ import Company from './company.svelte';
 import Pending from './pending.svelte';
 import Agreements from './agreements.svelte';
 import Artifacts from './artifacts.svelte';
+import Commissions from './commissions.svelte';
 
 export {
 	Root,
@@ -16,6 +17,7 @@ export {
 	Pending,
 	Agreements,
 	Artifacts,
+	Commissions,
 	//
 	Root as ProfileRoot,
 	Group as ProfileGroup,
