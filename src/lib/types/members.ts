@@ -13,6 +13,7 @@ export type ExtendedMember = Member & {
 	hasAsylumInside: boolean;
 	hasAsylumOutside: boolean;
 	hasPallet: boolean;
+	hasCompany: boolean;
 };
 
 export type Agreement = z.infer<typeof MembersSchema.element.shape.agreements.element>;
