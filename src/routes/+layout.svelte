@@ -90,13 +90,6 @@
 								<Breadcrumb.Separator />
 							{/if}
 						{/each}
-						<!-- <Breadcrumb.Item class="hidden md:block">
-							<Breadcrumb.Link href="#">Building Your Application</Breadcrumb.Link>
-						</Breadcrumb.Item>
-						<Breadcrumb.Separator class="hidden md:block" />
-						<Breadcrumb.Item>
-							<Breadcrumb.Page>Data Fetching</Breadcrumb.Page>
-						</Breadcrumb.Item> -->
 					</Breadcrumb.List>
 				</Breadcrumb.Root>
 			</header>

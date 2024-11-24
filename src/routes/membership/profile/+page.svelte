@@ -2,7 +2,13 @@
 	import * as PageHeader from '$lib/components/page-header';
 	import * as Popover from '$lib/components/ui/popover';
 	import { Button } from '$lib/components/ui/button';
-	import { Profile, Company, Pending } from '$lib/components/membership/index.js';
+	import {
+		Profile,
+		Company,
+		Pending,
+		Agreements,
+		Artifacts
+	} from '$lib/components/membership/index.js';
 
 	let { data } = $props();
 
@@ -23,9 +29,9 @@
 				<Popover.Content class="w-56" side="bottom" align="end">
 					<div class="flex w-full flex-col items-center gap-2">
 						<div class="w-full">
-							<Button variant="outline" href="/membership/profile/edit" class="w-full"
-								>Edit profile</Button
-							>
+							<Button variant="outline" href="/membership/profile/edit" class="w-full">
+								Edit profile
+							</Button>
 						</div>
 						<div class="w-full">
 							<Button variant="outline" href="/membership/profile/company/edit" class="w-full">
@@ -34,6 +40,11 @@
 								{:else}
 									Add company
 								{/if}
+							</Button>
+						</div>
+						<div class="w-full">
+							<Button variant="outline" href="/membership/profile/rfid/edit" class="w-full">
+								Edit RFID code
 							</Button>
 						</div>
 					</div>
@@ -54,6 +65,10 @@
 
 			<Company company={data.member.company} />
 		{/if}
+
+		<Agreements agreements={data.member.agreements} />
+
+		<Artifacts artifacts={data.member.artifacts} />
 	{:then pending}
 		{#if pending.member}
 			<Pending bind:showPending />
@@ -73,5 +88,9 @@
 
 			<Company {company} />
 		{/if}
+
+		<Agreements agreements={member.agreements} />
+
+		<Artifacts artifacts={member.artifacts} />
 	{/await}
 </div>

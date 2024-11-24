@@ -17,12 +17,23 @@
 	let activeKeyArtifact = $derived(activeArtifacts.find((artifacts) => artifacts.type === 'key'));
 </script>
 
+<div class="mb-4 mt-6 w-full text-3xl font-bold">RFID tags</div>
+
 <div class="space-y-4">
 	{#if activeRFIDArtifact}
 		<div>
-			<Nfc class="mr-2 inline" /> Active <span class="font-semibold">RFID tag</span> with RFID data
-			<span class="font-mono">{activeRFIDArtifact.attributes?.data}</span> since
-			<span class="font-semibold">{activeRFIDArtifact.startDate}</span>.
+			<Nfc class="mr-2 inline" /> Active <span class="font-semibold">RFID tag</span> with
+			<div class="ml-10">
+				- data
+				<span class="font-mono">{activeRFIDArtifact.attributes?.data}</span>
+			</div>
+			<div class="ml-10">
+				- hash
+				<span class="font-mono">{activeRFIDArtifact.attributes?.codeHash}</span>
+			</div>
+			<div class="ml-10">
+				since <span class="font-semibold">{activeRFIDArtifact.startDate}</span>.
+			</div>
 		</div>
 	{/if}
 

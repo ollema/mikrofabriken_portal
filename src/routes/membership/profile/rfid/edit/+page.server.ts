@@ -52,7 +52,7 @@ export const actions = {
 		await updateRepo(env.UFPERSONSLIST_REPO_PATH);
 		let members = parseMemberList();
 		let member = getMember(members, user.email);
-		const redirectUrl = `/membership/artifacts`;
+		const redirectUrl = `/membership/profile`;
 
 		const pending = await getPendingUpdateForMember(member.crNumber).then(
 			({ members, sourceBranch }) => {

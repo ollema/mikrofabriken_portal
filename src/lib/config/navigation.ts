@@ -40,18 +40,6 @@ export const navigation: Navigation[] = [
 				href: '/membership/profile'
 			},
 			{
-				title: 'Agreements',
-				href: '/membership/agreements'
-			},
-			{
-				title: 'Artifacts',
-				href: '/membership/artifacts'
-			},
-			{
-				title: 'Commissions',
-				href: '/membership/commissions'
-			},
-			{
 				title: 'Invoices',
 				href: '/membership/invoices'
 			}
