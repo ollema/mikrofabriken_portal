@@ -13,7 +13,7 @@
 		"db:push": "drizzle-kit push"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "^3.3.1",
+		"@sveltejs/adapter-node": "^5.2.9",
 		"@sveltejs/kit": "^2.8.5",
 		"@sveltejs/vite-plugin-svelte": "^5.0.1",
 		"@tailwindcss/aspect-ratio": "^0.4.2",

@@ -8,7 +8,7 @@ import {
 	isMember,
 	setSessionTokenCookie
 } from '$lib/server/auth';
-import { OAuth2RequestError, OAuth2Tokens } from 'arctic';
+import { OAuth2RequestError, type OAuth2Tokens } from 'arctic';
 import { slack } from '$lib/server/oauth';
 import { getClaims } from '$lib/server/cog';
 import type { Claims } from '$lib/types/cog';

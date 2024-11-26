@@ -1,38 +1,71 @@
-# sv
+# portal
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+## about
 
-## Creating a project
+`mikrofabriken_portal` contains the code for the mikrofabriken member portal.
 
-If you're seeing this, you've probably already done this step. Congrats!
+available at [portal.mikrofabriken.se](https://portal.mikrofabriken.se)
 
-```bash
-# create a new project in the current directory
-npx sv create
+## contributing
 
-# create a new project in my-app
-npx sv create my-app
-```
+contributions are welcome.
 
-## Developing
+if you are interested in contributing, please contact me on Slack.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### developing locally
+
+#### 1. clone the `mikrofabriken_portal` and `ufPersonsList` repos
 
 ```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+git clone git@github.com:ollema/mikrofabriken_portal.git
+git clone git@git.mikrofabriken.se:mikrofabriken/ufpersonslist.git
 ```
 
-## Building
-
-To create a production version of your app:
+#### 2. install dependencies
 
 ```bash
-npm run build
+cd mikrofabriken_portal
+pnpm install
 ```
 
-You can preview the production build with `npm run preview`.
+#### 3. configure environment variables
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+use `.env.example` as a template for your `.env` file.
+
+#### 4. create a new branch to work on your changes:
+
+```bash
+git switch -c <branch-name>
+```
+
+#### 5. start the development server
+
+```bash
+pnpm dev
+```
+
+#### 6. commit your changes
+
+```bash
+git add .
+git commit -m "<commit-message>"
+```
+
+#### 7. push your changes to the remote repository
+
+```bash
+git push -u origin <branch-name>
+```
+
+#### 8. create a pull request
+
+see [this guide](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request) for more information.
+
+wait for your pull request to be reviewed and merged. congratulations, you have now successfully contributed to the portal!
+
+#### 9. (optional) delete your branch
+
+```bash
+git switch main
+git branch -d <branch-name>
+```
