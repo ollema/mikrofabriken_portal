@@ -9,22 +9,23 @@
 	} from '@tanstack/table-core';
 	import { DataTable } from '$lib/components/data-table/index.js';
 	import { columns } from './columns.js';
+	import DataTableToolbar from './data-table-toolbar.svelte';
 
 	const params = queryParameters(
 		{
 			columnFilters: ssp.object<ColumnFiltersState>([
-				{ id: 'membership', value: ['active', 'passive'] }
+				{ id: 'Membership', value: ['active', 'passive'] }
 			]),
-			sorting: ssp.object<SortingState>([{ id: 'memberSince', desc: false }]),
+			sorting: ssp.object<SortingState>([{ id: 'Member since', desc: false }]),
 			pagination: ssp.object<PaginationState>({
 				pageIndex: 1,
 				pageSize: 10
 			}),
 			visibility: ssp.object<VisibilityState>({
-				email: false,
-				slackEmail: false,
-				phone: false,
-				memberSince: false
+				Email: false,
+				'Slack email': false,
+				Phone: false,
+				'Member since': false
 			})
 		},
 		{
@@ -44,5 +45,9 @@
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
-	<DataTable data={data.members} {columns} {params} />
+	<DataTable data={data.members} {columns} {params}>
+		{#snippet toolbar(table)}
+			<DataTableToolbar {table} />
+		{/snippet}
+	</DataTable>
 </div>

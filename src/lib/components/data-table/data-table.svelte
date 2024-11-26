@@ -11,6 +11,7 @@
 		type RowSelectionState,
 		type SortingState,
 		type VisibilityState,
+		type Table as _Table,
 		getCoreRowModel,
 		getFacetedRowModel,
 		getFacetedUniqueValues,
@@ -18,16 +19,27 @@
 		getPaginationRowModel,
 		getSortedRowModel
 	} from '@tanstack/table-core';
-	import { DataTableToolbar } from '$lib/components/data-table/index.js';
 	import { DataTablePagination } from '$lib/components/data-table/index.js';
 	import { createSvelteTable, FlexRender } from '$lib/components/ui/data-table/index.js';
 	import * as Table from '$lib/components/ui/table/index.js';
+	import type { Snippet } from 'svelte';
 
 	let {
 		columns,
 		data,
-		params
-	}: { columns: ColumnDef<TData, TValue>[]; data: TData[]; params: any } = $props();
+		params,
+		toolbar
+	}: {
+		columns: ColumnDef<TData, TValue>[];
+		data: TData[];
+		params: {
+			columnFilters: ColumnFiltersState;
+			sorting: SortingState;
+			pagination: PaginationState;
+			visibility: VisibilityState;
+		};
+		toolbar?: Snippet<[_Table<TData>]>;
+	} = $props();
 
 	let rowSelection = $state<RowSelectionState>({});
 	let columnVisibility = $state<VisibilityState>(params.visibility);
@@ -113,7 +125,7 @@
 </script>
 
 <div class="space-y-4">
-	<DataTableToolbar {table} />
+	{@render toolbar?.(table)}
 	<div class="text-nowrap rounded-md border">
 		<Table.Root>
 			<Table.Header>

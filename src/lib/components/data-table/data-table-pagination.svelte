@@ -14,14 +14,14 @@
 	let { table }: { table: Table<TData> } = $props();
 </script>
 
-<div class="flex items-center justify-between px-2">
+<div class="flex flex-col items-center justify-between gap-2 lg:flex-row">
 	<div class="flex-1 text-sm text-muted-foreground">
 		{table.getFilteredSelectedRowModel().rows.length} of
 		{table.getFilteredRowModel().rows.length} row(s) selected.
 	</div>
-	<div class="flex items-center space-x-6 lg:space-x-8">
-		<div class="flex items-center space-x-2">
-			<p class="text-sm font-medium">Rows per page</p>
+	<div class="flex items-center gap-2 lg:space-x-8">
+		<div class="hidden items-center space-x-2 md:flex">
+			<p class="text-sm font-medium">Per page</p>
 			<Select.Root
 				allowDeselect={false}
 				type="single"
@@ -46,7 +46,7 @@
 			Page {table.getState().pagination.pageIndex + 1} of
 			{table.getPageCount()}
 		</div>
-		<div class="flex items-center space-x-2">
+		<div class="flex items-center gap-2">
 			<Button
 				variant="outline"
 				class="hidden size-8 p-0 lg:flex"

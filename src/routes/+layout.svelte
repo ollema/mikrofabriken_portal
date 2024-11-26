@@ -93,7 +93,7 @@
 					</Breadcrumb.List>
 				</Breadcrumb.Root>
 			</header>
-			<div class="w-full max-w-screen-xl p-2 md:p-4">
+			<div class="w-full max-w-screen-xl p-4">
 				{@render children?.()}
 			</div>
 		</Sidebar.Inset>

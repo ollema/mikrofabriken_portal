@@ -2,14 +2,8 @@ import type { ColumnDef } from '@tanstack/table-core';
 import type { ExtendedMember } from '$lib/types/members';
 import { createRawSnippet } from 'svelte';
 import { renderComponent, renderSnippet } from '$lib/components/ui/data-table/index.js';
-import {
-	DataTableCheckbox,
-	DataTableColumnHeader
-	// DataTablePriorityCell,
-	// DataTableRowActions,
-	// DataTableStatusCell,
-	// DataTableTitleCell
-} from '$lib/components/data-table/index.js';
+import { DataTableCheckbox, DataTableColumnHeader } from '$lib/components/data-table/index.js';
+import DataTableRowActions from './data-table-row-actions.svelte';
 import DataTableBooleanCell from '$lib/components/data-table/data-table-boolean-cell.svelte';
 
 export const columns: ColumnDef<ExtendedMember>[] = [
@@ -33,45 +27,49 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 		enableHiding: false
 	},
 	{
+		id: 'Name',
 		accessorKey: 'name',
 		header: ({ column }) =>
 			renderComponent(DataTableColumnHeader<ExtendedMember, unknown>, { column, title: 'Name' }),
 		cell: ({ row }) => {
 			const name = row.original.name;
 			const slackEmail = row.original.slackEmail;
+			const href = '/admin/members/' + slackEmail;
 
-			const nameCellSnippet = createRawSnippet(() => {
-				const href = '/admin/members/' + slackEmail;
-
+			const nameCellSnippet = createRawSnippet<[string]>(() => {
 				return {
 					render: () => `<a href=${href}>${name}</div>`
 				};
 			});
 
-			return renderSnippet(nameCellSnippet, () => {});
+			return renderSnippet(nameCellSnippet, href);
 		},
 		enableSorting: true,
 		enableHiding: false
 	},
 	{
+		id: 'Email',
 		accessorKey: 'email',
 		header: 'Email',
 		enableSorting: false,
 		enableHiding: true
 	},
 	{
+		id: 'Slack email',
 		accessorKey: 'slackEmail',
 		header: 'Slack email',
 		enableSorting: false,
 		enableHiding: true
 	},
 	{
+		id: 'Phone',
 		accessorKey: 'phone',
 		header: 'Phone',
 		enableSorting: false,
 		enableHiding: true
 	},
 	{
+		id: 'Membership',
 		accessorKey: 'membership',
 		header: 'Membership',
 		filterFn: (row, id, value) => {
@@ -81,6 +79,7 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 		enableHiding: true
 	},
 	{
+		id: 'Member since',
 		accessorKey: 'memberSince',
 		header: ({ column }) =>
 			renderComponent(DataTableColumnHeader<ExtendedMember, unknown>, {
@@ -91,6 +90,7 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 		enableHiding: true
 	},
 	{
+		id: 'Investment',
 		accessorKey: 'hasInvestment',
 		header: 'Investment',
 		cell: ({ row }) => {
@@ -103,6 +103,7 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 		}
 	},
 	{
+		id: 'Asylum',
 		accessorKey: 'hasAsylumInside',
 		header: 'Asylum',
 		cell: ({ row }) => {
@@ -115,6 +116,7 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 		}
 	},
 	{
+		id: 'Asylum (outside)',
 		accessorKey: 'hasAsylumOutside',
 		header: 'Asylum (outside)',
 		cell: ({ row }) => {
@@ -127,6 +129,7 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 		}
 	},
 	{
+		id: 'Pallet',
 		accessorKey: 'hasPallet',
 		header: 'Pallet',
 		cell: ({ row }) => {
@@ -139,6 +142,7 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 		}
 	},
 	{
+		id: 'Company',
 		accessorKey: 'hasCompany',
 		header: 'Company',
 		cell: ({ row }) => {
@@ -149,5 +153,9 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 		filterFn: (row, id, value) => {
 			return value.includes(row.getValue(id));
 		}
+	},
+	{
+		id: 'actions',
+		cell: ({ row }) => renderComponent(DataTableRowActions, { row })
 	}
 ];

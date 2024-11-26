@@ -5,35 +5,39 @@
 <script lang="ts" generics="TData">
 	import X from 'lucide-svelte/icons/x';
 	import type { Table } from '@tanstack/table-core';
-	import { DataTableFacetedFilter, DataTableViewOptions } from './index.js';
+	import {
+		DataTableFacetedFilter,
+		DataTableViewOptions
+	} from '$lib/components/data-table/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 
 	let { table }: { table: Table<TData> } = $props();
 
 	const isFiltered = $derived(table.getState().columnFilters.length > 0);
-	const membershipCol = $derived(table.getColumn('membership'));
-	const hasInvestmentCol = $derived(table.getColumn('hasInvestment'));
-	const hasAsylumCol = $derived(table.getColumn('hasAsylumInside'));
-	const hasAsylumOutsideCol = $derived(table.getColumn('hasAsylumOutside'));
-	const hasPalletCol = $derived(table.getColumn('hasPallet'));
-	const hasCompanyCol = $derived(table.getColumn('hasCompany'));
+	const membershipCol = $derived(table.getColumn('Membership'));
+	const investmentCol = $derived(table.getColumn('Investment'));
+	const asylumCol = $derived(table.getColumn('Asylum'));
+	const asylumOutsideCol = $derived(table.getColumn('Asylum (outside)'));
+	const palletCol = $derived(table.getColumn('Pallet'));
+	const companyCol = $derived(table.getColumn('Company'));
 </script>
 
-<div class="flex items-center justify-between">
-	<div class="flex flex-1 items-center space-x-2">
-		<Input
-			placeholder="Filter members..."
-			value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
-			oninput={(e) => {
-				table.getColumn('name')?.setFilterValue(e.currentTarget.value);
-			}}
-			onchange={(e) => {
-				table.getColumn('name')?.setFilterValue(e.currentTarget.value);
-			}}
-			class="h-8 w-[150px] lg:w-[250px]"
-		/>
+<Input
+	placeholder="Filter members..."
+	value={(table.getColumn('Name')?.getFilterValue() as string) ?? ''}
+	oninput={(e) => {
+		table.getColumn('Name')?.setFilterValue(e.currentTarget.value);
+	}}
+	onchange={(e) => {
+		table.getColumn('Name')?.setFilterValue(e.currentTarget.value);
+	}}
+	class="h-8 w-[150px] lg:w-[250px]"
+	autocomplete="off"
+/>
 
+<div class="flex items-end justify-between">
+	<div class="flex flex-1 flex-wrap items-center gap-2">
 		{#if membershipCol}
 			<DataTableFacetedFilter
 				column={membershipCol}
@@ -47,9 +51,9 @@
 			/>
 		{/if}
 
-		{#if hasInvestmentCol}
+		{#if investmentCol}
 			<DataTableFacetedFilter
-				column={hasInvestmentCol}
+				column={investmentCol}
 				title="Investment"
 				enableSearch={false}
 				options={[
@@ -59,9 +63,9 @@
 			/>
 		{/if}
 
-		{#if hasAsylumCol}
+		{#if asylumCol}
 			<DataTableFacetedFilter
-				column={hasAsylumCol}
+				column={asylumCol}
 				title="Asylum"
 				enableSearch={false}
 				options={[
@@ -71,10 +75,10 @@
 			/>
 		{/if}
 
-		{#if hasAsylumOutsideCol}
+		{#if asylumOutsideCol}
 			<DataTableFacetedFilter
-				column={hasAsylumOutsideCol}
-				title="Asylum outside"
+				column={asylumOutsideCol}
+				title="Asylum (outside)"
 				enableSearch={false}
 				options={[
 					{ label: 'Yes', value: 'true' },
@@ -83,9 +87,9 @@
 			/>
 		{/if}
 
-		{#if hasPalletCol}
+		{#if palletCol}
 			<DataTableFacetedFilter
-				column={hasPalletCol}
+				column={palletCol}
 				title="Pallet"
 				enableSearch={false}
 				options={[
@@ -95,9 +99,9 @@
 			/>
 		{/if}
 
-		{#if hasCompanyCol}
+		{#if companyCol}
 			<DataTableFacetedFilter
-				column={hasCompanyCol}
+				column={companyCol}
 				title="Company"
 				enableSearch={false}
 				options={[
@@ -108,7 +112,7 @@
 		{/if}
 
 		{#if isFiltered}
-			<Button variant="ghost" onclick={() => table.resetColumnFilters()} class="h-8 px-2 lg:px-3">
+			<Button variant="ghost" onclick={() => table.resetColumnFilters()} class="h-8 px-2 text-xs">
 				Reset
 				<X />
 			</Button>

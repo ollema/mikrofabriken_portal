@@ -16,13 +16,13 @@
 		class={buttonVariants({
 			variant: 'outline',
 			size: 'sm',
-			class: 'ml-auto hidden h-8 lg:flex'
+			class: 'ml-auto flex h-8'
 		})}
 	>
 		<Settings2 />
 		View
 	</DropdownMenu.Trigger>
-	<DropdownMenu.Content>
+	<DropdownMenu.Content align={'end'}>
 		<DropdownMenu.Group>
 			<DropdownMenu.GroupHeading>Toggle columns</DropdownMenu.GroupHeading>
 			<DropdownMenu.Separator />
@@ -33,7 +33,6 @@
 					controlledChecked
 					checked={column.getIsVisible()}
 					onCheckedChange={(v) => column.toggleVisibility(!!v)}
-					class="capitalize"
 				>
 					{column.id}
 				</DropdownMenu.CheckboxItem>

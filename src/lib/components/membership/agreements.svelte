@@ -2,6 +2,8 @@
 	import type { Agreement } from '$lib/types/members';
 	import { agreementToHumanReadable, isAgreementActive } from '$lib/helpers';
 	import * as Alert from '$lib/components/ui/alert';
+	import { type ComponentType } from 'svelte';
+	import { type Icon } from 'lucide-svelte';
 	import Handshake from 'lucide-svelte/icons/handshake';
 	import Coins from 'lucide-svelte/icons/coins';
 	import Box from 'lucide-svelte/icons/box';
@@ -42,8 +44,7 @@
 	Icon
 }: {
 	agreements: Agreement[];
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	Icon: any;
+	Icon: ComponentType<Icon>;
 })}
 	{#each agreements as agreement, index}
 		<div>

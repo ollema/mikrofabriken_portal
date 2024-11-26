@@ -4,7 +4,6 @@
 </script>
 
 <script lang="ts" generics="TData, TValue">
-	import CirclePlus from 'lucide-svelte/icons/circle-plus';
 	import Check from 'lucide-svelte/icons/check';
 	import type { Column } from '@tanstack/table-core';
 	import { SvelteSet } from 'svelte/reactivity';
@@ -14,6 +13,8 @@
 	import { cn } from '$lib/utils.js';
 	import { Separator } from '$lib/components/ui/separator/index.js';
 	import { Badge } from '$lib/components/ui/badge/index.js';
+	import type { ComponentType } from 'svelte';
+	import type { Icon } from 'lucide-svelte';
 
 	type Props<TData, TValue> = {
 		column: Column<TData, TValue>;
@@ -22,10 +23,7 @@
 		options: {
 			label: string;
 			value: string;
-			// TODO: fix this and fix e.g. agreements
-			// This should be `Component` after lucide-svelte updates types
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			icon?: any;
+			icon?: ComponentType<Icon>;
 		}[];
 	};
 
@@ -38,22 +36,24 @@
 <Popover.Root>
 	<Popover.Trigger>
 		{#snippet child({ props })}
-			<Button {...props} variant="outline" size="sm" class="h-8 border-dashed">
-				<CirclePlus />
+			<Button {...props} variant="outline" size="sm" class="h-8 gap-1 border-dashed px-2 text-xs">
 				{title}
 				{#if selectedValues.size > 0}
-					<Separator orientation="vertical" class="mx-2 h-4" />
-					<Badge variant="secondary" class="rounded-sm px-1 font-normal lg:hidden">
+					<Separator orientation="vertical" class="ml-1 h-4" />
+					<Badge variant="secondary" class="mr-[-0.25rem] rounded-sm px-1 font-normal lg:hidden">
 						{selectedValues.size}
 					</Badge>
-					<div class="hidden space-x-1 lg:flex">
+					<div class="hidden lg:flex">
 						{#if selectedValues.size > 2}
-							<Badge variant="secondary" class="rounded-sm px-1 font-normal">
+							<Badge variant="secondary" class="mr-[-0.25rem] rounded-sm px-1 font-normal">
 								{selectedValues.size} selected
 							</Badge>
 						{:else}
 							{#each options.filter((opt) => selectedValues.has(opt.value)) as option}
-								<Badge variant="secondary" class="rounded-sm px-1 font-normal">
+								<Badge
+									variant="secondary"
+									class="rounded-sm px-1 font-normal last:mr-[-0.25rem] [&:not(:last-child)]:mr-1"
+								>
 									{option.label}
 								</Badge>
 							{/each}
@@ -99,7 +99,7 @@
 
 							<span>{option.label}</span>
 							{#if facets?.get(option.value)}
-								<span class="ml-auto flex size-4 items-center justify-center font-mono text-xs">
+								<span class="ml-auto flex size-4 items-center justify-end font-mono text-xs">
 									{facets.get(option.value)}
 								</span>
 							{/if}
