@@ -19,29 +19,17 @@
 
 <div class="space-y-4">
 	{#if activeRFIDArtifact}
-		<div>
-			<Nfc class="mr-2 inline" /> Active <span class="font-semibold">RFID tag</span> with
-			<div class="ml-10">
-				- data
-				<span class="font-mono">{activeRFIDArtifact.attributes?.data}</span>
-			</div>
-			<div class="ml-10">
-				- hash
-				<span class="font-mono">{activeRFIDArtifact.attributes?.codeHash}</span>
-			</div>
-			<div class="ml-10">
-				since <span class="font-semibold">{activeRFIDArtifact.startDate}</span>.
-			</div>
+		<div class="text-sm">
+			<Nfc class="mr-1 inline" /> RFID tag
+			<span class="font-mono">[{activeRFIDArtifact.attributes?.data}]</span>
+			since {activeRFIDArtifact.startDate}
 		</div>
 	{/if}
 
 	{#if activeKeyArtifact}
-		<div>
-			<KeyRound class="mr-2 inline" /> entrusted with
-			<span class="font-semibold">
-				key #{activeKeyArtifact.attributes?.number ?? 0}
-			</span>
-			since <span class="font-semibold">{activeKeyArtifact.startDate}</span>.
+		<div class="text-sm">
+			<KeyRound class="mr-1 inline" /> Entrusted with key #{activeKeyArtifact.attributes?.number ??
+				0} since {activeKeyArtifact.startDate}
 		</div>
 	{/if}
 </div>

@@ -1,5 +1,7 @@
 <script lang="ts">
 	import * as PageHeader from '$lib/components/page-header';
+	import { Skeleton } from '$lib/components/ui/skeleton';
+	import * as Avatar from '$lib/components/ui/avatar';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import Cog from 'lucide-svelte/icons/cog';
@@ -8,7 +10,7 @@
 
 	let { data } = $props();
 
-	let href = $derived('/membership/profile');
+	let href = $derived('/admin/members/' + data.member.slackEmail);
 
 	function onEditProfileSelected() {
 		goto(href + '/edit');
@@ -27,7 +29,17 @@
 	<PageHeader.Root>
 		<PageHeader.Heading>
 			<div class="flex w-full items-center justify-between">
-				<PageHeader.Title>{data.member.name}</PageHeader.Title>
+				<div class="flex items-center gap-2">
+					{#await data.avatar}
+						<Skeleton class="h-14 w-14 rounded-full" />
+					{:then avatar}
+						<Avatar.Root class="h-14 w-14">
+							<Avatar.Image src={avatar} alt={data.member.name} />
+							<Avatar.Fallback>{data.member.name[0]}</Avatar.Fallback>
+						</Avatar.Root>
+					{/await}
+					<PageHeader.Title>{data.member.name}</PageHeader.Title>
+				</div>
 				<DropdownMenu.Root>
 					<DropdownMenu.Trigger>
 						{#snippet child({ props })}

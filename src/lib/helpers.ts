@@ -65,21 +65,21 @@ export function isCommissionActive(commission: Commission): boolean {
 export function agreementToHumanReadable(agreement: AgreementType): string {
 	switch (agreement) {
 		case 'membership':
-			return 'membership';
+			return 'Membership';
 		case 'investment':
-			return 'investment';
+			return 'Investment';
 		case 'passive':
-			return 'passive';
+			return 'Passive';
 		case 'asylumInside':
-			return 'asylum';
+			return 'Asylum';
 		case 'asylumOutside':
-			return 'asylum (outside)';
+			return 'Asylum (outside)';
 		case 'palletInside':
-			return 'pallet';
+			return 'Pallet';
 		case 'palletOutside':
-			return 'pallet (outside)';
+			return 'Pallet (outside)';
 		case 'containerStorage':
-			return 'container storage';
+			return 'Container storage';
 		default: {
 			const exhaustive: never = agreement;
 			return exhaustive;

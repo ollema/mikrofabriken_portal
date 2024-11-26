@@ -8,8 +8,7 @@
 
 	let { row }: { row: Row<ExtendedMember> } = $props();
 
-	let slackEmail = $derived(row.original.slackEmail);
-	let href = $derived('/admin/members/' + slackEmail);
+	let href = $derived('/admin/members/' + row.original.slackEmail);
 
 	function onOpenProfileSelected() {
 		goto(href);

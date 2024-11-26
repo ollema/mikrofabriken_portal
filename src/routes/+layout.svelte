@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { ModeWatcher } from 'mode-watcher';
 	import { getFlash } from 'sveltekit-flash-message';
 	import { toast } from 'svelte-sonner';
 	import { Toaster } from '$lib/components/ui/sonner/index.js';
@@ -59,8 +58,6 @@
 	);
 </script>
 
-<ModeWatcher defaultMode={'dark'} />
-
 <Toaster expand={true} duration={5000} richColors position={'top-center'} />
 
 <Metadata />
@@ -93,7 +90,7 @@
 					</Breadcrumb.List>
 				</Breadcrumb.Root>
 			</header>
-			<div class="w-full max-w-screen-xl p-4">
+			<div class="w-full max-w-screen-xl p-4 pb-8">
 				{@render children?.()}
 			</div>
 		</Sidebar.Inset>

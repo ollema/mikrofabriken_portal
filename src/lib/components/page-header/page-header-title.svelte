@@ -9,6 +9,6 @@
 	let { class: className = undefined, children }: Props = $props();
 </script>
 
-<h1 class={cn('w-full text-4xl font-bold', className)}>
+<h1 class={cn('w-full text-3xl font-bold', className)}>
 	{@render children?.()}
 </h1>

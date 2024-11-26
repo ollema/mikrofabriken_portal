@@ -15,9 +15,8 @@
 
 <div class="space-y-4">
 	{#each activeCommissions as commission}
-		<div>
-			Active {commissionToHumanReadable(commission.type)} agreement since
-			<span class="font-semibold">{commission.startDate}</span>.
+		<div class="text-sm">
+			{commissionToHumanReadable(commission.type)} since {commission.startDate}
 		</div>
 	{/each}
 </div>

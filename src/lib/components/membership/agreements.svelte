@@ -4,11 +4,11 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import { type ComponentType } from 'svelte';
 	import { type Icon } from 'lucide-svelte';
-	import Handshake from 'lucide-svelte/icons/handshake';
-	import Coins from 'lucide-svelte/icons/coins';
+	import Banknote from 'lucide-svelte/icons/banknote';
 	import Box from 'lucide-svelte/icons/box';
 	import Container from 'lucide-svelte/icons/container';
 	import Package from 'lucide-svelte/icons/package';
+	import Mikrofabriken from '$lib/icons/Mikrofabriken.svelte';
 
 	interface Props {
 		agreements: Agreement[];
@@ -47,9 +47,9 @@
 	Icon: ComponentType<Icon>;
 })}
 	{#each agreements as agreement, index}
-		<div>
-			<Icon class="mr-2 inline" /> Active {agreementToHumanReadable(agreement.type)} agreement since
-			<span class="font-semibold">{agreement.startDate}</span>.
+		<div class="text-sm">
+			<Icon class="mr-1 inline h-6 w-6" />
+			{agreementToHumanReadable(agreement.type)} since {agreement.startDate}
 		</div>
 		{#if index === 1 && (agreement.type === 'membership' || agreement.type === 'investment')}
 			<Alert.Root class="my-6 w-full max-w-screen-md" variant={'destructive'}>
@@ -68,12 +68,13 @@
 <div class="space-y-4">
 	{@render activeAgreementsSection({
 		agreements: activeMembershipAgreements,
-		Icon: Handshake
+		// @ts-expect-error Mikrofabriken is not a valid Icon
+		Icon: Mikrofabriken
 	})}
 
 	{@render activeAgreementsSection({
 		agreements: activeInvestmentAgreements,
-		Icon: Coins
+		Icon: Banknote
 	})}
 
 	{@render activeAgreementsSection({

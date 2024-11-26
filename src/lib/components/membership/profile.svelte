@@ -1,39 +1,63 @@
 <script lang="ts">
-	import Root from './profile-root.svelte';
-	import Group from './profile-group.svelte';
-	import Item from './profile-item.svelte';
-	import type { Member } from '$lib/types/members';
+	import { type Member } from '$lib/types/members.js';
+	import PersonalInfo from './profile-personal-info.svelte';
+	import Company from './company.svelte';
+	import Agreements from './agreements.svelte';
+	import Artifacts from './artifacts.svelte';
+	import Commissions from './commissions.svelte';
+	import Pending from './pending.svelte';
+	import { isAgreementActive, isArtifactActive, isCommissionActive } from '$lib/helpers.js';
 
-	interface Props {
+	type PendingMemberUpdate = {
+		member: Member | undefined;
+		sourceBranch: string | undefined;
+	};
+
+	type Props = {
 		member: Member;
-	}
+		pending: PendingMemberUpdate | Promise<PendingMemberUpdate>;
+	};
 
-	let { member }: Props = $props();
+	let { member, pending }: Props = $props();
 
-	function getMemberSince(member: Member) {
-		for (const agreement of member.agreements) {
-			if (agreement.type === 'membership') {
-				return new Date(agreement.startDate).toLocaleDateString('sv-SE');
-			}
-		}
-		return '-';
-	}
+	let showPending = $state(false);
 </script>
 
-<Root>
-	<Group>
-		<Item label="Name" value={member.name} />
-		<Item label="PIN" value={member.crNumber} />
-		<Item label="Member since" value={getMemberSince(member)} />
-	</Group>
-	<Group>
-		<Item label="Email" value={member.email} />
-		<Item label="Slack Email" value={member.slackEmail} />
-		<Item label="Phone" value={member.phone} />
-	</Group>
-	<Group>
-		<Item label="Address" value={member.postalAdress} />
-		<Item label="Postal code" value={member.postalCode} />
-		<Item label="City" value={member.postalCity} />
-	</Group>
-</Root>
+{#snippet subtitle(title: string)}
+	<div class="mb-4 mt-6 w-full text-2xl font-semibold">{title}</div>
+{/snippet}
+
+{@render subtitle('Personal information')}
+
+{#snippet profile(member: Member)}
+	<PersonalInfo {member} />
+
+	{#if member.company}
+		{@render subtitle('Company information')}
+		<Company company={member.company} />
+	{/if}
+
+	{#if member.agreements.filter((agreement) => isAgreementActive(agreement)).length > 0}
+		{@render subtitle('Agreements')}
+		<Agreements agreements={member.agreements} />
+	{/if}
+
+	{#if member.artifacts.filter((artifact) => isArtifactActive(artifact)).length > 0}
+		{@render subtitle('RFID tags & keys')}
+		<Artifacts artifacts={member.artifacts} />
+	{/if}
+
+	{#if member.commissions.filter((commission) => isCommissionActive(commission)).length > 0}
+		{@render subtitle('Roles')}
+		<Commissions commissions={member.commissions} />
+	{/if}
+{/snippet}
+
+{#await pending}
+	{@render profile(member)}
+{:then pending}
+	{#if pending.member}
+		<Pending bind:showPending />
+	{/if}
+	{@render profile(showPending ? (pending.member ?? member) : member)}
+{/await}
