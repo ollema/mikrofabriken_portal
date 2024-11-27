@@ -108,9 +108,6 @@ importers:
       prettier-plugin-tailwindcss:
         specifier: ^0.6.9
         version: 0.6.9(prettier-plugin-svelte@3.3.2(prettier@3.4.1)(svelte@5.2.9))(prettier@3.4.1)
-      runed:
-        specifier: ^0.15.4
-        version: 0.15.4(svelte@5.2.9)
       safe-stable-stringify:
         specifier: ^2.5.0
         version: 2.5.0
