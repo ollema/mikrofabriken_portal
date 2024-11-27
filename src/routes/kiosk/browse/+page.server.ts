@@ -10,11 +10,7 @@ export async function load({ locals }) {
 	const products = getProducts();
 
 	return {
-		products: (await streamSlow(products, 400)) || products,
-		meta: {
-			title: 'Products',
-			description: 'Browse and purchase products.'
-		}
+		products: (await streamSlow(products, 400)) || products
 	};
 }
 
