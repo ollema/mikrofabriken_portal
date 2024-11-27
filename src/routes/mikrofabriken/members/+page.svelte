@@ -1,7 +1,7 @@
 <script lang="ts">
-	import * as PageHeader from '$lib/components/page-header';
-	import { Switch } from '$lib/components/ui/switch';
-	import { Label } from '$lib/components/ui/label';
+	import * as PageHeader from '$lib/components/page-header/index.js';
+	import { Switch } from '$lib/components/ui/switch/index.js';
+	import { Label } from '$lib/components/ui/label/index.js';
 	import MemberInfoDialog from '$lib/components/mikrofabriken/MemberInfoDialog.svelte';
 	import MemberGrid from '$lib/components/mikrofabriken/MemberGrid.svelte';
 

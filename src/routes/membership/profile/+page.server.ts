@@ -1,4 +1,4 @@
-import { getUser } from '$lib/server/auth';
+import { getUser } from '$lib/server/auth.js';
 import { getMember, parseMemberList } from '$lib/server/members.js';
 import { getPendingUpdateForMember } from '$lib/server/gitlab.js';
 import { streamSlow } from '$lib/server/stream.js';

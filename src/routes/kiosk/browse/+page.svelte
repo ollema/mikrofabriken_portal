@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as PageHeader from '$lib/components/page-header';
+	import * as PageHeader from '$lib/components/page-header/index.js';
 	import { ssp, queryParameters } from 'sveltekit-search-params';
 	import type {
 		ColumnFiltersState,

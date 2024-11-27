@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as PageHeader from '$lib/components/page-header';
+	import * as PageHeader from '$lib/components/page-header/index.js';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import Cog from 'lucide-svelte/icons/cog';

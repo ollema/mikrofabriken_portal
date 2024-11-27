@@ -4,22 +4,22 @@ import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
 
-import { getUser } from '$lib/server/auth';
-import { getMember, parseMemberList } from '$lib/server/members';
+import { getUser } from '$lib/server/auth.js';
+import { getMember, parseMemberList } from '$lib/server/members.js';
 import {
 	companyDeepEqual,
 	populateFromCurrent,
 	updateMember,
 	updateMembersInPlace
-} from '$lib/server/company/helpers';
+} from '$lib/server/company/helpers.js';
 import {
 	getPendingUpdateForMember,
 	getSuggestChangeOptions,
 	suggestChange,
 	updateRepo
-} from '$lib/server/gitlab';
+} from '$lib/server/gitlab.js';
 
-import { formSchema } from '$lib/schemas/company';
+import { formSchema } from '$lib/schemas/company.js';
 
 import { env } from '$env/dynamic/private';
 

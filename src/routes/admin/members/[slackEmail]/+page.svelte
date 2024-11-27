@@ -1,7 +1,7 @@
 <script lang="ts">
-	import * as PageHeader from '$lib/components/page-header';
-	import { Skeleton } from '$lib/components/ui/skeleton';
-	import * as Avatar from '$lib/components/ui/avatar';
+	import * as PageHeader from '$lib/components/page-header/index.js';
+	import { Skeleton } from '$lib/components/ui/skeleton/index.js';
+	import * as Avatar from '$lib/components/ui/avatar/index.js';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import Cog from 'lucide-svelte/icons/cog';

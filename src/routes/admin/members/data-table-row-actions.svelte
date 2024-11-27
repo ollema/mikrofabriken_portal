@@ -3,7 +3,7 @@
 	import type { Row } from '@tanstack/table-core';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import type { ExtendedMember } from '$lib/types/members';
+	import type { ExtendedMember } from '$lib/types/members.js';
 	import { goto } from '$app/navigation';
 
 	let { row }: { row: Row<ExtendedMember> } = $props();

@@ -1,7 +1,7 @@
-import { getUser } from '$lib/server/auth';
-import { parseMemberList } from '$lib/server/members';
-import { getOpenPeriods } from '$lib/server/cog';
-import { getFormattedMembersBasedOnCommissions } from '../utils';
+import { getUser } from '$lib/server/auth.js';
+import { parseMemberList } from '$lib/server/members.js';
+import { getOpenPeriods } from '$lib/server/cog.js';
+import { getFormattedMembersBasedOnCommissions } from '../utils.js';
 
 export const load = async ({ locals, url }) => {
 	getUser(locals, url);

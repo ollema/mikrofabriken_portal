@@ -1,6 +1,6 @@
 <script lang="ts">
-	import * as PageHeader from '$lib/components/page-header';
-	import * as Tabs from '$lib/components/ui/tabs';
+	import * as PageHeader from '$lib/components/page-header/index.js';
+	import * as Tabs from '$lib/components/ui/tabs/index.js';
 	import { ssp, queryParameters } from 'sveltekit-search-params';
 	import type {
 		ColumnFiltersState,

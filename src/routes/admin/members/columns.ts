@@ -1,5 +1,5 @@
 import type { ColumnDef } from '@tanstack/table-core';
-import type { ExtendedMember } from '$lib/types/members';
+import type { ExtendedMember } from '$lib/types/members.js';
 import { createRawSnippet } from 'svelte';
 import { renderComponent, renderSnippet } from '$lib/components/ui/data-table/index.js';
 import { DataTableCheckbox, DataTableColumnHeader } from '$lib/components/data-table/index.js';

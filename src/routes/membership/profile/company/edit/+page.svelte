@@ -1,7 +1,7 @@
 <script lang="ts">
-	import * as PageHeader from '$lib/components/page-header';
-	import * as Alert from '$lib/components/ui/alert';
-	import { CompanyForm } from '$lib/components/forms';
+	import * as PageHeader from '$lib/components/page-header/index.js';
+	import * as Alert from '$lib/components/ui/alert/index.js';
+	import { CompanyForm } from '$lib/components/forms/index.js';
 
 	let { data } = $props();
 </script>

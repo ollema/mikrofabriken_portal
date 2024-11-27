@@ -1,7 +1,7 @@
-import { getToken, getUser } from '$lib/server/auth';
-import { getMember, parseMemberList } from '$lib/server/members';
-import { getPurchases } from '$lib/server/cog';
-import { streamSlow } from '$lib/server/stream';
+import { getToken, getUser } from '$lib/server/auth.js';
+import { getMember, parseMemberList } from '$lib/server/members.js';
+import { getPurchases } from '$lib/server/cog.js';
+import { streamSlow } from '$lib/server/stream.js';
 
 export async function load({ locals, url }) {
 	const user = getUser(locals, url);

@@ -4,9 +4,13 @@ import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
 
-import { getUser } from '$lib/server/auth';
-import { getMember, parseMemberList } from '$lib/server/members';
-import { profileDeepEqual, updateMember, updateMembersInPlace } from '$lib/server/profile/helpers';
+import { getUser } from '$lib/server/auth.js';
+import { getMember, parseMemberList } from '$lib/server/members.js';
+import {
+	profileDeepEqual,
+	updateMember,
+	updateMembersInPlace
+} from '$lib/server/profile/helpers.js';
 import {
 	getPendingUpdateForMember,
 	getSuggestChangeOptions,
@@ -14,7 +18,7 @@ import {
 	updateRepo
 } from '$lib/server/gitlab';
 
-import { formSchema } from '$lib/schemas/members';
+import { formSchema } from '$lib/schemas/members.js';
 
 import { env } from '$env/dynamic/private';
 

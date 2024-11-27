@@ -1,5 +1,5 @@
 import type { ColumnDef } from '@tanstack/table-core';
-import type { Product } from '$lib/types/cog';
+import type { Product } from '$lib/types/cog.js';
 import { renderComponent } from '$lib/components/ui/data-table/index.js';
 import { DataTableColumnHeader } from '$lib/components/data-table/index.js';
 

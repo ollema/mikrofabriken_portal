@@ -3,7 +3,7 @@
 	import type { Row } from '@tanstack/table-core';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import type { Product } from '$lib/types/cog';
+	import type { Product } from '$lib/types/cog.js';
 	import { goto } from '$app/navigation';
 
 	let { row }: { row: Row<Product> } = $props();

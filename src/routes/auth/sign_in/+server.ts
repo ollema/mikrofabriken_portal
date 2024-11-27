@@ -1,6 +1,6 @@
 import { dev } from '$app/environment';
 import { generateState } from 'arctic';
-import { slack } from '$lib/server/oauth';
+import { slack } from '$lib/server/oauth.js';
 
 export const GET = async ({ cookies, url }) => {
 	const state = generateState();

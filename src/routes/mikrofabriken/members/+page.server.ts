@@ -1,6 +1,6 @@
-import { getUser } from '$lib/server/auth';
-import { getOpenPeriods } from '$lib/server/cog';
-import { parseMemberList } from '$lib/server/members';
+import { getUser } from '$lib/server/auth.js';
+import { getOpenPeriods } from '$lib/server/cog.js';
+import { parseMemberList } from '$lib/server/members.js';
 import { getFormattedMembers } from '../utils.js';
 
 export const load = async ({ locals, url }) => {

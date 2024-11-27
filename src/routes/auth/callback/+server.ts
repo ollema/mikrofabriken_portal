@@ -1,4 +1,4 @@
-import { db } from '$lib/server/db';
+import { db } from '$lib/server/db/index.js';
 import { user } from '$lib/server/db/schema.js';
 import {
 	createSession,
@@ -7,11 +7,11 @@ import {
 	isAdmin,
 	isMember,
 	setSessionTokenCookie
-} from '$lib/server/auth';
+} from '$lib/server/auth.js';
 import { OAuth2RequestError, type OAuth2Tokens } from 'arctic';
-import { slack } from '$lib/server/oauth';
-import { getClaims } from '$lib/server/cog';
-import type { Claims } from '$lib/types/cog';
+import { slack } from '$lib/server/oauth.js';
+import { getClaims } from '$lib/server/cog.js';
+import type { Claims } from '$lib/types/cog.js';
 
 export const GET = async (event) => {
 	// get the stored state from cookies and state + code from the URL search params
