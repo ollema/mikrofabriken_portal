@@ -1,4 +1,4 @@
-// import AdminProfileForm from './admin-profile-form.svelte';
+import AdminProfileForm from './admin-profile-form.svelte';
 import CompanyForm from './company-form.svelte';
 // import DeleteProductForm from './delete-product-form.svelte';
 // import NewMemberLinkForm from './new-member-link-form.svelte';
@@ -7,7 +7,7 @@ import CompanyForm from './company-form.svelte';
 import ProfileForm from './profile-form.svelte';
 import RfidForm from './rfid-form.svelte';
 
-// export { AdminProfileForm };
+export { AdminProfileForm };
 export { CompanyForm };
 // export { DeleteProductForm };
 // export { NewMemberLinkForm };
