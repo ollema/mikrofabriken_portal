@@ -15,7 +15,7 @@
 
 	type Props = {
 		member: Member;
-		pending: PendingMemberUpdate | Promise<PendingMemberUpdate>;
+		pending: PendingMemberUpdate;
 	};
 
 	let { member, pending }: Props = $props();
@@ -53,11 +53,8 @@
 	{/if}
 {/snippet}
 
-{#await pending}
-	{@render profile(member)}
-{:then pending}
-	{#if pending.member}
-		<Pending bind:showPending />
-	{/if}
-	{@render profile(showPending ? (pending.member ?? member) : member)}
-{/await}
+{#if pending.member}
+	<Pending bind:showPending />
+{/if}
+
+{@render profile(showPending ? (pending.member ?? member) : member)}

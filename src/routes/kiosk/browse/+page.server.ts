@@ -1,16 +1,15 @@
 import { getToken, getUser } from '$lib/server/auth.js';
 import { getProducts, purchaseProduct } from '$lib/server/cog.js';
-import { streamSlow } from '$lib/server/stream.js';
 import { PurchaseSchema } from '$lib/schemas/cog.js';
 import { setFlash } from 'sveltekit-flash-message/server';
 
 export async function load({ locals }) {
 	getUser(locals);
 
-	const products = getProducts();
+	const products = await getProducts();
 
 	return {
-		products: (await streamSlow(products, 400)) || products
+		products: products
 	};
 }
 
