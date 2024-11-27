@@ -3,27 +3,23 @@
 	import type { Row } from '@tanstack/table-core';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import type { ExtendedMember } from '$lib/types/members';
+	import type { Product } from '$lib/types/cog';
 	import { goto } from '$app/navigation';
 
-	let { row }: { row: Row<ExtendedMember> } = $props();
+	let { row }: { row: Row<Product> } = $props();
 
-	let href = $derived('/admin/members/' + row.original.slackEmail);
+	let href = $derived('/admin/products/' + row.original.uuid);
 
-	function onOpenProfileSelected() {
+	function onOpenProductSelected() {
 		goto(href);
 	}
 
-	function onEditProfileSelected() {
+	function onEditProductSelected() {
 		goto(href + '/edit');
 	}
 
-	function onEditCompanySelected() {
-		goto(href + '/company/edit');
-	}
-
-	function onEditRFIDSelected() {
-		goto(href + '/rfid/edit');
+	function onDeleteProductSelected() {
+		goto(href + '/delete');
 	}
 </script>
 
@@ -41,9 +37,8 @@
 		{/snippet}
 	</DropdownMenu.Trigger>
 	<DropdownMenu.Content class="w-[160px]" align="end">
-		<DropdownMenu.Item onSelect={onOpenProfileSelected}>Open profile</DropdownMenu.Item>
-		<DropdownMenu.Item onSelect={onEditProfileSelected}>Edit profile</DropdownMenu.Item>
-		<DropdownMenu.Item onSelect={onEditCompanySelected}>Edit company</DropdownMenu.Item>
-		<DropdownMenu.Item onSelect={onEditRFIDSelected}>Edit RFID</DropdownMenu.Item>
+		<DropdownMenu.Item onSelect={onOpenProductSelected}>Open product</DropdownMenu.Item>
+		<DropdownMenu.Item onSelect={onEditProductSelected}>Edit product</DropdownMenu.Item>
+		<DropdownMenu.Item onSelect={onDeleteProductSelected}>Delete product</DropdownMenu.Item>
 	</DropdownMenu.Content>
 </DropdownMenu.Root>

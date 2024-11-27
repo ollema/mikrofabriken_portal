@@ -12,13 +12,24 @@
 	import { Button } from '$lib/components/ui/button/index.js';
 
 	let { table }: { table: Table<TData> } = $props();
+
+	let hasSelectColumn = $derived.by(() => {
+		const allColumns = table.getAllColumns();
+		return allColumns.some((column) => column.id === 'select');
+	});
 </script>
 
 <div class="flex flex-col items-center justify-between gap-2 lg:flex-row">
-	<div class="flex-1 text-sm text-muted-foreground">
-		{table.getFilteredSelectedRowModel().rows.length} of
-		{table.getFilteredRowModel().rows.length} row(s) selected.
-	</div>
+	{#if hasSelectColumn}
+		<div class="flex-1 text-sm text-muted-foreground">
+			{table.getFilteredSelectedRowModel().rows.length} of
+			{table.getFilteredRowModel().rows.length} row(s) selected.
+		</div>
+	{:else}
+		<div class="flex-1 text-sm text-muted-foreground">
+			{table.getFilteredRowModel().rows.length} row(s) found.
+		</div>
+	{/if}
 	<div class="flex items-center gap-2 lg:space-x-8">
 		<div class="hidden items-center space-x-2 md:flex">
 			<p class="text-sm font-medium">Per page</p>

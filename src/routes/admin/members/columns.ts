@@ -23,7 +23,6 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 				'aria-label': 'Select row',
 				class: 'translate-y-[2px]'
 			}),
-		enableSorting: false,
 		enableHiding: false
 	},
 	{
@@ -44,29 +43,22 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 
 			return renderSnippet(nameCellSnippet, href);
 		},
-		enableSorting: true,
 		enableHiding: false
 	},
 	{
 		id: 'Email',
 		accessorKey: 'email',
-		header: 'Email',
-		enableSorting: false,
-		enableHiding: true
+		header: 'Email'
 	},
 	{
 		id: 'Slack email',
 		accessorKey: 'slackEmail',
-		header: 'Slack email',
-		enableSorting: false,
-		enableHiding: true
+		header: 'Slack email'
 	},
 	{
 		id: 'Phone',
 		accessorKey: 'phone',
-		header: 'Phone',
-		enableSorting: false,
-		enableHiding: true
+		header: 'Phone'
 	},
 	{
 		id: 'Membership',
@@ -74,9 +66,7 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 		header: 'Membership',
 		filterFn: (row, id, value) => {
 			return value.includes(row.getValue(id));
-		},
-		enableSorting: false,
-		enableHiding: true
+		}
 	},
 	{
 		id: 'Member since',
@@ -85,9 +75,7 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 			renderComponent(DataTableColumnHeader<ExtendedMember, unknown>, {
 				column,
 				title: 'Member since'
-			}),
-		enableSorting: true,
-		enableHiding: true
+			})
 	},
 	{
 		id: 'Investment',
