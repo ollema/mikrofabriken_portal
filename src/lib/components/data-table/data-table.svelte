@@ -20,7 +20,6 @@
 		getPaginationRowModel,
 		getSortedRowModel
 	} from '@tanstack/table-core';
-	import { DataTablePagination } from '$lib/components/data-table/index.js';
 	import { createSvelteTable, FlexRender } from '$lib/components/ui/data-table/index.js';
 	import * as Table from '$lib/components/ui/table/index.js';
 	import type { Snippet } from 'svelte';
@@ -30,7 +29,8 @@
 		data,
 		params,
 		toolbar,
-		onRowClick
+		onRowClick,
+		paginationControls
 	}: {
 		columns: ColumnDef<TData, TValue>[];
 		data: TData[];
@@ -42,6 +42,7 @@
 		};
 		toolbar?: Snippet<[_Table<TData>]>;
 		onRowClick?: (row: Row<TData>) => void;
+		paginationControls?: Snippet<[_Table<TData>]>;
 	} = $props();
 
 	let rowSelection = $state<RowSelectionState>({});
@@ -167,5 +168,5 @@
 			</Table.Body>
 		</Table.Root>
 	</div>
-	<DataTablePagination {table} />
+	{@render paginationControls?.(table)}
 </div>

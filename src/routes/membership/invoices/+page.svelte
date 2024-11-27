@@ -8,9 +8,8 @@
 		VisibilityState,
 		Row
 	} from '@tanstack/table-core';
-	import { DataTable } from '$lib/components/data-table/index.js';
+	import { DataTable, DataTablePagination } from '$lib/components/data-table/index.js';
 	import { columns } from './columns.js';
-	// import DataTableToolbar from './data-table-toolbar.svelte';
 	import { goto } from '$app/navigation';
 	import type { Invoice } from '$lib/types/fortnox.js';
 
@@ -39,19 +38,32 @@
 	}
 </script>
 
+{#snippet subtitle(title: string)}
+	<div class="mb-4 mt-6 w-full text-2xl font-semibold">{title}</div>
+{/snippet}
+
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
 			<PageHeader.Title>Invoices</PageHeader.Title>
-			<PageHeader.Description>View your invoices.</PageHeader.Description>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
 	{#if data.invoices.personal !== null}
+		{@render subtitle('Personal')}
 		<DataTable data={data.invoices.personal} {columns} {params} {onRowClick}>
-			<!-- {#snippet toolbar(table)}
-			<DataTableToolbar {table} />
-		{/snippet} -->
+			{#snippet paginationControls(table)}
+				<DataTablePagination {table} showPerPage={false} />
+			{/snippet}
+		</DataTable>
+	{/if}
+
+	{#if data.invoices.company !== null}
+		{@render subtitle('Company')}
+		<DataTable data={data.invoices.company} {columns} {params} {onRowClick}>
+			{#snippet paginationControls(table)}
+				<DataTablePagination {table} showPerPage={false} />
+			{/snippet}
 		</DataTable>
 	{/if}
 </div>

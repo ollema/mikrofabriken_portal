@@ -8,7 +8,7 @@
 		PaginationState,
 		VisibilityState
 	} from '@tanstack/table-core';
-	import { DataTable } from '$lib/components/data-table/index.js';
+	import { DataTable, DataTablePagination } from '$lib/components/data-table/index.js';
 	import { columns } from './columns.js';
 	import DataTableToolbar from './data-table-toolbar.svelte';
 
@@ -52,12 +52,18 @@
 				{#snippet toolbar(table)}
 					<DataTableToolbar {table} />
 				{/snippet}
+				{#snippet paginationControls(table)}
+					<DataTablePagination {table} rowName={'purchase'} showPerPage={false} />
+				{/snippet}
 			</DataTable>
 		</Tabs.Content>
 		<Tabs.Content value="current">
 			<DataTable data={data.purchases[1]} {columns} {params}>
 				{#snippet toolbar(table)}
 					<DataTableToolbar {table} />
+				{/snippet}
+				{#snippet paginationControls(table)}
+					<DataTablePagination {table} showPerPage={false} />
 				{/snippet}
 			</DataTable>
 		</Tabs.Content>

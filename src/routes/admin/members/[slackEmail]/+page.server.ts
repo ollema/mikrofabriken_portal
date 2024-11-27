@@ -10,14 +10,12 @@ export const load = async ({ locals, params }) => {
 
 	const avatar = getAvatar(member.crNumber);
 
-	const pending = getPendingUpdateForMember(member.crNumber).then(
-		({ members, sourceBranch }) => {
-			return {
-				member: members && getMember(members, member.slackEmail),
-				sourceBranch
-			};
-		}
-	);
+	const pending = getPendingUpdateForMember(member.crNumber).then(({ members, sourceBranch }) => {
+		return {
+			member: members && getMember(members, member.slackEmail),
+			sourceBranch
+		};
+	});
 
 	// TODO: fix after purchases API supports querying for other members
 	// const purchasesLastMonth = getPurchases(token, member.crNumber, 1);

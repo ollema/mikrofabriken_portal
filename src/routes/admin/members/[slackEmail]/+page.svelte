@@ -29,10 +29,10 @@
 		<PageHeader.Heading>
 			<div class="flex w-full items-center justify-between">
 				<div class="flex items-center gap-2">
-						<Avatar.Root class="h-14 w-14">
-							<Avatar.Image src={data.avatar} alt={data.member.name} />
-							<Avatar.Fallback>{data.member.name[0]}</Avatar.Fallback>
-						</Avatar.Root>
+					<Avatar.Root class="h-14 w-14">
+						<Avatar.Image src={data.avatar} alt={data.member.name} />
+						<Avatar.Fallback>{data.member.name[0]}</Avatar.Fallback>
+					</Avatar.Root>
 					<PageHeader.Title>{data.member.name}</PageHeader.Title>
 				</div>
 				<DropdownMenu.Root>
