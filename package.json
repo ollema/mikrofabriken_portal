@@ -40,6 +40,7 @@
 		"prettier": "^3.4.1",
 		"prettier-plugin-svelte": "^3.3.2",
 		"prettier-plugin-tailwindcss": "^0.6.9",
+		"runed": "^0.15.4",
 		"safe-stable-stringify": "^2.5.0",
 		"svelte": "^5.2.9",
 		"svelte-check": "^4.1.0",

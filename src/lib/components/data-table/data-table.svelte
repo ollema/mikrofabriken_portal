@@ -8,6 +8,7 @@
 		type ColumnDef,
 		type ColumnFiltersState,
 		type PaginationState,
+		type Row,
 		type RowSelectionState,
 		type SortingState,
 		type VisibilityState,
@@ -28,7 +29,8 @@
 		columns,
 		data,
 		params,
-		toolbar
+		toolbar,
+		onRowClick
 	}: {
 		columns: ColumnDef<TData, TValue>[];
 		data: TData[];
@@ -39,6 +41,7 @@
 			visibility: VisibilityState;
 		};
 		toolbar?: Snippet<[_Table<TData>]>;
+		onRowClick?: (row: Row<TData>) => void;
 	} = $props();
 
 	let rowSelection = $state<RowSelectionState>({});
@@ -146,7 +149,10 @@
 			</Table.Header>
 			<Table.Body>
 				{#each table.getRowModel().rows as row (row.id)}
-					<Table.Row data-state={row.getIsSelected() && 'selected'}>
+					<Table.Row
+						data-state={row.getIsSelected() && 'selected'}
+						onclick={() => onRowClick?.(row)}
+					>
 						{#each row.getVisibleCells() as cell (cell.id)}
 							<Table.Cell>
 								<FlexRender content={cell.column.columnDef.cell} context={cell.getContext()} />

@@ -37,7 +37,7 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 
 			const nameCellSnippet = createRawSnippet<[string]>(() => {
 				return {
-					render: () => `<a href=${href}>${name}</div>`
+					render: () => `<a class="hover:underline" href=${href}>${name}</div>`
 				};
 			});
 
