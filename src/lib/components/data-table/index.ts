@@ -1,4 +1,5 @@
 export { default as DataTable } from './data-table.svelte';
+export { default as DataTableBooleanCell } from './data-table-boolean-cell.svelte';
 export { default as DataTableCheckbox } from './data-table-checkbox.svelte';
 export { default as DataTableColumnHeader } from './data-table-column-header.svelte';
 export { default as DataTableToolbar } from '../../../routes/admin/members/data-table-toolbar.svelte';
