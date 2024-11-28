@@ -2,11 +2,11 @@
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
 	import { Calendar } from '$lib/components/ui/calendar/index.js';
-	import { buttonVariants } from '$lib/components/ui/button/index.js';
+	import { Button, buttonVariants } from '$lib/components/ui/button/index.js';
 	import * as Popover from '$lib/components/ui/popover/index.js';
-	import CalendarIcon from 'lucide-svelte/icons/calendar';
 	import * as InputOTP from '$lib/components/ui/input-otp/index.js';
 	import { REGEXP_ONLY_DIGITS } from 'bits-ui';
+	import CalendarIcon from 'lucide-svelte/icons/calendar';
 	import { cn } from '$lib/utils';
 	import {
 		CalendarDate,
@@ -33,10 +33,6 @@
 
 	const { form: formData, enhance } = form;
 
-	// function addWorker() {
-	// 	$form.workDone = [...$form.workDone, { date: null, worker: '' }];
-	// }
-
 	const df = new DateFormatter('en-US', {
 		dateStyle: 'long'
 	});
@@ -56,26 +52,47 @@
 		});
 	});
 
-	let placeholder = $state<DateValue>(today(getLocalTimeZone()));
+	function addRFIDTag() {
+		$formData.rfidTags = [
+			...$formData.rfidTags,
+			{
+				startDate: today(getLocalTimeZone()).toString(),
+				endDate: undefined,
+				data: '',
+				codeHash: ''
+			}
+		];
+	}
 
-	async function generateSHA1(message: string): Promise<string> {
+	function removeRFIDTag(index: number) {
+		$formData.rfidTags = $formData.rfidTags.filter((_, i) => i !== index);
+	}
+
+	async function generateSHA1(message: string) {
 		const msgBuffer = new TextEncoder().encode(message);
 		const hashBuffer = await crypto.subtle.digest('SHA-1', msgBuffer);
 		const hashArray = Array.from(new Uint8Array(hashBuffer));
 		const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+
 		return hashHex;
+	}
+
+	async function generateCodeHash(code: string, index: number) {
+		const codeHash = await generateSHA1($formData.rfidTags[index].data + code);
+		$formData.rfidTags[index].codeHash = codeHash;
 	}
 </script>
 
 <SuperDebug data={$formData} />
 
 <form method="POST" class="max-w-md" use:enhance>
-	<Form.Fieldset {form} name="rfidTags" class="mt-8 ">
-		<Form.Legend class="mb-4">Artifacts</Form.Legend>
+	<Form.Fieldset {form} name="rfidTags" class="mt-8">
+		<Form.Legend class="text-lg">RFID-tags</Form.Legend>
 		<div class="flex flex-col gap-2">
 			{#each Array.from(Array($formData.rfidTags.length).keys()) as i}
-				<Form.Legend class="mb-2 flex flex-col gap-3">
-					<div>Artifact #{i + 1}</div>
+				<div class="h-2"></div>
+				<Form.Legend class="flex flex-col gap-3">
+					<div>RFID-tag #{i + 1}</div>
 					<div>
 						Status:
 						{#if $formData.rfidTags[i].endDate}
@@ -95,7 +112,7 @@
 										{...props}
 										class={cn(
 											buttonVariants({ variant: 'outline' }),
-											'flex w-[280px] justify-start px-3 text-left font-normal',
+											'flex w-full justify-start px-3 text-left font-normal sm:w-[280px]',
 											!startDateValues[i] && 'text-muted-foreground'
 										)}
 									>
@@ -109,7 +126,7 @@
 											type="single"
 											value={startDateValues[i] as DateValue}
 											minValue={new CalendarDate(2015, 1, 1)}
-											maxValue={today(getLocalTimeZone())}
+											maxValue={today(getLocalTimeZone()).cycle('year', 1)}
 											calendarLabel="Start date"
 											onValueChange={(v) => {
 												if (v) {
@@ -135,7 +152,7 @@
 										{...props}
 										class={cn(
 											buttonVariants({ variant: 'outline' }),
-											'flex w-[280px] justify-start px-3 text-left font-normal',
+											'flex w-full justify-start px-3 text-left font-normal sm:w-[280px]',
 											!endDateValues[i] && 'text-muted-foreground'
 										)}
 									>
@@ -148,9 +165,8 @@
 										<Calendar
 											type="single"
 											value={endDateValues[i] as DateValue}
-											bind:placeholder
 											minValue={new CalendarDate(2015, 1, 1)}
-											maxValue={today(getLocalTimeZone())}
+											maxValue={today(getLocalTimeZone()).cycle('year', 1)}
 											calendarLabel="End date"
 											onValueChange={(v) => {
 												if (v) {
@@ -173,7 +189,7 @@
 								<Form.Label>Data</Form.Label>
 								<Input
 									type="text"
-									class="w-[280px]"
+									class="w-full sm:w-[280px]"
 									{...props}
 									bind:value={$formData.rfidTags[i].data}
 								/>
@@ -183,20 +199,21 @@
 
 					<div class="mt-2 space-y-3">
 						<div class="text-sm font-medium leading-none">
-							<div class="mb-2">Replace code</div>
+							<div class="mb-2">Code</div>
 							<div class="text-xs text-muted-foreground">
 								(Optional if code hash already exists)
 							</div>
 						</div>
-						<div class="flex w-[280px] items-center gap-4">
+						<div class="flex w-full items-center gap-4 sm:w-[280px]">
 							<InputOTP.Root
 								maxlength={4}
 								pattern={REGEXP_ONLY_DIGITS}
-								onComplete={async (code) => {
-									const data = $formData.rfidTags[i].data;
-									const hash = await generateSHA1(data + code);
-									$formData.rfidTags[i].codeHash = hash;
+								onValueChange={async (code) => {
+									if (code.length === 4) {
+										await generateCodeHash(code, i);
+									}
 								}}
+								disabled={!($formData.rfidTags[i].data.length > 0)}
 							>
 								{#snippet children({ cells })}
 									<InputOTP.Group>
@@ -215,7 +232,7 @@
 								<Form.Label>Code hash</Form.Label>
 								<Input
 									type="text"
-									class="h-8 w-fit min-w-[280px] cursor-default text-[10.5px] text-muted-foreground"
+									class="h-8 w-full cursor-default text-[10.5px] text-muted-foreground sm:w-fit sm:min-w-[280px]"
 									{...props}
 									bind:value={$formData.rfidTags[i].codeHash}
 									readonly
@@ -223,9 +240,24 @@
 							{/snippet}
 						</Form.Control>
 					</Form.ElementField>
+
+					<Button
+						type="button"
+						variant="outline"
+						class="w-full hover:border-red-900 sm:w-[280px]"
+						onclick={() => removeRFIDTag(i)}
+					>
+						Remove RFID-tag #{i + 1}
+					</Button>
 				</div>
 			{/each}
 		</div>
 		<Form.FieldErrors />
+
+		<div class="h-2"></div>
+
+		<Button type="button" variant="outline" class="w-full sm:w-[280px]" onclick={addRFIDTag}>
+			Add new RFID-tag
+		</Button>
 	</Form.Fieldset>
 </form>
