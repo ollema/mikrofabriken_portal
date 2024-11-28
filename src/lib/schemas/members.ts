@@ -170,6 +170,19 @@ export const adminFormSchema = MemberSchema.omit({
 
 export type AdminFormSchema = typeof adminFormSchema;
 
+export const artifactsFormSchema = z.object({
+	rfidTags: z.array(
+		z.object({
+			startDate: z.string(),
+			data: z.string(),
+			codeHash: z.string(),
+			endDate: z.string().optional()
+		})
+	)
+});
+
+export type ArtifactsFormSchema = typeof artifactsFormSchema;
+
 export const newMemberLinkFormSchema = MemberSchema.pick({
 	slackEmail: true
 }).extend({

@@ -22,8 +22,8 @@
 		goto(href + '/company/edit');
 	}
 
-	function onEditRFIDSelected() {
-		goto(href + '/rfid/edit');
+	function onEditArtifactsSelected() {
+		goto(href + '/artifacts/edit');
 	}
 </script>
 
@@ -44,6 +44,6 @@
 		<DropdownMenu.Item onSelect={onOpenProfileSelected}>Open profile</DropdownMenu.Item>
 		<DropdownMenu.Item onSelect={onEditProfileSelected}>Edit profile</DropdownMenu.Item>
 		<DropdownMenu.Item onSelect={onEditCompanySelected}>Edit company</DropdownMenu.Item>
-		<DropdownMenu.Item onSelect={onEditRFIDSelected}>Edit RFID</DropdownMenu.Item>
+		<DropdownMenu.Item onSelect={onEditArtifactsSelected}>Edit artifacts</DropdownMenu.Item>
 	</DropdownMenu.Content>
 </DropdownMenu.Root>

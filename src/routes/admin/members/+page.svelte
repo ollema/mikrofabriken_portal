@@ -29,7 +29,6 @@
 			})
 		},
 		{
-			debounceHistory: 500,
 			showDefaults: false
 		}
 	);

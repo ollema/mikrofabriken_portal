@@ -19,8 +19,8 @@
 		goto(href + '/company/edit');
 	}
 
-	function onEditRFIDSelected() {
-		goto(href + '/rfid/edit');
+	function onEditArtifactsSelected() {
+		goto(href + '/artifacts/edit');
 	}
 </script>
 
@@ -55,7 +55,7 @@
 						{:else}
 							<DropdownMenu.Item onSelect={onEditCompanySelected}>Add company</DropdownMenu.Item>
 						{/if}
-						<DropdownMenu.Item onSelect={onEditRFIDSelected}>Edit RFID</DropdownMenu.Item>
+						<DropdownMenu.Item onSelect={onEditArtifactsSelected}>Edit artifacts</DropdownMenu.Item>
 					</DropdownMenu.Content>
 				</DropdownMenu.Root>
 			</div>
