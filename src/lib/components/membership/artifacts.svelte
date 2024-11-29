@@ -12,24 +12,28 @@
 
 	let activeArtifacts = $derived(artifacts.filter((artifacts) => isArtifactActive(artifacts)));
 
-	let activeRFIDArtifact = $derived(activeArtifacts.find((artifacts) => artifacts.type === 'rfid'));
+	let activeRFIDArtifacts = $derived(
+		activeArtifacts.filter((artifacts) => artifacts.type === 'rfid')
+	);
 
-	let activeKeyArtifact = $derived(activeArtifacts.find((artifacts) => artifacts.type === 'key'));
+	let activeKeyArtifacts = $derived(
+		activeArtifacts.filter((artifacts) => artifacts.type === 'key')
+	);
 </script>
 
 <div class="space-y-4">
-	{#if activeRFIDArtifact}
+	{#each activeRFIDArtifacts as activeRFIDArtifact}
 		<div class="text-sm">
 			<Nfc class="mr-1 inline" /> RFID tag
 			<span class="font-mono">[{activeRFIDArtifact.attributes?.data}]</span>
 			since {activeRFIDArtifact.startDate}
 		</div>
-	{/if}
+	{/each}
 
-	{#if activeKeyArtifact}
+	{#each activeKeyArtifacts as activeKeyArtifact}
 		<div class="text-sm">
 			<KeyRound class="mr-1 inline" /> Entrusted with key #{activeKeyArtifact.attributes?.number ??
 				0} since {activeKeyArtifact.startDate}
 		</div>
-	{/if}
+	{/each}
 </div>

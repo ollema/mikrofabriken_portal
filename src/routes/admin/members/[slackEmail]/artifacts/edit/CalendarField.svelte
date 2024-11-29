@@ -88,7 +88,7 @@
 							if (v) {
 								date = v.toString();
 							} else {
-								date = '';
+								date = undefined;
 							}
 						}}
 					/>

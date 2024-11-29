@@ -9,8 +9,10 @@
 	import CodeHashField from './CodeHashField.svelte';
 	import { Input } from '$lib/components/ui/input';
 	import { Button } from '$lib/components/ui/button/index.js';
+	import { Separator } from '$lib/components/ui/separator/index.js';
+	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 	import { getLocalTimeZone, today } from '@internationalized/date';
-	import SuperDebug, { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
+	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { artifactsFormSchema, type ArtifactsFormSchema } from '$lib/schemas/members';
 	import type { Member } from '$lib/types/members';
@@ -34,7 +36,7 @@
 		dataType: 'json'
 	});
 
-	const { form: formData, enhance } = form;
+	const { form: formData, enhance, delayed } = form;
 
 	function addRFIDTag() {
 		$formData.rfidTags = [
@@ -72,9 +74,6 @@
 	<PageHeader.Root>
 		<PageHeader.Heading>
 			<PageHeader.Title>Edit {appendPossessive(data.member.name)} artifacts</PageHeader.Title>
-			<PageHeader.Description>
-				Edit {data.member.name}'s RFID-tags and keys.
-			</PageHeader.Description>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
@@ -105,138 +104,145 @@
 		</Alert.Root>
 	{/if}
 
-	<form method="POST" class="max-w-lg" use:enhance>
+	<form method="POST" class="flex max-w-lg flex-col gap-4" use:enhance>
 		<Form.Fieldset {form} name="rfidTags">
-			<Form.Legend class="py-2 text-xl">RFID-tags</Form.Legend>
-			<div class="flex flex-col gap-4">
-				{#each Array.from(Array($formData.rfidTags.length).keys()) as i}
-					<div class="rounded-md border border-muted p-4">
-						<Form.Legend class="mb-2 text-lg">RFID-tag #{i + 1}</Form.Legend>
+			<Form.Legend class="text-xl">RFID-tags</Form.Legend>
+			{#if $formData.rfidTags.length > 0}
+				<div class="flex flex-col gap-4">
+					{#each Array.from(Array($formData.rfidTags.length).keys()) as i}
+						<div class="rounded-md border border-muted p-4">
+							<Form.Legend class="text-lg">RFID-tag #{i + 1}</Form.Legend>
 
-						<Status endDate={$formData.rfidTags[i].endDate} />
+							<Status endDate={$formData.rfidTags[i].endDate} />
 
-						<div class="flex flex-col gap-4">
-							<CalendarField
-								{form}
-								name="rfidTags[{i}].startDate"
-								label={'Start date'}
-								bind:date={$formData.rfidTags[i].startDate}
-							/>
+							<div class="flex flex-col gap-4">
+								<CalendarField
+									{form}
+									name="rfidTags[{i}].startDate"
+									label={'Start date'}
+									bind:date={$formData.rfidTags[i].startDate}
+								/>
 
-							<CalendarField
-								{form}
-								name="rfidTags[{i}].endDate"
-								label={'End date'}
-								bind:date={$formData.rfidTags[i].endDate}
-							/>
+								<CalendarField
+									{form}
+									name="rfidTags[{i}].endDate"
+									label={'End date'}
+									bind:date={$formData.rfidTags[i].endDate}
+								/>
 
-							<Form.ElementField {form} name="rfidTags[{i}].data">
-								<Form.Control>
-									{#snippet children({ props })}
-										<Form.Label>Data</Form.Label>
-										<Input
-											type="text"
-											class="w-full"
-											{...props}
-											bind:value={$formData.rfidTags[i].data}
-										/>
-									{/snippet}
-								</Form.Control>
-							</Form.ElementField>
+								<Form.ElementField {form} name="rfidTags[{i}].data">
+									<Form.Control>
+										{#snippet children({ props })}
+											<Form.Label>Data</Form.Label>
+											<Input
+												type="text"
+												class="w-full"
+												{...props}
+												bind:value={$formData.rfidTags[i].data}
+											/>
+										{/snippet}
+									</Form.Control>
+								</Form.ElementField>
 
-							<CodeHashField
-								{form}
-								name="rfidTags[{i}].codeHash"
-								rfidData={$formData.rfidTags[i].data}
-								bind:rfidCodeHash={$formData.rfidTags[i].codeHash}
-							/>
+								<CodeHashField
+									{form}
+									name="rfidTags[{i}].codeHash"
+									rfidData={$formData.rfidTags[i].data}
+									bind:rfidCodeHash={$formData.rfidTags[i].codeHash}
+								/>
 
-							<Button
-								type="button"
-								variant="destructive"
-								class="w-full hover:border-red-900"
-								onclick={() => removeRFIDTag(i)}
-							>
-								Remove RFID-tag #{i + 1}
-							</Button>
+								<Button
+									type="button"
+									variant="destructive"
+									class="w-full hover:border-red-900"
+									onclick={() => removeRFIDTag(i)}
+								>
+									Remove RFID-tag #{i + 1}
+								</Button>
+							</div>
 						</div>
-					</div>
-				{/each}
-			</div>
-			<Form.FieldErrors />
-
-			<div class="h-2"></div>
+					{/each}
+				</div>
+				<Form.FieldErrors />
+			{/if}
 
 			<Button type="button" variant="secondary" class="w-full" onclick={addRFIDTag}>
 				Add new RFID-tag
 			</Button>
 		</Form.Fieldset>
 
-		<Form.Fieldset {form} name="keys" class="mt-4">
-			<Form.Legend class="py-2 text-xl">Keys</Form.Legend>
-			<div class="flex flex-col gap-4">
-				{#each Array.from(Array($formData.keys.length).keys()) as i}
-					<div class="rounded-md border border-muted p-4">
-						<Form.Legend class="mb-2 text-lg">Key #{i + 1}</Form.Legend>
+		<Form.Fieldset {form} name="keys">
+			<Form.Legend class="text-xl">Keys</Form.Legend>
+			{#if $formData.keys.length > 0}
+				<div class="flex flex-col gap-4">
+					{#each Array.from(Array($formData.keys.length).keys()) as i}
+						<div class="rounded-md border border-muted p-4">
+							<Form.Legend class="text-lg">Key #{i + 1}</Form.Legend>
 
-						<Status endDate={$formData.keys[i].endDate} />
+							<Status endDate={$formData.keys[i].endDate} />
 
-						<div class="flex flex-col gap-4">
-							<CalendarField
-								{form}
-								name="keys[{i}].startDate"
-								label={'Start date'}
-								bind:date={$formData.keys[i].startDate}
-							/>
+							<div class="flex flex-col gap-4">
+								<CalendarField
+									{form}
+									name="keys[{i}].startDate"
+									label={'Start date'}
+									bind:date={$formData.keys[i].startDate}
+								/>
 
-							<CalendarField
-								{form}
-								name="keys[{i}].endDate"
-								label={'End date'}
-								bind:date={$formData.keys[i].endDate}
-							/>
+								<CalendarField
+									{form}
+									name="keys[{i}].endDate"
+									label={'End date'}
+									bind:date={$formData.keys[i].endDate}
+								/>
 
-							<Form.ElementField {form} name="keys[{i}].number">
-								<Form.Control>
-									{#snippet children({ props })}
-										<Form.Label>Key number</Form.Label>
-										<Input
-											type="number"
-											min="0"
-											max="20"
-											step="1"
-											class="w-full"
-											{...props}
-											bind:value={$formData.keys[i].number}
-										/>
-									{/snippet}
-								</Form.Control>
-								<Form.Description class="text-xs">
-									<div>Number of the key.</div>
-									<div>Not to be confused with the enumeration in this form.</div>
-								</Form.Description>
-							</Form.ElementField>
+								<Form.ElementField {form} name="keys[{i}].number">
+									<Form.Control>
+										{#snippet children({ props })}
+											<Form.Label>Key number</Form.Label>
+											<Input
+												type="number"
+												min="0"
+												max="20"
+												step="1"
+												class="w-full"
+												{...props}
+												bind:value={$formData.keys[i].number}
+											/>
+										{/snippet}
+									</Form.Control>
+									<Form.Description class="text-xs">
+										<div>Number of the key.</div>
+										<div>Not to be confused with the enumeration in this form.</div>
+									</Form.Description>
+								</Form.ElementField>
 
-							<Button
-								type="button"
-								variant="destructive"
-								class="w-full hover:border-red-900"
-								onclick={() => removeKey(i)}
-							>
-								Remove key #{i + 1}
-							</Button>
+								<Button
+									type="button"
+									variant="destructive"
+									class="w-full hover:border-red-900"
+									onclick={() => removeKey(i)}
+								>
+									Remove key #{i + 1}
+								</Button>
+							</div>
 						</div>
-					</div>
-				{/each}
-			</div>
-			<Form.FieldErrors />
-
-			<div class="h-2"></div>
-
+					{/each}
+				</div>
+				<Form.FieldErrors />
+			{/if}
 			<Button type="button" variant="secondary" class="w-full" onclick={addKey}>Add new key</Button>
 		</Form.Fieldset>
-	</form>
 
-	<div class="h-8"></div>
-	<SuperDebug data={$formData} />
+		<Separator class="my-4" />
+
+		<Form.Button class="w-full">
+			{#if $delayed}
+				<LoaderCircle class="animate-spin" />
+				Processing...
+			{:else}
+				Submit change request
+			{/if}
+		</Form.Button>
+	</form>
 </div>
