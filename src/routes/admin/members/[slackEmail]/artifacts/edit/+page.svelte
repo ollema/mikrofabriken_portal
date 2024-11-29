@@ -4,9 +4,6 @@
 	import GitBranch from 'lucide-svelte/icons/git-branch';
 	import { appendPossessive } from '$lib/helpers.js';
 	import * as Form from '$lib/components/ui/form';
-	import Status from './Status.svelte';
-	import CalendarField from './CalendarField.svelte';
-	import CodeHashField from './CodeHashField.svelte';
 	import { Input } from '$lib/components/ui/input';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Separator } from '$lib/components/ui/separator/index.js';
@@ -113,17 +110,17 @@
 						<div class="rounded-md border border-muted p-4">
 							<Form.Legend class="text-lg">RFID-tag #{i + 1}</Form.Legend>
 
-							<Status endDate={$formData.rfidTags[i].endDate} />
+							<Form.Status endDate={$formData.rfidTags[i].endDate} />
 
 							<div class="flex flex-col gap-4">
-								<CalendarField
+								<Form.CalendarField
 									{form}
 									name="rfidTags[{i}].startDate"
 									label={'Start date'}
 									bind:date={$formData.rfidTags[i].startDate}
 								/>
 
-								<CalendarField
+								<Form.CalendarField
 									{form}
 									name="rfidTags[{i}].endDate"
 									label={'End date'}
@@ -144,7 +141,7 @@
 									</Form.Control>
 								</Form.ElementField>
 
-								<CodeHashField
+								<Form.CodeHashField
 									{form}
 									name="rfidTags[{i}].codeHash"
 									rfidData={$formData.rfidTags[i].data}
@@ -179,17 +176,17 @@
 						<div class="rounded-md border border-muted p-4">
 							<Form.Legend class="text-lg">Key #{i + 1}</Form.Legend>
 
-							<Status endDate={$formData.keys[i].endDate} />
+							<Form.Status endDate={$formData.keys[i].endDate} />
 
 							<div class="flex flex-col gap-4">
-								<CalendarField
+								<Form.CalendarField
 									{form}
 									name="keys[{i}].startDate"
 									label={'Start date'}
 									bind:date={$formData.keys[i].startDate}
 								/>
 
-								<CalendarField
+								<Form.CalendarField
 									{form}
 									name="keys[{i}].endDate"
 									label={'End date'}
