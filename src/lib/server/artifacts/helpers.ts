@@ -14,23 +14,54 @@ export function generateCodeHash(data: string, pin: string) {
 export function populateFromCurrent(member: Member): z.infer<typeof artifactsFormSchema> {
 	const artifacts = member.artifacts;
 
-	return {
-		rfidTags: artifacts.map((artifact) => {
-			if (artifact.type === 'rfid') {
-				if (artifact.attributes?.data !== undefined && artifact.attributes.codeHash !== undefined) {
-					return {
-						startDate: artifact.startDate,
-						data: artifact.attributes.data,
-						codeHash: artifact.attributes.codeHash,
-						endDate: artifact.endDate
-					};
-				} else {
-					throw new Error('RFID artifact is missing data or codeHash');
-				}
+	const rfidTags: z.infer<typeof artifactsFormSchema>['rfidTags'] = [];
+	const keys: z.infer<typeof artifactsFormSchema>['keys'] = [];
+	const legacyKeys: z.infer<typeof artifactsFormSchema>['legacyKeys'] = [];
+
+	artifacts.forEach((artifact) => {
+		if (artifact.type === 'rfid') {
+			if (artifact.attributes?.data !== undefined && artifact.attributes.codeHash !== undefined) {
+				const rfidTag = {
+					startDate: artifact.startDate,
+					data: artifact.attributes.data,
+					codeHash: artifact.attributes.codeHash,
+					endDate: artifact.endDate
+				};
+				rfidTags.push(rfidTag);
 			} else {
-				throw new Error('Unknown artifact type');
+				throw new Error('RFID artifact is missing data or codeHash');
 			}
-		})
+		} else if (artifact.type === 'key') {
+			if (artifact.attributes?.number !== undefined) {
+				const key = {
+					startDate: artifact.startDate,
+					number: artifact.attributes.number,
+					endDate: artifact.endDate
+				};
+				keys.push(key);
+			} else {
+				throw new Error('Key artifact is missing number');
+			}
+		} else if (artifact.type === 'legacyKey') {
+			if (artifact.attributes?.area !== undefined) {
+				const legacyKey = {
+					startDate: artifact.startDate,
+					area: artifact.attributes.area,
+					endDate: artifact.endDate
+				};
+				legacyKeys.push(legacyKey);
+			} else {
+				throw new Error('Legacy key artifact is missing area');
+			}
+		} else {
+			throw new Error('Unknown artifact type');
+		}
+	});
+
+	return {
+		rfidTags: rfidTags,
+		keys: keys,
+		legacyKeys: legacyKeys
 	};
 }
 

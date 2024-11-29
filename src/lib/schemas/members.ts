@@ -178,6 +178,20 @@ export const artifactsFormSchema = z.object({
 			codeHash: z.string(),
 			endDate: z.string().optional()
 		})
+	),
+	keys: z.array(
+		z.object({
+			startDate: z.string(),
+			number: z.number().int(),
+			endDate: z.string().optional()
+		})
+	),
+	legacyKeys: z.array(
+		z.object({
+			startDate: z.string(),
+			area: z.string(),
+			endDate: z.string().optional()
+		})
 	)
 });
 

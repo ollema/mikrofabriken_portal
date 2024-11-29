@@ -86,14 +86,13 @@
 <SuperDebug data={$formData} />
 
 <form method="POST" class="max-w-md" use:enhance>
-	<Form.Fieldset {form} name="rfidTags" class="mt-8">
-		<Form.Legend class="text-lg">RFID-tags</Form.Legend>
-		<div class="flex flex-col gap-2">
+	<Form.Fieldset {form} name="rfidTags" class="mt-4">
+		<Form.Legend class="py-2 text-xl">RFID-tags</Form.Legend>
+		<div class="flex flex-col gap-4">
 			{#each Array.from(Array($formData.rfidTags.length).keys()) as i}
-				<div class="h-2"></div>
-				<Form.Legend class="flex flex-col gap-3">
-					<div>RFID-tag #{i + 1}</div>
-					<div>
+				<div class="rounded-md border border-muted p-4">
+					<Form.Legend class="mb-2 text-lg">RFID-tag #{i + 1}</Form.Legend>
+					<div class="mb-2">
 						Status:
 						{#if $formData.rfidTags[i].endDate}
 							<span class="text-neutral-500">Inactive</span>
@@ -101,154 +100,154 @@
 							<span class="text-green-500">Active</span>
 						{/if}
 					</div>
-				</Form.Legend>
-				<div class="flex flex-col gap-4">
-					<Form.ElementField {form} name="rfidTags[{i}].startDate">
-						<Form.Control>
-							{#snippet children({ props })}
-								<Form.Label>Start date</Form.Label>
-								<Popover.Root>
-									<Popover.Trigger
+					<div class="flex flex-col gap-4">
+						<Form.ElementField {form} name="rfidTags[{i}].startDate">
+							<Form.Control>
+								{#snippet children({ props })}
+									<Form.Label>Start date</Form.Label>
+									<Popover.Root>
+										<Popover.Trigger
+											{...props}
+											class={cn(
+												buttonVariants({ variant: 'outline' }),
+												'flex w-full justify-start px-3 text-left font-normal sm:w-[280px]',
+												!startDateValues[i] && 'text-muted-foreground'
+											)}
+										>
+											{startDateValues[i]
+												? df.format(startDateValues[i].toDate(getLocalTimeZone()))
+												: 'Pick a date'}
+											<CalendarIcon class="ml-auto size-4 opacity-50" />
+										</Popover.Trigger>
+										<Popover.Content class="w-auto p-0" side="top">
+											<Calendar
+												type="single"
+												value={startDateValues[i] as DateValue}
+												minValue={new CalendarDate(2015, 1, 1)}
+												maxValue={today(getLocalTimeZone()).cycle('year', 1)}
+												calendarLabel="Start date"
+												onValueChange={(v) => {
+													if (v) {
+														$formData.rfidTags[i].startDate = v.toString();
+													} else {
+														$formData.rfidTags[i].startDate = '';
+													}
+												}}
+											/>
+										</Popover.Content>
+									</Popover.Root>
+									<input hidden value={$formData.rfidTags[i].startDate} name={props.name} />
+								{/snippet}
+							</Form.Control>
+						</Form.ElementField>
+
+						<Form.ElementField {form} name="rfidTags[{i}].endDate">
+							<Form.Control>
+								{#snippet children({ props })}
+									<Form.Label>End date</Form.Label>
+									<Popover.Root>
+										<Popover.Trigger
+											{...props}
+											class={cn(
+												buttonVariants({ variant: 'outline' }),
+												'flex w-full justify-start px-3 text-left font-normal sm:w-[280px]',
+												!endDateValues[i] && 'text-muted-foreground'
+											)}
+										>
+											{endDateValues[i]
+												? df.format(endDateValues[i].toDate(getLocalTimeZone()))
+												: 'Pick a date'}
+											<CalendarIcon class="ml-auto size-4 opacity-50" />
+										</Popover.Trigger>
+										<Popover.Content class="w-auto p-0" side="top">
+											<Calendar
+												type="single"
+												value={endDateValues[i] as DateValue}
+												minValue={new CalendarDate(2015, 1, 1)}
+												maxValue={today(getLocalTimeZone()).cycle('year', 1)}
+												calendarLabel="End date"
+												onValueChange={(v) => {
+													if (v) {
+														$formData.rfidTags[i].endDate = v.toString();
+													} else {
+														$formData.rfidTags[i].endDate = undefined;
+													}
+												}}
+											/>
+										</Popover.Content>
+									</Popover.Root>
+									<input hidden value={$formData.rfidTags[i].endDate} name={props.name} />
+								{/snippet}
+							</Form.Control>
+						</Form.ElementField>
+
+						<Form.ElementField {form} name="rfidTags[{i}].data">
+							<Form.Control>
+								{#snippet children({ props })}
+									<Form.Label>Data</Form.Label>
+									<Input
+										type="text"
+										class="w-full sm:w-[280px]"
 										{...props}
-										class={cn(
-											buttonVariants({ variant: 'outline' }),
-											'flex w-full justify-start px-3 text-left font-normal sm:w-[280px]',
-											!startDateValues[i] && 'text-muted-foreground'
-										)}
-									>
-										{startDateValues[i]
-											? df.format(startDateValues[i].toDate(getLocalTimeZone()))
-											: 'Pick a date'}
-										<CalendarIcon class="ml-auto size-4 opacity-50" />
-									</Popover.Trigger>
-									<Popover.Content class="w-auto p-0" side="top">
-										<Calendar
-											type="single"
-											value={startDateValues[i] as DateValue}
-											minValue={new CalendarDate(2015, 1, 1)}
-											maxValue={today(getLocalTimeZone()).cycle('year', 1)}
-											calendarLabel="Start date"
-											onValueChange={(v) => {
-												if (v) {
-													$formData.rfidTags[i].startDate = v.toString();
-												} else {
-													$formData.rfidTags[i].startDate = '';
-												}
-											}}
-										/>
-									</Popover.Content>
-								</Popover.Root>
-								<input hidden value={$formData.rfidTags[i].startDate} name={props.name} />
-							{/snippet}
-						</Form.Control>
-					</Form.ElementField>
+										bind:value={$formData.rfidTags[i].data}
+									/>
+								{/snippet}
+							</Form.Control>
+						</Form.ElementField>
 
-					<Form.ElementField {form} name="rfidTags[{i}].endDate">
-						<Form.Control>
-							{#snippet children({ props })}
-								<Form.Label>End date</Form.Label>
-								<Popover.Root>
-									<Popover.Trigger
-										{...props}
-										class={cn(
-											buttonVariants({ variant: 'outline' }),
-											'flex w-full justify-start px-3 text-left font-normal sm:w-[280px]',
-											!endDateValues[i] && 'text-muted-foreground'
-										)}
-									>
-										{endDateValues[i]
-											? df.format(endDateValues[i].toDate(getLocalTimeZone()))
-											: 'Pick a date'}
-										<CalendarIcon class="ml-auto size-4 opacity-50" />
-									</Popover.Trigger>
-									<Popover.Content class="w-auto p-0" side="top">
-										<Calendar
-											type="single"
-											value={endDateValues[i] as DateValue}
-											minValue={new CalendarDate(2015, 1, 1)}
-											maxValue={today(getLocalTimeZone()).cycle('year', 1)}
-											calendarLabel="End date"
-											onValueChange={(v) => {
-												if (v) {
-													$formData.rfidTags[i].endDate = v.toString();
-												} else {
-													$formData.rfidTags[i].endDate = undefined;
-												}
-											}}
-										/>
-									</Popover.Content>
-								</Popover.Root>
-								<input hidden value={$formData.rfidTags[i].endDate} name={props.name} />
-							{/snippet}
-						</Form.Control>
-					</Form.ElementField>
-
-					<Form.ElementField {form} name="rfidTags[{i}].data">
-						<Form.Control>
-							{#snippet children({ props })}
-								<Form.Label>Data</Form.Label>
-								<Input
-									type="text"
-									class="w-full sm:w-[280px]"
-									{...props}
-									bind:value={$formData.rfidTags[i].data}
-								/>
-							{/snippet}
-						</Form.Control>
-					</Form.ElementField>
-
-					<div class="mt-2 space-y-3">
-						<div class="text-sm font-medium leading-none">
-							<div class="mb-2">Code</div>
-							<div class="text-xs text-muted-foreground">
-								(Optional if code hash already exists)
+						<div class="mt-2 space-y-3">
+							<div class="text-sm font-medium leading-none">
+								<div class="mb-2">Code</div>
+								<div class="text-xs text-muted-foreground">
+									(Optional if code hash already exists)
+								</div>
+							</div>
+							<div class="flex w-full items-center gap-4 sm:w-[280px]">
+								<InputOTP.Root
+									maxlength={4}
+									pattern={REGEXP_ONLY_DIGITS}
+									onValueChange={async (code) => {
+										if (code.length === 4) {
+											await generateCodeHash(code, i);
+										}
+									}}
+									disabled={!($formData.rfidTags[i].data.length > 0)}
+								>
+									{#snippet children({ cells })}
+										<InputOTP.Group>
+											{#each cells as cell}
+												<InputOTP.Slot {cell} />
+											{/each}
+										</InputOTP.Group>
+									{/snippet}
+								</InputOTP.Root>
 							</div>
 						</div>
-						<div class="flex w-full items-center gap-4 sm:w-[280px]">
-							<InputOTP.Root
-								maxlength={4}
-								pattern={REGEXP_ONLY_DIGITS}
-								onValueChange={async (code) => {
-									if (code.length === 4) {
-										await generateCodeHash(code, i);
-									}
-								}}
-								disabled={!($formData.rfidTags[i].data.length > 0)}
-							>
-								{#snippet children({ cells })}
-									<InputOTP.Group>
-										{#each cells as cell}
-											<InputOTP.Slot {cell} />
-										{/each}
-									</InputOTP.Group>
+
+						<Form.ElementField {form} name="rfidTags[{i}].codeHash">
+							<Form.Control>
+								{#snippet children({ props })}
+									<Form.Label>Code hash</Form.Label>
+									<Input
+										type="text"
+										class="h-8 w-full cursor-default text-[10.5px] text-muted-foreground sm:w-fit sm:min-w-[280px]"
+										{...props}
+										bind:value={$formData.rfidTags[i].codeHash}
+										readonly
+									/>
 								{/snippet}
-							</InputOTP.Root>
-						</div>
+							</Form.Control>
+						</Form.ElementField>
+
+						<Button
+							type="button"
+							variant="outline"
+							class="w-full hover:border-red-900 sm:w-[280px]"
+							onclick={() => removeRFIDTag(i)}
+						>
+							Remove RFID-tag #{i + 1}
+						</Button>
 					</div>
-
-					<Form.ElementField {form} name="rfidTags[{i}].codeHash">
-						<Form.Control>
-							{#snippet children({ props })}
-								<Form.Label>Code hash</Form.Label>
-								<Input
-									type="text"
-									class="h-8 w-full cursor-default text-[10.5px] text-muted-foreground sm:w-fit sm:min-w-[280px]"
-									{...props}
-									bind:value={$formData.rfidTags[i].codeHash}
-									readonly
-								/>
-							{/snippet}
-						</Form.Control>
-					</Form.ElementField>
-
-					<Button
-						type="button"
-						variant="outline"
-						class="w-full hover:border-red-900 sm:w-[280px]"
-						onclick={() => removeRFIDTag(i)}
-					>
-						Remove RFID-tag #{i + 1}
-					</Button>
 				</div>
 			{/each}
 		</div>
