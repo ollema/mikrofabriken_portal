@@ -5,7 +5,7 @@ import { redirect } from 'sveltekit-flash-message/server';
 import { z } from 'zod';
 import { getUser } from '$lib/server/auth.js';
 import { getMember, parseMemberList } from '$lib/server/members.js';
-import { artifactsFormSchema } from '$lib/schemas/members.js';
+import { artifactsFormSchema } from './schema.js';
 import { parseDate } from '@internationalized/date';
 import {
 	getPendingUpdateForMember,

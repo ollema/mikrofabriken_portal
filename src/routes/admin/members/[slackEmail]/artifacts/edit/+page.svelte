@@ -11,7 +11,7 @@
 	import { getLocalTimeZone, today } from '@internationalized/date';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { artifactsFormSchema, type ArtifactsFormSchema } from '$lib/schemas/members';
+	import { artifactsFormSchema, type ArtifactsFormSchema } from './schema.js';
 	import type { Member } from '$lib/types/members';
 
 	interface Props {
