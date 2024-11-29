@@ -4,22 +4,12 @@
 	import GitBranch from 'lucide-svelte/icons/git-branch';
 	import { appendPossessive } from '$lib/helpers.js';
 	import * as Form from '$lib/components/ui/form';
+	import Status from './Status.svelte';
+	import CalendarField from './CalendarField.svelte';
+	import CodeHashField from './CodeHashField.svelte';
 	import { Input } from '$lib/components/ui/input';
-	import { Calendar } from '$lib/components/ui/calendar/index.js';
-	import { Button, buttonVariants } from '$lib/components/ui/button/index.js';
-	import * as Popover from '$lib/components/ui/popover/index.js';
-	import * as InputOTP from '$lib/components/ui/input-otp/index.js';
-	import { REGEXP_ONLY_DIGITS } from 'bits-ui';
-	import CalendarIcon from 'lucide-svelte/icons/calendar';
-	import { cn } from '$lib/utils';
-	import {
-		CalendarDate,
-		DateFormatter,
-		type DateValue,
-		getLocalTimeZone,
-		parseDate,
-		today
-	} from '@internationalized/date';
+	import { Button } from '$lib/components/ui/button/index.js';
+	import { getLocalTimeZone, today } from '@internationalized/date';
 	import SuperDebug, { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { artifactsFormSchema, type ArtifactsFormSchema } from '$lib/schemas/members';
@@ -45,33 +35,6 @@
 	});
 
 	const { form: formData, enhance } = form;
-
-	const df = new DateFormatter('en-US', {
-		dateStyle: 'long'
-	});
-
-	let rfidTagsStartDateValues = $state<(DateValue | undefined)[]>([]);
-	let rfidTagsEndDateValues = $state<(DateValue | undefined)[]>([]);
-	let keysStartDateValues = $state<(DateValue | undefined)[]>([]);
-	let keysEndDateValues = $state<(DateValue | undefined)[]>([]);
-
-	$effect(() => {
-		rfidTagsStartDateValues = $formData.rfidTags.map((artifact) => {
-			return artifact.startDate ? parseDate(artifact.startDate) : undefined;
-		});
-
-		rfidTagsEndDateValues = $formData.rfidTags.map((artifact) => {
-			return artifact.endDate ? parseDate(artifact.endDate) : undefined;
-		});
-
-		keysStartDateValues = $formData.keys.map((artifact) => {
-			return artifact.startDate ? parseDate(artifact.startDate) : undefined;
-		});
-
-		keysEndDateValues = $formData.keys.map((artifact) => {
-			return artifact.endDate ? parseDate(artifact.endDate) : undefined;
-		});
-	});
 
 	function addRFIDTag() {
 		$formData.rfidTags = [
@@ -102,20 +65,6 @@
 
 	function removeKey(index: number) {
 		$formData.keys = $formData.keys.filter((_, i) => i !== index);
-	}
-
-	async function generateSHA1(message: string) {
-		const msgBuffer = new TextEncoder().encode(message);
-		const hashBuffer = await crypto.subtle.digest('SHA-1', msgBuffer);
-		const hashArray = Array.from(new Uint8Array(hashBuffer));
-		const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-
-		return hashHex;
-	}
-
-	async function generateCodeHash(code: string, index: number) {
-		const codeHash = await generateSHA1($formData.rfidTags[index].data + code);
-		$formData.rfidTags[index].codeHash = codeHash;
 	}
 </script>
 
@@ -163,94 +112,23 @@
 				{#each Array.from(Array($formData.rfidTags.length).keys()) as i}
 					<div class="rounded-md border border-muted p-4">
 						<Form.Legend class="mb-2 text-lg">RFID-tag #{i + 1}</Form.Legend>
-						<div class="mb-4">
-							Status:
-							{#if $formData.rfidTags[i].endDate}
-								<span class="text-neutral-500">Inactive</span>
-							{:else}
-								<span class="text-green-500">Active</span>
-							{/if}
-						</div>
-						<div class="flex flex-col gap-4">
-							<Form.ElementField {form} name="rfidTags[{i}].startDate">
-								<Form.Control>
-									{#snippet children({ props })}
-										<Form.Label>Start date</Form.Label>
-										<Popover.Root>
-											<Popover.Trigger
-												{...props}
-												class={cn(
-													buttonVariants({ variant: 'outline' }),
-													'flex w-full justify-start px-3 text-left font-normal',
-													!rfidTagsStartDateValues[i] && 'text-muted-foreground'
-												)}
-											>
-												{rfidTagsStartDateValues[i]
-													? df.format(rfidTagsStartDateValues[i].toDate(getLocalTimeZone()))
-													: 'Pick a date'}
-												<CalendarIcon class="ml-auto size-4 opacity-50" />
-											</Popover.Trigger>
-											<Popover.Content class="w-auto p-0" side="top">
-												<Calendar
-													type="single"
-													value={rfidTagsStartDateValues[i] as DateValue}
-													minValue={new CalendarDate(2015, 1, 1)}
-													maxValue={today(getLocalTimeZone()).cycle('year', 1)}
-													calendarLabel="Start date"
-													onValueChange={(v) => {
-														if (v) {
-															$formData.rfidTags[i].startDate = v.toString();
-														} else {
-															$formData.rfidTags[i].startDate = '';
-														}
-													}}
-												/>
-											</Popover.Content>
-										</Popover.Root>
-										<input hidden value={$formData.rfidTags[i].startDate} name={props.name} />
-									{/snippet}
-								</Form.Control>
-							</Form.ElementField>
 
-							<Form.ElementField {form} name="rfidTags[{i}].endDate">
-								<Form.Control>
-									{#snippet children({ props })}
-										<Form.Label>End date</Form.Label>
-										<Popover.Root>
-											<Popover.Trigger
-												{...props}
-												class={cn(
-													buttonVariants({ variant: 'outline' }),
-													'flex w-full justify-start px-3 text-left font-normal',
-													!rfidTagsEndDateValues[i] && 'text-muted-foreground'
-												)}
-											>
-												{rfidTagsEndDateValues[i]
-													? df.format(rfidTagsEndDateValues[i].toDate(getLocalTimeZone()))
-													: 'Pick a date to set to inactive'}
-												<CalendarIcon class="ml-auto size-4 opacity-50" />
-											</Popover.Trigger>
-											<Popover.Content class="w-auto p-0" side="top">
-												<Calendar
-													type="single"
-													value={rfidTagsEndDateValues[i] as DateValue}
-													minValue={new CalendarDate(2015, 1, 1)}
-													maxValue={today(getLocalTimeZone()).cycle('year', 1)}
-													calendarLabel="End date"
-													onValueChange={(v) => {
-														if (v) {
-															$formData.rfidTags[i].endDate = v.toString();
-														} else {
-															$formData.rfidTags[i].endDate = undefined;
-														}
-													}}
-												/>
-											</Popover.Content>
-										</Popover.Root>
-										<input hidden value={$formData.rfidTags[i].endDate} name={props.name} />
-									{/snippet}
-								</Form.Control>
-							</Form.ElementField>
+						<Status endDate={$formData.rfidTags[i].endDate} />
+
+						<div class="flex flex-col gap-4">
+							<CalendarField
+								{form}
+								name="rfidTags[{i}].startDate"
+								label={'Start date'}
+								bind:date={$formData.rfidTags[i].startDate}
+							/>
+
+							<CalendarField
+								{form}
+								name="rfidTags[{i}].endDate"
+								label={'End date'}
+								bind:date={$formData.rfidTags[i].endDate}
+							/>
 
 							<Form.ElementField {form} name="rfidTags[{i}].data">
 								<Form.Control>
@@ -266,47 +144,12 @@
 								</Form.Control>
 							</Form.ElementField>
 
-							<div class="mt-2 space-y-3">
-								<div class="text-sm font-medium leading-none">
-									<div class="mb-2">Code</div>
-									<div class="text-xs text-muted-foreground">
-										(Optional if code hash already exists)
-									</div>
-								</div>
-								<InputOTP.Root
-									maxlength={4}
-									pattern={REGEXP_ONLY_DIGITS}
-									onValueChange={async (code) => {
-										if (code.length === 4) {
-											await generateCodeHash(code, i);
-										}
-									}}
-									disabled={!($formData.rfidTags[i].data.length > 0)}
-								>
-									{#snippet children({ cells })}
-										<InputOTP.Group>
-											{#each cells as cell}
-												<InputOTP.Slot {cell} />
-											{/each}
-										</InputOTP.Group>
-									{/snippet}
-								</InputOTP.Root>
-							</div>
-
-							<Form.ElementField {form} name="rfidTags[{i}].codeHash">
-								<Form.Control>
-									{#snippet children({ props })}
-										<Form.Label>Code hash</Form.Label>
-										<Input
-											type="text"
-											class="w-full cursor-default text-xs text-muted-foreground"
-											{...props}
-											bind:value={$formData.rfidTags[i].codeHash}
-											readonly
-										/>
-									{/snippet}
-								</Form.Control>
-							</Form.ElementField>
+							<CodeHashField
+								{form}
+								name="rfidTags[{i}].codeHash"
+								rfidData={$formData.rfidTags[i].data}
+								bind:rfidCodeHash={$formData.rfidTags[i].codeHash}
+							/>
 
 							<Button
 								type="button"
@@ -335,94 +178,23 @@
 				{#each Array.from(Array($formData.keys.length).keys()) as i}
 					<div class="rounded-md border border-muted p-4">
 						<Form.Legend class="mb-2 text-lg">Key #{i + 1}</Form.Legend>
-						<div class="mb-4">
-							Status:
-							{#if $formData.keys[i].endDate}
-								<span class="text-neutral-500">Inactive</span>
-							{:else}
-								<span class="text-green-500">Active</span>
-							{/if}
-						</div>
-						<div class="flex flex-col gap-4">
-							<Form.ElementField {form} name="keys[{i}].startDate">
-								<Form.Control>
-									{#snippet children({ props })}
-										<Form.Label>Start date</Form.Label>
-										<Popover.Root>
-											<Popover.Trigger
-												{...props}
-												class={cn(
-													buttonVariants({ variant: 'outline' }),
-													'flex w-full justify-start px-3 text-left font-normal',
-													!keysStartDateValues[i] && 'text-muted-foreground'
-												)}
-											>
-												{keysStartDateValues[i]
-													? df.format(keysStartDateValues[i].toDate(getLocalTimeZone()))
-													: 'Pick a date'}
-												<CalendarIcon class="ml-auto size-4 opacity-50" />
-											</Popover.Trigger>
-											<Popover.Content class="w-auto p-0" side="top">
-												<Calendar
-													type="single"
-													value={keysStartDateValues[i] as DateValue}
-													minValue={new CalendarDate(2015, 1, 1)}
-													maxValue={today(getLocalTimeZone()).cycle('year', 1)}
-													calendarLabel="Start date"
-													onValueChange={(v) => {
-														if (v) {
-															$formData.keys[i].startDate = v.toString();
-														} else {
-															$formData.keys[i].startDate = '';
-														}
-													}}
-												/>
-											</Popover.Content>
-										</Popover.Root>
-										<input hidden value={$formData.keys[i].startDate} name={props.name} />
-									{/snippet}
-								</Form.Control>
-							</Form.ElementField>
 
-							<Form.ElementField {form} name="keys[{i}].endDate">
-								<Form.Control>
-									{#snippet children({ props })}
-										<Form.Label>End date</Form.Label>
-										<Popover.Root>
-											<Popover.Trigger
-												{...props}
-												class={cn(
-													buttonVariants({ variant: 'outline' }),
-													'flex w-full justify-start px-3 text-left font-normal',
-													!keysEndDateValues[i] && 'text-muted-foreground'
-												)}
-											>
-												{keysEndDateValues[i]
-													? df.format(keysEndDateValues[i].toDate(getLocalTimeZone()))
-													: 'Pick a date to set to inactive'}
-												<CalendarIcon class="ml-auto size-4 opacity-50" />
-											</Popover.Trigger>
-											<Popover.Content class="w-auto p-0" side="top">
-												<Calendar
-													type="single"
-													value={keysEndDateValues[i] as DateValue}
-													minValue={new CalendarDate(2015, 1, 1)}
-													maxValue={today(getLocalTimeZone()).cycle('year', 1)}
-													calendarLabel="End date"
-													onValueChange={(v) => {
-														if (v) {
-															$formData.keys[i].endDate = v.toString();
-														} else {
-															$formData.keys[i].endDate = undefined;
-														}
-													}}
-												/>
-											</Popover.Content>
-										</Popover.Root>
-										<input hidden value={$formData.keys[i].endDate} name={props.name} />
-									{/snippet}
-								</Form.Control>
-							</Form.ElementField>
+						<Status endDate={$formData.keys[i].endDate} />
+
+						<div class="flex flex-col gap-4">
+							<CalendarField
+								{form}
+								name="keys[{i}].startDate"
+								label={'Start date'}
+								bind:date={$formData.keys[i].startDate}
+							/>
+
+							<CalendarField
+								{form}
+								name="keys[{i}].endDate"
+								label={'End date'}
+								bind:date={$formData.keys[i].endDate}
+							/>
 
 							<Form.ElementField {form} name="keys[{i}].number">
 								<Form.Control>
