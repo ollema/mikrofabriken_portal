@@ -19,6 +19,10 @@
 		goto(href + '/company/edit');
 	}
 
+	function onEditAgreementsSelected() {
+		goto(href + '/agreements/edit');
+	}
+
 	function onEditArtifactsSelected() {
 		goto(href + '/artifacts/edit');
 	}
@@ -55,6 +59,9 @@
 						{:else}
 							<DropdownMenu.Item onSelect={onEditCompanySelected}>Add company</DropdownMenu.Item>
 						{/if}
+						<DropdownMenu.Item onSelect={onEditAgreementsSelected}
+							>Edit agreements</DropdownMenu.Item
+						>
 						<DropdownMenu.Item onSelect={onEditArtifactsSelected}>Edit artifacts</DropdownMenu.Item>
 					</DropdownMenu.Content>
 				</DropdownMenu.Root>

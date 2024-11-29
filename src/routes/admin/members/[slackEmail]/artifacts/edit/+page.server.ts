@@ -70,7 +70,7 @@ export const actions = {
 		// update member by returning a new member object
 		const updatedMember = updateMember(member, form.data);
 
-		if (rfidArtifactDeepEqual(member, updatedMember)) {
+		if (artifactsDeepEqual(member, updatedMember)) {
 			redirect(302, redirectUrl, { type: 'warning', message: 'No changes detected!' }, cookies);
 		}
 
@@ -109,35 +109,32 @@ function populateFromCurrent(member: Member): z.infer<typeof artifactsFormSchema
 	artifacts.forEach((artifact) => {
 		if (artifact.type === 'rfid') {
 			if (artifact.attributes?.data !== undefined && artifact.attributes.codeHash !== undefined) {
-				const rfidTag = {
+				rfidTags.push({
 					startDate: artifact.startDate,
 					data: artifact.attributes.data,
 					codeHash: artifact.attributes.codeHash,
 					endDate: artifact.endDate
-				};
-				rfidTags.push(rfidTag);
+				});
 			} else {
 				throw new Error('RFID artifact is missing data or codeHash');
 			}
 		} else if (artifact.type === 'key') {
 			if (artifact.attributes?.number !== undefined) {
-				const key = {
+				keys.push({
 					startDate: artifact.startDate,
 					number: artifact.attributes.number,
 					endDate: artifact.endDate
-				};
-				keys.push(key);
+				});
 			} else {
 				throw new Error('Key artifact is missing number');
 			}
 		} else if (artifact.type === 'legacyKey') {
 			if (artifact.attributes?.area !== undefined) {
-				const legacyKey = {
+				legacyKeys.push({
 					startDate: artifact.startDate,
 					area: artifact.attributes.area,
 					endDate: artifact.endDate
-				};
-				legacyKeys.push(legacyKey);
+				});
 			} else {
 				throw new Error('Legacy key artifact is missing area');
 			}
@@ -196,7 +193,7 @@ function updateMember(member: Member, data: z.infer<typeof artifactsFormSchema>)
 	return suggestedMember;
 }
 
-function rfidArtifactDeepEqual(a: Member, b: Member) {
+function artifactsDeepEqual(a: Member, b: Member) {
 	return (
 		a.artifacts.length === b.artifacts.length &&
 		a.artifacts.every((artifact, index) => {

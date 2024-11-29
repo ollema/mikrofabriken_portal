@@ -22,6 +22,10 @@
 		goto(href + '/company/edit');
 	}
 
+	function onEditAgreementsSelected() {
+		goto(href + '/agreements/edit');
+	}
+
 	function onEditArtifactsSelected() {
 		goto(href + '/artifacts/edit');
 	}
@@ -44,6 +48,7 @@
 		<DropdownMenu.Item onSelect={onOpenProfileSelected}>Open profile</DropdownMenu.Item>
 		<DropdownMenu.Item onSelect={onEditProfileSelected}>Edit profile</DropdownMenu.Item>
 		<DropdownMenu.Item onSelect={onEditCompanySelected}>Edit company</DropdownMenu.Item>
+		<DropdownMenu.Item onSelect={onEditAgreementsSelected}>Edit agreements</DropdownMenu.Item>
 		<DropdownMenu.Item onSelect={onEditArtifactsSelected}>Edit artifacts</DropdownMenu.Item>
 	</DropdownMenu.Content>
 </DropdownMenu.Root>
