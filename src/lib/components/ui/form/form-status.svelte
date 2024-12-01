@@ -8,7 +8,7 @@
 
 <div class="mb-4">
 	Status:
-	{#if endDate}
+	{#if endDate && new Date(endDate) < new Date()}
 		<span class="text-neutral-500">Inactive</span>
 	{:else}
 		<span class="text-green-500">Active</span>

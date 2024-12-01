@@ -12,7 +12,7 @@ export const agreementsFormSchema = z.object({
 		z.object({
 			type: z.enum(['asylumInside', 'asylumOutside']),
 			startDate: z.string(),
-			size: z.number().int().min(1, { message: 'Size needs to be at least 1' }),
+			size: z.number().min(1, { message: 'Size needs to be at least 1' }),
 			endDate: z.string().optional()
 		})
 	),

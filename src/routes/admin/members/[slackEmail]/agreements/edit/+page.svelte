@@ -11,7 +11,7 @@
 	import Trash2 from 'lucide-svelte/icons/trash-2';
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 	import { getLocalTimeZone, today } from '@internationalized/date';
-	import SuperDebug, { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
+	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { agreementsFormSchema, type AgreementsFormSchema } from './schema.js';
 	import type { Member } from '$lib/types/members';
@@ -142,6 +142,43 @@
 							<Form.Status endDate={$formData.memberships[i].endDate} />
 
 							<div class="flex flex-col gap-4">
+								<Form.ElementField {form} name="memberships[{i}].type">
+									<Form.Fieldset {form} name="memberships[{i}].type" class="space-y-3">
+										<Form.Legend>Membership type</Form.Legend>
+										<RadioGroup.Root
+											bind:value={$formData.memberships[i].type}
+											class="flex flex-col space-y-1"
+											name="type"
+										>
+											<div class="flex items-center space-x-3 space-y-0">
+												<Form.Control>
+													{#snippet children({ props })}
+														<RadioGroup.Item value="membership" {...props} />
+														<Form.Label class="font-normal">Membership</Form.Label>
+													{/snippet}
+												</Form.Control>
+											</div>
+											<div class="flex items-center space-x-3 space-y-0">
+												<Form.Control>
+													{#snippet children({ props })}
+														<RadioGroup.Item value="investment" {...props} />
+														<Form.Label class="font-normal">Investment</Form.Label>
+													{/snippet}
+												</Form.Control>
+											</div>
+											<div class="flex items-center space-x-3 space-y-0">
+												<Form.Control>
+													{#snippet children({ props })}
+														<RadioGroup.Item value="passive" {...props} />
+														<Form.Label class="font-normal">Passive</Form.Label>
+													{/snippet}
+												</Form.Control>
+											</div>
+										</RadioGroup.Root>
+										<Form.FieldErrors />
+									</Form.Fieldset>
+								</Form.ElementField>
+
 								<Form.CalendarField
 									{form}
 									name="memberships[{i}].startDate"
@@ -186,36 +223,36 @@
 
 							<Form.Status endDate={$formData.asylums[i].endDate} />
 
-							<Form.ElementField {form} name="asylums[{i}].type">
-								<Form.Fieldset {form} name="asylums[{i}].type" class="space-y-3">
-									<Form.Legend>Asylum type</Form.Legend>
-									<RadioGroup.Root
-										bind:value={$formData.asylums[i].type}
-										class="flex flex-col space-y-1"
-										name="type"
-									>
-										<div class="flex items-center space-x-3 space-y-0">
-											<Form.Control>
-												{#snippet children({ props })}
-													<RadioGroup.Item value="asylumInside" {...props} />
-													<Form.Label class="font-normal">Inside</Form.Label>
-												{/snippet}
-											</Form.Control>
-										</div>
-										<div class="flex items-center space-x-3 space-y-0">
-											<Form.Control>
-												{#snippet children({ props })}
-													<RadioGroup.Item value="asylumOutside" {...props} />
-													<Form.Label class="font-normal">Outside</Form.Label>
-												{/snippet}
-											</Form.Control>
-										</div>
-									</RadioGroup.Root>
-									<Form.FieldErrors />
-								</Form.Fieldset>
-							</Form.ElementField>
-
 							<div class="flex flex-col gap-4">
+								<Form.ElementField {form} name="asylums[{i}].type">
+									<Form.Fieldset {form} name="asylums[{i}].type" class="space-y-3">
+										<Form.Legend>Asylum type</Form.Legend>
+										<RadioGroup.Root
+											bind:value={$formData.asylums[i].type}
+											class="flex flex-col space-y-1"
+											name="type"
+										>
+											<div class="flex items-center space-x-3 space-y-0">
+												<Form.Control>
+													{#snippet children({ props })}
+														<RadioGroup.Item value="asylumInside" {...props} />
+														<Form.Label class="font-normal">Inside</Form.Label>
+													{/snippet}
+												</Form.Control>
+											</div>
+											<div class="flex items-center space-x-3 space-y-0">
+												<Form.Control>
+													{#snippet children({ props })}
+														<RadioGroup.Item value="asylumOutside" {...props} />
+														<Form.Label class="font-normal">Outside</Form.Label>
+													{/snippet}
+												</Form.Control>
+											</div>
+										</RadioGroup.Root>
+										<Form.FieldErrors />
+									</Form.Fieldset>
+								</Form.ElementField>
+
 								<Form.CalendarField
 									{form}
 									name="asylums[{i}].startDate"
@@ -413,6 +450,4 @@
 			{/if}
 		</Form.Button>
 	</form>
-
-	<SuperDebug data={$formData} />
 </div>
