@@ -104,7 +104,6 @@ function populateFromCurrent(member: Member): z.infer<typeof artifactsFormSchema
 
 	const rfidTags: z.infer<typeof artifactsFormSchema>['rfidTags'] = [];
 	const keys: z.infer<typeof artifactsFormSchema>['keys'] = [];
-	const legacyKeys: z.infer<typeof artifactsFormSchema>['legacyKeys'] = [];
 
 	artifacts.forEach((artifact) => {
 		if (artifact.type === 'rfid') {
@@ -128,16 +127,6 @@ function populateFromCurrent(member: Member): z.infer<typeof artifactsFormSchema
 			} else {
 				throw new Error('Key artifact is missing number');
 			}
-		} else if (artifact.type === 'legacyKey') {
-			if (artifact.attributes?.area !== undefined) {
-				legacyKeys.push({
-					startDate: artifact.startDate,
-					area: artifact.attributes.area,
-					endDate: artifact.endDate
-				});
-			} else {
-				throw new Error('Legacy key artifact is missing area');
-			}
 		} else {
 			throw new Error('Unknown artifact type');
 		}
@@ -145,8 +134,7 @@ function populateFromCurrent(member: Member): z.infer<typeof artifactsFormSchema
 
 	return {
 		rfidTags: rfidTags,
-		keys: keys,
-		legacyKeys: legacyKeys
+		keys: keys
 	};
 }
 
@@ -167,14 +155,6 @@ function updateMember(member: Member, data: z.infer<typeof artifactsFormSchema>)
 			endDate: key.endDate,
 			attributes: {
 				number: key.number
-			}
-		})),
-		...data.legacyKeys.map((legacyKey) => ({
-			type: 'legacyKey' as const,
-			startDate: legacyKey.startDate,
-			endDate: legacyKey.endDate,
-			attributes: {
-				area: legacyKey.area
 			}
 		}))
 	];
@@ -198,15 +178,26 @@ function artifactsDeepEqual(a: Member, b: Member) {
 		a.artifacts.length === b.artifacts.length &&
 		a.artifacts.every((artifact, index) => {
 			const otherArtifact = b.artifacts[index];
-			return (
-				artifact.type === otherArtifact.type &&
-				artifact.startDate === otherArtifact.startDate &&
-				artifact.endDate === otherArtifact.endDate &&
-				artifact.attributes?.data === otherArtifact.attributes?.data &&
-				artifact.attributes?.codeHash === otherArtifact.attributes?.codeHash &&
-				artifact.attributes?.number === otherArtifact.attributes?.number &&
-				artifact.attributes?.area === otherArtifact.attributes?.area
-			);
+			if (artifact.type !== otherArtifact.type) {
+				return false;
+			}
+
+			if (artifact.startDate !== otherArtifact.startDate) {
+				return false;
+			}
+
+			if (artifact.endDate !== otherArtifact.endDate) {
+				return false;
+			}
+
+			if (artifact.type === 'rfid' && otherArtifact.type === 'rfid') {
+				return (
+					artifact.attributes.data === otherArtifact.attributes.data &&
+					artifact.attributes.codeHash === otherArtifact.attributes.codeHash
+				);
+			} else if (artifact.type === 'key' && otherArtifact.type === 'key') {
+				return artifact.attributes.number === otherArtifact.attributes.number;
+			}
 		})
 	);
 }

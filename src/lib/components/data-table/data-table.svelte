@@ -23,6 +23,7 @@
 	import { createSvelteTable, FlexRender } from '$lib/components/ui/data-table/index.js';
 	import * as Table from '$lib/components/ui/table/index.js';
 	import type { Snippet } from 'svelte';
+	import { cn } from '$lib/utils';
 
 	let {
 		columns,
@@ -153,6 +154,7 @@
 					<Table.Row
 						data-state={row.getIsSelected() && 'selected'}
 						onclick={() => onRowClick?.(row)}
+						class={cn(onRowClick && 'cursor-pointer')}
 					>
 						{#each row.getVisibleCells() as cell (cell.id)}
 							<Table.Cell>

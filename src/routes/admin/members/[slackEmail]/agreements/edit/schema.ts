@@ -24,12 +24,6 @@ export const agreementsFormSchema = z.object({
 			palletIds: z.array(z.number().int()),
 			endDate: z.string().optional()
 		})
-	),
-	containerStorages: z.array(
-		z.object({
-			startDate: z.string(),
-			endDate: z.string().optional()
-		})
 	)
 });
 

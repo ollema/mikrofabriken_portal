@@ -4,11 +4,12 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import { type ComponentType } from 'svelte';
 	import { type Icon } from 'lucide-svelte';
+	import Mikrofabriken from '$lib/icons/Mikrofabriken.svelte';
 	import Banknote from 'lucide-svelte/icons/banknote';
+	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 	import Box from 'lucide-svelte/icons/box';
 	import Container from 'lucide-svelte/icons/container';
 	import Package from 'lucide-svelte/icons/package';
-	import Mikrofabriken from '$lib/icons/Mikrofabriken.svelte';
 
 	interface Props {
 		agreements: Agreement[];
@@ -26,6 +27,10 @@
 		activeAgreements.filter((agreement) => agreement.type === 'investment')
 	);
 
+	let activePassiveAgreements = $derived(
+		activeAgreements.filter((agreement) => agreement.type === 'passive')
+	);
+
 	let activeAsylumAgreements = $derived(
 		activeAgreements.filter((agreement) => agreement.type === 'asylumInside')
 	);
@@ -36,6 +41,10 @@
 
 	let activePalletAgreements = $derived(
 		activeAgreements.filter((agreement) => agreement.type === 'palletInside')
+	);
+
+	let activePalletOutsideAgreements = $derived(
+		activeAgreements.filter((agreement) => agreement.type === 'palletOutside')
 	);
 </script>
 
@@ -78,6 +87,11 @@
 	})}
 
 	{@render activeAgreementsSection({
+		agreements: activePassiveAgreements,
+		Icon: LoaderCircle
+	})}
+
+	{@render activeAgreementsSection({
 		agreements: activeAsylumAgreements,
 		Icon: Box
 	})}
@@ -89,6 +103,11 @@
 
 	{@render activeAgreementsSection({
 		agreements: activePalletAgreements,
+		Icon: Package
+	})}
+
+	{@render activeAgreementsSection({
+		agreements: activePalletOutsideAgreements,
 		Icon: Package
 	})}
 </div>

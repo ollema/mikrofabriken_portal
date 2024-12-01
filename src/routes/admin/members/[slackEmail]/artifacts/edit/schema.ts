@@ -17,13 +17,6 @@ export const artifactsFormSchema = z.object({
 			number: z.number().int(),
 			endDate: z.string().optional()
 		})
-	),
-	legacyKeys: z.array(
-		z.object({
-			startDate: z.string(),
-			area: z.string(),
-			endDate: z.string().optional()
-		})
 	)
 });
 

@@ -13,14 +13,13 @@ export const AgreementTypes = z.enum([
 	'asylumInside',
 	'asylumOutside',
 	'palletInside',
-	'palletOutside',
-	'containerStorage'
+	'palletOutside'
 ]);
 
 /**
  * Represents the types of artifacts.
  */
-export const ArtifactTypes = z.enum(['key', 'rfid', 'legacyKey']);
+export const ArtifactTypes = z.enum(['key', 'rfid']);
 
 /**
  * Represents the types of commissions.
@@ -32,76 +31,120 @@ export const CommissionTypes = z.enum([
 	'board/member',
 	'board/alternate',
 	'auditor/member',
+	'auditor/alternate',
 	'committee/economy',
 	'committee/it',
 	'committee/pr',
 	'committee/sponsorships',
 	'nomination/chairman',
-	'nomination/committee',
 	'nomination/member',
 	'workshop/3dprint',
 	'workshop/3s',
-	'workshop/asylum',
 	'workshop/asylumstorage',
 	'workshop/brewery',
-	'workshop/dressing',
 	'workshop/electronics',
-	'workshop/forge',
 	'workshop/laser',
-	'workshop/laser3d',
 	'workshop/metal',
 	'workshop/office',
 	'workshop/painting',
 	'workshop/plaza',
-	'workshop/storage',
 	'workshop/support',
 	'workshop/textile',
 	'workshop/vehicle',
 	'workshop/wood'
 ]);
 
-/**
- * Agreement schema represents the structure of an agreement.
- */
-export const AgreementSchema = z
-	.object({
-		type: AgreementTypes,
-		startDate: z.string(),
-		attributes: z
-			.object({
-				size: z.number().optional(),
-				palletCount: z.number().int().optional(),
-				palletIds: z.array(z.number().int()).optional()
-			})
-			.strict()
-			.optional(),
-		endDate: z.string().optional()
-	})
-	.strict();
+const BaseAgreementSchema = z.object({
+	startDate: z.string(),
+	endDate: z.string().optional()
+});
 
-/**
- * Artifact schema represents the structure of an artifact.
- */
-export const ArtifactSchema = z
-	.object({
-		type: ArtifactTypes,
-		startDate: z.string(),
-		attributes: z
-			.object({
-				area: z.string().optional(),
-				number: z.number().int().optional(),
-				data: z.string().optional(),
-				codeHash: z.string().optional()
-			})
-			.strict()
-			.optional(),
-		endDate: z.string().optional()
-	})
-	.strict();
+const MembershipAgreementSchema = BaseAgreementSchema.extend({
+	type: z.literal('membership')
+});
 
-/**
- * Commission schema represents the structure of a commission.
- */
+const InvestmentAgreementSchema = BaseAgreementSchema.extend({
+	type: z.literal('investment')
+});
+
+const PassiveAgreementSchema = BaseAgreementSchema.extend({
+	type: z.literal('passive')
+});
+
+const AsylumInsideAgreementSchema = BaseAgreementSchema.extend({
+	type: z.literal('asylumInside'),
+	attributes: z
+		.object({
+			size: z.number().min(1)
+		})
+		.strict()
+});
+
+const AsylumOutsideAgreementSchema = BaseAgreementSchema.extend({
+	type: z.literal('asylumOutside'),
+	attributes: z
+		.object({
+			size: z.number().min(1)
+		})
+		.strict()
+});
+
+const PalletInsideAgreementSchema = BaseAgreementSchema.extend({
+	type: z.literal('palletInside'),
+	attributes: z
+		.object({
+			palletCount: z.number().int().min(1),
+			palletIds: z.array(z.number().int()).min(1)
+		})
+		.strict()
+});
+
+const PalletOutsideAgreementSchema = BaseAgreementSchema.extend({
+	type: z.literal('palletOutside'),
+	attributes: z
+		.object({
+			palletCount: z.number().int().min(1),
+			palletIds: z.array(z.number().int()).min(1)
+		})
+		.strict()
+});
+
+export const AgreementSchema = z.discriminatedUnion('type', [
+	MembershipAgreementSchema,
+	InvestmentAgreementSchema,
+	PassiveAgreementSchema,
+	AsylumInsideAgreementSchema,
+	AsylumOutsideAgreementSchema,
+	PalletInsideAgreementSchema,
+	PalletOutsideAgreementSchema
+]);
+
+const BaseArtifactSchema = z.object({
+	startDate: z.string(),
+	endDate: z.string().optional()
+});
+
+const KeyArtifactSchema = BaseArtifactSchema.extend({
+	type: z.literal('key'),
+	attributes: z
+		.object({
+			number: z.number().int().min(1)
+		})
+		.strict()
+});
+
+const RfidArtifactSchema = BaseArtifactSchema.extend({
+	type: z.literal('rfid'),
+	attributes: z
+		.object({
+			data: z.string().min(1),
+			codeHash: z.string().min(1)
+		})
+		.strict()
+});
+
+export const ArtifactSchema = z.discriminatedUnion('type', [KeyArtifactSchema, RfidArtifactSchema]);
+
 export const CommissionSchema = z
 	.object({
 		type: CommissionTypes,
@@ -115,7 +158,7 @@ export const CommissionSchema = z
  */
 export const MemberSchema = z
 	.object({
-		crNumber: z.string().regex(new RegExp('^[0-9]{8}-[0-9]{4}$'), {
+		crNumber: z.string().regex(/^[0-9]{8}-[0-9]{4}$/, {
 			message: 'PIN must be in format 12345678-1234'
 		}),
 		name: z.string().min(1, { message: 'Name needs to be at least 1 character long' }),
@@ -126,7 +169,7 @@ export const MemberSchema = z
 		postalCity: z.string().min(1, { message: 'Postal city needs to be at least 1 character long' }),
 		email: z.string().email({ message: 'Email needs to be a valid email address' }),
 		slackEmail: z.string().email({ message: 'Slack email needs to be a valid email address' }),
-		phone: z.string().regex(new RegExp('^[0-9]{10}$'), {
+		phone: z.string().regex(/^[0-9]{10}$/, {
 			message: 'Phone number must start with 0 and be 10 digits long'
 		}),
 		agreements: z.array(AgreementSchema),
@@ -136,9 +179,6 @@ export const MemberSchema = z
 	})
 	.strict();
 
-/**
- * Members schema represents the structure of a list of members.
- */
 export const MembersSchema = z.array(MemberSchema);
 
 export const formSchema = MemberSchema.omit({
@@ -150,16 +190,12 @@ export const formSchema = MemberSchema.omit({
 	company: true
 });
 
-export type FormSchema = typeof formSchema;
-
 export const rfidFormSchema = z.object({
 	rfidData: z.string(),
-	rfidCode: z.string().regex(new RegExp('^[0-9]{4}$'), {
+	rfidCode: z.string().regex(/^[0-9]{4}$/, {
 		message: 'Code must be 4 digits long'
 	})
 });
-
-export type RfidFormSchema = typeof rfidFormSchema;
 
 export const adminFormSchema = MemberSchema.omit({
 	agreements: true,
@@ -168,16 +204,12 @@ export const adminFormSchema = MemberSchema.omit({
 	company: true
 });
 
-export type AdminFormSchema = typeof adminFormSchema;
-
 export const newMemberLinkFormSchema = MemberSchema.pick({
 	slackEmail: true
 }).extend({
 	rfidData: z.string(),
 	investment: z.boolean()
 });
-
-export type NewMemberLinkFormSchema = typeof newMemberLinkFormSchema;
 
 export const newMemberFormSchema = MemberSchema.omit({
 	crNumber: true,
@@ -188,7 +220,7 @@ export const newMemberFormSchema = MemberSchema.omit({
 }).extend({
 	crNumber: z
 		.string()
-		.regex(new RegExp('^[0-9]{8}-[0-9]{4}$'), {
+		.regex(/^[0-9]{8}-[0-9]{4}$/, {
 			message: 'PIN must be in format 12345678-1234'
 		})
 		.refine(
@@ -203,9 +235,13 @@ export const newMemberFormSchema = MemberSchema.omit({
 		),
 	rfidData: z.string(),
 	investment: z.boolean(),
-	rfidCode: z.string().regex(new RegExp('^[0-9]{4}$'), {
+	rfidCode: z.string().regex(/^[0-9]{4}$/, {
 		message: 'Code must be 4 digits long'
 	})
 });
 
+export type FormSchema = typeof formSchema;
+export type RfidFormSchema = typeof rfidFormSchema;
+export type AdminFormSchema = typeof adminFormSchema;
+export type NewMemberLinkFormSchema = typeof newMemberLinkFormSchema;
 export type NewMemberFormSchema = typeof newMemberFormSchema;

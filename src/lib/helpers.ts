@@ -78,8 +78,6 @@ export function agreementToHumanReadable(agreement: AgreementType): string {
 			return 'Pallet';
 		case 'palletOutside':
 			return 'Pallet (outside)';
-		case 'containerStorage':
-			return 'Container storage';
 		default: {
 			const exhaustive: never = agreement;
 			return exhaustive;
@@ -101,6 +99,8 @@ export function commissionToHumanReadable(commission: CommissionType): string {
 			return 'Suppleant';
 		case 'auditor/member':
 			return 'Revisor';
+		case 'auditor/alternate':
+			return 'Revisor - suppleant';
 		case 'committee/economy':
 			return 'Ekonomigruppen';
 		case 'committee/it':
@@ -111,30 +111,20 @@ export function commissionToHumanReadable(commission: CommissionType): string {
 			return 'Sponsringsgruppen';
 		case 'nomination/chairman':
 			return 'Valberedningen - sammankallande';
-		case 'nomination/committee':
-			return 'Valberedningen';
 		case 'nomination/member':
 			return 'Valberedningen';
 		case 'workshop/3dprint':
 			return 'Omk. 3D-print';
 		case 'workshop/3s':
 			return 'Omk. 3S (slip, svets & smedja)';
-		case 'workshop/asylum':
-			return 'Omk. Asylum';
 		case 'workshop/asylumstorage':
 			return 'Omk. Asylum & lagring';
 		case 'workshop/brewery':
 			return 'Omk. Bryggeri';
-		case 'workshop/dressing':
-			return 'Omk. omklädningsrum';
 		case 'workshop/electronics':
 			return 'Omk. Elektronik';
-		case 'workshop/forge':
-			return 'Omk. Smedja';
 		case 'workshop/laser':
 			return 'Omk. Laser';
-		case 'workshop/laser3d':
-			return 'Omk. Laser & 3D-print';
 		case 'workshop/metal':
 			return 'Omk. Metall';
 		case 'workshop/office':
@@ -143,8 +133,6 @@ export function commissionToHumanReadable(commission: CommissionType): string {
 			return 'Omk. Måleri';
 		case 'workshop/plaza':
 			return 'Omk. Torg & kök';
-		case 'workshop/storage':
-			return 'Omk. Lagring';
 		case 'workshop/support':
 			return 'Omk. Support';
 		case 'workshop/textile':

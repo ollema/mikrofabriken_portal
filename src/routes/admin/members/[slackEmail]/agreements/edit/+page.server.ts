@@ -105,7 +105,6 @@ function populateFromCurrent(member: Member): z.infer<typeof agreementsFormSchem
 	const memberships: z.infer<typeof agreementsFormSchema>['memberships'] = [];
 	const asylums: z.infer<typeof agreementsFormSchema>['asylums'] = [];
 	const pallets: z.infer<typeof agreementsFormSchema>['pallets'] = [];
-	const containerStorages: z.infer<typeof agreementsFormSchema>['containerStorages'] = [];
 
 	agreements.forEach((agreement) => {
 		if (agreement.type === 'membership') {
@@ -178,11 +177,6 @@ function populateFromCurrent(member: Member): z.infer<typeof agreementsFormSchem
 			} else {
 				throw new Error('PalletOutside agreement is missing palletCount or palletIds');
 			}
-		} else if (agreement.type === 'containerStorage') {
-			containerStorages.push({
-				startDate: agreement.startDate,
-				endDate: agreement.endDate
-			});
 		} else {
 			throw new Error('Unknown agreement type');
 		}
@@ -191,8 +185,7 @@ function populateFromCurrent(member: Member): z.infer<typeof agreementsFormSchem
 	return {
 		memberships: memberships,
 		asylums: asylums,
-		pallets: pallets,
-		containerStorages: containerStorages
+		pallets: pallets
 	};
 }
 
@@ -219,11 +212,6 @@ function updateMember(member: Member, data: z.infer<typeof agreementsFormSchema>
 				palletCount: pallet.palletCount,
 				palletIds: pallet.palletIds
 			}
-		})),
-		...data.containerStorages.map((containerStorage) => ({
-			type: 'containerStorage' as const,
-			startDate: containerStorage.startDate,
-			endDate: containerStorage.endDate
 		}))
 	];
 
@@ -246,14 +234,37 @@ function agreementsDeepEqual(a: Member, b: Member) {
 		a.agreements.length === b.agreements.length &&
 		a.agreements.every((agreement, index) => {
 			const otherAgreement = b.agreements[index];
-			return (
-				agreement.type === otherAgreement.type &&
-				agreement.startDate === otherAgreement.startDate &&
-				agreement.endDate === otherAgreement.endDate &&
-				agreement.attributes?.size === otherAgreement.attributes?.size &&
-				agreement.attributes?.palletCount === otherAgreement.attributes?.palletCount &&
-				agreement.attributes?.palletIds === otherAgreement.attributes?.palletIds
-			);
+			if (agreement.type !== otherAgreement.type) {
+				return false;
+			}
+
+			if (agreement.startDate !== otherAgreement.startDate) {
+				return false;
+			}
+
+			if (agreement.endDate !== otherAgreement.endDate) {
+				return false;
+			}
+
+			if (
+				(agreement.type === 'asylumInside' && otherAgreement.type === 'asylumInside') ||
+				(agreement.type === 'asylumOutside' && otherAgreement.type === 'asylumOutside')
+			) {
+				return agreement.attributes.size === otherAgreement.attributes.size;
+			}
+
+			if (
+				(agreement.type === 'palletInside' && otherAgreement.type === 'palletInside') ||
+				(agreement.type === 'palletOutside' && otherAgreement.type === 'palletOutside')
+			) {
+				return (
+					agreement.attributes.palletCount === otherAgreement.attributes.palletCount &&
+					agreement.attributes.palletIds.length === otherAgreement.attributes.palletIds.length &&
+					agreement.attributes.palletIds.every(
+						(id, index) => id === otherAgreement.attributes.palletIds[index]
+					)
+				);
+			}
 		})
 	);
 }
