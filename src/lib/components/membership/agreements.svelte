@@ -58,7 +58,13 @@
 	{#each agreements as agreement, index}
 		<div class="text-sm">
 			<Icon class="mr-1 inline h-6 w-6" />
-			{agreementToHumanReadable(agreement.type)} since {agreement.startDate}
+			{agreementToHumanReadable(agreement.type)}
+			{#if agreement.type === 'asylumInside' || agreement.type === 'asylumOutside'}
+				of size {agreement.attributes.size} m<sup>2</sup>
+			{:else if agreement.type === 'palletInside' || agreement.type === 'palletOutside'}
+				with IDs {agreement.attributes.palletIds.join(', ')}
+			{/if}
+			since {agreement.startDate}
 		</div>
 		{#if index === 1 && (agreement.type === 'membership' || agreement.type === 'investment')}
 			<Alert.Root class="my-6 w-full max-w-screen-md" variant={'destructive'}>
