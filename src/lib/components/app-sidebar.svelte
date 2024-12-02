@@ -9,6 +9,18 @@
 
 	let signoutForm: HTMLFormElement | undefined = $state(undefined);
 
+	function gotoProfile() {
+		goto('/membership/profile');
+	}
+
+	function gotoInvoices() {
+		goto('/membership/invoices');
+	}
+
+	function gotoPurchases() {
+		goto('/kiosk/purchases');
+	}
+
 	function submitSignoutForm() {
 		if (signoutForm) {
 			console.log('submitting signout form');
@@ -78,13 +90,13 @@
 							{/snippet}
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content side="top" class="w-[--bits-dropdown-menu-anchor-width]">
-							<DropdownMenu.Item>
+							<DropdownMenu.Item onSelect={gotoProfile}>
 								<span>Profile</span>
 							</DropdownMenu.Item>
-							<DropdownMenu.Item>
+							<DropdownMenu.Item onSelect={gotoInvoices}>
 								<span>Invoices</span>
 							</DropdownMenu.Item>
-							<DropdownMenu.Item>
+							<DropdownMenu.Item onSelect={gotoPurchases}>
 								<span>Purchases</span>
 							</DropdownMenu.Item>
 							<DropdownMenu.Item onSelect={submitSignoutForm}>
