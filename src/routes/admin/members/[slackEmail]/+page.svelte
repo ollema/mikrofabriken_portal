@@ -3,7 +3,6 @@
 	import * as Avatar from '$lib/components/ui/avatar/index.js';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import Cog from 'lucide-svelte/icons/cog';
 	import Profile from '$lib/components/membership/profile.svelte';
 	import { goto } from '$app/navigation';
 
@@ -44,10 +43,10 @@
 						{#snippet child({ props })}
 							<Button
 								{...props}
-								variant="ghost"
-								class="flex size-10 p-1 data-[state=open]:bg-muted [&_svg]:size-7"
+								variant="outline"
+								class="data-[state=open]:bg-muted"
 							>
-								<Cog />
+								Edit
 								<span class="sr-only">Open Menu</span>
 							</Button>
 						{/snippet}
