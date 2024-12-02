@@ -25,6 +25,10 @@
 	function onEditArtifactsSelected() {
 		goto(href + '/artifacts/edit');
 	}
+
+	function onEditCommissionsSelected() {
+		goto(href + '/commissions/edit');
+	}
 </script>
 
 <div class="mx-auto w-full">
@@ -41,27 +45,26 @@
 				<DropdownMenu.Root>
 					<DropdownMenu.Trigger>
 						{#snippet child({ props })}
-							<Button
-								{...props}
-								variant="outline"
-								class="data-[state=open]:bg-muted"
-							>
+							<Button {...props} variant="outline" class="data-[state=open]:bg-muted">
 								Edit
 								<span class="sr-only">Open Menu</span>
 							</Button>
 						{/snippet}
 					</DropdownMenu.Trigger>
-					<DropdownMenu.Content class="w-[160px]" align="end">
+					<DropdownMenu.Content class="w-fit" align="end">
 						<DropdownMenu.Item onSelect={onEditProfileSelected}>Edit profile</DropdownMenu.Item>
 						{#if data.member.company}
 							<DropdownMenu.Item onSelect={onEditCompanySelected}>Edit company</DropdownMenu.Item>
 						{:else}
 							<DropdownMenu.Item onSelect={onEditCompanySelected}>Add company</DropdownMenu.Item>
 						{/if}
-						<DropdownMenu.Item onSelect={onEditAgreementsSelected}
-							>Edit agreements</DropdownMenu.Item
+						<DropdownMenu.Item onSelect={onEditAgreementsSelected}>
+							Edit agreements
+						</DropdownMenu.Item>
+						<DropdownMenu.Item onSelect={onEditArtifactsSelected}
+							>Edit RFID-tags & keys</DropdownMenu.Item
 						>
-						<DropdownMenu.Item onSelect={onEditArtifactsSelected}>Edit artifacts</DropdownMenu.Item>
+						<DropdownMenu.Item onSelect={onEditCommissionsSelected}>Edit roles</DropdownMenu.Item>
 					</DropdownMenu.Content>
 				</DropdownMenu.Root>
 			</div>

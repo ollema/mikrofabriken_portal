@@ -87,6 +87,7 @@
 
 	function addPalletId(index: number) {
 		$formData.pallets[index].palletIds = [...$formData.pallets[index].palletIds, 0];
+		$formData.pallets[index].palletCount = $formData.pallets[index].palletIds.length;
 	}
 
 	function removePalletId(index: number, idIndex: number) {

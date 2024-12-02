@@ -44,11 +44,11 @@
 			</Button>
 		{/snippet}
 	</DropdownMenu.Trigger>
-	<DropdownMenu.Content class="w-[160px]" align="end">
+	<DropdownMenu.Content class="w-fit" align="end">
 		<DropdownMenu.Item onSelect={onOpenProfileSelected}>Open profile</DropdownMenu.Item>
 		<DropdownMenu.Item onSelect={onEditProfileSelected}>Edit profile</DropdownMenu.Item>
 		<DropdownMenu.Item onSelect={onEditCompanySelected}>Edit company</DropdownMenu.Item>
-		<DropdownMenu.Item onSelect={onEditAgreementsSelected}>Edit agreements</DropdownMenu.Item>
-		<DropdownMenu.Item onSelect={onEditArtifactsSelected}>Edit artifacts</DropdownMenu.Item>
+		<DropdownMenu.Item onSelect={onEditAgreementsSelected}>Edit RFID-tags & keys</DropdownMenu.Item>
+		<DropdownMenu.Item onSelect={onEditArtifactsSelected}>Edit roles</DropdownMenu.Item>
 	</DropdownMenu.Content>
 </DropdownMenu.Root>

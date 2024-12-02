@@ -270,5 +270,5 @@ function agreementsDeepEqual(a: Member, b: Member) {
 }
 
 function updateMembersInPlace(member: Member, updatedMember: Member) {
-	member.artifacts = updatedMember.artifacts;
+	member.agreements = updatedMember.agreements;
 }
