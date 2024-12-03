@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Artifact } from '$lib/types/members';
-	import { isArtifactActive } from '$lib/helpers';
+	import { isArtifactActive } from '$lib/utils/member.js';
 	import Nfc from 'lucide-svelte/icons/nfc';
 	import KeyRound from 'lucide-svelte/icons/key-round';
 

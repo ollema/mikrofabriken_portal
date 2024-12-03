@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Commission } from '$lib/types/members';
-	import { commissionToHumanReadable, isCommissionActive } from '$lib/helpers';
+	import { commissionToHumanReadable, isCommissionActive } from '$lib/utils/member.js';
 
 	interface Props {
 		commissions: Commission[];

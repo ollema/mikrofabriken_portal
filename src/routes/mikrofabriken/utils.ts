@@ -1,4 +1,8 @@
-import { commissionToHumanReadable, isAgreementActive, isCommissionActive } from '$lib/helpers.js';
+import {
+	commissionToHumanReadable,
+	isAgreementActive,
+	isCommissionActive
+} from '$lib/utils/member.js';
 import { getAvatar } from '$lib/server/cog.js';
 import type { Member } from '$lib/types/members.js';
 

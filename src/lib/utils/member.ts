@@ -5,7 +5,6 @@ import type {
 	Commission,
 	CommissionType
 } from '$lib/types/members';
-import type { Claims } from './types/cog';
 
 export function appendPossessive(name: string): string {
 	if (name.endsWith('s')) {
@@ -146,14 +145,4 @@ export function commissionToHumanReadable(commission: CommissionType): string {
 			return exhaustive;
 		}
 	}
-}
-
-export function hasClaim(claims: Claims, resource: string, action: string): boolean {
-	for (const claim of claims) {
-		if (claim.resource === resource && claim.action === action) {
-			return true;
-		}
-	}
-
-	return false;
 }

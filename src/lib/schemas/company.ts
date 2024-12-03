@@ -1,8 +1,5 @@
 import { z } from 'zod';
 
-/**
- * Represents the types of invoices.
- */
 export const InvoiceCategoryTypes = z.enum([
 	'electricity',
 	'kiosk',
@@ -12,9 +9,6 @@ export const InvoiceCategoryTypes = z.enum([
 	'temporaryStorage'
 ]);
 
-/**
- * Company schema represents the structure of an associated company.
- */
 export const CompanySchema = z
 	.object({
 		orgNum: z.string().regex(new RegExp('^[0-9]{6}-[0-9]{4}$'), {

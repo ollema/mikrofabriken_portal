@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Agreement } from '$lib/types/members';
-	import { agreementToHumanReadable, isAgreementActive } from '$lib/helpers';
+	import { agreementToHumanReadable, isAgreementActive } from '$lib/utils/member.js';
 	import * as Alert from '$lib/components/ui/alert';
 	import { type ComponentType } from 'svelte';
 	import { type Icon } from 'lucide-svelte';

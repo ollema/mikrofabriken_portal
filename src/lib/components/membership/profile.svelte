@@ -6,7 +6,7 @@
 	import Artifacts from './artifacts.svelte';
 	import Commissions from './commissions.svelte';
 	import Pending from './pending.svelte';
-	import { isAgreementActive, isArtifactActive, isCommissionActive } from '$lib/helpers.js';
+	import { isAgreementActive, isArtifactActive, isCommissionActive } from '$lib/utils/member.js';
 
 	type PendingMemberUpdate = {
 		member: Member | undefined;

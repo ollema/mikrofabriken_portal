@@ -1,11 +1,7 @@
 import { z } from 'zod';
-import luhn from 'fast-luhn';
 
 import { CompanySchema } from '$lib/schemas/company';
 
-/**
- * Represents the types of agreements.
- */
 export const AgreementTypes = z.enum([
 	'membership',
 	'investment',
@@ -16,14 +12,8 @@ export const AgreementTypes = z.enum([
 	'palletOutside'
 ]);
 
-/**
- * Represents the types of artifacts.
- */
 export const ArtifactTypes = z.enum(['key', 'rfid']);
 
-/**
- * Represents the types of commissions.
- */
 export const CommissionTypes = z.enum([
 	'board/chairman',
 	'board/cashier',
@@ -153,9 +143,6 @@ export const CommissionSchema = z
 	})
 	.strict();
 
-/**
- * Member schema represents the structure of a member.
- */
 export const MemberSchema = z
 	.object({
 		crNumber: z.string().regex(/^[0-9]{8}-[0-9]{4}$/, {
@@ -180,60 +167,3 @@ export const MemberSchema = z
 	.strict();
 
 export const MembersSchema = z.array(MemberSchema);
-
-export const formSchema = MemberSchema.omit({
-	crNumber: true,
-	slackEmail: true,
-	agreements: true,
-	artifacts: true,
-	commissions: true,
-	company: true
-});
-
-export const rfidFormSchema = z.object({
-	rfidData: z.string(),
-	rfidCode: z.string().regex(/^[0-9]{4}$/, {
-		message: 'Code must be 4 digits long'
-	})
-});
-
-export const newMemberLinkFormSchema = MemberSchema.pick({
-	slackEmail: true
-}).extend({
-	rfidData: z.string(),
-	investment: z.boolean()
-});
-
-export const newMemberFormSchema = MemberSchema.omit({
-	crNumber: true,
-	agreements: true,
-	artifacts: true,
-	commissions: true,
-	company: true
-}).extend({
-	crNumber: z
-		.string()
-		.regex(/^[0-9]{8}-[0-9]{4}$/, {
-			message: 'PIN must be in format 12345678-1234'
-		})
-		.refine(
-			(value) => {
-				// check if the PIN is valid using the Luhn algorithm
-				// https://en.wikipedia.org/wiki/Luhn_algorithm
-				// using the last 10 numbers of the PIN without the dash
-				const PIN = value.replace('-', '').slice(-10);
-				return luhn(PIN);
-			},
-			{ message: 'Invalid PIN (https://en.wikipedia.org/wiki/Luhn_algorithm)' }
-		),
-	rfidData: z.string(),
-	investment: z.boolean(),
-	rfidCode: z.string().regex(/^[0-9]{4}$/, {
-		message: 'Code must be 4 digits long'
-	})
-});
-
-export type FormSchema = typeof formSchema;
-export type RfidFormSchema = typeof rfidFormSchema;
-export type NewMemberLinkFormSchema = typeof newMemberLinkFormSchema;
-export type NewMemberFormSchema = typeof newMemberFormSchema;

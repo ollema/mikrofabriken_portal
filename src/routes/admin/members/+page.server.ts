@@ -1,7 +1,7 @@
 import { getUser } from '$lib/server/auth.js';
 import { parseMemberList } from '$lib/server/members.js';
 import type { ExtendedMember, Member } from '$lib/types/members.js';
-import { isAgreementActive } from '$lib/helpers.js';
+import { isAgreementActive } from '$lib/utils/member.js';
 
 export const load = async ({ locals }) => {
 	getUser(locals);

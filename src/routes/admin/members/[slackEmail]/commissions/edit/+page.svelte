@@ -2,7 +2,7 @@
 	import * as PageHeader from '$lib/components/page-header';
 	import * as Alert from '$lib/components/ui/alert';
 	import GitBranch from 'lucide-svelte/icons/git-branch';
-	import { appendPossessive } from '$lib/helpers.js';
+	import { appendPossessive } from '$lib/utils/member.js';
 	import * as Form from '$lib/components/ui/form';
 	import * as Select from '$lib/components/ui/select/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
