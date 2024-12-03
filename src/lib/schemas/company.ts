@@ -31,7 +31,3 @@ export const CompanySchema = z
 		invoiceExcludeCategoriesFromDefault: z.array(InvoiceCategoryTypes)
 	})
 	.strict();
-
-export const formSchema = CompanySchema;
-
-export type FormSchema = typeof formSchema;
