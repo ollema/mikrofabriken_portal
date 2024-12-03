@@ -52,8 +52,6 @@
 	function removeCommissions(index: number) {
 		$formData.commissions = $formData.commissions.filter((_, i) => i !== index);
 	}
-
-	$inspect(CommissionTypes);
 </script>
 
 <div class="mx-auto w-full min-w-0">

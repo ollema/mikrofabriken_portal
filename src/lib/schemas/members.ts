@@ -197,13 +197,6 @@ export const rfidFormSchema = z.object({
 	})
 });
 
-export const adminFormSchema = MemberSchema.omit({
-	agreements: true,
-	artifacts: true,
-	commissions: true,
-	company: true
-});
-
 export const newMemberLinkFormSchema = MemberSchema.pick({
 	slackEmail: true
 }).extend({
@@ -242,6 +235,5 @@ export const newMemberFormSchema = MemberSchema.omit({
 
 export type FormSchema = typeof formSchema;
 export type RfidFormSchema = typeof rfidFormSchema;
-export type AdminFormSchema = typeof adminFormSchema;
 export type NewMemberLinkFormSchema = typeof newMemberLinkFormSchema;
 export type NewMemberFormSchema = typeof newMemberFormSchema;
