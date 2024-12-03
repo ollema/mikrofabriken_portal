@@ -28,7 +28,7 @@
 		<Alert.Root class="my-6 w-full">
 			<Alert.Title class="text-lg font-semibold">Heads up!</Alert.Title>
 			<Alert.Description class="mt-2 space-y-2">
-				<div>There is a merge request for this profile under review.</div>
+				<div>There is a merge request for this member under review.</div>
 				<div>You are currently viewing, editing and updating that merge request.</div>
 			</Alert.Description>
 		</Alert.Root>

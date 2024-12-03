@@ -1,30 +1,22 @@
 import { error, fail } from '@sveltejs/kit';
-
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
-
+import { z } from 'zod';
 import { getUser } from '$lib/server/auth.js';
 import { getMember, parseMemberList } from '$lib/server/members.js';
-import {
-	companyDeepEqual,
-	populateFromCurrent,
-	updateMember,
-	updateMembersInPlace
-} from '$lib/server/company/helpers.js';
+import { companyFormSchema } from './schema.js';
 import {
 	getPendingUpdateForMember,
 	getSuggestChangeOptions,
 	suggestChange,
 	updateRepo
 } from '$lib/server/gitlab.js';
-
-import { formSchema } from '$lib/schemas/company.js';
-
 import { env } from '$env/dynamic/private';
+import type { Member } from '$lib/types/members.js';
 
-export const load = async ({ locals, url }) => {
-	const user = getUser(locals, url);
+export const load = async ({ locals }) => {
+	const user = getUser(locals);
 	const members = parseMemberList();
 	let member = getMember(members, user.email);
 
@@ -41,8 +33,9 @@ export const load = async ({ locals, url }) => {
 	member = pending.member || member;
 
 	return {
-		form: await superValidate(populateFromCurrent(member), zod(formSchema), { errors: false }),
-		pending: pending
+		form: await superValidate(populateFromCurrent(member), zod(companyFormSchema)),
+		pending: pending,
+		member: member
 	};
 };
 
@@ -67,7 +60,7 @@ export const actions = {
 		members = pending.members || members;
 		member = pending.member || member;
 
-		const form = await superValidate(request, zod(formSchema));
+		const form = await superValidate(request, zod(companyFormSchema));
 		if (!form.valid) {
 			return fail(400, { form });
 		}
@@ -103,3 +96,46 @@ export const actions = {
 		);
 	}
 };
+
+function populateFromCurrent(member: Member) {
+	return member.company;
+}
+
+function updateMember(member: Member, data: z.infer<typeof companyFormSchema>): Member {
+	const suggestedMember = {
+		...member,
+		...data
+	};
+
+	return suggestedMember;
+}
+
+function arrayEquals(a: string[], b: string[]) {
+	return a.length === b.length && a.every((v, i) => v === b[i]);
+}
+
+function companyDeepEqual(a: Member, b: Member) {
+	return (
+		a.company !== undefined &&
+		b.company !== undefined &&
+		a.company.name === b.company.name &&
+		a.company.postalAdress === b.company.postalAdress &&
+		a.company.postalCode === b.company.postalCode &&
+		a.company.postalCity === b.company.postalCity &&
+		a.company.email === b.company.email &&
+		a.company.orgNum === b.company.orgNum &&
+		a.company?.invoiceDefaultTo === b.company?.invoiceDefaultTo &&
+		arrayEquals(
+			a.company?.invoiceExcludeCategoriesFromDefault ?? [],
+			b.company?.invoiceExcludeCategoriesFromDefault ?? []
+		)
+	);
+}
+
+function updateMembersInPlace(member: Member, updatedMember: Member) {
+	if (!updatedMember.company) {
+		member.company = undefined;
+	} else {
+		member.company = updatedMember.company;
+	}
+}

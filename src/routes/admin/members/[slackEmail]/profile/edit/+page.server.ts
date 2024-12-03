@@ -83,7 +83,7 @@ export const actions = {
 			await suggestChange({ members: members, ...options });
 		} catch (e) {
 			console.log(e);
-			error(500, 'Something went wrong when updating your profile. Please try again later.');
+			error(500, 'Something went wrong. Check the logs and please try again later.');
 		}
 
 		redirect(

@@ -11,7 +11,7 @@
 	let href = $derived('/admin/members/' + data.member.slackEmail);
 
 	function onEditProfileSelected() {
-		goto(href + '/edit');
+		goto(href + '/profile/edit');
 	}
 
 	function onEditCompanySelected() {
