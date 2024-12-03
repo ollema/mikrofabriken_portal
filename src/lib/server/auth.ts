@@ -102,7 +102,7 @@ export function generateUserId() {
 export function getUser(locals: App.Locals, url?: URL) {
 	const redirectUrl = url ? `?redirect=${encodeURIComponent(url.pathname)}` : '';
 	if (locals.user === null) {
-		redirect(302, '/sign_in' + redirectUrl);
+		redirect(302, '/auth/sign_in' + redirectUrl);
 	}
 
 	return locals.user;
