@@ -32,10 +32,6 @@ export const ProductSchema = z.object({
 
 export const ProductsSchema = z.array(ProductSchema);
 
-export const productFormSchema = ProductSchema.omit({ uuid: true });
-
-export type ProductFormSchema = typeof productFormSchema;
-
 export const NewProductSchema = ProductSchema.omit({ uuid: true });
 
 export const newProductFormSchema = NewProductSchema;

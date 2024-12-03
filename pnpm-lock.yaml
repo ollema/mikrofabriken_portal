@@ -66,6 +66,9 @@ importers:
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.20(postcss@8.4.49)
+      barcode-validator:
+        specifier: ^1.0.2
+        version: 1.0.2
       bits-ui:
         specifier: 1.0.0-next.64
         version: 1.0.0-next.64(svelte@5.2.11)
@@ -1150,6 +1153,9 @@ packages:
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
+
+  barcode-validator@1.0.2:
+    resolution: {integrity: sha512-MZ6nkU/MzEUmdA1mUU5s6tXPP/1dbfuYFx4iUmPhbMLKYMHHr8DwE/PgTgnS5MXS4JQN8kliGeP7h+6tLwVGBA==}
 
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
@@ -3418,6 +3424,8 @@ snapshots:
   axobject-query@4.1.0: {}
 
   balanced-match@1.0.2: {}
+
+  barcode-validator@1.0.2: {}
 
   base64-js@1.5.1: {}
 
