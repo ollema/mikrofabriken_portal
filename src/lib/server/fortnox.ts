@@ -35,7 +35,7 @@ const get = async (path: string) => {
 
 /**
  * Retrieves all customers from the Fortnox API.
- * @returns {Promise<Customer[]>} A promise that resolves to an array of Customer objects.
+ * @returns A promise that resolves to an array of Customer objects.
  */
 const getCustomers = async () => {
 	let page = 1;

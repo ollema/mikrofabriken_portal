@@ -85,7 +85,7 @@ export function getNewMemberOptions(
  * @returns True if the merge request title contains the given CR number, false otherwise.
  */
 function isMergeRequestForMember(title: string, crNumber: string): boolean {
-	// the user could try to trick us by adding parantheses to their name
+	// the user could try to trick us by adding parentheses to their name
 	// therefore we need to extract the crNumber from the end of the title
 
 	// split the title using both '(' and ')' as delimiters
@@ -98,6 +98,13 @@ function isMergeRequestForMember(title: string, crNumber: string): boolean {
 	return extractedCrNumber === crNumber;
 }
 
+/**
+ * Retrieves the list of pending merge requests from a GitLab project that match the provided filter.
+ *
+ * @param filter - A function that takes a `MergeRequestSchemaWithBasicLabels` object and returns a boolean indicating whether the merge request matches the criteria.
+ * @returns A promise that resolves to an array of `MergeRequestSchemaWithBasicLabels` objects that match the filter criteria.
+ * @throws Will log an error and throw a 500 error if there is an issue retrieving the merge requests.
+ */
 export async function getPendingMergeRequests(
 	filter: (mr: MergeRequestSchemaWithBasicLabels) => boolean
 ): Promise<MergeRequestSchemaWithBasicLabels[]> {
@@ -119,6 +126,15 @@ export async function getPendingMergeRequests(
 	}
 }
 
+/**
+ * Retrieves the pending update for a member based on the provided CR number.
+ *
+ * @param crNumber - The change request number associated with the member.
+ * @returns An object containing the members, source branch, and link of the pending merge request.
+ *          If no pending merge requests are found, returns an object with undefined values.
+ *
+ * @throws Will throw an error if there is an issue with fetching the pending merge requests or reading the file content.
+ */
 export async function getPendingUpdateForMember(crNumber: string) {
 	const gitlab = new Gitlab({
 		host: `http://${env.GITLAB_HOST}`,
@@ -153,6 +169,20 @@ export async function getPendingUpdateForMember(crNumber: string) {
 	return { members, sourceBranch, link };
 }
 
+/**
+ * Fetches the pending update for new members from GitLab.
+ *
+ * This function interacts with the GitLab API to retrieve pending merge requests
+ * with the title 'Portal: add new members'. If there are no such merge requests,
+ * it returns an object with undefined properties. If there is at least one pending
+ * merge request, it fetches the content of the 'members.json' file from the source
+ * branch of the first pending merge request and parses it according to the
+ * `MembersSchema`.
+ *
+ * @returns {Promise<{ members: typeof MembersSchema | undefined, sourceBranch: string | undefined, link: string | undefined }>}
+ * An object containing the parsed members, the source branch name, and the link to the merge request.
+ * If no pending merge requests are found, all properties will be undefined.
+ */
 export async function getPendingUpdateForNewMembers() {
 	const gitlab = new Gitlab({
 		host: `http://${env.GITLAB_HOST}`,
