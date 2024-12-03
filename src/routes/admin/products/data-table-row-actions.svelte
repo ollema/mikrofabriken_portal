@@ -36,7 +36,7 @@
 			</Button>
 		{/snippet}
 	</DropdownMenu.Trigger>
-	<DropdownMenu.Content class="w-[160px]" align="end">
+	<DropdownMenu.Content class="w-fit" align="end">
 		<DropdownMenu.Item onSelect={onOpenProductSelected}>Open product</DropdownMenu.Item>
 		<DropdownMenu.Item onSelect={onEditProductSelected}>Edit product</DropdownMenu.Item>
 		<DropdownMenu.Item onSelect={onDeleteProductSelected}>Delete product</DropdownMenu.Item>

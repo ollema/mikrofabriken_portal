@@ -93,6 +93,9 @@ importers:
       globals:
         specifier: ^15.12.0
         version: 15.12.0
+      jsbarcode:
+        specifier: ^3.11.6
+        version: 3.11.6
       lru-cache:
         specifier: ^11.0.2
         version: 11.0.2
@@ -114,6 +117,9 @@ importers:
       safe-stable-stringify:
         specifier: ^2.5.0
         version: 2.5.0
+      save-svg-as-png:
+        specifier: ^1.4.17
+        version: 1.4.17
       svelte:
         specifier: ^5.2.11
         version: 5.2.11
@@ -1761,6 +1767,9 @@ packages:
     resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
     hasBin: true
 
+  jsbarcode@3.11.6:
+    resolution: {integrity: sha512-G5TKGyKY1zJo0ZQKFM1IIMfy0nF2rs92BLlCz+cU4/TazIc4ZH+X1GYeDRt7TKjrYqmPfTjwTBkU/QnQlsYiuA==}
+
   json-buffer@3.0.1:
     resolution: {integrity: sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==}
 
@@ -2220,6 +2229,9 @@ packages:
   safe-stable-stringify@2.5.0:
     resolution: {integrity: sha512-b3rppTKm9T+PsVCBEOUR46GWI7fdOs00VKZ1+9c1EWDaDMvjQc6tUwuFyIprgGgTcWoVHSKrU8H31ZHA2e0RHA==}
     engines: {node: '>=10'}
+
+  save-svg-as-png@1.4.17:
+    resolution: {integrity: sha512-7QDaqJsVhdFPwviCxkgHiGm9omeaMBe1VKbHySWU6oFB2LtnGCcYS13eVoslUgq6VZC6Tjq/HddBd1K6p2PGpA==}
 
   semver@7.6.3:
     resolution: {integrity: sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==}
@@ -4016,6 +4028,8 @@ snapshots:
     dependencies:
       argparse: 2.0.1
 
+  jsbarcode@3.11.6: {}
+
   json-buffer@3.0.1: {}
 
   json-schema-to-ts@3.1.1:
@@ -4380,6 +4394,8 @@ snapshots:
   safe-buffer@5.2.1: {}
 
   safe-stable-stringify@2.5.0: {}
+
+  save-svg-as-png@1.4.17: {}
 
   semver@7.6.3: {}
 
