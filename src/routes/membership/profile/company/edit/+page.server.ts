@@ -15,27 +15,22 @@ import {
 import { env } from '$env/dynamic/private';
 import type { Member } from '$lib/types/members.js';
 
-export const load = async ({ locals }) => {
-	const user = getUser(locals);
+export const load = async ({ locals, url }) => {
+	const user = getUser(locals, url);
 	const members = parseMemberList();
 	let member = getMember(members, user.email);
 
-	const pending = await getPendingUpdateForMember(member.crNumber).then(
-		({ members, sourceBranch, link }) => {
-			return {
-				member: members && getMember(members, member.slackEmail),
-				sourceBranch,
-				link
-			};
-		}
-	);
+	const pending = await getPendingUpdateForMember(member.crNumber).then(({ members }) => {
+		return {
+			member: members && getMember(members, member.slackEmail)
+		};
+	});
 
 	member = pending.member || member;
 
 	return {
 		form: await superValidate(populateFromCurrent(member), zod(companyFormSchema)),
-		pending: pending,
-		member: member
+		pending: pending
 	};
 };
 

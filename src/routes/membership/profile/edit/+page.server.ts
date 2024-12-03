@@ -1,46 +1,35 @@
 import { error, fail } from '@sveltejs/kit';
-
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
-
+import { z } from 'zod';
 import { getUser } from '$lib/server/auth.js';
 import { getMember, parseMemberList } from '$lib/server/members.js';
-import {
-	profileDeepEqual,
-	updateMember,
-	updateMembersInPlace
-} from '$lib/server/profile/helpers.js';
+import { profileFormSchema } from './schema.js';
 import {
 	getPendingUpdateForMember,
 	getSuggestChangeOptions,
 	suggestChange,
 	updateRepo
-} from '$lib/server/gitlab';
-
-import { formSchema } from '$lib/schemas/members.js';
-
+} from '$lib/server/gitlab.js';
 import { env } from '$env/dynamic/private';
+import type { Member } from '$lib/types/members.js';
 
 export const load = async ({ locals, url }) => {
 	const user = getUser(locals, url);
 	const members = parseMemberList();
 	let member = getMember(members, user.email);
 
-	const pending = await getPendingUpdateForMember(member.crNumber).then(
-		({ members, sourceBranch, link }) => {
-			return {
-				member: members && getMember(members, member.slackEmail),
-				sourceBranch,
-				link
-			};
-		}
-	);
+	const pending = await getPendingUpdateForMember(member.crNumber).then(({ members }) => {
+		return {
+			member: members && getMember(members, member.slackEmail)
+		};
+	});
 
 	member = pending.member || member;
 
 	return {
-		form: await superValidate(member, zod(formSchema)),
+		form: await superValidate(populateFromCurrent(member), zod(profileFormSchema)),
 		pending: pending
 	};
 };
@@ -66,11 +55,9 @@ export const actions = {
 		members = pending.members || members;
 		member = pending.member || member;
 
-		const form = await superValidate(request, zod(formSchema));
+		const form = await superValidate(request, zod(profileFormSchema));
 		if (!form.valid) {
-			return fail(400, {
-				form
-			});
+			return fail(400, { form });
 		}
 
 		// update member by returning a new member object
@@ -90,14 +77,51 @@ export const actions = {
 			await suggestChange({ members: members, ...options });
 		} catch (e) {
 			console.log(e);
-			error(500, 'Something went wrong when updating your profile. Please try again later.');
+			error(500, 'Something went wrong. Check the logs and please try again later.');
 		}
 
 		redirect(
 			302,
 			redirectUrl,
-			{ type: 'success', message: 'Change request submitted successfully!' },
+			{
+				type: 'success',
+				message: 'Change request submitted successfully!'
+			},
 			cookies
 		);
 	}
 };
+
+function populateFromCurrent(member: Member) {
+	return member;
+}
+
+function updateMember(member: Member, data: z.infer<typeof profileFormSchema>): Member {
+	const suggestedMember = {
+		...member,
+		...data
+	};
+
+	return suggestedMember;
+}
+
+function profileDeepEqual(a: Member, b: Member) {
+	return (
+		a.crNumber === b.crNumber &&
+		a.name === b.name &&
+		a.postalAdress === b.postalAdress &&
+		a.postalCode === b.postalCode &&
+		a.postalCity === b.postalCity &&
+		a.email === b.email &&
+		a.phone === b.phone
+	);
+}
+
+function updateMembersInPlace(member: Member, updatedMember: Member) {
+	member.name = updatedMember.name;
+	member.postalAdress = updatedMember.postalAdress;
+	member.postalCode = updatedMember.postalCode;
+	member.postalCity = updatedMember.postalCity;
+	member.email = updatedMember.email;
+	member.phone = updatedMember.phone;
+}

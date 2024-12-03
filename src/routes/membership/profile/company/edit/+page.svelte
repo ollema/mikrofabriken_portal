@@ -18,10 +18,7 @@
 			form: SuperValidated<Infer<CompanyFormSchema>>;
 			pending: {
 				member: Member | undefined;
-				link: string | undefined;
-				sourceBranch: string | undefined;
 			};
-			member: Member;
 		};
 	}
 
