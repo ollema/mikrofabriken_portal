@@ -132,7 +132,7 @@ export async function createProduct(token: string, product: NewProduct) {
 	}
 }
 
-export async function removeProduct(token: string, uuid: string) {
+export async function deleteProduct(token: string, uuid: string) {
 	try {
 		const response = await fetch(`${BASE_URL}/products/${uuid}`, {
 			method: 'DELETE',

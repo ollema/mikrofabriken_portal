@@ -3,16 +3,8 @@ import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
 import { getToken, getUser } from '$lib/server/auth';
-import {
-	getBillingCategories,
-	getProduct,
-	getProductCategories,
-	getUnitNames,
-	getVatPercentages,
-	updateProduct
-} from '$lib/server/cog';
-import { ProductSchema } from '$lib/schemas/cog';
-import { productFormSchema } from './schema';
+import { getProduct, deleteProduct } from '$lib/server/cog';
+import { deleteProductFormSchema } from './schema';
 
 export const load = async ({ locals, params }) => {
 	getUser(locals);
@@ -20,17 +12,9 @@ export const load = async ({ locals, params }) => {
 	if (!product) {
 		error(404, 'Product not found');
 	}
-	const productCategories = await getProductCategories();
-	const billingCategories = await getBillingCategories();
-	const unitNames = await getUnitNames();
-	const vatPercentages = await getVatPercentages();
 
 	return {
-		form: await superValidate(product, zod(productFormSchema)),
-		productCategories: productCategories,
-		billingCategories: billingCategories,
-		unitNames: unitNames,
-		vatPercentages: vatPercentages
+		form: await superValidate(product, zod(deleteProductFormSchema))
 	};
 };
 
@@ -39,17 +23,13 @@ export const actions = {
 		getUser(locals);
 		const token = getToken(locals);
 
-		const form = await superValidate(request, zod(productFormSchema));
+		const form = await superValidate(request, zod(deleteProductFormSchema));
 		if (!form.valid) {
 			return fail(400, { form });
 		}
 
 		try {
-			const product = ProductSchema.parse({
-				...form.data,
-				uuid: params.uuid
-			});
-			await updateProduct(token, product);
+			await deleteProduct(token, form.data.uuid);
 		} catch (e) {
 			console.log(e);
 			error(500, 'Something went wrong. Check the logs and please try again later.');
@@ -60,7 +40,7 @@ export const actions = {
 			`/admin/products/${params.uuid}`,
 			{
 				type: 'success',
-				message: 'Product updated successfully!'
+				message: 'Product deleted successfully!'
 			},
 			cookies
 		);
