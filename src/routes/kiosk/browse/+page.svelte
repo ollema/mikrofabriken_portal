@@ -13,7 +13,7 @@
 	import DataTableToolbar from './data-table-toolbar.svelte';
 	import type { Product } from '$lib/types/cog.js';
 	import { ProductSchema } from '$lib/schemas/cog.js';
-	import PurchaseDialog from '$lib/components/kiosk/PurchaseDialog.svelte';
+	import PurchaseDialog from '$lib/components/kiosk/purchase-dialog.svelte';
 
 	const params = queryParameters(
 		{

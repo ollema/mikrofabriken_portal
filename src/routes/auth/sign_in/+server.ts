@@ -2,10 +2,12 @@ import { dev } from '$app/environment';
 import { generateState } from 'arctic';
 import { slack } from '$lib/server/oauth.js';
 
+import { env } from '$env/dynamic/private';
+
 export const GET = async ({ cookies, url }) => {
 	const state = generateState();
 	const authUrl = slack.createAuthorizationURL(state, ['openid', 'profile', 'email']);
-	authUrl.searchParams.set('team', 'T2N3GU5B2');
+	authUrl.searchParams.set('team', env.SLACK_TEAM_ID);
 
 	cookies.set('slack_oauth_state', state, {
 		httpOnly: true,
