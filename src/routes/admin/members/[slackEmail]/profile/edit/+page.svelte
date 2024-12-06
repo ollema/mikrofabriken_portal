@@ -1,10 +1,11 @@
 <script lang="ts">
-	import * as PageHeader from '$lib/components/page-header';
+	import * as PageHeader from '$lib/components/page-header/index.js';
 	import * as Alert from '$lib/components/ui/alert';
 	import GitBranch from 'lucide-svelte/icons/git-branch';
 	import { appendPossessive } from '$lib/utils/member.js';
-	import * as Form from '$lib/components/ui/form';
-	import { Input } from '$lib/components/ui/input';
+	import * as Form from '$lib/components/ui/form/index.js';
+	import { Input } from '$lib/components/ui/input/index.js';
+	import { Button } from '$lib/components/ui/button/index.js';
 	import { Separator } from '$lib/components/ui/separator/index.js';
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
@@ -32,6 +33,23 @@
 	});
 
 	const { form: formData, enhance, delayed } = form;
+
+	function addIceContact() {
+		$formData.iceContacts = [
+			// @ts-expect-error ignore the undefined type for now
+			...$formData.iceContacts,
+			{
+				// @ts-expect-error ignore the undefined type for now
+				name: undefined,
+				// @ts-expect-error ignore the undefined type for now
+				phone: undefined
+			}
+		];
+	}
+
+	function removeIceContact(index: number) {
+		$formData.iceContacts = $formData.iceContacts.filter((_, i) => i !== index);
+	}
 </script>
 
 <div class="mx-auto w-full min-w-0">
@@ -142,6 +160,63 @@
 			</Form.Control>
 			<Form.FieldErrors />
 		</Form.Field>
+
+		<Form.Fieldset {form} name="iceContacts">
+			<Form.Legend class="text-sm">ICE contacts</Form.Legend>
+			{#if $formData.iceContacts.length > 0}
+				<div class="flex flex-col gap-4">
+					{#each Array.from(Array($formData.iceContacts.length).keys()) as i}
+						<div class="rounded-md border border-muted p-4">
+							<Form.Legend class="text-sm">Contact #{i + 1}</Form.Legend>
+
+							<div class="mt-4 flex flex-col gap-4">
+								<Form.ElementField {form} name="iceContacts[{i}].name">
+									<Form.Control>
+										{#snippet children({ props })}
+											<Form.Label>Name</Form.Label>
+											<Input
+												type="text"
+												class="w-full"
+												{...props}
+												bind:value={$formData.iceContacts[i].name}
+											/>
+										{/snippet}
+									</Form.Control>
+								</Form.ElementField>
+
+								<Form.ElementField {form} name="iceContacts[{i}].phone">
+									<Form.Control>
+										{#snippet children({ props })}
+											<Form.Label>Phone</Form.Label>
+											<Input
+												type="text"
+												class="w-full"
+												{...props}
+												bind:value={$formData.iceContacts[i].phone}
+											/>
+										{/snippet}
+									</Form.Control>
+								</Form.ElementField>
+
+								<Button
+									type="button"
+									variant="destructive"
+									class="w-full hover:border-red-900"
+									onclick={() => removeIceContact(i)}
+								>
+									Remove ICE contact #{i + 1}
+								</Button>
+							</div>
+						</div>
+					{/each}
+				</div>
+				<Form.FieldErrors />
+			{/if}
+
+			<Button type="button" variant="secondary" class="w-full" onclick={addIceContact}>
+				Add new ICE contact
+			</Button>
+		</Form.Fieldset>
 
 		<Separator class="my-4" />
 

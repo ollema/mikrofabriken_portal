@@ -143,6 +143,15 @@ export const CommissionSchema = z
 	})
 	.strict();
 
+export const IceContact = z
+	.object({
+		name: z.string().min(1, { message: 'Name needs to be at least 1 character long' }),
+		phone: z.string().regex(/^[0-9]{10}$/, {
+			message: 'Phone number must start with 0 and be 10 digits long'
+		})
+	})
+	.strict();
+
 export const MemberSchema = z
 	.object({
 		crNumber: z.string().regex(/^[0-9]{8}-[0-9]{4}$/, {
@@ -162,6 +171,7 @@ export const MemberSchema = z
 		agreements: z.array(AgreementSchema),
 		artifacts: z.array(ArtifactSchema),
 		commissions: z.array(CommissionSchema),
+		iceContacts: z.array(IceContact),
 		company: CompanySchema.optional()
 	})
 	.strict();

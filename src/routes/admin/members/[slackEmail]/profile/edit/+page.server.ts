@@ -120,7 +120,11 @@ function profileDeepEqual(a: Member, b: Member) {
 		a.postalCity === b.postalCity &&
 		a.email === b.email &&
 		a.slackEmail === b.slackEmail &&
-		a.phone === b.phone
+		a.phone === b.phone &&
+		a.iceContacts.length === b.iceContacts.length &&
+		a.iceContacts.every((v, i) => {
+			return v.name === b.iceContacts[i].name && v.phone === b.iceContacts[i].phone;
+		})
 	);
 }
 
@@ -133,4 +137,5 @@ function updateMembersInPlace(member: Member, updatedMember: Member) {
 	member.email = updatedMember.email;
 	member.slackEmail = updatedMember.slackEmail;
 	member.phone = updatedMember.phone;
+	member.iceContacts = updatedMember.iceContacts;
 }

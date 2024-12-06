@@ -39,7 +39,7 @@
 </script>
 
 {#snippet subtitle(title: string)}
-	<div class="mb-4 mt-6 w-full text-2xl font-semibold">{title}</div>
+	<div class="mb-4 mt-6 w-full text-xl font-semibold">{title}</div>
 {/snippet}
 
 <div class="mx-auto w-full min-w-0">
