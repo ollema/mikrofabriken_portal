@@ -8,12 +8,15 @@
 		delayed: Readable<boolean>;
 		label: string;
 		variant?: 'default' | 'destructive';
+		separator?: boolean;
 	};
 
-	let { delayed, label, variant = 'default' }: Props = $props();
+	let { delayed, label, variant = 'default', separator = true }: Props = $props();
 </script>
 
-<Separator class="my-4" />
+{#if separator}
+	<Separator class="my-4" />
+{/if}
 
 <Form.Button class="w-full" {variant}>
 	{#if $delayed}

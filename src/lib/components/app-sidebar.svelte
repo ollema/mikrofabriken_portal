@@ -23,7 +23,6 @@
 
 	function submitSignoutForm() {
 		if (signoutForm) {
-			console.log('submitting signout form');
 			signoutForm.requestSubmit();
 		}
 	}

@@ -38,7 +38,7 @@
 
 	<Form.PendingAlert pending={data.pending} />
 
-	<form method="POST" class="flex max-w-lg flex-col gap-4" use:enhance>
+	<form method="POST" class="flex max-w-lg flex-col gap-4" action="?/edit" use:enhance>
 		<Form.Field {form} name="orgNum">
 			<Form.Control>
 				{#snippet children({ props })}
@@ -160,5 +160,9 @@
 		</Form.Field>
 
 		<Form.SubmitButton {delayed} label="Submit change request" />
+	</form>
+
+	<form method="POST" class="mt-6 flex max-w-lg flex-col gap-4" action="?/delete">
+		<Form.SubmitButton {delayed} label="Delete company" variant="destructive" separator={false} />
 	</form>
 </div>

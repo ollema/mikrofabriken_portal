@@ -40,7 +40,7 @@ export const load = async ({ locals, params }) => {
 };
 
 export const actions = {
-	default: async ({ locals, params, request, cookies }) => {
+	edit: async ({ locals, params, request, cookies }) => {
 		const user = getUser(locals);
 		await updateRepo(env.UFPERSONSLIST_REPO_PATH);
 		let members = parseMemberList();
@@ -95,6 +95,58 @@ export const actions = {
 			},
 			cookies
 		);
+	},
+
+	delete: async ({ locals, params, cookies }) => {
+		const user = getUser(locals);
+		await updateRepo(env.UFPERSONSLIST_REPO_PATH);
+		let members = parseMemberList();
+		let member = getMember(members, params.slackEmail);
+		const admin = getMember(members, user.email);
+		const redirectUrl = `/admin/members/${member.slackEmail}`;
+
+		const pending = await getPendingUpdateForMember(member.crNumber).then(
+			({ members, sourceBranch }) => {
+				return {
+					members: members,
+					member: members && getMember(members, member.slackEmail),
+					sourceBranch
+				};
+			}
+		);
+
+		members = pending.members || members;
+		member = pending.member || member;
+
+		const options = getSuggestChangeOptions(member, admin, pending.sourceBranch);
+
+		const updatedMember = {
+			...member,
+			company: undefined
+		};
+
+		if (companyDeepEqual(member, updatedMember)) {
+			redirect(302, redirectUrl, { type: 'warning', message: 'No changes detected!' }, cookies);
+		}
+
+		updateMembersInPlace(member, updatedMember);
+
+		try {
+			await suggestChange({ members: members, ...options });
+		} catch (e) {
+			console.log(e);
+			error(500, 'Something went wrong. Check the logs and please try again later.');
+		}
+
+		redirect(
+			302,
+			redirectUrl,
+			{
+				type: 'success',
+				message: 'Change request submitted successfully!'
+			},
+			cookies
+		);
 	}
 };
 
@@ -105,7 +157,7 @@ function populateFromCurrent(member: Member) {
 function updateMember(member: Member, data: z.infer<typeof companyFormSchema>): Member {
 	const suggestedMember = {
 		...member,
-		...data
+		company: data
 	};
 
 	return suggestedMember;
