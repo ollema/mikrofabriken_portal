@@ -1,8 +1,5 @@
 <script lang="ts">
 	import ProfileItem from './profile-item.svelte';
-	import IconEntry from './icon-entry.svelte';
-	import Heart from 'lucide-svelte/icons/heart';
-	import OctagonAlert from 'lucide-svelte/icons/octagon-alert';
 	import type { Member } from '$lib/types/members';
 
 	interface Props {
@@ -21,10 +18,6 @@
 	}
 </script>
 
-{#snippet subtitle(title: string)}
-	<div class="mb-4 mt-6 w-full text-xl font-semibold">{title}</div>
-{/snippet}
-
 <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 	<div class="flex flex-col gap-4 rounded-xl border bg-card p-6 text-card-foreground shadow">
 		<ProfileItem label="Name" value={member.name} />
@@ -42,16 +35,3 @@
 		<ProfileItem label="City" value={member.postalCity} />
 	</div>
 </div>
-
-{@render subtitle('ICE contacts')}
-{#if member.iceContacts.length > 0}
-	{#each member.iceContacts as contact}
-		<IconEntry Icon={Heart}>
-			{contact.name} - {contact.phone}
-		</IconEntry>
-	{/each}
-{:else}
-	<IconEntry Icon={OctagonAlert}>
-		<div class="text-sm">No ICE contacts. Consider adding one!</div>
-	</IconEntry>
-{/if}

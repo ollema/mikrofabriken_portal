@@ -2,6 +2,7 @@
 	import { type Member } from '$lib/types/members.js';
 	import PersonalInfo from './personal-info.svelte';
 	import Company from './company.svelte';
+	import IceContacts from './ice-contacts.svelte';
 	import Agreements from './agreements.svelte';
 	import Artifacts from './artifacts.svelte';
 	import Commissions from './commissions.svelte';
@@ -28,7 +29,7 @@
 {/snippet}
 
 {#snippet profile(member: Member)}
-	{@render subtitle('Personal information')}
+	<div class="mb-4 w-full text-xl font-semibold">Personal information</div>
 
 	<PersonalInfo {member} />
 
@@ -36,6 +37,9 @@
 		{@render subtitle('Company information')}
 		<Company company={member.company} />
 	{/if}
+
+	{@render subtitle('ICE contacts')}
+	<IceContacts iceContacts={member.iceContacts} />
 
 	{#if member.agreements.filter((agreement) => isAgreementActive(agreement)).length > 0}
 		{@render subtitle('Agreements')}
