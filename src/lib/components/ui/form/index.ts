@@ -11,6 +11,7 @@ import ElementField from './form-element-field.svelte';
 import Button from './form-button.svelte';
 import SubmitButton from './form-submit-button.svelte';
 import Status from './form-status.svelte';
+import PendingAlert from './form-pending-alert.svelte';
 
 const Control = FormPrimitive.Control;
 
@@ -28,6 +29,7 @@ export {
 	Legend,
 	ElementField,
 	Status,
+	PendingAlert,
 	//
 	Field as FormField,
 	CalendarField as FormCalendarField,
@@ -41,5 +43,6 @@ export {
 	ElementField as FormElementField,
 	Button as FormButton,
 	SubmitButton as FormSubmitButton,
-	Status as FormStatus
+	Status as FormStatus,
+	PendingAlert as FormPendingAlert
 };
