@@ -25,11 +25,11 @@
 </script>
 
 {#snippet subtitle(title: string)}
-	<div class="mb-4 mt-6 w-full text-xl font-semibold">{title}</div>
+	<div class="mb-4 mt-6 w-full text-xl">{title}</div>
 {/snippet}
 
 {#snippet profile(member: Member)}
-	<div class="mb-4 w-full text-xl font-semibold">Personal information</div>
+	<div class="mb-4 w-full text-xl">Personal information</div>
 
 	<PersonalInfo {member} />
 

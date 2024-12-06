@@ -39,11 +39,11 @@
 </script>
 
 {#snippet subtitle(title: string)}
-	<div class="mb-4 mt-6 w-full text-xl font-semibold">{title}</div>
+	<div class="mb-4 w-full text-xl">{title}</div>
 {/snippet}
 
 <div class="mx-auto w-full min-w-0">
-	<PageHeader.Root>
+	<PageHeader.Root class="mb-1">
 		<PageHeader.Heading>
 			<PageHeader.Title>Invoices</PageHeader.Title>
 		</PageHeader.Heading>

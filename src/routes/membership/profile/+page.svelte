@@ -23,7 +23,7 @@
 </script>
 
 <div class="mx-auto w-full">
-	<PageHeader.Root>
+	<PageHeader.Root class="mb-1">
 		<PageHeader.Heading>
 			<div class="flex w-full items-center justify-between">
 				<PageHeader.Title>{data.member.name}</PageHeader.Title>

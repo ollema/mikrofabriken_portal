@@ -53,8 +53,8 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Products</PageHeader.Title>
-			<PageHeader.Description>Manage products.</PageHeader.Description>
+			<PageHeader.Title>Browse products</PageHeader.Title>
+			<PageHeader.Description>Browse and purchase products.</PageHeader.Description>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
