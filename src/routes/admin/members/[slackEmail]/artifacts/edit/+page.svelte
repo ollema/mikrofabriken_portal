@@ -6,8 +6,6 @@
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import { Separator } from '$lib/components/ui/separator/index.js';
-	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 	import { getLocalTimeZone, today } from '@internationalized/date';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
@@ -232,15 +230,6 @@
 			<Button type="button" variant="secondary" class="w-full" onclick={addKey}>Add new key</Button>
 		</Form.Fieldset>
 
-		<Separator class="my-4" />
-
-		<Form.Button class="w-full">
-			{#if $delayed}
-				<LoaderCircle class="animate-spin" />
-				Processing...
-			{:else}
-				Submit change request
-			{/if}
-		</Form.Button>
+		<Form.SubmitButton {delayed} label="Submit change request" />
 	</form>
 </div>

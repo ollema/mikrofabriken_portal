@@ -5,8 +5,6 @@
 	import * as RadioGroup from '$lib/components/ui/radio-group/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import { Separator } from '$lib/components/ui/separator/index.js';
-	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { productFormSchema, type ProductFormSchema } from './schema.js';
@@ -45,7 +43,7 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Edit $page.</PageHeader.Title>
+			<PageHeader.Title>Edit product</PageHeader.Title>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
@@ -224,15 +222,6 @@
 			<Form.FieldErrors />
 		</Form.Field>
 
-		<Separator class="my-4" />
-
-		<Form.Button class="w-full">
-			{#if $delayed}
-				<LoaderCircle class="animate-spin" />
-				Processing...
-			{:else}
-				Update product
-			{/if}
-		</Form.Button>
+		<Form.SubmitButton {delayed} label="Edit product" />
 	</form>
 </div>

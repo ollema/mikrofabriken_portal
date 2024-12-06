@@ -9,6 +9,7 @@ import Fieldset from './form-fieldset.svelte';
 import Legend from './form-legend.svelte';
 import ElementField from './form-element-field.svelte';
 import Button from './form-button.svelte';
+import SubmitButton from './form-submit-button.svelte';
 import Status from './form-status.svelte';
 
 const Control = FormPrimitive.Control;
@@ -20,6 +21,7 @@ export {
 	Control,
 	Label,
 	Button,
+	SubmitButton,
 	FieldErrors,
 	Description,
 	Fieldset,
@@ -38,5 +40,6 @@ export {
 	Legend as FormLegend,
 	ElementField as FormElementField,
 	Button as FormButton,
+	SubmitButton as FormSubmitButton,
 	Status as FormStatus
 };
