@@ -1,4 +1,5 @@
 <script lang="ts">
+	import IconEntry from './icon-entry.svelte';
 	import type { Artifact } from '$lib/types/members';
 	import { isArtifactActive } from '$lib/utils/member.js';
 	import Nfc from 'lucide-svelte/icons/nfc';
@@ -23,17 +24,16 @@
 
 <div class="space-y-4">
 	{#each activeRFIDArtifacts as activeRFIDArtifact}
-		<div class="text-sm">
-			<Nfc class="mr-1 inline" /> RFID tag
+		<IconEntry Icon={Nfc}>
+			RFID tag
 			<span class="font-mono">[{activeRFIDArtifact.attributes?.data}]</span>
 			since {activeRFIDArtifact.startDate}
-		</div>
+		</IconEntry>
 	{/each}
 
 	{#each activeKeyArtifacts as activeKeyArtifact}
-		<div class="text-sm">
-			<KeyRound class="mr-1 inline" /> Entrusted with key #{activeKeyArtifact.attributes?.number ??
-				0} since {activeKeyArtifact.startDate}
-		</div>
+		<IconEntry Icon={KeyRound}>
+			Entrusted with key #{activeKeyArtifact.attributes?.number ?? 0} since {activeKeyArtifact.startDate}
+		</IconEntry>
 	{/each}
 </div>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { type Member } from '$lib/types/members.js';
-	import PersonalInfo from './profile-personal-info.svelte';
+	import PersonalInfo from './personal-info.svelte';
 	import Company from './company.svelte';
 	import Agreements from './agreements.svelte';
 	import Artifacts from './artifacts.svelte';
@@ -24,12 +24,12 @@
 </script>
 
 {#snippet subtitle(title: string)}
-	<div class="mb-4 mt-6 w-full text-2xl font-semibold">{title}</div>
+	<div class="mb-4 mt-6 w-full text-xl font-semibold">{title}</div>
 {/snippet}
 
-{@render subtitle('Personal information')}
-
 {#snippet profile(member: Member)}
+	{@render subtitle('Personal information')}
+
 	<PersonalInfo {member} />
 
 	{#if member.company}

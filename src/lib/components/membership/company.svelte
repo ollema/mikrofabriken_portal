@@ -1,6 +1,4 @@
 <script lang="ts">
-	import Root from './profile-root.svelte';
-	import Group from './profile-group.svelte';
 	import Item from './profile-item.svelte';
 	import type { Company } from '$lib/types/company';
 
@@ -11,22 +9,22 @@
 	let { company }: Props = $props();
 </script>
 
-<Root>
-	<Group>
+<div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+	<div class="flex flex-col gap-4 rounded-xl border bg-card p-6 text-card-foreground shadow">
 		<Item label="Name" value={company.name} />
 		<Item label="Org. num" value={company.orgNum} />
 		<Item label="Email" value={company.email || ''} />
-	</Group>
-	<Group>
+	</div>
+	<div class="flex flex-col gap-4 rounded-xl border bg-card p-6 text-card-foreground shadow">
 		<Item label="Address" value={company.postalAdress} />
 		<Item label="Postal code" value={company.postalCode} />
 		<Item label="City" value={company.postalCity} />
-	</Group>
-	<Group>
-		<Item label="Default invoice recipent" value={company.invoiceDefaultTo} />
+	</div>
+	<div class="flex flex-col gap-4 rounded-xl border bg-card p-6 text-card-foreground shadow">
+		<Item label="Default invoice recipient" value={company.invoiceDefaultTo} />
 		<Item
-			label="Categories excluded from default recipent"
+			label="Categories excluded from default recipient"
 			value={company.invoiceExcludeCategoriesFromDefault}
 		/>
-	</Group>
-</Root>
+	</div>
+</div>

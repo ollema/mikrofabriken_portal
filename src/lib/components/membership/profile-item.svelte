@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { blur } from 'svelte/transition';
-
 	interface Props {
 		label: string;
 		value: string | number | boolean | string[];
@@ -39,11 +37,7 @@
 	<div class="text-xs font-medium uppercase text-muted-foreground">{label}</div>
 	<div class="grid h-6">
 		{#key formattedValue}
-			<div
-				in:blur={{ duration: 300 }}
-				out:blur={{ duration: 300 }}
-				class="col-start-1 col-end-2 row-start-1 row-end-2"
-			>
+			<div class="col-start-1 col-end-2 row-start-1 row-end-2">
 				{formattedValue}
 			</div>
 		{/key}

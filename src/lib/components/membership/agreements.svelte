@@ -1,4 +1,5 @@
 <script lang="ts">
+	import IconEntry from './icon-entry.svelte';
 	import type { Agreement } from '$lib/types/members';
 	import { agreementToHumanReadable, isAgreementActive } from '$lib/utils/member.js';
 	import * as Alert from '$lib/components/ui/alert';
@@ -56,8 +57,7 @@
 	Icon: ComponentType<Icon>;
 })}
 	{#each agreements as agreement, index}
-		<div class="text-sm">
-			<Icon class="mr-1 inline h-6 w-6" />
+		<IconEntry {Icon}>
 			{agreementToHumanReadable(agreement.type)}
 			{#if agreement.type === 'asylumInside' || agreement.type === 'asylumOutside'}
 				of size {agreement.attributes.size} m<sup>2</sup>
@@ -65,7 +65,7 @@
 				with IDs {agreement.attributes.palletIds.join(', ')}
 			{/if}
 			since {agreement.startDate}
-		</div>
+		</IconEntry>
 		{#if index === 1 && (agreement.type === 'membership' || agreement.type === 'investment')}
 			<Alert.Root class="my-6 w-full max-w-screen-md" variant={'destructive'}>
 				<Alert.Title class="text-lg font-semibold">Heads up!</Alert.Title>
