@@ -1,4 +1,4 @@
-import type { Claims } from '$lib/types/cog';
+import type { Claims } from '$lib/types/cog.js';
 
 export type Navigation = {
 	title: string;

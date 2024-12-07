@@ -5,12 +5,12 @@
 </script>
 
 <script lang="ts" generics="T extends Record<string, unknown>, U extends _FormPathLeaves<T>">
-	import * as Form from '$lib/components/ui/form';
+	import * as Form from '$lib/components/ui/form/index.js';
 	import { Calendar } from '$lib/components/ui/calendar/index.js';
 	import { buttonVariants } from '$lib/components/ui/button/index.js';
 	import * as Popover from '$lib/components/ui/popover/index.js';
 	import CalendarIcon from 'lucide-svelte/icons/calendar';
-	import { cn } from '$lib/utils';
+	import { cn } from '$lib/utils.js';
 	import {
 		CalendarDate,
 		DateFormatter,

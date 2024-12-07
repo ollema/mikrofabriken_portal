@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Commission } from '$lib/types/members';
+	import type { Commission } from '$lib/types/members.js';
 	import { commissionToHumanReadable, isCommissionActive } from '$lib/utils/member.js';
 
 	interface Props {

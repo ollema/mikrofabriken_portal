@@ -1,8 +1,8 @@
 <script lang="ts">
 	import IconEntry from './icon-entry.svelte';
-	import type { Agreement } from '$lib/types/members';
+	import type { Agreement } from '$lib/types/members.js';
 	import { agreementToHumanReadable, isAgreementActive } from '$lib/utils/member.js';
-	import * as Alert from '$lib/components/ui/alert';
+	import * as Alert from '$lib/components/ui/alert/index.js';
 	import { type ComponentType } from 'svelte';
 	import { type Icon } from 'lucide-svelte';
 	import Mikrofabriken from '$lib/icons/Mikrofabriken.svelte';

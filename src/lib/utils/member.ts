@@ -4,7 +4,7 @@ import type {
 	Artifact,
 	Commission,
 	CommissionType
-} from '$lib/types/members';
+} from '$lib/types/members.js';
 
 export function appendPossessive(name: string): string {
 	if (name.endsWith('s')) {

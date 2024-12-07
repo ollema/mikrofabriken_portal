@@ -1,8 +1,8 @@
 <script lang="ts">
-	import * as Dialog from '$lib/components/ui/dialog';
-	import * as Drawer from '$lib/components/ui/drawer';
+	import * as Dialog from '$lib/components/ui/dialog/index.js';
+	import * as Drawer from '$lib/components/ui/drawer/index.js';
 	import MemberInfo from '$lib/components/mikrofabriken/member-info.svelte';
-	import { buttonVariants } from '$lib/components/ui/button';
+	import { buttonVariants } from '$lib/components/ui/button/index.js';
 	import { IsMobile } from '$lib/hooks/is-mobile.svelte.js';
 
 	interface Props {

@@ -2,9 +2,9 @@ import { error, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
-import { getToken, getUser } from '$lib/server/auth';
-import { getProduct, deleteProduct } from '$lib/server/cog';
-import { deleteProductFormSchema } from './schema';
+import { getToken, getUser } from '$lib/server/auth.js';
+import { getProduct, deleteProduct } from '$lib/server/cog.js';
+import { deleteProductFormSchema } from './schema.js';
 
 export const load = async ({ locals, params }) => {
 	getUser(locals);

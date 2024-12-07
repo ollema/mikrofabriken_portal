@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { CommissionTypes } from '$lib/schemas/members';
+import { CommissionTypes } from '$lib/schemas/members.js';
 
 export const commissionsFormSchema = z.object({
 	commissions: z.array(

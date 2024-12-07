@@ -1,4 +1,4 @@
-import { MemberSchema } from '$lib/schemas/members';
+import { MemberSchema } from '$lib/schemas/members.js';
 
 export const iceContactsFormSchema = MemberSchema.pick({
 	iceContacts: true

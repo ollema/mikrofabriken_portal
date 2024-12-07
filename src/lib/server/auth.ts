@@ -2,11 +2,11 @@ import { error, redirect, type RequestEvent } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 import { sha256 } from '@oslojs/crypto/sha2';
 import { encodeBase32LowerCase, encodeBase64url, encodeHexLowerCase } from '@oslojs/encoding';
-import { db } from '$lib/server/db';
-import * as table from '$lib/server/db/schema';
+import { db } from '$lib/server/db/index.js';
+import * as table from '$lib/server/db/schema.js';
 
-import type { Member } from '$lib/types/members';
-import { parseMemberList } from '$lib/server/members';
+import type { Member } from '$lib/types/members.js';
+import { parseMemberList } from '$lib/server/members.js';
 
 import { env } from '$env/dynamic/private';
 

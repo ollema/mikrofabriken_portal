@@ -1,16 +1,16 @@
 <script lang="ts">
-	import * as PageHeader from '$lib/components/page-header';
+	import * as PageHeader from '$lib/components/page-header/index.js';
 	import { appendPossessive } from '$lib/utils/member.js';
-	import * as Form from '$lib/components/ui/form';
+	import * as Form from '$lib/components/ui/form/index.js';
 	import * as RadioGroup from '$lib/components/ui/radio-group/index.js';
-	import { Input } from '$lib/components/ui/input';
+	import { Input } from '$lib/components/ui/input/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import Trash2 from 'lucide-svelte/icons/trash-2';
 	import { getLocalTimeZone, today } from '@internationalized/date';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { agreementsFormSchema, type AgreementsFormSchema } from './schema.js';
-	import type { Member } from '$lib/types/members';
+	import type { Member } from '$lib/types/members.js';
 
 	interface Props {
 		data: {

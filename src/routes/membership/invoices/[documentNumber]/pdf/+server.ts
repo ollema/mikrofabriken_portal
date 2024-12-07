@@ -1,6 +1,6 @@
-import { getUser } from '$lib/server/auth';
-import { getMember, parseMemberList } from '$lib/server/members';
-import { downloadInvoicePdf, getInvoice } from '$lib/server/fortnox';
+import { getUser } from '$lib/server/auth.js';
+import { getMember, parseMemberList } from '$lib/server/members.js';
+import { downloadInvoicePdf, getInvoice } from '$lib/server/fortnox.js';
 
 export async function GET({ locals, params, url }) {
 	const user = getUser(locals, url);

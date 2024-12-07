@@ -2,8 +2,8 @@ import { error } from '@sveltejs/kit';
 
 import * as fs from 'node:fs';
 
-import { MembersSchema } from '$lib/schemas/members';
-import type { Members } from '$lib/types/members';
+import { MembersSchema } from '$lib/schemas/members.js';
+import type { Members } from '$lib/types/members.js';
 
 import { env } from '$env/dynamic/private';
 

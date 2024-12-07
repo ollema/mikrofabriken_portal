@@ -12,7 +12,7 @@ import type {
 	UnitNamesSchema,
 	VatPercentagesSchema,
 	ClaimsSchema
-} from '$lib/schemas/cog';
+} from '$lib/schemas/cog.js';
 
 export type Product = z.infer<typeof ProductSchema>;
 

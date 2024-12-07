@@ -1,7 +1,7 @@
 <script lang="ts">
-	import * as Alert from '$lib/components/ui/alert';
+	import * as Alert from '$lib/components/ui/alert/index.js';
 	import GitBranch from 'lucide-svelte/icons/git-branch';
-	import type { Member } from '$lib/types/members';
+	import type { Member } from '$lib/types/members.js';
 
 	interface Props {
 		pending: {

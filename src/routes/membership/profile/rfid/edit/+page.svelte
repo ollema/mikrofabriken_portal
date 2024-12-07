@@ -1,13 +1,13 @@
 <script lang="ts">
-	import * as PageHeader from '$lib/components/page-header';
-	import * as Form from '$lib/components/ui/form';
-	import { Input } from '$lib/components/ui/input';
+	import * as PageHeader from '$lib/components/page-header/index.js';
+	import * as Form from '$lib/components/ui/form/index.js';
+	import { Input } from '$lib/components/ui/input/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { getLocalTimeZone, today } from '@internationalized/date';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { rfidTagsFormSchema, type RfidTagsFormSchema } from './schema.js';
-	import type { Member } from '$lib/types/members';
+	import type { Member } from '$lib/types/members.js';
 
 	interface Props {
 		data: {

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import * as Avatar from '$lib/components/ui/avatar';
-	import { Button } from '$lib/components/ui/button';
+	import * as Avatar from '$lib/components/ui/avatar/index.js';
+	import { Button } from '$lib/components/ui/button/index.js';
 	import { nameToInitials, nameToFirstName } from '$lib/utils/member.js';
 
 	interface Props {

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as Form from '$lib/components/ui/form';
+	import * as Form from '$lib/components/ui/form/index.js';
 	import { Separator } from '$lib/components/ui/separator/index.js';
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 	import type { Readable } from 'svelte/store';

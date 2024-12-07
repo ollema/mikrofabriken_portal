@@ -2,10 +2,10 @@
 	import { IsMobile } from '$lib/hooks/is-mobile.svelte.js';
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import * as Drawer from '$lib/components/ui/drawer/index.js';
-	import { Input } from '$lib/components/ui/input';
-	import { Button } from '$lib/components/ui/button';
+	import { Input } from '$lib/components/ui/input/index.js';
+	import { Button } from '$lib/components/ui/button/index.js';
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
-	import type { Product } from '$lib/types/cog';
+	import type { Product } from '$lib/types/cog.js';
 
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';

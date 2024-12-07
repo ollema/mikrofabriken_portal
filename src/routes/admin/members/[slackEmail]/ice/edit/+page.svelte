@@ -7,7 +7,7 @@
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { iceContactsFormSchema, type IceContactsFormSchema } from './schema.js';
-	import type { Member } from '$lib/types/members';
+	import type { Member } from '$lib/types/members.js';
 
 	interface Props {
 		data: {

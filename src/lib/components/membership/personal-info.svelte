@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ProfileItem from './profile-item.svelte';
-	import type { Member } from '$lib/types/members';
+	import type { Member } from '$lib/types/members.js';
 
 	interface Props {
 		member: Member;

@@ -1,5 +1,5 @@
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
-import { type Claims } from '$lib/types/cog';
+import { type Claims } from '$lib/types/cog.js';
 
 export const user = sqliteTable('user', {
 	id: text('id').primaryKey(),

@@ -1,5 +1,5 @@
-import { getUser } from '$lib/server/auth';
-import { getProduct } from '$lib/server/cog';
+import { getUser } from '$lib/server/auth.js';
+import { getProduct } from '$lib/server/cog.js';
 
 export async function load({ locals, params }) {
 	getUser(locals);

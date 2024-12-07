@@ -8,8 +8,8 @@ import {
 	UnitNamesSchema,
 	VatPercentagesSchema,
 	ClaimsSchema
-} from '$lib/schemas/cog';
-import type { NewProduct, Product, Purchase } from '$lib/types/cog';
+} from '$lib/schemas/cog.js';
+import type { NewProduct, Product, Purchase } from '$lib/types/cog.js';
 
 import { LRUCache } from 'lru-cache';
 

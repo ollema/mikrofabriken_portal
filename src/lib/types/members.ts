@@ -1,6 +1,6 @@
 import type { z } from 'zod';
 
-import type { MembersSchema, MemberSchema, CompanySchema } from '$lib/schemas/members';
+import type { MembersSchema, MemberSchema, CompanySchema } from '$lib/schemas/members.js';
 
 export type Members = z.infer<typeof MembersSchema>;
 export type Member = z.infer<typeof MemberSchema>;

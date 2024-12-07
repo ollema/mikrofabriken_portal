@@ -5,8 +5,8 @@
 </script>
 
 <script lang="ts" generics="T extends Record<string, unknown>, U extends _FormPathLeaves<T>">
-	import * as Form from '$lib/components/ui/form';
-	import { Input } from '$lib/components/ui/input';
+	import * as Form from '$lib/components/ui/form/index.js';
+	import { Input } from '$lib/components/ui/input/index.js';
 	import * as InputOTP from '$lib/components/ui/input-otp/index.js';
 	import { REGEXP_ONLY_DIGITS } from 'bits-ui';
 	import type { FormPathLeaves } from 'sveltekit-superforms';

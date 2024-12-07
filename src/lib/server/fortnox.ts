@@ -1,10 +1,10 @@
-import type { Member } from '$lib/types/members';
+import type { Member } from '$lib/types/members.js';
 import { error } from '@sveltejs/kit';
 import {
 	CustomersResponseSchema,
 	InvoiceResponseSchema,
 	InvoicesResponseSchema
-} from '$lib/schemas/fortnox';
+} from '$lib/schemas/fortnox.js';
 
 import { env } from '$env/dynamic/private';
 

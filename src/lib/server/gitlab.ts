@@ -8,8 +8,8 @@ import { Gitlab, type MergeRequestSchemaWithBasicLabels } from '@gitbeaker/rest'
 
 import { env } from '$env/dynamic/private';
 
-import type { Member } from '$lib/types/members';
-import { MembersSchema } from '$lib/schemas/members';
+import type { Member } from '$lib/types/members.js';
+import { MembersSchema } from '$lib/schemas/members.js';
 
 /**
  * Options for suggesting a change in GitLab.

@@ -1,4 +1,4 @@
-import { ProductSchema } from '$lib/schemas/cog';
+import { ProductSchema } from '$lib/schemas/cog.js';
 
 export const productFormSchema = ProductSchema.omit({ uuid: true });
 

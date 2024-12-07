@@ -2,7 +2,7 @@ import { error, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
-import { getToken, getUser } from '$lib/server/auth';
+import { getToken, getUser } from '$lib/server/auth.js';
 import {
 	getBillingCategories,
 	getProduct,
@@ -10,9 +10,9 @@ import {
 	getUnitNames,
 	getVatPercentages,
 	updateProduct
-} from '$lib/server/cog';
-import { ProductSchema } from '$lib/schemas/cog';
-import { productFormSchema } from './schema';
+} from '$lib/server/cog.js';
+import { ProductSchema } from '$lib/schemas/cog.js';
+import { productFormSchema } from './schema.js';
 
 export const load = async ({ locals, params }) => {
 	getUser(locals);

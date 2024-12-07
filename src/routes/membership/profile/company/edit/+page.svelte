@@ -1,13 +1,13 @@
 <script lang="ts">
-	import * as PageHeader from '$lib/components/page-header';
-	import * as Form from '$lib/components/ui/form';
-	import { Input } from '$lib/components/ui/input';
-	import * as RadioGroup from '$lib/components/ui/radio-group';
-	import * as Select from '$lib/components/ui/select';
+	import * as PageHeader from '$lib/components/page-header/index.js';
+	import * as Form from '$lib/components/ui/form/index.js';
+	import { Input } from '$lib/components/ui/input/index.js';
+	import * as RadioGroup from '$lib/components/ui/radio-group/index.js';
+	import * as Select from '$lib/components/ui/select/index.js';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { companyFormSchema, type CompanyFormSchema } from './schema.js';
-	import type { Member } from '$lib/types/members';
+	import type { Member } from '$lib/types/members.js';
 	import { InvoiceCategoryTypes } from '$lib/schemas/members.js';
 
 	interface Props {

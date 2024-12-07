@@ -8,7 +8,7 @@
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import ExportDialog from './data-table-export-dialog.svelte';
-	import type { ExtendedMember } from '$lib/types/members';
+	import type { ExtendedMember } from '$lib/types/members.js';
 
 	let { table }: { table: Table<ExtendedMember> } = $props();
 
