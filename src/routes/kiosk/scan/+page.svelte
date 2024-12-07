@@ -17,46 +17,38 @@
 		loading = false;
 	}
 
-	const requiredNumberOfConsistentDetections = 5;
-	let lastDetectedBarcode = $state('');
-	let consistentDetectionCount = $state(0);
+	let recentDetections: string[] = $state([]);
 
 	async function track(detections: DetectedBarcode[], ctx: CanvasRenderingContext2D) {
 		paintOutline(detections, ctx);
 
-		for (const detection of detections) {
-			if (detection.rawValue !== lastDetectedBarcode) {
-				lastDetectedBarcode = detection.rawValue;
-				consistentDetectionCount = 0;
-			} else {
-				consistentDetectionCount++;
-			}
+		if (detections.length > 0) {
+			recentDetections = [...recentDetections.slice(-5 + 1), detections[0].rawValue];
 
-			if (consistentDetectionCount >= requiredNumberOfConsistentDetections) {
-				barcode = detection.rawValue;
-				lastDetectedBarcode = '';
-				consistentDetectionCount = 0;
+			const counts = new Map<string, number>();
+			recentDetections.forEach((code) => counts.set(code, (counts.get(code) || 0) + 1));
+			const [mostFrequent] = [...counts.entries()].sort((a, b) => b[1] - a[1]);
 
+			if (mostFrequent[1] >= 3) {
+				barcode = mostFrequent[0];
+				recentDetections = [];
 				paused = true;
-				break;
-			} else {
-				return;
+
+				try {
+					const response = await fetch(`/api/cog/products/${barcode}`);
+					if (response.ok) {
+						product = await response.json();
+					} else {
+						product = null;
+					}
+				} catch (e) {
+					console.log(`could not fetch product: ${e}`);
+					product = null;
+				}
+
+				open = true;
 			}
 		}
-
-		try {
-			const response = await fetch(`/api/cog/products/${barcode}`);
-			if (response.ok) {
-				product = await response.json();
-			} else {
-				product = null;
-			}
-		} catch (e) {
-			console.log(`could not fetch product: ${e}`);
-			product = null;
-		}
-
-		open = true;
 	}
 
 	function onClose() {

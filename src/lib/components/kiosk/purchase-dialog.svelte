@@ -58,6 +58,12 @@
 		quantity = 1;
 		onClose?.();
 	}
+
+	function onOpenChange(open: boolean) {
+		if (!open) {
+			closeDialog();
+		}
+	}
 </script>
 
 {#snippet content(product: Product)}
@@ -159,7 +165,7 @@
 {/snippet}
 
 {#if !isMobile.current}
-	<Dialog.Root bind:open>
+	<Dialog.Root bind:open {onOpenChange}>
 		{#if product !== null && product !== undefined}
 			<Dialog.Content
 				class="flex flex-col items-start gap-0"
@@ -180,7 +186,7 @@
 		{/if}
 	</Dialog.Root>
 {:else}
-	<Drawer.Root bind:open>
+	<Drawer.Root bind:open {onOpenChange}>
 		{#if product !== null && product !== undefined}
 			<Drawer.Content
 				onOpenAutoFocus={focusConfirmButton}
