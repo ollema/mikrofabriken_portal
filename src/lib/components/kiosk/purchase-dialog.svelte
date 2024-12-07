@@ -15,14 +15,14 @@
 		open: boolean;
 		product: Product | null | undefined;
 		barcode?: string | undefined;
-		processing?: boolean;
+		onClose?: () => void;
 	}
 
 	let {
 		open = $bindable(),
 		product = $bindable(),
 		barcode = $bindable(),
-		processing = $bindable(false)
+		onClose
 	}: Props = $props();
 
 	// internal
@@ -30,17 +30,7 @@
 	let quantity: number = $state(1);
 	let purchasing: boolean = $state(false);
 
-	async function handleCancel() {
-		open = false;
-		product = undefined;
-		quantity = 1;
-
-		// delay setting product to undefined to prevent double scanning
-		await new Promise((resolve) => setTimeout(resolve, 2000));
-		processing = false;
-	}
-
-	async function handleConfirm() {
+	async function submitForm() {
 		form?.requestSubmit();
 	}
 
@@ -50,13 +40,7 @@
 			purchasing = false;
 			await update({ invalidateAll: false });
 
-			open = false;
-			product = undefined;
-			quantity = 1;
-
-			// delay setting processing to prevent double scanning
-			await new Promise((resolve) => setTimeout(resolve, 2000));
-			processing = false;
+			closeDialog();
 		};
 	}) satisfies SubmitFunction;
 
@@ -66,6 +50,13 @@
 		e.preventDefault();
 		const confirmButton = document.getElementById('confirm-purchase');
 		confirmButton?.focus();
+	}
+
+	function closeDialog() {
+		open = false;
+		product = undefined;
+		quantity = 1;
+		onClose?.();
 	}
 </script>
 
@@ -142,8 +133,8 @@
 	</form>
 
 	<div class="mt-4 flex w-full flex-col-reverse gap-4 self-center md:w-fit md:flex-row md:self-end">
-		<Button class="h-12 w-full md:w-fit" variant="outline" onclick={handleCancel}>Cancel</Button>
-		<Button id="confirm-purchase" class="h-12 w-full md:w-fit" onclick={handleConfirm}>
+		<Button class="h-12 w-full md:w-fit" variant="outline" onclick={closeDialog}>Cancel</Button>
+		<Button id="confirm-purchase" class="h-12 w-full md:w-fit" onclick={submitForm}>
 			{#if purchasing}
 				<LoaderCircle class="animate-spin" />
 				Processing...
@@ -164,7 +155,7 @@
 	<div class="mt-2 text-muted-foreground">
 		If the problem persists, the product might not exist in our database records.
 	</div>
-	<Button class="mt-4 max-w-40 self-end" onclick={handleCancel}>OK</Button>
+	<Button class="mt-4 max-w-40 self-end" onclick={closeDialog}>OK</Button>
 {/snippet}
 
 {#if !isMobile.current}
