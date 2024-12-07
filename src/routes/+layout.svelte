@@ -13,7 +13,7 @@
 
 	const flash = getFlash(page);
 
-	flash.subscribe(($flash) => {
+	$effect(() => {
 		if (!$flash) return;
 
 		switch ($flash.type) {

@@ -1,8 +1,4 @@
-<script lang="ts" module>
-	type TData = unknown;
-</script>
-
-<script lang="ts" generics="TData">
+<script lang="ts">
 	import X from 'lucide-svelte/icons/x';
 	import type { Table } from '@tanstack/table-core';
 	import {
@@ -11,8 +7,10 @@
 	} from '$lib/components/data-table/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
+	import ExportDialog from './data-table-export-dialog.svelte';
+	import type { ExtendedMember } from '$lib/types/members';
 
-	let { table }: { table: Table<TData> } = $props();
+	let { table }: { table: Table<ExtendedMember> } = $props();
 
 	const isFiltered = $derived(table.getState().columnFilters.length > 0);
 	const membershipCol = $derived(table.getColumn('Membership'));
@@ -23,18 +21,22 @@
 	const companyCol = $derived(table.getColumn('Company'));
 </script>
 
-<Input
-	placeholder="Filter members..."
-	value={(table.getColumn('Name')?.getFilterValue() as string) ?? ''}
-	oninput={(e) => {
-		table.getColumn('Name')?.setFilterValue(e.currentTarget.value);
-	}}
-	onchange={(e) => {
-		table.getColumn('Name')?.setFilterValue(e.currentTarget.value);
-	}}
-	class="h-8 w-[150px] lg:w-[250px]"
-	autocomplete="off"
-/>
+<div class="flex items-center justify-between">
+	<Input
+		placeholder="Filter members..."
+		value={(table.getColumn('Name')?.getFilterValue() as string) ?? ''}
+		oninput={(e) => {
+			table.getColumn('Name')?.setFilterValue(e.currentTarget.value);
+		}}
+		onchange={(e) => {
+			table.getColumn('Name')?.setFilterValue(e.currentTarget.value);
+		}}
+		class="h-8 w-[150px] lg:w-[250px]"
+		autocomplete="off"
+	/>
+
+	<ExportDialog {table} />
+</div>
 
 <div class="flex items-end justify-between">
 	<div class="flex flex-1 flex-wrap items-center gap-2">
