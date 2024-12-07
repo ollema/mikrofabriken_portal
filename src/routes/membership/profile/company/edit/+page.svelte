@@ -8,7 +8,7 @@
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { companyFormSchema, type CompanyFormSchema } from './schema.js';
 	import type { Member } from '$lib/types/members';
-	import { InvoiceCategoryTypes } from '$lib/schemas/company.js';
+	import { InvoiceCategoryTypes } from '$lib/schemas/members.js';
 
 	interface Props {
 		data: {

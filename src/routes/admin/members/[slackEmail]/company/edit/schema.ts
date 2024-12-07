@@ -1,4 +1,4 @@
-import { CompanySchema } from '$lib/schemas/company';
+import { CompanySchema } from '$lib/schemas/members.js';
 
 export const companyFormSchema = CompanySchema;
 

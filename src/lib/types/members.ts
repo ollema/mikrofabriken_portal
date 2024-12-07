@@ -1,6 +1,6 @@
 import type { z } from 'zod';
 
-import type { MembersSchema, MemberSchema } from '$lib/schemas/members';
+import type { MembersSchema, MemberSchema, CompanySchema } from '$lib/schemas/members';
 
 export type Members = z.infer<typeof MembersSchema>;
 export type Member = z.infer<typeof MemberSchema>;
@@ -16,6 +16,10 @@ export type ExtendedMember = Member & {
 	hasCompany: string;
 };
 
+export type Company = z.infer<typeof CompanySchema>;
+
+export type IceContact = z.infer<typeof MembersSchema.element.shape.iceContacts.element>;
+
 export type Agreement = z.infer<typeof MembersSchema.element.shape.agreements.element>;
 export type AgreementType = Agreement['type'];
 
@@ -24,5 +28,3 @@ export type ArtifactType = Artifact['type'];
 
 export type Commission = z.infer<typeof MembersSchema.element.shape.commissions.element>;
 export type CommissionType = Commission['type'];
-
-export type IceContact = z.infer<typeof MembersSchema.element.shape.iceContacts.element>;

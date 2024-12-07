@@ -1,6 +1,13 @@
 import { z } from 'zod';
 
-import { CompanySchema } from '$lib/schemas/company';
+export const IceContact = z
+	.object({
+		name: z.string().min(1, { message: 'Name needs to be at least 1 character long' }),
+		phone: z.string().regex(/^[0-9]{10}$/, {
+			message: 'Phone number must start with 0 and be 10 digits long'
+		})
+	})
+	.strict();
 
 export const AgreementTypes = z.enum([
 	'membership',
@@ -10,38 +17,6 @@ export const AgreementTypes = z.enum([
 	'asylumOutside',
 	'palletInside',
 	'palletOutside'
-]);
-
-export const ArtifactTypes = z.enum(['key', 'rfid']);
-
-export const CommissionTypes = z.enum([
-	'board/chairman',
-	'board/cashier',
-	'board/secretary',
-	'board/member',
-	'board/alternate',
-	'auditor/member',
-	'auditor/alternate',
-	'committee/economy',
-	'committee/it',
-	'committee/pr',
-	'committee/sponsorships',
-	'nomination/chairman',
-	'nomination/member',
-	'workshop/3dprint',
-	'workshop/3s',
-	'workshop/asylumstorage',
-	'workshop/brewery',
-	'workshop/electronics',
-	'workshop/laser',
-	'workshop/metal',
-	'workshop/office',
-	'workshop/painting',
-	'workshop/plaza',
-	'workshop/support',
-	'workshop/textile',
-	'workshop/vehicle',
-	'workshop/wood'
 ]);
 
 const BaseAgreementSchema = z.object({
@@ -109,6 +84,8 @@ export const AgreementSchema = z.discriminatedUnion('type', [
 	PalletOutsideAgreementSchema
 ]);
 
+export const ArtifactTypes = z.enum(['key', 'rfid']);
+
 const BaseArtifactSchema = z.object({
 	startDate: z.string(),
 	endDate: z.string().optional()
@@ -135,6 +112,36 @@ const RfidArtifactSchema = BaseArtifactSchema.extend({
 
 export const ArtifactSchema = z.discriminatedUnion('type', [KeyArtifactSchema, RfidArtifactSchema]);
 
+export const CommissionTypes = z.enum([
+	'board/chairman',
+	'board/cashier',
+	'board/secretary',
+	'board/member',
+	'board/alternate',
+	'auditor/member',
+	'auditor/alternate',
+	'committee/economy',
+	'committee/it',
+	'committee/pr',
+	'committee/sponsorships',
+	'nomination/chairman',
+	'nomination/member',
+	'workshop/3dprint',
+	'workshop/3s',
+	'workshop/asylumstorage',
+	'workshop/brewery',
+	'workshop/electronics',
+	'workshop/laser',
+	'workshop/metal',
+	'workshop/office',
+	'workshop/painting',
+	'workshop/plaza',
+	'workshop/support',
+	'workshop/textile',
+	'workshop/vehicle',
+	'workshop/wood'
+]);
+
 export const CommissionSchema = z
 	.object({
 		type: CommissionTypes,
@@ -143,12 +150,29 @@ export const CommissionSchema = z
 	})
 	.strict();
 
-export const IceContact = z
+export const InvoiceCategoryTypes = z.enum([
+	'electricity',
+	'kiosk',
+	'lootmobile',
+	'membershipFees',
+	'projectStorage',
+	'temporaryStorage'
+]);
+
+export const CompanySchema = z
 	.object({
+		orgNum: z.string().regex(new RegExp('^[0-9]{6}-[0-9]{4}$'), {
+			message: 'Org. number must be in format 123456-1234'
+		}),
 		name: z.string().min(1, { message: 'Name needs to be at least 1 character long' }),
-		phone: z.string().regex(/^[0-9]{10}$/, {
-			message: 'Phone number must start with 0 and be 10 digits long'
-		})
+		postalAdress: z
+			.string()
+			.min(1, { message: 'Postal address needs to be at least 1 character long' }),
+		postalCode: z.string().min(1, { message: 'Postal code needs to be at least 1 character long' }),
+		postalCity: z.string().min(1, { message: 'Postal city needs to be at least 1 character long' }),
+		email: z.string().email({ message: 'Email needs to be a valid email address' }).optional(),
+		invoiceDefaultTo: z.enum(['personal', 'company']),
+		invoiceExcludeCategoriesFromDefault: z.array(InvoiceCategoryTypes)
 	})
 	.strict();
 
@@ -168,10 +192,10 @@ export const MemberSchema = z
 		phone: z.string().regex(/^[0-9]{10}$/, {
 			message: 'Phone number must start with 0 and be 10 digits long'
 		}),
+		iceContacts: z.array(IceContact),
 		agreements: z.array(AgreementSchema),
 		artifacts: z.array(ArtifactSchema),
 		commissions: z.array(CommissionSchema),
-		iceContacts: z.array(IceContact),
 		company: CompanySchema.optional()
 	})
 	.strict();
