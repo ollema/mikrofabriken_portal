@@ -45,7 +45,7 @@
 			<PageHeader.Title>Invoice {data.invoice.DocumentNumber}</PageHeader.Title>
 		</PageHeader.Heading>
 		<PageHeader.Actions>
-			<Button variant="outline" onclick={downloadPDF}>Download PDF</Button>
+			<Button variant="outline" size="sm" onclick={downloadPDF}>Download PDF</Button>
 		</PageHeader.Actions>
 	</PageHeader.Root>
 

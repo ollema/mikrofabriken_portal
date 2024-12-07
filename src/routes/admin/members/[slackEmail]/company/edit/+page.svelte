@@ -36,7 +36,7 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Edit {appendPossessive(data.member.name)} profile</PageHeader.Title>
+			<PageHeader.Title>Edit {appendPossessive(data.member.name)} company</PageHeader.Title>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 

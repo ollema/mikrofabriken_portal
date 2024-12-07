@@ -28,7 +28,7 @@
 			<DropdownMenu.Root>
 				<DropdownMenu.Trigger>
 					{#snippet child({ props })}
-						<Button {...props} variant="outline" class="data-[state=open]:bg-muted">
+						<Button {...props} variant="outline" size="sm" class="data-[state=open]:bg-muted">
 							Edit
 							<span class="sr-only">Open Menu</span>
 						</Button>
