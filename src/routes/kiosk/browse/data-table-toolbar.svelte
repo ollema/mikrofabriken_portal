@@ -1,8 +1,4 @@
-<script lang="ts" module>
-	type TData = unknown;
-</script>
-
-<script lang="ts" generics="TData">
+<script lang="ts">
 	import X from 'lucide-svelte/icons/x';
 	import type { Table } from '@tanstack/table-core';
 	import {
@@ -11,8 +7,9 @@
 	} from '$lib/components/data-table/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
+	import type { Product } from '$lib/types/cog.js';
 
-	let { table }: { table: Table<TData> } = $props();
+	let { table }: { table: Table<Product> } = $props();
 
 	let isFiltered = $derived(table.getState().columnFilters.length > 0);
 	let categoryCol = $derived(table.getColumn('Category'));
