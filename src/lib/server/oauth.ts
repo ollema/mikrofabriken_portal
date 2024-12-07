@@ -1,4 +1,4 @@
 import { Slack } from 'arctic';
-import { SLACK_CLIENT_ID, SLACK_CLIENT_SECRET, SLACK_REDIRECT_URI } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
-export const slack = new Slack(SLACK_CLIENT_ID, SLACK_CLIENT_SECRET, SLACK_REDIRECT_URI);
+export const slack = new Slack(env.SLACK_CLIENT_ID, env.SLACK_CLIENT_SECRET, env.SLACK_REDIRECT_URI);
