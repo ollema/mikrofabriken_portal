@@ -5,8 +5,8 @@
 	import Metadata from '$lib/components/metadata.svelte';
 	import * as Tooltip from '$lib/components/ui/tooltip/index.js';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
-	import * as Breadcrumb from '$lib/components/ui/breadcrumb/index.js';
 	import AppSidebar from '$lib/components/app-sidebar.svelte';
+	import * as Breadcrumb from '$lib/components/ui/breadcrumb/index.js';
 	import { page } from '$app/stores';
 
 	import '../app.css';
@@ -68,7 +68,7 @@
 		<Sidebar.Inset>
 			<header class="flex h-16 shrink-0 items-center gap-2 border-b px-4">
 				<Sidebar.Trigger class="-ml-1" />
-				<Breadcrumb.Root>
+				<Breadcrumb.Root class="hidden md:block">
 					<Breadcrumb.List>
 						{#each breadcrumbsLinks as breadcrumb, index}
 							{#if index === 0}
@@ -89,8 +89,14 @@
 						{/each}
 					</Breadcrumb.List>
 				</Breadcrumb.Root>
+				<div class="flex gap-2 md:hidden">
+					<a href="/" class="ml-0.5 flex flex-col gap-0.5 text-sm leading-none">
+						<span class="font-semibold">Mikrofabriken</span>
+						<span>Membership Portal</span>
+					</a>
+				</div>
 			</header>
-			<div class="w-full max-w-screen-xl p-4 pb-8">
+			<div class="w-full max-w-screen-xl p-4 pb-12">
 				{@render children?.()}
 			</div>
 		</Sidebar.Inset>

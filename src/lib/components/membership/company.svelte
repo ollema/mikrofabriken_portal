@@ -10,17 +10,17 @@
 </script>
 
 <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-	<div class="flex flex-col gap-4 rounded-xl border bg-card p-6 text-card-foreground shadow">
+	<div class="flex flex-col gap-4 text-sm">
 		<Item label="Name" value={company.name} />
 		<Item label="Org. num" value={company.orgNum} />
 		<Item label="Email" value={company.email || ''} />
 	</div>
-	<div class="flex flex-col gap-4 rounded-xl border bg-card p-6 text-card-foreground shadow">
+	<div class="flex flex-col gap-4 text-sm">
 		<Item label="Address" value={company.postalAdress} />
 		<Item label="Postal code" value={company.postalCode} />
 		<Item label="City" value={company.postalCity} />
 	</div>
-	<div class="flex flex-col gap-4 rounded-xl border bg-card p-6 text-card-foreground shadow">
+	<div class="flex flex-col gap-4 text-sm">
 		<Item label="Default invoice recipient" value={company.invoiceDefaultTo} />
 		<Item
 			label="Categories excluded from default recipient"
