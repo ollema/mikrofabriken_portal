@@ -1,6 +1,6 @@
 <script lang="ts">
 	import IconEntry from './icon-entry.svelte';
-	import Hospital from 'lucide-svelte/icons/hospital';
+	import Bandage from 'lucide-svelte/icons/bandage';
 	import OctagonAlert from 'lucide-svelte/icons/octagon-alert';
 	import type { IceContact } from '$lib/types/members';
 
@@ -9,12 +9,16 @@
 	};
 
 	let { iceContacts }: Props = $props();
+
+	function phoneHref(phone: string) {
+		return `tel:${phone.replace(/^0/, '+46')}`;
+	}
 </script>
 
 {#if iceContacts.length > 0}
 	{#each iceContacts as contact}
-		<IconEntry Icon={Hospital}>
-			{contact.name} - {contact.phone}
+		<IconEntry Icon={Bandage}>
+			{contact.name} - <a href={phoneHref(contact.phone)}>{contact.phone}</a>
 		</IconEntry>
 	{/each}
 {:else}

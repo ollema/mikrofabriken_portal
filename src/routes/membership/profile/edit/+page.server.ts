@@ -107,18 +107,12 @@ function updateMember(member: Member, data: z.infer<typeof profileFormSchema>): 
 
 function profileDeepEqual(a: Member, b: Member) {
 	return (
-		a.crNumber === b.crNumber &&
 		a.name === b.name &&
 		a.postalAdress === b.postalAdress &&
 		a.postalCode === b.postalCode &&
 		a.postalCity === b.postalCity &&
 		a.email === b.email &&
-		a.slackEmail === b.slackEmail &&
-		a.phone === b.phone &&
-		a.iceContacts.length === b.iceContacts.length &&
-		a.iceContacts.every((v, i) => {
-			return v.name === b.iceContacts[i].name && v.phone === b.iceContacts[i].phone;
-		})
+		a.phone === b.phone
 	);
 }
 
@@ -129,5 +123,4 @@ function updateMembersInPlace(member: Member, updatedMember: Member) {
 	member.postalCity = updatedMember.postalCity;
 	member.email = updatedMember.email;
 	member.phone = updatedMember.phone;
-	member.iceContacts = updatedMember.iceContacts;
 }

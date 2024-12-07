@@ -18,6 +18,10 @@
 		goto(href + '/company/edit');
 	}
 
+	function onEditIceContactsSelected() {
+		goto(href + '/ice/edit');
+	}
+
 	function onEditAgreementsSelected() {
 		goto(href + '/agreements/edit');
 	}
@@ -58,12 +62,15 @@
 						{:else}
 							<DropdownMenu.Item onSelect={onEditCompanySelected}>Add company</DropdownMenu.Item>
 						{/if}
+						<DropdownMenu.Item onSelect={onEditIceContactsSelected}>
+							Edit ICE contacts
+						</DropdownMenu.Item>
 						<DropdownMenu.Item onSelect={onEditAgreementsSelected}>
 							Edit agreements
 						</DropdownMenu.Item>
-						<DropdownMenu.Item onSelect={onEditArtifactsSelected}
-							>Edit RFID-tags & keys</DropdownMenu.Item
-						>
+						<DropdownMenu.Item onSelect={onEditArtifactsSelected}>
+							Edit RFID-tags & keys
+						</DropdownMenu.Item>
 						<DropdownMenu.Item onSelect={onEditCommissionsSelected}>Edit roles</DropdownMenu.Item>
 					</DropdownMenu.Content>
 				</DropdownMenu.Root>

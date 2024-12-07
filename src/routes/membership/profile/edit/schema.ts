@@ -3,6 +3,7 @@ import { MemberSchema } from '$lib/schemas/members';
 export const profileFormSchema = MemberSchema.omit({
 	crNumber: true,
 	slackEmail: true,
+	iceContacts: true,
 	agreements: true,
 	artifacts: true,
 	commissions: true,

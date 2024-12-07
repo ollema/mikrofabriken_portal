@@ -22,6 +22,10 @@
 		goto(href + '/company/edit');
 	}
 
+	function onEditIceContactsSelected() {
+		goto(href + '/ice/edit');
+	}
+
 	function onEditAgreementsSelected() {
 		goto(href + '/agreements/edit');
 	}
@@ -48,6 +52,7 @@
 		<DropdownMenu.Item onSelect={onOpenProfileSelected}>Open profile</DropdownMenu.Item>
 		<DropdownMenu.Item onSelect={onEditProfileSelected}>Edit profile</DropdownMenu.Item>
 		<DropdownMenu.Item onSelect={onEditCompanySelected}>Edit company</DropdownMenu.Item>
+		<DropdownMenu.Item onSelect={onEditIceContactsSelected}>Edit ICE contacts</DropdownMenu.Item>
 		<DropdownMenu.Item onSelect={onEditAgreementsSelected}>Edit RFID-tags & keys</DropdownMenu.Item>
 		<DropdownMenu.Item onSelect={onEditArtifactsSelected}>Edit roles</DropdownMenu.Item>
 	</DropdownMenu.Content>

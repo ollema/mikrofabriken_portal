@@ -17,6 +17,10 @@
 		goto(href + '/company/edit');
 	}
 
+	function onEditIceContactsSelected() {
+		goto(href + '/ice/edit');
+	}
+
 	function onEditRFIDSelected() {
 		goto(href + '/rfid/edit');
 	}
@@ -43,7 +47,10 @@
 						{:else}
 							<DropdownMenu.Item onSelect={onEditCompanySelected}>Add company</DropdownMenu.Item>
 						{/if}
-						<DropdownMenu.Item onSelect={onEditRFIDSelected}>Edit RFID</DropdownMenu.Item>
+						<DropdownMenu.Item onSelect={onEditIceContactsSelected}>
+							Edit ICE contacts
+						</DropdownMenu.Item>
+						<DropdownMenu.Item onSelect={onEditRFIDSelected}>Edit RFID-tags</DropdownMenu.Item>
 					</DropdownMenu.Content>
 				</DropdownMenu.Root>
 			</div>
