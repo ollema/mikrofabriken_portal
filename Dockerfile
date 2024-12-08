@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # base image
 # ------------------------------------------------------------------------------
-FROM node:22-slim AS base
+FROM node:22 AS base
 ENV PNPM_HOME="/usr/local/.pnpm-store"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
