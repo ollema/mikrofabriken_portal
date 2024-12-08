@@ -2,7 +2,7 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import ChevronUp from 'lucide-svelte/icons/chevron-up';
-	import Mikrofabriken from '$lib/icons/Mikrofabriken.svelte';
+	import Mikrofabriken from '$lib/icons/mikrofabriken.svelte';
 	import { navigation } from '$lib/config/navigation.js';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';

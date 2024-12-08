@@ -63,6 +63,13 @@ check_env_var "UF_COG_BASE_URL" || exit 1
 # ------------------------------------------------------------------------------
 check_env_var "UF_NEW_MEMBER_KEY" || exit 1
 
+# ------------------------------------------------------------------------------
+# links
+# ------------------------------------------------------------------------------
+check_env_var "LOOTMOBIL_LINK" || exit 1
+check_env_var "LOOTSLAP_LINK" || exit 1
+check_env_var "DRIVE_LINK" || exit 1
+
 echo -e "${GREEN}All environment variables are set!${NC}\n"
 
 # ensure that GITLAB_HOST can be reached
