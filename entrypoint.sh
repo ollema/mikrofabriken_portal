@@ -66,9 +66,9 @@ check_env_var "UF_NEW_MEMBER_KEY" || exit 1
 # ------------------------------------------------------------------------------
 # links
 # ------------------------------------------------------------------------------
-check_env_var "LOOTMOBIL_LINK" || exit 1
-check_env_var "LOOTSLAP_LINK" || exit 1
-check_env_var "DRIVE_LINK" || exit 1
+check_env_var "PUBLIC_LOOTMOBIL_LINK" || exit 1
+check_env_var "PUBLIC_LOOTSLAP_LINK" || exit 1
+check_env_var "PUBLIC_DRIVE_LINK" || exit 1
 
 echo -e "${GREEN}All environment variables are set!${NC}\n"
 
