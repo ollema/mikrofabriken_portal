@@ -10,6 +10,7 @@
 	import Drive from '$lib/icons/drive.svelte';
 	import { env } from '$env/dynamic/public';
 	import { onMount, type Component } from 'svelte';
+	import { page } from '$app/stores';
 
 	let slackHref: string = $state('#');
 
@@ -47,18 +48,24 @@
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
-	<div class="grid grid-cols-[repeat(auto-fill,minmax(5rem,1fr))] gap-8">
-		{@render app({ href: '/kiosk/scan', Icon: KioskBarcode, label: 'Kiosk (scan)' })}
-		{@render app({ href: '/kiosk/browse', Icon: KioskBrowse, label: 'Kiosk (browse)' })}
-		{@render app({ href: env.PUBLIC_LOOTMOBIL_LINK, Icon: Lootmobil, label: 'Lootmobil' })}
-		{@render app({ href: env.PUBLIC_LOOTSLAP_LINK, Icon: Lootslap, label: 'Lootsläp' })}
-		{@render app({ href: 'https://git.mikrofabriken.se', Icon: Gitlab, label: 'Gitlab' })}
-		{@render app({ href: slackHref, Icon: Slack, label: 'Slack' })}
-		{@render app({
-			href: 'http://wiki.mikrofabriken.se',
-			Icon: Mikrofabriken,
-			label: 'Mikrofabriken'
-		})}
-		{@render app({ href: env.PUBLIC_DRIVE_LINK, Icon: Drive, label: 'Drive' })}
-	</div>
+	{#if $page.data.user !== null}
+		<div class="grid grid-cols-[repeat(auto-fill,minmax(5rem,1fr))] gap-8">
+			{@render app({ href: '/kiosk/scan', Icon: KioskBarcode, label: 'Kiosk (scan)' })}
+			{@render app({ href: '/kiosk/browse', Icon: KioskBrowse, label: 'Kiosk (browse)' })}
+			{@render app({ href: env.PUBLIC_LOOTMOBIL_LINK, Icon: Lootmobil, label: 'Lootmobil' })}
+			{@render app({ href: env.PUBLIC_LOOTSLAP_LINK, Icon: Lootslap, label: 'Lootsläp' })}
+			{@render app({ href: 'https://git.mikrofabriken.se', Icon: Gitlab, label: 'Gitlab' })}
+			{@render app({ href: slackHref, Icon: Slack, label: 'Slack' })}
+			{@render app({
+				href: 'http://wiki.mikrofabriken.se',
+				Icon: Mikrofabriken,
+				label: 'Mikrofabriken'
+			})}
+			{@render app({ href: env.PUBLIC_DRIVE_LINK, Icon: Drive, label: 'Drive' })}
+		</div>
+	{:else}
+		<div>
+			<a href="/auth/sign_in" class="underline">Sign in with Slack</a> to get started.
+		</div>
+	{/if}
 </div>
