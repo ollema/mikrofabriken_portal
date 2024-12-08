@@ -26,6 +26,8 @@
 			signoutForm.requestSubmit();
 		}
 	}
+
+	const { setOpenMobile } = Sidebar.useSidebar();
 </script>
 
 <form action="/auth/sign_out" method="post" bind:this={signoutForm}></form>
@@ -63,7 +65,9 @@
 									<Sidebar.MenuItem>
 										<Sidebar.MenuButton>
 											{#snippet child({ props })}
-												<a href={item.href} {...props}>{item.title}</a>
+												<a href={item.href} {...props} onclick={() => setOpenMobile(false)}>
+													{item.title}
+												</a>
 											{/snippet}
 										</Sidebar.MenuButton>
 									</Sidebar.MenuItem>
