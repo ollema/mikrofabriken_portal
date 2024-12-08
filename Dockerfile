@@ -31,7 +31,7 @@ WORKDIR /usr/src/app
 RUN chown -R node:node /usr/src && chmod 755 /usr/src
 
 # add Tini
-ENV TINI_VERSION v0.19.0
+ENV TINI_VERSION=v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 
