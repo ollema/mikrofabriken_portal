@@ -7,12 +7,13 @@
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { productFormSchema, type ProductFormSchema } from './schema.js';
+	import { newProductFormSchema, type NewProductFormSchema } from './schema.js';
 	import { generateEAN13 } from '$lib/utils/barcode.js';
+	import { page } from '$app/stores';
 
 	interface Props {
 		data: {
-			form: SuperValidated<Infer<ProductFormSchema>>;
+			form: SuperValidated<Infer<NewProductFormSchema>>;
 			productCategories: string[];
 			billingCategories: string[];
 			// TODO: should not be nullable
@@ -24,11 +25,35 @@
 	let { data }: Props = $props();
 
 	const form = superForm(data.form, {
-		validators: zodClient(productFormSchema),
+		validators: zodClient(newProductFormSchema),
 		dataType: 'json'
 	});
 
 	const { form: formData, enhance, delayed } = form;
+
+	// set default category to Snacks if it exists, otherwise use the first category
+	$formData.category = data.productCategories.includes('Store')
+		? 'Store'
+		: data.productCategories[0];
+
+	// set default VAT percentage to 12 if it exists, otherwise use the first VAT percentage
+	const defaultVatPercentage = data.vatPercentages.includes(12)
+		? '12'
+		: data.vatPercentages[0].toString();
+
+	// set default unit name to 'pcs' if it exists, otherwise use the first unit name
+	$formData.unitName = data.unitNames.includes('pcs') ? 'pcs' : (data.unitNames[0] ?? null);
+
+	// set default billing category to 'kiosk' if it exists, otherwise use the first billing category
+	$formData.billingCategory = data.billingCategories.includes('kiosk')
+		? 'kiosk'
+		: data.billingCategories[0];
+
+	// read barcode from query parameter if it exists
+	const defaultBarcode = $page.url.searchParams.get('barcode');
+	if (defaultBarcode) {
+		$formData.ean = defaultBarcode;
+	}
 
 	function generateBarcode() {
 		try {
@@ -43,7 +68,7 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Edit product</PageHeader.Title>
+			<PageHeader.Title>Add new product</PageHeader.Title>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
@@ -64,7 +89,7 @@
 					<Form.Label>Category</Form.Label>
 					<Select.Root type="single" bind:value={$formData.category} name={props.name}>
 						<Select.Trigger {...props}>
-							{$formData.category ?? 'Select category'}
+							{$formData.category ?? 'Select a category'}
 						</Select.Trigger>
 						<Select.Content>
 							{#each data.productCategories as category}
@@ -111,7 +136,7 @@
 			<RadioGroup.Root
 				class="flex flex-col space-y-1"
 				name="vat"
-				value={$formData.vat.toString()}
+				value={defaultVatPercentage}
 				onValueChange={(value) => {
 					$formData.vat = parseInt(value);
 				}}
@@ -230,6 +255,6 @@
 			<Form.FieldErrors />
 		</Form.Field>
 
-		<Form.SubmitButton {delayed} label="Edit product" />
+		<Form.SubmitButton {delayed} label="Add product" />
 	</form>
 </div>

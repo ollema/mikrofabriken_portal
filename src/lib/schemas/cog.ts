@@ -34,14 +34,6 @@ export const ProductsSchema = z.array(ProductSchema);
 
 export const NewProductSchema = ProductSchema.omit({ uuid: true });
 
-export const newProductFormSchema = NewProductSchema;
-
-export type NewProductFormSchema = typeof newProductFormSchema;
-
-export const deleteProductFormSchema = ProductSchema.pick({ uuid: true });
-
-export type DeleteProductFormSchema = typeof deleteProductFormSchema;
-
 export const HistoricPurchaseSchema = z.object({
 	buyerCrNumber: z.string(),
 	dateTime: z.string().transform((value) => new Date(value)),
