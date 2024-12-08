@@ -3,7 +3,7 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import ChevronUp from 'lucide-svelte/icons/chevron-up';
 	import Mikrofabriken from '$lib/icons/mikrofabriken.svelte';
-	import { navigation } from '$lib/config/navigation.js';
+	import { allowedToViewCategory, allowedToViewPage, navigation } from '$lib/config/navigation.js';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 
@@ -52,23 +52,27 @@
 		</Sidebar.Menu>
 	</Sidebar.Header>
 	<Sidebar.Content>
-		{#each navigation as group (group.title)}
-			<Sidebar.Group>
-				<Sidebar.GroupLabel>{group.title}</Sidebar.GroupLabel>
-				<Sidebar.GroupContent>
-					<Sidebar.Menu>
-						{#each group.items as item (item.title)}
-							<Sidebar.MenuItem>
-								<Sidebar.MenuButton>
-									{#snippet child({ props })}
-										<a href={item.href} {...props}>{item.title}</a>
-									{/snippet}
-								</Sidebar.MenuButton>
-							</Sidebar.MenuItem>
-						{/each}
-					</Sidebar.Menu>
-				</Sidebar.GroupContent>
-			</Sidebar.Group>
+		{#each navigation as group}
+			{#if allowedToViewCategory(group.requireAdmin, group.requireClaims, $page.data.user?.role === 'admin', $page.data.user?.claims)}
+				<Sidebar.Group>
+					<Sidebar.GroupLabel>{group.title}</Sidebar.GroupLabel>
+					<Sidebar.GroupContent>
+						<Sidebar.Menu>
+							{#each group.items as item (item.title)}
+								{#if allowedToViewPage(item.requireAdmin, item.requireClaims, $page.data.user?.role === 'admin', $page.data.user?.claims)}
+									<Sidebar.MenuItem>
+										<Sidebar.MenuButton>
+											{#snippet child({ props })}
+												<a href={item.href} {...props}>{item.title}</a>
+											{/snippet}
+										</Sidebar.MenuButton>
+									</Sidebar.MenuItem>
+								{/if}
+							{/each}
+						</Sidebar.Menu>
+					</Sidebar.GroupContent>
+				</Sidebar.Group>
+			{/if}
 		{/each}
 	</Sidebar.Content>
 	<Sidebar.Footer>
