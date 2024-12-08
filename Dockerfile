@@ -30,13 +30,13 @@ WORKDIR /usr/src/app
 # set correct ownership and permissions
 RUN chown -R node:node /usr/src && chmod 755 /usr/src
 
-# add Tini
+# add tini
 ENV TINI_VERSION=v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 
 # copy built assets from builder stage
-COPY --from=builder /usr/src/app/dist ./dist
+COPY --from=builder /usr/src/app/build ./build
 COPY --from=builder /usr/src/app/node_modules ./node_modules
 COPY --from=builder /usr/src/app/entrypoint.sh ./entrypoint.sh
 
