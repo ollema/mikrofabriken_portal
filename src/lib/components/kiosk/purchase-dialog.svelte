@@ -9,6 +9,7 @@
 
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
+	import { tick } from 'svelte';
 
 	interface Props {
 		// props
@@ -52,16 +53,17 @@
 		confirmButton?.focus();
 	}
 
-	function closeDialog() {
+	async function closeDialog() {
 		open = false;
+		await tick();
 		product = undefined;
 		quantity = 1;
 		onClose?.();
 	}
 
-	function onOpenChange(open: boolean) {
-		if (!open) {
-			closeDialog();
+	async function onOpenChange(isOpen: boolean) {
+		if (!isOpen) {
+			await closeDialog();
 		}
 	}
 </script>
