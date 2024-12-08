@@ -1,48 +1,50 @@
-# use node 22 as base image
-FROM node:22-bullseye
+# ------------------------------------------------------------------------------
+# base image
+# ------------------------------------------------------------------------------
+FROM node:22-slim AS base
+ENV PNPM_HOME="/usr/local/.pnpm-store"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
-# set working directory
+# ------------------------------------------------------------------------------
+# builder image
+# ------------------------------------------------------------------------------
+FROM base AS builder
 WORKDIR /usr/src/app
 
-# set ownership and permissions for the /usr/src directory
-# TODO: use environment variable for repo path
-RUN chown -R node:node /usr/src && chmod 755 /usr/src
-
-# set environment variables
-ENV PNPM_HOME=/usr/local/.pnpm-store
-ENV PATH=$PNPM_HOME/bin:$PATH
-
-# install pnpm
-ENV PNPM_VERSION=9
-RUN npm install -g pnpm@${PNPM_VERSION}
-
-# copy pnpm lock files
+# copy lock file and fetch dependencies
 COPY pnpm-lock.yaml ./
-
-# fetch dependencies
 RUN pnpm fetch
 
-# copy source code
+# copy source code and build
 COPY . ./
-
-# install dependencies
 RUN pnpm install --offline
-
-# build app
 RUN pnpm build
 
-# add tini
+# ------------------------------------------------------------------------------
+# production image
+# ------------------------------------------------------------------------------
+FROM base AS production
+WORKDIR /usr/src/app
+
+# set correct ownership and permissions
+RUN chown -R node:node /usr/src && chmod 755 /usr/src
+
+# add Tini
 ENV TINI_VERSION v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 
-# set port
+# copy built assets from builder stage
+COPY --from=builder /usr/src/app/dist ./dist
+COPY --from=builder /usr/src/app/node_modules ./node_modules
+COPY --from=builder /usr/src/app/entrypoint.sh ./entrypoint.sh
+
+# set production configs
 ENV PORT=3000
 EXPOSE ${PORT}
-
-# set user and environment
-USER node
 ENV NODE_ENV=production
+USER node
 
 ENTRYPOINT ["/tini", "--"]
 CMD [ "/usr/src/app/entrypoint.sh" ]
