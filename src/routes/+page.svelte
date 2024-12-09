@@ -59,7 +59,7 @@
 			{@render app({
 				href: 'http://wiki.mikrofabriken.se',
 				Icon: Mikrofabriken,
-				label: 'Mikrofabriken'
+				label: 'Wiki'
 			})}
 			{@render app({ href: env.PUBLIC_DRIVE_LINK, Icon: Drive, label: 'Drive' })}
 		</div>
