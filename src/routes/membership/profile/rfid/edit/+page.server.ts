@@ -115,8 +115,6 @@ function populateFromCurrent(member: Member): z.infer<typeof rfidTagsFormSchema>
 			} else {
 				throw new Error('RFID artifact is missing data or codeHash');
 			}
-		} else {
-			throw new Error('Unknown artifact type');
 		}
 	});
 
