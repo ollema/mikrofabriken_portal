@@ -71,6 +71,7 @@ export function getFormattedMembersBasedOnCommissions(
 	const membersInSecretary = [];
 	const membersInMember = [];
 	const membersInAlternate = [];
+	const membersInNomination = [];
 	const membersInGroupEconomy = [];
 	const membersInGroupIT = [];
 	const membersInGroupPR = [];
@@ -108,6 +109,12 @@ export function getFormattedMembersBasedOnCommissions(
 						break;
 					case 'board/alternate':
 						membersInAlternate.push(member);
+						break;
+					case 'nomination/chairman':
+						membersInNomination.push(member);
+						break;
+					case 'nomination/member':
+						membersInNomination.push(member);
 						break;
 					case 'committee/economy':
 						membersInGroupEconomy.push(member);
@@ -194,7 +201,11 @@ export function getFormattedMembersBasedOnCommissions(
 				members: membersInAlternate.map(formatMember(here))
 			}
 		],
-		committees: [
+		groups: [
+			{
+				label: commissionToHumanReadable('nomination/member'),
+				members: membersInNomination.map(formatMember(here))
+			},
 			{
 				label: commissionToHumanReadable('committee/economy'),
 				members: membersInGroupEconomy.map(formatMember(here))

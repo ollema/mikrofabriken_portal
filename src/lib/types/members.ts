@@ -1,6 +1,11 @@
 import type { z } from 'zod';
 
-import type { MembersSchema, MemberSchema, CompanySchema } from '$lib/schemas/members.js';
+import type {
+	MembersSchema,
+	MemberSchema,
+	CompanySchema,
+	InvoiceCategoryTypes
+} from '$lib/schemas/members.js';
 
 export type Members = z.infer<typeof MembersSchema>;
 export type Member = z.infer<typeof MemberSchema>;
@@ -17,6 +22,8 @@ export type ExtendedMember = Member & {
 };
 
 export type Company = z.infer<typeof CompanySchema>;
+
+export type CompanyInvoiceCategoryType = z.infer<typeof InvoiceCategoryTypes>;
 
 export type IceContact = z.infer<typeof MembersSchema.element.shape.iceContacts.element>;
 

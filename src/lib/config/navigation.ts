@@ -29,6 +29,10 @@ export const navigation: Navigation[] = [
 			{
 				title: 'Board',
 				href: '/mikrofabriken/board'
+			},
+			{
+				title: 'Other groups',
+				href: '/mikrofabriken/groups'
 			}
 		]
 	},
