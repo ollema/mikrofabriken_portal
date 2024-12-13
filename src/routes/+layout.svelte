@@ -46,9 +46,7 @@
 		breadcrumbs.map((breadcrumb, index) => {
 			const href = '/' + breadcrumbs.slice(0, index + 1).join('/');
 			let label: string;
-			if (breadcrumb.includes('@')) {
-				label = breadcrumb.toLowerCase();
-			} else if (breadcrumb.includes('_')) {
+			if (breadcrumb.includes('_')) {
 				label = breadcrumb.split('_').map(capitalize).join(' ');
 			} else {
 				label = capitalize(breadcrumb);

@@ -18,12 +18,12 @@ import type { Member } from '$lib/types/members.js';
 export const load = async ({ locals, params }) => {
 	getUser(locals);
 	const members = parseMemberList();
-	let member = getMember(members, params.slackEmail);
+	let member = getMember(members, params.slackID);
 
 	const pending = await getPendingUpdateForMember(member.crNumber).then(
 		({ members, sourceBranch, link }) => {
 			return {
-				member: members && getMember(members, member.slackEmail),
+				member: members && getMember(members, member.slackID),
 				sourceBranch,
 				link
 			};
@@ -44,15 +44,15 @@ export const actions = {
 		const user = getUser(locals);
 		await updateRepo(env.UFPERSONSLIST_REPO_PATH);
 		let members = parseMemberList();
-		let member = getMember(members, params.slackEmail);
-		const admin = getMember(members, user.email);
-		const redirectUrl = `/admin/members/${member.slackEmail}`;
+		let member = getMember(members, params.slackID);
+		const admin = getMember(members, user.slackID);
+		const redirectUrl = `/admin/members/${member.slackID}`;
 
 		const pending = await getPendingUpdateForMember(member.crNumber).then(
 			({ members, sourceBranch }) => {
 				return {
 					members: members,
-					member: members && getMember(members, member.slackEmail),
+					member: members && getMember(members, member.slackID),
 					sourceBranch
 				};
 			}
@@ -101,15 +101,15 @@ export const actions = {
 		const user = getUser(locals);
 		await updateRepo(env.UFPERSONSLIST_REPO_PATH);
 		let members = parseMemberList();
-		let member = getMember(members, params.slackEmail);
-		const admin = getMember(members, user.email);
-		const redirectUrl = `/admin/members/${member.slackEmail}`;
+		let member = getMember(members, params.slackID);
+		const admin = getMember(members, user.slackID);
+		const redirectUrl = `/admin/members/${member.slackID}`;
 
 		const pending = await getPendingUpdateForMember(member.crNumber).then(
 			({ members, sourceBranch }) => {
 				return {
 					members: members,
-					member: members && getMember(members, member.slackEmail),
+					member: members && getMember(members, member.slackID),
 					sourceBranch
 				};
 			}

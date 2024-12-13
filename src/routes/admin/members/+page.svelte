@@ -23,7 +23,7 @@
 			}),
 			visibility: ssp.object<VisibilityState>({
 				Email: false,
-				'Slack email': false,
+				'Slack ID': false,
 				Phone: false,
 				'Member since': false
 			})

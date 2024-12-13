@@ -28,7 +28,7 @@ check_env_var "SLACK_REDIRECT_URI" || exit 1
 check_env_var "SLACK_TEAM_ID" || exit 1
 
 # ------------------------------------------------------------------------------
-# admins (should match slackEmail entries in members.json)
+# admins (should match slack ID entries in members.json)
 # ------------------------------------------------------------------------------
 check_env_var "ADMINS" || exit 1
 

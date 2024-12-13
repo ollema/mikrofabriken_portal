@@ -51,6 +51,16 @@
 			<Form.FieldErrors />
 		</Form.Field>
 
+		<Form.Field {form} name="slackID">
+			<Form.Control>
+				{#snippet children({ props })}
+					<Form.Label>Slack ID</Form.Label>
+					<Input {...props} bind:value={$formData.slackID} />
+				{/snippet}
+			</Form.Control>
+			<Form.FieldErrors />
+		</Form.Field>
+
 		<Form.Field {form} name="name">
 			<Form.Control>
 				{#snippet children({ props })}
@@ -96,16 +106,6 @@
 				{#snippet children({ props })}
 					<Form.Label>Email</Form.Label>
 					<Input {...props} bind:value={$formData.email} />
-				{/snippet}
-			</Form.Control>
-			<Form.FieldErrors />
-		</Form.Field>
-
-		<Form.Field {form} name="slackEmail">
-			<Form.Control>
-				{#snippet children({ props })}
-					<Form.Label>Slack email</Form.Label>
-					<Input {...props} bind:value={$formData.slackEmail} />
 				{/snippet}
 			</Form.Control>
 			<Form.FieldErrors />

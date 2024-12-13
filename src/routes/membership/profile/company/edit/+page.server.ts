@@ -18,11 +18,11 @@ import type { Member } from '$lib/types/members.js';
 export const load = async ({ locals, url }) => {
 	const user = getUser(locals, url);
 	const members = parseMemberList();
-	let member = getMember(members, user.email);
+	let member = getMember(members, user.slackID);
 
 	const pending = await getPendingUpdateForMember(member.crNumber).then(({ members }) => {
 		return {
-			member: members && getMember(members, member.slackEmail)
+			member: members && getMember(members, member.slackID)
 		};
 	});
 
@@ -39,14 +39,14 @@ export const actions = {
 		const user = getUser(locals, url);
 		await updateRepo(env.UFPERSONSLIST_REPO_PATH);
 		let members = parseMemberList();
-		let member = getMember(members, user.email);
+		let member = getMember(members, user.slackID);
 		const redirectUrl = `/membership/profile`;
 
 		const pending = await getPendingUpdateForMember(member.crNumber).then(
 			({ members, sourceBranch }) => {
 				return {
 					members: members,
-					member: members && getMember(members, member.slackEmail),
+					member: members && getMember(members, member.slackID),
 					sourceBranch
 				};
 			}
@@ -95,14 +95,14 @@ export const actions = {
 		const user = getUser(locals, url);
 		await updateRepo(env.UFPERSONSLIST_REPO_PATH);
 		let members = parseMemberList();
-		let member = getMember(members, user.email);
+		let member = getMember(members, user.slackID);
 		const redirectUrl = `/membership/profile`;
 
 		const pending = await getPendingUpdateForMember(member.crNumber).then(
 			({ members, sourceBranch }) => {
 				return {
 					members: members,
-					member: members && getMember(members, member.slackEmail),
+					member: members && getMember(members, member.slackID),
 					sourceBranch
 				};
 			}

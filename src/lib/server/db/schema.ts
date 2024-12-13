@@ -3,8 +3,7 @@ import { type Claims } from '$lib/types/cog.js';
 
 export const user = sqliteTable('user', {
 	id: text('id').primaryKey(),
-	slackId: text('slack_id').notNull().unique(),
-	email: text('email').notNull(),
+	slackID: text('slack_id').notNull().unique(),
 	role: text('role').notNull(),
 	claims: text('claims', { mode: 'json' }).$type<Claims>().notNull(),
 	name: text('name').notNull(),

@@ -35,8 +35,8 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 			renderComponent(DataTableColumnHeader<ExtendedMember, unknown>, { column, title: 'Name' }),
 		cell: ({ row }) => {
 			const name = row.original.name;
-			const slackEmail = row.original.slackEmail;
-			const href = '/admin/members/' + slackEmail;
+			const slackID = row.original.slackID;
+			const href = '/admin/members/' + slackID;
 
 			const nameCellSnippet = createRawSnippet<[string]>(() => {
 				return {
@@ -49,14 +49,14 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 		enableHiding: false
 	},
 	{
+		id: 'Slack ID',
+		accessorKey: 'slackID',
+		header: 'Slack ID'
+	},
+	{
 		id: 'Email',
 		accessorKey: 'email',
 		header: 'Email'
-	},
-	{
-		id: 'Slack email',
-		accessorKey: 'slackEmail',
-		header: 'Slack email'
 	},
 	{
 		id: 'Phone',

@@ -7,7 +7,7 @@ import { PurchaseSchema } from '$lib/schemas/cog.js';
 export async function load({ locals, url }) {
 	const user = getUser(locals, url);
 	const members = parseMemberList();
-	const member = getMember(members, user.email);
+	const member = getMember(members, user.slackID);
 
 	return {
 		member: member

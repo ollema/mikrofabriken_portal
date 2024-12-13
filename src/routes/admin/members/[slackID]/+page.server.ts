@@ -6,13 +6,13 @@ import { getAvatar } from '$lib/server/cog.js';
 export const load = async ({ locals, params }) => {
 	getUser(locals);
 	const members = parseMemberList();
-	const member = getMember(members, params.slackEmail);
+	const member = getMember(members, params.slackID);
 
 	const avatar = getAvatar(member.crNumber);
 
 	const pending = getPendingUpdateForMember(member.crNumber).then(({ members, sourceBranch }) => {
 		return {
-			member: members && getMember(members, member.slackEmail),
+			member: members && getMember(members, member.slackID),
 			sourceBranch
 		};
 	});

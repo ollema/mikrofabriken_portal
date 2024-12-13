@@ -32,7 +32,7 @@ export const GET = async (event) => {
 		const slackUser = await getSlackUser(tokens);
 
 		// validate the mikrofabriken membership
-		const { admin, crNumber } = validateMembership(slackUser.email, slackUser.email_verified);
+		const { admin, crNumber } = validateMembership(slackUser.sub);
 
 		// get claims from cog (returns empty list if there are connectivity issues)
 		const claims = await getClaims(tokens.accessToken(), crNumber);
@@ -88,12 +88,8 @@ async function getSlackUser(tokens: OAuth2Tokens): Promise<SlackUser> {
 	}).then((response) => response.json());
 }
 
-function validateMembership(email: string, email_verified: boolean) {
-	if (!email) {
-		throw new Error('Your Slack account does not have an associated email address');
-	}
-
-	const result = isMember(email, email_verified);
+function validateMembership(slackID: string) {
+	const result = isMember(slackID);
 	if (result.success) {
 		const { member } = result;
 		return { admin: isAdmin(member), crNumber: member.crNumber };
@@ -108,8 +104,7 @@ async function upsertUser(slackUser: SlackUser, admin: boolean, claims: Claims, 
 		.insert(user)
 		.values({
 			id: generateUserId(),
-			slackId: slackUser.sub,
-			email: slackUser.email,
+			slackID: slackUser.sub,
 			role: admin ? 'admin' : 'user',
 			claims: claims,
 			name: slackUser.name,
@@ -117,9 +112,8 @@ async function upsertUser(slackUser: SlackUser, admin: boolean, claims: Claims, 
 			token: token
 		})
 		.onConflictDoUpdate({
-			target: user.slackId,
+			target: user.slackID,
 			set: {
-				email: slackUser.email,
 				role: admin ? 'admin' : 'user',
 				claims: claims,
 				name: slackUser.name,

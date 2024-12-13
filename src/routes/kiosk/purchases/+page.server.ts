@@ -5,7 +5,7 @@ import { getPurchases } from '$lib/server/cog.js';
 export async function load({ locals, url }) {
 	const user = getUser(locals, url);
 	const members = parseMemberList();
-	const member = getMember(members, user.email);
+	const member = getMember(members, user.slackID);
 	const token = getToken(locals);
 
 	const purchasesLastMonth = getPurchases(token, member.crNumber, 1);

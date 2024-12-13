@@ -8,7 +8,7 @@
 
 	let { data } = $props();
 
-	let href = $derived('/admin/members/' + data.member.slackEmail);
+	let href = $derived('/admin/members/' + data.member.slackID);
 
 	function onEditProfileSelected() {
 		goto(href + '/profile/edit');

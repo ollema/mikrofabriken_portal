@@ -19,29 +19,29 @@ export function parseMemberList() {
 }
 
 /**
- * Finds a member in the given array of members based on the provided Slack email.
+ * Finds a member in the given array of members based on the provided Slack ID.
 
 * @param members - The list of members.
- * @param slackEmail - The Slack email of the member to search for.
+ * @param slackID - The Slack ID of the member to search for.
  * @returns The found member or undefined if not found.
  */
-export function maybeFindMember(members: Members, slackEmail: string) {
-	return members.find((member) => member.slackEmail.toLowerCase() === slackEmail.toLowerCase());
+export function maybeFindMember(members: Members, slackID: string) {
+	return members.find((member) => member.slackID === slackID);
 }
 
 /**
- * Retrieves a member from the given list of members based on the Slack email.
- * Throws an error if no member is found with the specified Slack email.
+ * Retrieves a member from the given list of members based on the Slack ID
+ * Throws an error if no member is found with the specified Slack ID.
  *
  * @param members - The list of members.
- * @param slackEmail - The Slack email of the member to retrieve.
- * @returns The member object with the specified Slack email.
+ * @param slackID - The Slack ID of the member to retrieve.
+ * @returns The member object with the specified Slack ID.
  * @throws An error with status code 404 if no member is found.
  */
-export function getMember(members: Members, slackEmail: string) {
-	const member = maybeFindMember(members, slackEmail);
+export function getMember(members: Members, slackID: string) {
+	const member = maybeFindMember(members, slackID);
 	if (!member) {
-		error(404, `No member found with Slack email set to: ${slackEmail.toLowerCase()} was found.`);
+		error(404, `No member found with Slack ID: ${slackID.toLowerCase()} was found.`);
 	}
 	return member;
 }

@@ -2,6 +2,7 @@ import { MemberSchema } from '$lib/schemas/members.js';
 
 export const profileFormSchema = MemberSchema.omit({
 	crNumber: true,
+	slackID: true,
 	slackEmail: true,
 	iceContacts: true,
 	agreements: true,

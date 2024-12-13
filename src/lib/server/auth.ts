@@ -37,8 +37,7 @@ export async function validateSessionToken(token: string) {
 		.select({
 			user: {
 				id: table.user.id,
-				slackId: table.user.slackId,
-				email: table.user.email,
+				slackID: table.user.slackID,
 				role: table.user.role,
 				claims: table.user.claims,
 				name: table.user.name,
@@ -123,24 +122,18 @@ export function getToken(locals: App.Locals) {
 type MembershipCheckResult = { success: true; member: Member } | { success: false; reason: string };
 
 /**
- * Checks if a user is a member based on their email address and membership status.
- * @param email - The email address of the user.
- * @param email_verified - Whether the user's email address has been verified.
+ * Checks if a user is a member based on their slack ID.
+ * @param slackID
  * @returns A `MembershipCheckResult` object indicating whether the user is a member and the reason if not.
  */
-export function isMember(email: string, email_verified: boolean): MembershipCheckResult {
-	// users need to have verified email addresses
-	if (!email_verified) {
-		return { success: false, reason: `Your email used in Slack (${email}) is not verified` };
-	}
-
+export function isMember(slackID: string): MembershipCheckResult {
 	// users need to exist in the members.json file
 	const members = parseMemberList();
-	const member = members.find((member) => member.slackEmail.toLowerCase() === email.toLowerCase());
+	const member = members.find((member) => member.slackID === slackID);
 	if (!member) {
 		return {
 			success: false,
-			reason: `Your email used in Slack (${email}) is not found in members.json`
+			reason: `Your slack ID (${slackID}) is not found in members.json`
 		};
 	}
 
@@ -176,7 +169,7 @@ export function isAdmin(member: Member) {
 	}
 
 	// selected list of users are also admins
-	if (env.ADMINS?.split(',').includes(member.slackEmail.toLowerCase())) {
+	if (env.ADMINS?.split(',').includes(member.slackID)) {
 		admin = true;
 	}
 

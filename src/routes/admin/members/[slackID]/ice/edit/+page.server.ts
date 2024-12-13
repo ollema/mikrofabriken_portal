@@ -5,7 +5,7 @@ import { redirect } from 'sveltekit-flash-message/server';
 import { z } from 'zod';
 import { getUser } from '$lib/server/auth.js';
 import { getMember, parseMemberList } from '$lib/server/members.js';
-import { profileFormSchema } from './schema.js';
+import { iceContactsFormSchema } from './schema.js';
 import {
 	getPendingUpdateForMember,
 	getSuggestChangeOptions,
@@ -18,12 +18,12 @@ import type { Member } from '$lib/types/members.js';
 export const load = async ({ locals, params }) => {
 	getUser(locals);
 	const members = parseMemberList();
-	let member = getMember(members, params.slackEmail);
+	let member = getMember(members, params.slackID);
 
 	const pending = await getPendingUpdateForMember(member.crNumber).then(
 		({ members, sourceBranch, link }) => {
 			return {
-				member: members && getMember(members, member.slackEmail),
+				member: members && getMember(members, member.slackID),
 				sourceBranch,
 				link
 			};
@@ -33,7 +33,7 @@ export const load = async ({ locals, params }) => {
 	member = pending.member || member;
 
 	return {
-		form: await superValidate(populateFromCurrent(member), zod(profileFormSchema)),
+		form: await superValidate(populateFromCurrent(member), zod(iceContactsFormSchema)),
 		pending: pending,
 		member: member
 	};
@@ -44,15 +44,15 @@ export const actions = {
 		const user = getUser(locals);
 		await updateRepo(env.UFPERSONSLIST_REPO_PATH);
 		let members = parseMemberList();
-		let member = getMember(members, params.slackEmail);
-		const admin = getMember(members, user.email);
-		const redirectUrl = `/admin/members/${member.slackEmail}`;
+		let member = getMember(members, params.slackID);
+		const admin = getMember(members, user.slackID);
+		const redirectUrl = `/admin/members/${member.slackID}`;
 
 		const pending = await getPendingUpdateForMember(member.crNumber).then(
 			({ members, sourceBranch }) => {
 				return {
 					members: members,
-					member: members && getMember(members, member.slackEmail),
+					member: members && getMember(members, member.slackID),
 					sourceBranch
 				};
 			}
@@ -61,7 +61,7 @@ export const actions = {
 		members = pending.members || members;
 		member = pending.member || member;
 
-		const form = await superValidate(request, zod(profileFormSchema));
+		const form = await superValidate(request, zod(iceContactsFormSchema));
 		if (!form.valid) {
 			return fail(400, { form });
 		}
@@ -99,10 +99,12 @@ export const actions = {
 };
 
 function populateFromCurrent(member: Member) {
-	return member;
+	return {
+		iceContacts: member.iceContacts
+	};
 }
 
-function updateMember(member: Member, data: z.infer<typeof profileFormSchema>): Member {
+function updateMember(member: Member, data: z.infer<typeof iceContactsFormSchema>): Member {
 	const suggestedMember = {
 		...member,
 		...data
@@ -113,24 +115,14 @@ function updateMember(member: Member, data: z.infer<typeof profileFormSchema>): 
 
 function profileDeepEqual(a: Member, b: Member) {
 	return (
-		a.crNumber === b.crNumber &&
-		a.name === b.name &&
-		a.postalAdress === b.postalAdress &&
-		a.postalCode === b.postalCode &&
-		a.postalCity === b.postalCity &&
-		a.email === b.email &&
-		a.slackEmail === b.slackEmail &&
-		a.phone === b.phone
+		a.iceContacts.length === b.iceContacts.length &&
+		a.iceContacts.every((contact, index) => {
+			const otherContact = b.iceContacts[index];
+			return contact.name === otherContact.name && contact.phone === otherContact.phone;
+		})
 	);
 }
 
 function updateMembersInPlace(member: Member, updatedMember: Member) {
-	member.crNumber = updatedMember.crNumber;
-	member.name = updatedMember.name;
-	member.postalAdress = updatedMember.postalAdress;
-	member.postalCode = updatedMember.postalCode;
-	member.postalCity = updatedMember.postalCity;
-	member.email = updatedMember.email;
-	member.slackEmail = updatedMember.slackEmail;
-	member.phone = updatedMember.phone;
+	member.iceContacts = updatedMember.iceContacts;
 }
