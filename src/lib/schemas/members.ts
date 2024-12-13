@@ -181,6 +181,10 @@ export const MemberSchema = z
 		crNumber: z.string().regex(/^[0-9]{8}-[0-9]{4}$/, {
 			message: 'PIN must be in format 12345678-1234'
 		}),
+		slackID: z
+			.string()
+			.min(1, { message: 'Slack ID needs to be at least 1 character long' })
+			.optional(),
 		name: z.string().min(1, { message: 'Name needs to be at least 1 character long' }),
 		postalAdress: z
 			.string()

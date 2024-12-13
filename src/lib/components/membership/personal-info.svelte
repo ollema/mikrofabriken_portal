@@ -26,7 +26,7 @@
 	</div>
 	<div class="flex flex-col gap-4 text-sm">
 		<ProfileItem label="Email" value={member.email} />
-		<ProfileItem label="Slack Email" value={member.slackEmail} />
+		<ProfileItem label="Slack ID" value={member.slackID ?? '-'} />
 		<ProfileItem label="Phone" value={member.phone} />
 	</div>
 	<div class="flex flex-col gap-4 text-sm">
