@@ -1,35 +1,34 @@
 <script lang="ts">
 	import * as PageHeader from '$lib/components/page-header/index.js';
-	import { ssp, queryParameters } from 'sveltekit-search-params';
-	import type {
-		ColumnFiltersState,
-		SortingState,
-		PaginationState,
-		VisibilityState,
-		Row
-	} from '@tanstack/table-core';
+	import type { Row } from '@tanstack/table-core';
 	import { DataTable, DataTablePagination } from '$lib/components/data-table/index.js';
 	import { columns } from './columns.js';
 	import { goto } from '$app/navigation';
 	import type { Invoice } from '$lib/types/fortnox.js';
 
-	const params = queryParameters(
-		{
-			columnFilters: ssp.object<ColumnFiltersState>([]),
-			sorting: ssp.object<SortingState>([{ id: 'Due', desc: true }]),
-			pagination: ssp.object<PaginationState>({
-				pageIndex: 1,
-				pageSize: 3
-			}),
-			visibility: ssp.object<VisibilityState>({
-				Invoice: false
-			})
+	let personalParams = $state({
+		columnFilters: [],
+		sorting: [{ id: 'Due', desc: true }],
+		pagination: {
+			pageIndex: 1,
+			pageSize: 3
 		},
-		{
-			debounceHistory: 500,
-			showDefaults: false
+		visibility: {
+			Invoice: false
 		}
-	);
+	});
+
+	let companyParams = $state({
+		columnFilters: [],
+		sorting: [{ id: 'Due', desc: true }],
+		pagination: {
+			pageIndex: 1,
+			pageSize: 3
+		},
+		visibility: {
+			Invoice: false
+		}
+	});
 
 	let { data } = $props();
 
@@ -51,7 +50,7 @@
 
 	{#if data.invoices.personal !== null}
 		{@render subtitle('Personal')}
-		<DataTable data={data.invoices.personal} {columns} {params} {onRowClick}>
+		<DataTable data={data.invoices.personal} {columns} params={personalParams} {onRowClick}>
 			{#snippet paginationControls(table)}
 				<DataTablePagination {table} showPerPage={false} />
 			{/snippet}
@@ -60,7 +59,7 @@
 
 	{#if data.invoices.company !== null}
 		{@render subtitle('Company')}
-		<DataTable data={data.invoices.company} {columns} {params} {onRowClick}>
+		<DataTable data={data.invoices.company} {columns} params={companyParams} {onRowClick}>
 			{#snippet paginationControls(table)}
 				<DataTablePagination {table} showPerPage={false} />
 			{/snippet}
