@@ -71,6 +71,7 @@ export function getFormattedMembersBasedOnCommissions(
 	const membersInSecretary = [];
 	const membersInMember = [];
 	const membersInAlternate = [];
+	const membersInAuditor = [];
 	const membersInNomination = [];
 	const membersInGroupEconomy = [];
 	const membersInGroupIT = [];
@@ -109,6 +110,12 @@ export function getFormattedMembersBasedOnCommissions(
 						break;
 					case 'board/alternate':
 						membersInAlternate.push(member);
+						break;
+					case 'auditor/member':
+						membersInAuditor.push(member);
+						break;
+					case 'auditor/alternate':
+						membersInAuditor.push(member);
 						break;
 					case 'nomination/chairman':
 						membersInNomination.push(member);
@@ -202,6 +209,10 @@ export function getFormattedMembersBasedOnCommissions(
 			}
 		],
 		groups: [
+			{
+				label: commissionToHumanReadable('auditor/member'),
+				members: membersInAuditor.map(formatMember(here))
+			},
 			{
 				label: commissionToHumanReadable('nomination/member'),
 				members: membersInNomination.map(formatMember(here))
