@@ -10,8 +10,10 @@
 		"sourceMap": true,
 		"strict": true,
 		"moduleResolution": "bundler",
-		"plugins": [{
-		    "name": "typescript-svelte-plugin",
-		}]
+		"plugins": [
+			{
+				"name": "typescript-svelte-plugin",
+			}
+		]
 	}
 }
