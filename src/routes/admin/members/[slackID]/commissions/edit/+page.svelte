@@ -101,6 +101,7 @@
 									name="commissions[{i}].startDate"
 									label={'Start date'}
 									bind:date={$formData.commissions[i].startDate}
+									showStartButtons
 								/>
 
 								<Form.CalendarField
@@ -108,6 +109,7 @@
 									name="commissions[{i}].endDate"
 									label={'End date'}
 									bind:date={$formData.commissions[i].endDate}
+									showEndButtons
 								/>
 
 								<Button

@@ -7,7 +7,7 @@
 <script lang="ts" generics="T extends Record<string, unknown>, U extends _FormPathLeaves<T>">
 	import * as Form from '$lib/components/ui/form/index.js';
 	import { Calendar } from '$lib/components/ui/calendar/index.js';
-	import { buttonVariants } from '$lib/components/ui/button/index.js';
+	import { Button, buttonVariants } from '$lib/components/ui/button/index.js';
 	import * as Popover from '$lib/components/ui/popover/index.js';
 	import CalendarIcon from 'lucide-svelte/icons/calendar';
 	import { cn } from '$lib/utils.js';
@@ -46,9 +46,26 @@
 		 * The date value.
 		 */
 		date: string | undefined;
+
+		/**
+		 * Show start date buttons
+		 */
+		showStartButtons?: boolean;
+
+		/**
+		 * Show end date buttons
+		 */
+		showEndButtons?: boolean;
 	};
 
-	let { form, name, label, date = $bindable() }: Props<T, U> = $props();
+	let {
+		form,
+		name,
+		label,
+		date = $bindable(),
+		showStartButtons,
+		showEndButtons
+	}: Props<T, U> = $props();
 
 	const df = new DateFormatter('en-US', {
 		dateStyle: 'long'
@@ -80,9 +97,10 @@
 				<Popover.Content class="w-auto p-0" side="top">
 					<Calendar
 						type="single"
+						fixedWeeks={true}
 						value={dateValue as DateValue}
 						minValue={new CalendarDate(2015, 1, 1)}
-						maxValue={today(getLocalTimeZone()).cycle('year', 1)}
+						maxValue={today(getLocalTimeZone()).cycle('year', 2)}
 						calendarLabel={label}
 						onValueChange={(v) => {
 							if (v) {
@@ -97,4 +115,49 @@
 			<input hidden value={date} name={props.name} />
 		{/snippet}
 	</Form.Control>
+	{#if showStartButtons}
+		<div class="flex gap-2">
+			<Button
+				size="sm"
+				variant="outline"
+				onclick={() => {
+					date = today(getLocalTimeZone()).set({ day: 1, month: 1 }).toString();
+				}}
+			>
+				Start of year
+			</Button>
+			<Button
+				size="sm"
+				variant="outline"
+				onclick={() => {
+					date = today(getLocalTimeZone()).cycle('year', 1).set({ day: 1, month: 1 }).toString();
+				}}
+			>
+				Start of next year
+			</Button>
+		</div>
+	{/if}
+
+	{#if showEndButtons}
+		<div class="flex gap-2">
+			<Button
+				size="sm"
+				variant="outline"
+				onclick={() => {
+					date = today(getLocalTimeZone()).set({ day: 31, month: 12 }).toString();
+				}}
+			>
+				End of year
+			</Button>
+			<Button
+				size="sm"
+				variant="outline"
+				onclick={() => {
+					date = today(getLocalTimeZone()).cycle('year', 1).set({ day: 31, month: 12 }).toString();
+				}}
+			>
+				End of next year
+			</Button>
+		</div>
+	{/if}
 </Form.ElementField>

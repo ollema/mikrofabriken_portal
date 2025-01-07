@@ -156,6 +156,7 @@
 									name="memberships[{i}].startDate"
 									label={'Start date'}
 									bind:date={$formData.memberships[i].startDate}
+									showStartButtons
 								/>
 
 								<Form.CalendarField
@@ -163,6 +164,7 @@
 									name="memberships[{i}].endDate"
 									label={'End date'}
 									bind:date={$formData.memberships[i].endDate}
+									showEndButtons
 								/>
 
 								<Button
