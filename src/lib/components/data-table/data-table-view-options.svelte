@@ -16,7 +16,7 @@
 		class={buttonVariants({
 			variant: 'outline',
 			size: 'sm',
-			class: 'ml-auto flex h-8'
+			class: 'ml-auto hidden h-8 lg:flex'
 		})}
 	>
 		<Settings2 />
@@ -30,9 +30,8 @@
 				.getAllColumns()
 				.filter((col) => typeof col.accessorFn !== 'undefined' && col.getCanHide()) as column}
 				<DropdownMenu.CheckboxItem
-					controlledChecked
-					checked={column.getIsVisible()}
-					onCheckedChange={(v) => column.toggleVisibility(!!v)}
+					bind:checked={() => column.getIsVisible(), (v) => column.toggleVisibility(!!v)}
+					class="capitalize"
 				>
 					{column.id}
 				</DropdownMenu.CheckboxItem>

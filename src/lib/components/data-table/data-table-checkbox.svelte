@@ -1,8 +1,12 @@
 <script lang="ts">
-	import type { Checkbox as CheckboxPrimitive, WithoutChildrenOrChild } from 'bits-ui';
+	import type { ComponentProps } from 'svelte';
 	import { Checkbox } from '$lib/components/ui/checkbox/index.js';
 
-	let { checked, ...restProps }: WithoutChildrenOrChild<CheckboxPrimitive.RootProps> = $props();
+	let {
+		checked = false,
+		onCheckedChange = (v) => (checked = v),
+		...restProps
+	}: ComponentProps<typeof Checkbox> = $props();
 </script>
 
-<Checkbox {checked} controlledChecked {...restProps} />
+<Checkbox bind:checked={() => checked, onCheckedChange} {...restProps} />
