@@ -9,7 +9,6 @@
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { commissionsFormSchema, type CommissionsFormSchema } from './schema.js';
 	import type { Member } from '$lib/types/members.js';
-	import { CommissionTypes } from '$lib/schemas/members.js';
 
 	interface Props {
 		data: {
@@ -20,6 +19,7 @@
 				sourceBranch: string | undefined;
 			};
 			member: Member;
+			validCommissions: string[];
 		};
 	}
 
@@ -86,7 +86,7 @@
 														: 'Select a commission type'}
 												</Select.Trigger>
 												<Select.Content>
-													{#each CommissionTypes.options as option}
+													{#each data.validCommissions as option}
 														<Select.Item label={option} value={option} />
 													{/each}
 												</Select.Content>

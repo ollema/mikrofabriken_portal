@@ -5,6 +5,7 @@ import { redirect } from 'sveltekit-flash-message/server';
 import { z } from 'zod';
 import { getUser } from '$lib/server/auth.js';
 import { getMember, parseMemberList } from '$lib/server/members.js';
+import { getValidCommissions } from '$lib/server/enums.js';
 import { commissionsFormSchema } from './schema.js';
 import { parseDate } from '@internationalized/date';
 import {
@@ -33,10 +34,13 @@ export const load = async ({ locals, params }) => {
 
 	member = pending.member || member;
 
+	const validCommissions = getValidCommissions();
+
 	return {
 		form: await superValidate(populateFromCurrent(member), zod(commissionsFormSchema)),
 		pending: pending,
-		member: member
+		member: member,
+		validCommissions: validCommissions
 	};
 };
 
@@ -64,6 +68,18 @@ export const actions = {
 
 		const form = await superValidate(request, zod(commissionsFormSchema));
 		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		// TODO: let's break this out into a separate validation function
+		// which will also valiate other dynamic enum fields
+		// validate commissions
+		const validCommissions = getValidCommissions();
+		const invalidCommissions = form.data.commissions.filter(
+			(commission) => !validCommissions.includes(commission.type)
+		);
+		if (invalidCommissions.length > 0) {
+			console.log('invalidCommissions', invalidCommissions);
 			return fail(400, { form });
 		}
 

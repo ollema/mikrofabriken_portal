@@ -34,4 +34,3 @@ export type Artifact = z.infer<typeof MembersSchema.element.shape.artifacts.elem
 export type ArtifactType = Artifact['type'];
 
 export type Commission = z.infer<typeof MembersSchema.element.shape.commissions.element>;
-export type CommissionType = Commission['type'];

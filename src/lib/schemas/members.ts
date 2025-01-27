@@ -112,39 +112,9 @@ const RfidArtifactSchema = BaseArtifactSchema.extend({
 
 export const ArtifactSchema = z.discriminatedUnion('type', [KeyArtifactSchema, RfidArtifactSchema]);
 
-export const CommissionTypes = z.enum([
-	'board/chairman',
-	'board/cashier',
-	'board/secretary',
-	'board/member',
-	'board/alternate',
-	'auditor/member',
-	'auditor/alternate',
-	'committee/economy',
-	'committee/it',
-	'committee/pr',
-	'committee/sponsorships',
-	'nomination/chairman',
-	'nomination/member',
-	'workshop/3dprint',
-	'workshop/3s',
-	'workshop/asylumstorage',
-	'workshop/brewery',
-	'workshop/electronics',
-	'workshop/laser',
-	'workshop/metal',
-	'workshop/office',
-	'workshop/painting',
-	'workshop/plaza',
-	'workshop/support',
-	'workshop/textile',
-	'workshop/vehicle',
-	'workshop/wood'
-]);
-
 export const CommissionSchema = z
 	.object({
-		type: CommissionTypes,
+		type: z.string(),
 		startDate: z.string(),
 		endDate: z.string().optional()
 	})

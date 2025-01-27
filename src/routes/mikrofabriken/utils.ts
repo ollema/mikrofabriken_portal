@@ -1,8 +1,4 @@
-import {
-	commissionToHumanReadable,
-	isAgreementActive,
-	isCommissionActive
-} from '$lib/utils/member.js';
+import { isAgreementActive, isCommissionActive } from '$lib/utils/member.js';
 import { getAvatar } from '$lib/server/cog.js';
 import type { Member } from '$lib/types/members.js';
 
@@ -13,7 +9,7 @@ const formatMember = (here: Record<string, boolean>) => (member: Member) => {
 		here: here[member.crNumber] || false,
 		commissions: member.commissions.reduce((acc: string[], commission) => {
 			if (isCommissionActive(commission)) {
-				acc.push(commissionToHumanReadable(commission.type));
+				acc.push(commission.type);
 			}
 			return acc;
 		}, [] as string[])
@@ -188,107 +184,107 @@ export function getFormattedMembersBasedOnCommissions(
 	return {
 		board: [
 			{
-				label: commissionToHumanReadable('board/chairman'),
+				label: 'board/chairman',
 				members: membersInChairman.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('board/cashier'),
+				label: 'board/cashier',
 				members: membersInCashier.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('board/secretary'),
+				label: 'board/secretary',
 				members: membersInSecretary.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('board/member'),
+				label: 'board/member',
 				members: membersInMember.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('board/alternate'),
+				label: 'board/alternate',
 				members: membersInAlternate.map(formatMember(here))
 			}
 		],
 		groups: [
 			{
-				label: commissionToHumanReadable('auditor/member'),
+				label: 'auditor/member',
 				members: membersInAuditor.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('nomination/member'),
+				label: 'nomination/member',
 				members: membersInNomination.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('committee/economy'),
+				label: 'committee/economy',
 				members: membersInGroupEconomy.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('committee/it'),
+				label: 'committee/it',
 				members: membersInGroupIT.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('committee/pr'),
+				label: 'committee/pr',
 				members: membersInGroupPR.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('committee/sponsorships'),
+				label: 'committee/sponsorships',
 				members: membersInGroupSpons.map(formatMember(here))
 			}
 		],
 		omks: [
 			{
-				label: commissionToHumanReadable('workshop/3dprint'),
+				label: 'workshop/3dprint',
 				members: membersInOmk3dPrint.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('workshop/3s'),
+				label: 'workshop/3s',
 				members: membersInOmk3s.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('workshop/asylumstorage'),
+				label: 'workshop/asylumstorage',
 				members: membersInOmkAsylumOchLagring.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('workshop/brewery'),
+				label: 'workshop/brewery',
 				members: membersInOmkBryggeri.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('workshop/electronics'),
+				label: 'workshop/electronics',
 				members: membersInOmkElektronik.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('workshop/vehicle'),
+				label: 'workshop/vehicle',
 				members: membersInOmkFordon.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('workshop/office'),
+				label: 'workshop/office',
 				members: membersInOmkKontor.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('workshop/laser'),
+				label: 'workshop/laser',
 				members: membersInOmkLaser.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('workshop/painting'),
+				label: 'workshop/painting',
 				members: membersInOmkMaleri.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('workshop/metal'),
+				label: 'workshop/metal',
 				members: membersInOmkMetall.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('workshop/support'),
+				label: 'workshop/support',
 				members: membersInOmkSupport.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('workshop/textile'),
+				label: 'workshop/textile',
 				members: membersInOmkTextil.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('workshop/plaza'),
+				label: 'workshop/plaza',
 				members: membersInOmkTorget.map(formatMember(here))
 			},
 			{
-				label: commissionToHumanReadable('workshop/wood'),
+				label: 'workshop/wood',
 				members: membersInOmkTra.map(formatMember(here))
 			}
 		]

@@ -39,7 +39,7 @@
 			<div class="mt-4 text-sm font-semibold">Roles:</div>
 			<div class="mt-1 flex flex-col gap-1 text-sm text-muted-foreground">
 				{#each member.commissions as commission}
-					<div class="">
+					<div>
 						{commission}
 					</div>
 				{/each}

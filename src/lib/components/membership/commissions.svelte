@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Commission } from '$lib/types/members.js';
-	import { commissionToHumanReadable, isCommissionActive } from '$lib/utils/member.js';
+	import { isCommissionActive } from '$lib/utils/member.js';
 
 	interface Props {
 		commissions: Commission[];
@@ -16,7 +16,7 @@
 <div class="space-y-4">
 	{#each activeCommissions as commission}
 		<div class="text-sm">
-			{commissionToHumanReadable(commission.type)} since {commission.startDate}
+			{commission.type} since {commission.startDate}
 		</div>
 	{/each}
 </div>
