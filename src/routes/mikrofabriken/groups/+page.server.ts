@@ -1,12 +1,12 @@
 import { getUser } from '$lib/server/auth.js';
-import { parseMemberList } from '$lib/server/members.js';
+import { getMembers } from '$lib/server/members.js';
 import { getOpenPeriods } from '$lib/server/cog.js';
 import { getFormattedMembersBasedOnCommissions } from '../utils.js';
 
 export const load = async ({ locals, url }) => {
 	getUser(locals, url);
 
-	const members = parseMemberList();
+	const members = getMembers();
 
 	const periods = await getOpenPeriods('room');
 

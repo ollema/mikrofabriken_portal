@@ -1,18 +1,17 @@
 import { getUser } from '$lib/server/auth.js';
-import { getMember, parseMemberList } from '$lib/server/members.js';
+import { findMember, getMember } from '$lib/server/members.js';
 import { getPendingUpdateForMember } from '$lib/server/gitlab.js';
 import { getAvatar } from '$lib/server/cog.js';
 
 export const load = async ({ locals, params }) => {
 	getUser(locals);
-	const members = parseMemberList();
-	const member = getMember(members, params.slackID);
+	const member = getMember(params.slackID);
 
 	const avatar = getAvatar(member.crNumber);
 
 	const pending = getPendingUpdateForMember(member.crNumber).then(({ members, sourceBranch }) => {
 		return {
-			member: members && getMember(members, member.slackID),
+			member: members && findMember(members, member.slackID),
 			sourceBranch
 		};
 	});

@@ -1,11 +1,10 @@
 import { getUser } from '$lib/server/auth.js';
-import { getMember, parseMemberList } from '$lib/server/members.js';
+import { getMember } from '$lib/server/members.js';
 import { downloadInvoicePdf, getInvoice } from '$lib/server/fortnox.js';
 
 export async function GET({ locals, params, url }) {
 	const user = getUser(locals, url);
-	const members = parseMemberList();
-	const member = getMember(members, user.slackID);
+	const member = getMember(user.slackID);
 
 	// get the invoice from Fortnox
 	await getInvoice(params.documentNumber, member, user.role as 'admin' | 'user');

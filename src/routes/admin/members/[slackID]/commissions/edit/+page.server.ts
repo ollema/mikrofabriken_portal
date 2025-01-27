@@ -4,7 +4,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
 import { z } from 'zod';
 import { getUser } from '$lib/server/auth.js';
-import { getMember, parseMemberList } from '$lib/server/members.js';
+import { findMember, getMember, getMembers } from '$lib/server/members.js';
 import { getValidCommissions } from '$lib/server/enums.js';
 import { commissionsFormSchema } from './schema.js';
 import { parseDate } from '@internationalized/date';
@@ -19,13 +19,12 @@ import type { Member } from '$lib/types/members.js';
 
 export const load = async ({ locals, params }) => {
 	getUser(locals);
-	const members = parseMemberList();
-	let member = getMember(members, params.slackID);
+	let member = getMember(params.slackID);
 
 	const pending = await getPendingUpdateForMember(member.crNumber).then(
 		({ members, sourceBranch, link }) => {
 			return {
-				member: members && getMember(members, member.slackID),
+				member: members && findMember(members, member.slackID),
 				sourceBranch,
 				link
 			};
@@ -48,16 +47,16 @@ export const actions = {
 	default: async ({ locals, params, request, cookies }) => {
 		const user = getUser(locals);
 		await updateRepo(env.UFPERSONSLIST_REPO_PATH);
-		let members = parseMemberList();
-		let member = getMember(members, params.slackID);
-		const admin = getMember(members, user.slackID);
+		let members = getMembers();
+		let member = findMember(members, params.slackID);
+		const admin = findMember(members, user.slackID);
 		const redirectUrl = `/admin/members/${member.slackID}`;
 
 		const pending = await getPendingUpdateForMember(member.crNumber).then(
 			({ members, sourceBranch }) => {
 				return {
 					members: members,
-					member: members && getMember(members, member.slackID),
+					member: members && findMember(members, member.slackID),
 					sourceBranch
 				};
 			}

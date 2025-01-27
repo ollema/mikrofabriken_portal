@@ -1,11 +1,11 @@
 import { getUser } from '$lib/server/auth.js';
-import { parseMemberList } from '$lib/server/members.js';
+import { getMembers } from '$lib/server/members.js';
 import type { ExtendedMember, Member } from '$lib/types/members.js';
 import { isAgreementActive } from '$lib/utils/member.js';
 
 export const load = async ({ locals }) => {
 	getUser(locals);
-	const members = parseMemberList();
+	const members = getMembers();
 	const refinedMembers = members.map((member) => {
 		return {
 			...member,

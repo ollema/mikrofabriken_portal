@@ -6,7 +6,7 @@ import { db } from '$lib/server/db/index.js';
 import * as table from '$lib/server/db/schema.js';
 
 import type { Member } from '$lib/types/members.js';
-import { parseMemberList } from '$lib/server/members.js';
+import { getMembers } from '$lib/server/members.js';
 
 import { env } from '$env/dynamic/private';
 
@@ -128,7 +128,7 @@ type MembershipCheckResult = { success: true; member: Member } | { success: fals
  */
 export function isMember(slackID: string): MembershipCheckResult {
 	// users need to exist in the members.json file
-	const members = parseMemberList();
+	const members = getMembers();
 	const member = members.find((member) => member.slackID === slackID);
 	if (!member) {
 		return {
