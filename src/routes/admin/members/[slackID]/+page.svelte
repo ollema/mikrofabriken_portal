@@ -33,6 +33,10 @@
 	function onEditCommissionsSelected() {
 		goto(href + '/commissions/edit');
 	}
+
+	function onEditWorkPoolsSelected() {
+		goto(href + '/work-pools/edit');
+	}
 </script>
 
 <div class="mx-auto w-full">
@@ -72,6 +76,7 @@
 							Edit RFID-tags & keys
 						</DropdownMenu.Item>
 						<DropdownMenu.Item onSelect={onEditCommissionsSelected}>Edit roles</DropdownMenu.Item>
+						<DropdownMenu.Item onSelect={onEditWorkPoolsSelected}>Edit work pools</DropdownMenu.Item>
 					</DropdownMenu.Content>
 				</DropdownMenu.Root>
 			</div>

@@ -4,7 +4,7 @@ import * as fs from 'node:fs';
 
 import { MemberSchema, MembersSchema } from '$lib/schemas/members.js';
 import type { Commission, Member, Members } from '$lib/types/members.js';
-import { getValidCommissions } from '$lib/server/enums.js';
+import { getValidCommissions, getValidWorkPools } from '$lib/server/enums.js';
 
 import { env } from '$env/dynamic/private';
 
@@ -85,6 +85,7 @@ export function validateMember(member: unknown): Member {
 	const validatedMember = MemberSchema.parse(member);
 
 	// validate dynamic fields that can not be validated by zod
+	validateMemberWorkPools(validatedMember.workPools);
 	validateMemberCommissions(validatedMember.commissions);
 
 	return validatedMember;
@@ -99,6 +100,18 @@ export function validateAllMembers(members: unknown): Members {
 	}
 
 	return validatedMembers;
+}
+
+export function validateMemberWorkPools(workPools: string[]) {
+	const validWorkPools = getValidWorkPools();
+
+	for (const workPool of workPools) {
+		if (!validWorkPools.includes(workPool)) {
+			throw new Error(`Invalid work pool: ${workPool}`);
+		}
+	}
+
+	return workPools;
 }
 
 export function validateMemberCommissions(commissions: Commission[]) {
