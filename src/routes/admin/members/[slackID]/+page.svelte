@@ -76,7 +76,8 @@
 							Edit RFID-tags & keys
 						</DropdownMenu.Item>
 						<DropdownMenu.Item onSelect={onEditCommissionsSelected}>Edit roles</DropdownMenu.Item>
-						<DropdownMenu.Item onSelect={onEditWorkPoolsSelected}>Edit work pools</DropdownMenu.Item>
+						<DropdownMenu.Item onSelect={onEditWorkPoolsSelected}>Edit work pools</DropdownMenu.Item
+						>
 					</DropdownMenu.Content>
 				</DropdownMenu.Root>
 			</div>
