@@ -4,7 +4,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
 import { z } from 'zod';
 import { getUser } from '$lib/server/auth.js';
-import { findMember, getMember, getMembers } from '$lib/server/members.js';
+import { areMembersEqual, findMember, getMember, getMembers } from '$lib/server/members.js';
 import { agreementsFormSchema } from './schema.js';
 import { parseDate } from '@internationalized/date';
 import {
@@ -69,7 +69,7 @@ export const actions = {
 		// update member by returning a new member object
 		const updatedMember = updateMember(member, form.data);
 
-		if (agreementsDeepEqual(member, updatedMember)) {
+		if (areMembersEqual(member, updatedMember)) {
 			redirect(302, redirectUrl, { type: 'warning', message: 'No changes detected!' }, cookies);
 		}
 
@@ -226,46 +226,6 @@ function updateMember(member: Member, data: z.infer<typeof agreementsFormSchema>
 	};
 
 	return suggestedMember;
-}
-
-function agreementsDeepEqual(a: Member, b: Member) {
-	return (
-		a.agreements.length === b.agreements.length &&
-		a.agreements.every((agreement, index) => {
-			const otherAgreement = b.agreements[index];
-			if (agreement.type !== otherAgreement.type) {
-				return false;
-			}
-
-			if (agreement.startDate !== otherAgreement.startDate) {
-				return false;
-			}
-
-			if (agreement.endDate !== otherAgreement.endDate) {
-				return false;
-			}
-
-			if (
-				(agreement.type === 'asylumInside' && otherAgreement.type === 'asylumInside') ||
-				(agreement.type === 'asylumOutside' && otherAgreement.type === 'asylumOutside')
-			) {
-				return agreement.attributes.size === otherAgreement.attributes.size;
-			}
-
-			if (
-				(agreement.type === 'palletInside' && otherAgreement.type === 'palletInside') ||
-				(agreement.type === 'palletOutside' && otherAgreement.type === 'palletOutside')
-			) {
-				return (
-					agreement.attributes.palletCount === otherAgreement.attributes.palletCount &&
-					agreement.attributes.palletIds.length === otherAgreement.attributes.palletIds.length &&
-					agreement.attributes.palletIds.every(
-						(id, index) => id === otherAgreement.attributes.palletIds[index]
-					)
-				);
-			}
-		})
-	);
 }
 
 function updateMembersInPlace(member: Member, updatedMember: Member) {

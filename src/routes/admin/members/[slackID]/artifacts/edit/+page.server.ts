@@ -4,7 +4,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
 import { z } from 'zod';
 import { getUser } from '$lib/server/auth.js';
-import { findMember, getMember, getMembers } from '$lib/server/members.js';
+import { areMembersEqual, findMember, getMember, getMembers } from '$lib/server/members.js';
 import { artifactsFormSchema } from './schema.js';
 import { parseDate } from '@internationalized/date';
 import {
@@ -69,7 +69,7 @@ export const actions = {
 		// update member by returning a new member object
 		const updatedMember = updateMember(member, form.data);
 
-		if (artifactsDeepEqual(member, updatedMember)) {
+		if (areMembersEqual(member, updatedMember)) {
 			redirect(302, redirectUrl, { type: 'warning', message: 'No changes detected!' }, cookies);
 		}
 
@@ -170,35 +170,6 @@ function updateMember(member: Member, data: z.infer<typeof artifactsFormSchema>)
 	};
 
 	return suggestedMember;
-}
-
-function artifactsDeepEqual(a: Member, b: Member) {
-	return (
-		a.artifacts.length === b.artifacts.length &&
-		a.artifacts.every((artifact, index) => {
-			const otherArtifact = b.artifacts[index];
-			if (artifact.type !== otherArtifact.type) {
-				return false;
-			}
-
-			if (artifact.startDate !== otherArtifact.startDate) {
-				return false;
-			}
-
-			if (artifact.endDate !== otherArtifact.endDate) {
-				return false;
-			}
-
-			if (artifact.type === 'rfid' && otherArtifact.type === 'rfid') {
-				return (
-					artifact.attributes.data === otherArtifact.attributes.data &&
-					artifact.attributes.codeHash === otherArtifact.attributes.codeHash
-				);
-			} else if (artifact.type === 'key' && otherArtifact.type === 'key') {
-				return artifact.attributes.number === otherArtifact.attributes.number;
-			}
-		})
-	);
 }
 
 function updateMembersInPlace(member: Member, updatedMember: Member) {

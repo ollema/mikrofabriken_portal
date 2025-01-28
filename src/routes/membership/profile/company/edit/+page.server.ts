@@ -4,7 +4,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
 import { z } from 'zod';
 import { getUser } from '$lib/server/auth.js';
-import { findMember, getMember, getMembers } from '$lib/server/members.js';
+import { areMembersEqual, findMember, getMember, getMembers } from '$lib/server/members.js';
 import { companyFormSchema } from './schema.js';
 import {
 	getPendingUpdateForMember,
@@ -62,7 +62,7 @@ export const actions = {
 		// update member by returning a new member object
 		const updatedMember = updateMember(member, form.data);
 
-		if (companyDeepEqual(member, updatedMember)) {
+		if (areMembersEqual(member, updatedMember)) {
 			redirect(302, redirectUrl, { type: 'warning', message: 'No changes detected!' }, cookies);
 		}
 
@@ -117,7 +117,7 @@ export const actions = {
 			company: undefined
 		};
 
-		if (companyDeepEqual(member, updatedMember)) {
+		if (areMembersEqual(member, updatedMember)) {
 			redirect(302, redirectUrl, { type: 'warning', message: 'No changes detected!' }, cookies);
 		}
 
@@ -153,28 +153,6 @@ function updateMember(member: Member, data: z.infer<typeof companyFormSchema>): 
 	};
 
 	return suggestedMember;
-}
-
-function arrayEquals(a: string[], b: string[]) {
-	return a.length === b.length && a.every((v, i) => v === b[i]);
-}
-
-function companyDeepEqual(a: Member, b: Member) {
-	return (
-		a.company !== undefined &&
-		b.company !== undefined &&
-		a.company.name === b.company.name &&
-		a.company.postalAdress === b.company.postalAdress &&
-		a.company.postalCode === b.company.postalCode &&
-		a.company.postalCity === b.company.postalCity &&
-		a.company.email === b.company.email &&
-		a.company.orgNum === b.company.orgNum &&
-		a.company?.invoiceDefaultTo === b.company?.invoiceDefaultTo &&
-		arrayEquals(
-			a.company?.invoiceExcludeCategoriesFromDefault ?? [],
-			b.company?.invoiceExcludeCategoriesFromDefault ?? []
-		)
-	);
 }
 
 function updateMembersInPlace(member: Member, updatedMember: Member) {

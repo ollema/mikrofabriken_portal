@@ -4,7 +4,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
 import { z } from 'zod';
 import { getUser } from '$lib/server/auth.js';
-import { findMember, getMember, getMembers } from '$lib/server/members.js';
+import { areMembersEqual, findMember, getMember, getMembers } from '$lib/server/members.js';
 import { profileFormSchema } from './schema.js';
 import {
 	getPendingUpdateForMember,
@@ -62,7 +62,7 @@ export const actions = {
 		// update member by returning a new member object
 		const updatedMember = updateMember(member, form.data);
 
-		if (profileDeepEqual(member, updatedMember)) {
+		if (areMembersEqual(member, updatedMember)) {
 			redirect(302, redirectUrl, { type: 'warning', message: 'No changes detected!' }, cookies);
 		}
 
@@ -102,17 +102,6 @@ function updateMember(member: Member, data: z.infer<typeof profileFormSchema>): 
 	};
 
 	return suggestedMember;
-}
-
-function profileDeepEqual(a: Member, b: Member) {
-	return (
-		a.name === b.name &&
-		a.postalAdress === b.postalAdress &&
-		a.postalCode === b.postalCode &&
-		a.postalCity === b.postalCity &&
-		a.email === b.email &&
-		a.phone === b.phone
-	);
 }
 
 function updateMembersInPlace(member: Member, updatedMember: Member) {

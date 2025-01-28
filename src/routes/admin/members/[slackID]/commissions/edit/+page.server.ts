@@ -4,7 +4,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
 import { z } from 'zod';
 import { getUser } from '$lib/server/auth.js';
-import { findMember, getMember, getMembers } from '$lib/server/members.js';
+import { areMembersEqual, findMember, getMember, getMembers } from '$lib/server/members.js';
 import { getValidCommissions } from '$lib/server/enums.js';
 import { commissionsFormSchema } from './schema.js';
 import { parseDate } from '@internationalized/date';
@@ -85,7 +85,7 @@ export const actions = {
 		// update member by returning a new member object
 		const updatedMember = updateMember(member, form.data);
 
-		if (agreementsDeepEqual(member, updatedMember)) {
+		if (areMembersEqual(member, updatedMember)) {
 			redirect(302, redirectUrl, { type: 'warning', message: 'No changes detected!' }, cookies);
 		}
 
@@ -143,28 +143,6 @@ function updateMember(member: Member, data: z.infer<typeof commissionsFormSchema
 	};
 
 	return suggestedMember;
-}
-
-function agreementsDeepEqual(a: Member, b: Member) {
-	return (
-		a.commissions.length === b.commissions.length &&
-		a.commissions.every((commission, index) => {
-			const otherCommission = b.commissions[index];
-			if (commission.type !== otherCommission.type) {
-				return false;
-			}
-
-			if (commission.startDate !== otherCommission.startDate) {
-				return false;
-			}
-
-			if (commission.endDate !== otherCommission.endDate) {
-				return false;
-			}
-
-			return true;
-		})
-	);
 }
 
 function updateMembersInPlace(member: Member, updatedMember: Member) {
