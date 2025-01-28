@@ -2,8 +2,9 @@ import { error } from '@sveltejs/kit';
 
 import * as fs from 'node:fs';
 
-import { MembersSchema } from '$lib/schemas/members.js';
-import type { Member, Members } from '$lib/types/members.js';
+import { MemberSchema, MembersSchema } from '$lib/schemas/members.js';
+import type { Commission, Member, Members } from '$lib/types/members.js';
+import { getValidCommissions } from '$lib/server/enums.js';
 
 import { env } from '$env/dynamic/private';
 
@@ -78,4 +79,34 @@ export function areAllMembersEqual(a: Members, b: Members): boolean {
 function areArraysEqual<T>(a: T[], b: T[]): boolean {
 	if (a.length !== b.length) return false;
 	return JSON.stringify(a) === JSON.stringify(b);
+}
+
+export function validateMember(member: unknown): Member {
+	const validatedMember = MemberSchema.parse(member);
+
+	// validate dynamic fields that can not be validated by zod
+	validateMemberCommissions(validatedMember.commissions);
+
+	return validatedMember;
+}
+
+export function validateAllMembers(members: unknown): Members {
+	const validatedMembers = MembersSchema.parse(members);
+
+	// validate dynamic fields that can not be validated by zod
+	for (const member of validatedMembers) {
+		validateMemberCommissions(member.commissions);
+	}
+
+	return validatedMembers;
+}
+
+export function validateMemberCommissions(commissions: Commission[]) {
+	const validCommissions = getValidCommissions();
+
+	for (const commission of commissions) {
+		if (!validCommissions.includes(commission.type)) {
+			throw new Error(`Invalid commission type: ${commission.type}`);
+		}
+	}
 }

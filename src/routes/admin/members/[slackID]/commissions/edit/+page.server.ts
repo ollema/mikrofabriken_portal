@@ -4,7 +4,13 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
 import { z } from 'zod';
 import { getUser } from '$lib/server/auth.js';
-import { areMembersEqual, findMember, getMember, getMembers } from '$lib/server/members.js';
+import {
+	areMembersEqual,
+	findMember,
+	getMember,
+	getMembers,
+	validateMember
+} from '$lib/server/members.js';
 import { getValidCommissions } from '$lib/server/enums.js';
 import { commissionsFormSchema } from './schema.js';
 import { parseDate } from '@internationalized/date';
@@ -70,20 +76,16 @@ export const actions = {
 			return fail(400, { form });
 		}
 
-		// TODO: let's break this out into a separate validation function
-		// which will also valiate other dynamic enum fields
-		// validate commissions
-		const validCommissions = getValidCommissions();
-		const invalidCommissions = form.data.commissions.filter(
-			(commission) => !validCommissions.includes(commission.type)
-		);
-		if (invalidCommissions.length > 0) {
-			console.log('invalidCommissions', invalidCommissions);
-			return fail(400, { form });
-		}
-
 		// update member by returning a new member object
 		const updatedMember = updateMember(member, form.data);
+
+		// validate dynamic fields that can not be validated by zod
+		try {
+			validateMember(updatedMember);
+		} catch (e) {
+			console.log(e);
+			return fail(400, { form });
+		}
 
 		if (areMembersEqual(member, updatedMember)) {
 			redirect(302, redirectUrl, { type: 'warning', message: 'No changes detected!' }, cookies);
