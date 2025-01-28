@@ -22,3 +22,4 @@ vite.config.ts.timestamp-*
 
 # SQLite
 db/*.db
+.aider*
