@@ -3,6 +3,7 @@
 	import PersonalInfo from './personal-info.svelte';
 	import Company from './company.svelte';
 	import IceContacts from './ice-contacts.svelte';
+	import WorkPools from './work-pools.svelte';
 	import Agreements from './agreements.svelte';
 	import Artifacts from './artifacts.svelte';
 	import Commissions from './commissions.svelte';
@@ -16,10 +17,11 @@
 
 	type Props = {
 		member: Member;
+		workPoolNameMapping: Record<string, string>;
 		pending: PendingMemberUpdate;
 	};
 
-	let { member, pending }: Props = $props();
+	let { member, pending, workPoolNameMapping }: Props = $props();
 
 	let showPending = $state(false);
 </script>
@@ -40,6 +42,9 @@
 
 	{@render subtitle('ICE contacts')}
 	<IceContacts iceContacts={member.iceContacts} />
+
+	{@render subtitle('Work pools')}
+	<WorkPools workPools={member.workPools} {workPoolNameMapping} />
 
 	{#if member.agreements.filter((agreement) => isAgreementActive(agreement)).length > 0}
 		{@render subtitle('Agreements')}

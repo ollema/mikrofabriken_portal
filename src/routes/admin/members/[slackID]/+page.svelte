@@ -78,5 +78,9 @@
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
-	<Profile member={data.member} pending={data.pending} />
+	<Profile
+		member={data.member}
+		workPoolNameMapping={data.workPoolNameMapping}
+		pending={data.pending}
+	/>
 </div>

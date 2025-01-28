@@ -1,11 +1,14 @@
 import { getUser } from '$lib/server/auth.js';
 import { findMember, getMember } from '$lib/server/members.js';
-import { getPendingUpdateForMember } from '$lib/server/gitlab.js';
+import { getWorkPoolNames } from '$lib/server/workpools.js';
 import { getAvatar } from '$lib/server/cog.js';
+import { getPendingUpdateForMember } from '$lib/server/gitlab.js';
 
 export const load = async ({ locals, params }) => {
 	getUser(locals);
 	const member = getMember(params.slackID);
+
+	const workPoolNameMapping = getWorkPoolNames();
 
 	const avatar = getAvatar(member.crNumber);
 
@@ -22,6 +25,7 @@ export const load = async ({ locals, params }) => {
 
 	return {
 		member,
+		workPoolNameMapping,
 		avatar: await avatar,
 		pending: await pending
 	};

@@ -170,7 +170,7 @@ export const MemberSchema = z
 		agreements: z.array(AgreementSchema),
 		artifacts: z.array(ArtifactSchema),
 		commissions: z.array(CommissionSchema),
-		workPools: z.array(z.any()),
+		workPools: z.array(z.string().min(1)),
 		company: CompanySchema.optional()
 	})
 	.strict();

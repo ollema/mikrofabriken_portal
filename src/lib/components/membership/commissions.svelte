@@ -13,7 +13,7 @@
 	);
 </script>
 
-<div class="space-y-4">
+<div class="space-y-2">
 	{#each activeCommissions as commission}
 		<div class="text-sm">
 			{commission.type} since {commission.startDate}
