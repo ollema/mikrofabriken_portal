@@ -1,6 +1,5 @@
 <script lang="ts">
 	import * as PageHeader from '$lib/components/page-header/index.js';
-	import { appendPossessive } from '$lib/utils/member.js';
 	import * as Form from '$lib/components/ui/form/index.js';
 	import { Checkbox } from '$lib/components/ui/checkbox/index.js';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
@@ -34,7 +33,7 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Edit {appendPossessive(data.member.name)} work pools</PageHeader.Title>
+			<PageHeader.Title>Edit work pools</PageHeader.Title>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 

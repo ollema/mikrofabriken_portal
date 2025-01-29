@@ -24,6 +24,10 @@
 	function onEditRFIDSelected() {
 		goto(href + '/rfid/edit');
 	}
+
+	function onEditWorkPoolsSelected() {
+		goto(href + '/work-pools/edit');
+	}
 </script>
 
 <div class="mx-auto w-full">
@@ -51,6 +55,8 @@
 							Edit ICE contacts
 						</DropdownMenu.Item>
 						<DropdownMenu.Item onSelect={onEditRFIDSelected}>Edit RFID-tags</DropdownMenu.Item>
+						<DropdownMenu.Item onSelect={onEditWorkPoolsSelected}>Edit work pools</DropdownMenu.Item
+						>
 					</DropdownMenu.Content>
 				</DropdownMenu.Root>
 			</div>
