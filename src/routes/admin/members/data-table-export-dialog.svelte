@@ -6,7 +6,7 @@
 	import { Button, buttonVariants } from '$lib/components/ui/button/index.js';
 	import type { Table } from '@tanstack/table-core';
 	import { getFlash } from 'sveltekit-flash-message';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import type { ExtendedMember } from '$lib/types/members.js';
 	import { cn } from '$lib/utils.js';
 	import { Checkbox } from '$lib/components/ui/checkbox/index.js';

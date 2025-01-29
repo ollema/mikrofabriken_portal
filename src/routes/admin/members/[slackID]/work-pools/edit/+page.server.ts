@@ -21,6 +21,7 @@ import {
 } from '$lib/server/gitlab.js';
 import { env } from '$env/dynamic/private';
 import type { Member } from '$lib/types/members.js';
+import { getWorkPoolNames, getWorkPoolsDescriptions } from '$lib/server/workpools.js';
 
 export const load = async ({ locals, params }) => {
 	getUser(locals);
@@ -40,11 +41,16 @@ export const load = async ({ locals, params }) => {
 
 	const validWorkPools = getValidWorkPools();
 
+	const workPoolNameMapping = getWorkPoolNames();
+	const workPoolDescriptionMapping = getWorkPoolsDescriptions();
+
 	return {
 		form: await superValidate(populateFromCurrent(member), zod(workPoolsFormSchema)),
 		pending: pending,
 		member: member,
-		validWorkPools: validWorkPools
+		validWorkPools: validWorkPools,
+		workPoolNameMapping,
+		workPoolDescriptionMapping
 	};
 };
 

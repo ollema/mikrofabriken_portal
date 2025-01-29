@@ -1,16 +1,16 @@
-import type { Claims } from '$lib/types/cog.js';
-
 export type Navigation = {
 	title: string;
 	requireAdmin?: boolean;
-	requireClaims?: Claims;
+	requireViewProducts?: boolean;
+	requireViewWorkPools?: boolean;
 	items: NavItem[];
 };
 
 export type NavItem = {
 	title: string;
 	requireAdmin?: boolean;
-	requireClaims?: Claims;
+	requireViewProducts?: boolean;
+	requireViewWorkPools?: boolean;
 	href: string;
 };
 
@@ -69,7 +69,8 @@ export const navigation: Navigation[] = [
 	{
 		title: 'Admin',
 		requireAdmin: true,
-		requireClaims: [{ resource: 'api:products', action: 'Update' }],
+		requireViewProducts: true,
+		requireViewWorkPools: true,
 		items: [
 			{
 				title: 'Members',
@@ -78,55 +79,44 @@ export const navigation: Navigation[] = [
 			},
 			{
 				title: 'Products',
-				requireClaims: [{ resource: 'api:products', action: 'Update' }],
+				requireViewProducts: true,
 				href: '/admin/products'
+			},
+			{
+				title: 'Work pools',
+				requireViewWorkPools: true,
+				href: '/admin/workpools'
 			}
 		]
 	}
 ];
 
 export function allowedToViewCategory(
-	adminCategory: boolean | undefined,
-	requireClaims: Claims | undefined,
+	requireAdmin: boolean | undefined,
+	requireViewProducts: boolean | undefined,
+	requireViewWorkPools: boolean | undefined,
 	admin: boolean | undefined,
-	claims: Claims | undefined
+	allowedToViewProducts: boolean | undefined,
+	allowedToViewWorkPools: boolean | undefined
 ) {
-	// admins should have access to everything
 	if (admin === true) return true;
-
-	// for admin categories it's enough to have the admin role...
-	if (!adminCategory && !requireClaims) return true;
-
-	// ..or certain claims that are associated with the category
-	if (claims && requireClaims) {
-		return requireClaims.some((claim) =>
-			claims.some((c) => c.resource === claim.resource && c.action === claim.action)
-		);
-	}
-
-	// otherwise, hide the category
+	if (!requireAdmin && !requireViewProducts && !requireViewWorkPools) return true;
+	if (requireViewProducts && allowedToViewProducts) return true;
+	if (requireViewWorkPools && allowedToViewWorkPools) return true;
 	return false;
 }
 
 export function allowedToViewPage(
-	adminPage: boolean | undefined,
-	requireClaims: Claims | undefined,
+	requireAdmin: boolean | undefined,
+	requireViewProducts: boolean | undefined,
+	requireViewWorkPools: boolean | undefined,
 	admin: boolean | undefined,
-	claims: Claims | undefined
+	allowedToViewProducts: boolean | undefined,
+	allowedToViewWorkPools: boolean | undefined
 ) {
-	// admins should have access to everything
 	if (admin === true) return true;
-
-	// for admin pages it's enough to have the admin role...
-	if (!adminPage && !requireClaims) return true;
-
-	// ..or certain claims that are associated with the page
-	if (claims && requireClaims) {
-		return requireClaims.some((claim) =>
-			claims.some((c) => c.resource === claim.resource && c.action === claim.action)
-		);
-	}
-
-	// otherwise, hide the page
+	if (!requireAdmin && !requireViewProducts && !requireViewWorkPools) return true;
+	if (requireViewProducts && allowedToViewProducts) return true;
+	if (requireViewWorkPools && allowedToViewWorkPools) return true;
 	return false;
 }

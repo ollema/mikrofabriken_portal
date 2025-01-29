@@ -5,7 +5,7 @@
 	import Mikrofabriken from '$lib/icons/mikrofabriken.svelte';
 	import { allowedToViewCategory, allowedToViewPage, navigation } from '$lib/config/navigation.js';
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
 	let signoutForm: HTMLFormElement | undefined = $state(undefined);
 
@@ -55,13 +55,13 @@
 	</Sidebar.Header>
 	<Sidebar.Content>
 		{#each navigation as group}
-			{#if allowedToViewCategory(group.requireAdmin, group.requireClaims, $page.data.user?.role === 'admin', $page.data.user?.claims)}
+			{#if allowedToViewCategory(group.requireAdmin, group.requireViewProducts, group.requireViewWorkPools, page.data.user?.role === 'admin', page.data.allowedToViewProducts, page.data.allowedToViewWorkPools)}
 				<Sidebar.Group>
 					<Sidebar.GroupLabel>{group.title}</Sidebar.GroupLabel>
 					<Sidebar.GroupContent>
 						<Sidebar.Menu>
 							{#each group.items as item (item.title)}
-								{#if allowedToViewPage(item.requireAdmin, item.requireClaims, $page.data.user?.role === 'admin', $page.data.user?.claims)}
+								{#if allowedToViewPage(item.requireAdmin, item.requireViewProducts, item.requireViewWorkPools, page.data.user?.role === 'admin', page.data.allowedToViewProducts, page.data.allowedToViewWorkPools)}
 									<Sidebar.MenuItem>
 										<Sidebar.MenuButton>
 											{#snippet child({ props })}
@@ -82,8 +82,8 @@
 	<Sidebar.Footer>
 		<Sidebar.Menu>
 			<Sidebar.MenuItem>
-				{#if $page.data.user !== null}
-					{@const user = $page.data.user}
+				{#if page.data.user !== null}
+					{@const user = page.data.user}
 					<DropdownMenu.Root>
 						<DropdownMenu.Trigger>
 							{#snippet child({ props })}

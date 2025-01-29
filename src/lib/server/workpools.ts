@@ -98,3 +98,8 @@ export function getWorkPoolNames(): Record<string, string> {
 	const workPools = getWorkPools();
 	return Object.fromEntries(workPools.map((pool) => [pool.id, pool.name]));
 }
+
+export function getWorkPoolsDescriptions(): Record<string, string> {
+	const workPools = getWorkPools();
+	return Object.fromEntries(workPools.map((pool) => [pool.id, pool.description]));
+}

@@ -1,4 +1,4 @@
-import type { Agreement, AgreementType, Artifact, Commission } from '$lib/types/members.js';
+import type { Agreement, AgreementType, Artifact, Commission, Member } from '$lib/types/members.js';
 
 export function appendPossessive(name: string): string {
 	if (name.endsWith('s')) {
@@ -25,7 +25,7 @@ export function nameToFirstName(name: string): string {
 	return name.split(' ')[0];
 }
 
-export function isAgreementActive(agreement: Agreement) {
+export function isAgreementActive(agreement: Agreement): boolean {
 	const currentDate = new Date();
 
 	if (agreement.startDate && new Date(agreement.startDate) > currentDate) {
@@ -35,7 +35,7 @@ export function isAgreementActive(agreement: Agreement) {
 	return !agreement.endDate || new Date(agreement.endDate) > currentDate;
 }
 
-export function isArtifactActive(artifact: Artifact) {
+export function isArtifactActive(artifact: Artifact): boolean {
 	const currentDate = new Date();
 
 	if (artifact.startDate && new Date(artifact.startDate) > currentDate) {
@@ -53,6 +53,23 @@ export function isCommissionActive(commission: Commission): boolean {
 	}
 
 	return !commission.endDate || new Date(commission.endDate) > currentDate;
+}
+
+export function isMemberActive(member: Member): boolean {
+	let hasActiveMembership = false;
+	let hasActivePassiveMembership = false;
+
+	for (const agreement of member.agreements) {
+		if (agreement.type === 'membership' && isAgreementActive(agreement)) {
+			hasActiveMembership = true;
+		}
+
+		if (agreement.type === 'passive' && isAgreementActive(agreement)) {
+			hasActivePassiveMembership = true;
+		}
+	}
+
+	return hasActiveMembership && !hasActivePassiveMembership;
 }
 
 export function agreementToHumanReadable(agreement: AgreementType): string {

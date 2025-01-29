@@ -18,6 +18,8 @@
 			};
 			member: Member;
 			validWorkPools: string[];
+			workPoolNameMapping: Record<string, string>;
+			workPoolDescriptionMapping: Record<string, string>;
 		};
 	}
 
@@ -45,10 +47,11 @@
 			<Form.Legend class="text-xl">Work pools</Form.Legend>
 			<div class="flex flex-col gap-4">
 				{#each data.validWorkPools as pool}
-					<div class="flex items-center gap-2">
+					<div class="center flex items-start gap-2">
 						<Checkbox
 							id={pool}
 							name="workPools"
+							class="mt-1"
 							value={pool}
 							checked={$formData.workPools.includes(pool)}
 							onCheckedChange={(checked) => {
@@ -59,7 +62,10 @@
 								}
 							}}
 						/>
-						<label for={pool}>{pool}</label>
+						<div class="flex flex-col">
+							<label for={pool}>{data.workPoolNameMapping[pool]}</label>
+							<Form.Description>{data.workPoolDescriptionMapping[pool]}</Form.Description>
+						</div>
 					</div>
 				{/each}
 			</div>
