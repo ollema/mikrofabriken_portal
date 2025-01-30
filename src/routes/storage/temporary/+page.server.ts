@@ -34,7 +34,6 @@ export const load = async ({ locals, url }) => {
 					(openPeriod) => openPeriod.resourceName === temporaryStorage
 				);
 
-				// There should only ever be one open period per resource
 				const multiplePeriodsFound =
 					storageOpenPeriods.filter((openPeriod) => openPeriod.resourceName === temporaryStorage)
 						.length > 1;
@@ -46,7 +45,7 @@ export const load = async ({ locals, url }) => {
 					? members.find((member) => member.crNumber === period.memberCrNumber)
 					: null;
 
-				return {
+				const storage = {
 					name: resource.name,
 					period:
 						period && member
@@ -54,17 +53,32 @@ export const load = async ({ locals, url }) => {
 									uuid: period.uuid,
 									member: {
 										name: member.name,
-										avatar: getAvatar(member.crNumber)
+										slackID: member.slackID,
+										crNumber: member.crNumber
 									}
 								}
 							: null
 				};
+
+				return storage;
 			})
 			.filter((storage): storage is NonNullable<typeof storage> => storage !== null)
 	);
 
-	return {
+	const membersWithStorage = new Set(
 		storageRows
+			.flat()
+			.filter((s) => s.period)
+			.map((s) => s.period!.member)
+	);
+
+	const avatarPromises = Object.fromEntries(
+		Array.from(membersWithStorage).map((member) => [member.slackID, getAvatar(member.crNumber)])
+	);
+
+	return {
+		storageRows,
+		avatars: avatarPromises
 	};
 };
 

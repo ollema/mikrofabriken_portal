@@ -10,22 +10,23 @@
 
 	interface Props {
 		open: boolean;
-		selectedResourceName: string;
-		selectedResourcePeriod: {
-			uuid: string;
-			member: {
-				name: string;
-			};
-		};
+		storage:
+			| {
+					name: string;
+					period: {
+						uuid: string;
+						member: {
+							name: string;
+							slackID: string;
+						};
+					} | null;
+			  }
+			| undefined;
+		currentUserSlackID?: string;
 		onClose?: () => void;
 	}
 
-	let {
-		open = $bindable(),
-		selectedResourceName,
-		selectedResourcePeriod: selectedResourcePeriod,
-		onClose
-	}: Props = $props();
+	let { open = $bindable(), storage = $bindable(), currentUserSlackID, onClose }: Props = $props();
 
 	let form: HTMLFormElement | undefined = $state();
 	let processing: boolean = $state(false);
@@ -56,6 +57,7 @@
 	async function closeDialog() {
 		open = false;
 		await tick();
+		storage = undefined;
 		onClose?.();
 	}
 
@@ -66,11 +68,39 @@
 	}
 </script>
 
-{#snippet content()}
+{#snippet reserveContent()}
 	<div class="text-xl font-semibold">
-		Release {selectedResourceName.replace('storage/', '').toUpperCase()}?
+		Reserve {storage?.name.replace('storage/', '').toUpperCase()}?
 	</div>
-	<div class="mt-2 text-muted-foreground">Reserved by: {selectedResourcePeriod.member.name}</div>
+
+	<form
+		method="POST"
+		action="?/reserve"
+		bind:this={form}
+		class="mt-2 w-full"
+		use:enhance={handleSubmit}
+	>
+		<input type="hidden" name="storage" value={storage?.name} />
+	</form>
+
+	<div class="mt-4 flex w-full flex-col-reverse gap-4 self-center md:w-fit md:flex-row md:self-end">
+		<Button class="h-12 w-full md:w-fit" variant="outline" onclick={closeDialog}>Cancel</Button>
+		<Button id="confirm-storage" class="h-12 w-full md:w-fit" onclick={submitForm}>
+			{#if processing}
+				<LoaderCircle class="animate-spin" />
+				Processing...
+			{:else}
+				Confirm
+			{/if}
+		</Button>
+	</div>
+{/snippet}
+
+{#snippet releaseContent()}
+	<div class="text-xl font-semibold">
+		Release {storage?.name.replace('storage/', '').toUpperCase()}?
+	</div>
+	<div class="mt-2 text-muted-foreground">Reserved by: {storage?.period?.member?.name}</div>
 
 	<form
 		method="POST"
@@ -79,7 +109,7 @@
 		class="mt-2 w-full"
 		use:enhance={handleSubmit}
 	>
-		<input type="hidden" name="uuid" value={selectedResourcePeriod.uuid} />
+		<input type="hidden" name="uuid" value={storage?.period?.uuid} />
 	</form>
 
 	<div class="mt-4 flex w-full flex-col-reverse gap-4 self-center md:w-fit md:flex-row md:self-end">
@@ -100,6 +130,17 @@
 	</div>
 {/snippet}
 
+{#snippet occupiedContent()}
+	<div class="text-xl font-semibold">
+		{storage?.name.replace('storage/', '').toUpperCase()} is occupied
+	</div>
+	<div class="mt-2 text-muted-foreground">Currently in use by: {storage?.period?.member?.name}</div>
+
+	<div class="mt-4 flex w-full justify-end">
+		<Button class="h-12 w-full md:w-fit" variant="outline" onclick={closeDialog}>Close</Button>
+	</div>
+{/snippet}
+
 {#if !isMobile.current}
 	<Dialog.Root bind:open {onOpenChange}>
 		<Dialog.Content
@@ -108,7 +149,17 @@
 			escapeKeydownBehavior={'ignore'}
 			interactOutsideBehavior={'ignore'}
 		>
-			{@render content()}
+			{#if storage}
+				{#if storage.period}
+					{#if storage.period.member?.slackID === currentUserSlackID}
+						{@render releaseContent()}
+					{:else}
+						{@render occupiedContent()}
+					{/if}
+				{:else}
+					{@render reserveContent()}
+				{/if}
+			{/if}
 		</Dialog.Content>
 	</Dialog.Root>
 {:else}
@@ -119,7 +170,17 @@
 			interactOutsideBehavior={'ignore'}
 		>
 			<div class="px-3 pb-2 pt-4">
-				{@render content()}
+				{#if storage}
+					{#if storage.period}
+						{#if storage.period.member?.slackID === currentUserSlackID}
+							{@render releaseContent()}
+						{:else}
+							{@render occupiedContent()}
+						{/if}
+					{:else}
+						{@render reserveContent()}
+					{/if}
+				{/if}
 			</div>
 		</Drawer.Content>
 	</Drawer.Root>
