@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import * as PageHeader from '$lib/components/page-header/index.js';
-	import StorageDialog from '$lib/components/storage/storage-dialog.svelte';
-	import StorageSpot from '$lib/components/storage/storage-spot.svelte';
+	import ProjectStorageDialog from '$lib/components/project-storage/project-storage-dialog.svelte';
+	import ProjectStorageSpot from '$lib/components/project-storage/project-storage-spot.svelte';
 
 	let { data } = $props();
 
@@ -42,14 +42,14 @@
 		{#each data.storageRows as row}
 			<div class="grid auto-cols-[80px] grid-flow-col justify-start gap-2">
 				{#each row as storage}
-					<StorageSpot {storage} avatars={data.avatars} onClick={handleStorageClick} />
+					<ProjectStorageSpot {storage} avatars={data.avatars} onClick={handleStorageClick} />
 				{/each}
 			</div>
 		{/each}
 	</div>
 </div>
 
-<StorageDialog
+<ProjectStorageDialog
 	bind:open={dialogOpen}
 	storage={selectedStorage}
 	currentUserSlackID={page.data.user?.slackID}
