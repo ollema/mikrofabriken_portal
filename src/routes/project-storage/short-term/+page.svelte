@@ -33,7 +33,7 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Temporary storage</PageHeader.Title>
+			<PageHeader.Title>Short term project storage</PageHeader.Title>
 			<PageHeader.Description>Also known as schackrutor.</PageHeader.Description>
 		</PageHeader.Heading>
 	</PageHeader.Root>

@@ -71,12 +71,12 @@ export const navigation: Navigation[] = [
 		items: [
 			{
 				title: 'Short term',
-				href: '/storage/short-term'
-			},
-			{
-				title: 'Medium term',
-				href: '/storage/medium-term'
+				href: '/project-storage/short-term'
 			}
+			// {
+			// 	title: 'Medium term',
+			// 	href: '/project-storage/medium-term'
+			// }
 		]
 	},
 	{

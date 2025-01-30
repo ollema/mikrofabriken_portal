@@ -48,6 +48,8 @@
 			let label: string;
 			if (breadcrumb.includes('_')) {
 				label = breadcrumb.split('_').map(capitalize).join(' ');
+			} else if (breadcrumb.includes('-')) {
+				label = capitalize(breadcrumb.split('-').join(' '));
 			} else {
 				label = capitalize(breadcrumb);
 			}
