@@ -1,5 +1,28 @@
 import { z } from 'zod';
 
+// ----------------------------------------------------------------------------
+// claims schemas
+// ----------------------------------------------------------------------------
+export const ClaimSchema = z.object({
+	resource: z.string().min(1, { message: 'Resource needs to be at least 1 character long' }),
+	action: z.enum([
+		'Create',
+		'CreateOthers',
+		'Read',
+		'ReadOthers',
+		'Update',
+		'UpdateOthers',
+		'Delete',
+		'DeleteOthers',
+		'Use'
+	])
+});
+
+export const ClaimsSchema = z.array(ClaimSchema);
+
+// ----------------------------------------------------------------------------
+// product schemas
+// ----------------------------------------------------------------------------
 enum ProductStockStatusEnum {
 	InStock = 'InStock',
 	OutOfStock = 'OutOfStock'
@@ -34,6 +57,18 @@ export const ProductsSchema = z.array(ProductSchema);
 
 export const NewProductSchema = ProductSchema.omit({ uuid: true });
 
+export const ProductCategoriesSchema = z.array(z.string());
+
+export const BillingCategoriesSchema = z.array(z.string());
+
+// TODO: should not be nullable
+export const UnitNamesSchema = z.array(z.string().nullable());
+
+export const VatPercentagesSchema = z.array(z.number().int());
+
+// ----------------------------------------------------------------------------
+// purchase schemas
+// ----------------------------------------------------------------------------
 export const HistoricPurchaseSchema = z.object({
 	buyerCrNumber: z.string(),
 	dateTime: z.string().transform((value) => new Date(value)),
@@ -52,6 +87,40 @@ export const PurchaseSchema = z.object({
 	forced: z.boolean()
 });
 
+// ----------------------------------------------------------------------------
+// resource schemas
+// ----------------------------------------------------------------------------
+export const Point2DSchema = z.object({
+	x: z.number(),
+	y: z.number()
+});
+
+export const PolygonSchema = z.object({
+	offset: Point2DSchema,
+	points: z.array(Point2DSchema)
+});
+
+export const PeriodAttributeSchema = z.object({
+	name: z.string().min(1),
+	required: z.boolean(),
+	collectionEvent: z.string().min(1)
+});
+
+export const ResourceSchema = z.object({
+	name: z.string().min(1),
+	description: z.string().min(1),
+	shortDescription: z.string().min(1),
+	shared: z.boolean(),
+	periodAttributes: z.array(PeriodAttributeSchema).nullable(),
+	polygon: PolygonSchema
+});
+
+export const ResourcesSchema = z.array(ResourceSchema);
+
+export const NewHoldingPeriodSchema = z.object({
+	resourceName: z.string().min(1)
+});
+
 export const OpenPeriodsSchema = z.array(
 	z.object({
 		uuid: z.string(),
@@ -64,29 +133,3 @@ export const OpenPeriodsSchema = z.array(
 			.nullable()
 	})
 );
-
-export const ProductCategoriesSchema = z.array(z.string());
-
-export const BillingCategoriesSchema = z.array(z.string());
-
-// TODO: should not be nullable
-export const UnitNamesSchema = z.array(z.string().nullable());
-
-export const VatPercentagesSchema = z.array(z.number().int());
-
-export const ClaimSchema = z.object({
-	resource: z.string().min(1, { message: 'Resource needs to be at least 1 character long' }),
-	action: z.enum([
-		'Create',
-		'CreateOthers',
-		'Read',
-		'ReadOthers',
-		'Update',
-		'UpdateOthers',
-		'Delete',
-		'DeleteOthers',
-		'Use'
-	])
-});
-
-export const ClaimsSchema = z.array(ClaimSchema);

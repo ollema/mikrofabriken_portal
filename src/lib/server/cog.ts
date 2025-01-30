@@ -1,15 +1,16 @@
 import {
-	ProductSchema,
-	ProductsSchema,
+	BillingCategoriesSchema,
+	ClaimsSchema,
 	HistoricPurchasesSchema,
 	OpenPeriodsSchema,
-	BillingCategoriesSchema,
 	ProductCategoriesSchema,
+	ProductSchema,
+	ProductsSchema,
+	ResourcesSchema,
 	UnitNamesSchema,
-	VatPercentagesSchema,
-	ClaimsSchema
+	VatPercentagesSchema
 } from '$lib/schemas/cog.js';
-import type { NewProduct, Product, Purchase } from '$lib/types/cog.js';
+import type { NewHoldingPeriod, NewProduct, Product, Purchase } from '$lib/types/cog.js';
 
 import { LRUCache } from 'lru-cache';
 
@@ -25,6 +26,74 @@ function headers(token: string | undefined) {
 	};
 }
 
+// ----------------------------------------------------------------------------
+// /persons/avatar
+// ----------------------------------------------------------------------------
+const cache = new LRUCache({
+	max: 200,
+	ttl: 1000 * 60 * 60 * 24
+});
+
+export async function getAvatar(crNumber: string, size = 128) {
+	const cacheKey = `${crNumber}_${size}`;
+	if (cache.has(cacheKey)) {
+		return cache.get(cacheKey) as string;
+	}
+
+	try {
+		const response = await fetch(`${BASE_URL}/persons/avatar/${size}/${crNumber}?raw=true`, {
+			method: 'GET',
+			headers: headers(undefined)
+		});
+
+		if (!response.ok) {
+			return undefined;
+		}
+
+		const data = await response.blob();
+		const buffer = Buffer.from(await data.arrayBuffer());
+		const base64Data = `data:image/png;base64,${buffer.toString('base64')}`;
+
+		cache.set(cacheKey, base64Data);
+		return base64Data;
+	} catch (e) {
+		console.error(`could not fetch avatar for crNumber ${crNumber}`);
+		throw e;
+	}
+}
+
+// ----------------------------------------------------------------------------
+// /persons/claims
+// ----------------------------------------------------------------------------
+export async function getClaims(token: string, crNumber: string) {
+	try {
+		const response = await Promise.race([
+			fetch(`${BASE_URL}/persons/claims/${crNumber}`, {
+				method: 'GET',
+				headers: headers(token)
+			}),
+			new Promise<Response>((_, reject) =>
+				setTimeout(() => reject(new Error('Request timeout')), 5000)
+			)
+		]);
+
+		if (!response.ok) {
+			throw new Error(`http error: ${response.status} ${response.statusText}`);
+		}
+
+		const data = await response.json();
+		const claims = ClaimsSchema.parse(data);
+
+		return claims;
+	} catch (e) {
+		console.error(`could not fetch claims for crNumber ${crNumber}: ${e}`);
+		return [];
+	}
+}
+
+// ----------------------------------------------------------------------------
+// /products
+// ----------------------------------------------------------------------------
 export async function getProduct(uuid: string) {
 	try {
 		const response = await fetch(`${BASE_URL}/products/${uuid}`, {
@@ -224,6 +293,9 @@ export async function getVatPercentages() {
 	}
 }
 
+// ----------------------------------------------------------------------------
+// /purchases
+// ----------------------------------------------------------------------------
 export async function getPurchases(token: string, crNumber: string, offset = 0) {
 	try {
 		const response = await fetch(`${BASE_URL}/purchases/perUserMonth/${crNumber}/${offset}`, {
@@ -264,35 +336,26 @@ export async function purchaseProduct(token: string, purchase: Purchase) {
 	}
 }
 
-const cache = new LRUCache({
-	max: 200,
-	ttl: 1000 * 60 * 60 * 24
-});
-
-export async function getAvatar(crNumber: string, size = 128) {
-	const cacheKey = `${crNumber}_${size}`;
-	if (cache.has(cacheKey)) {
-		return cache.get(cacheKey) as string;
-	}
-
+// ----------------------------------------------------------------------------
+// /resources
+// ----------------------------------------------------------------------------
+export async function getResources(prefix: string | null = null) {
 	try {
-		const response = await fetch(`${BASE_URL}/persons/avatar/${size}/${crNumber}?raw=true`, {
+		const response = await fetch(`${BASE_URL}/resources${prefix ? `/prefix/${prefix}` : ''}`, {
 			method: 'GET',
 			headers: headers(undefined)
 		});
 
 		if (!response.ok) {
-			return undefined;
+			throw new Error(`http error: ${response.status} ${response.statusText}`);
 		}
 
-		const data = await response.blob();
-		const buffer = Buffer.from(await data.arrayBuffer());
-		const base64Data = `data:image/png;base64,${buffer.toString('base64')}`;
-
-		cache.set(cacheKey, base64Data);
-		return base64Data;
+		const data = await response.json();
+		return ResourcesSchema.parse(data);
 	} catch (e) {
-		console.error(`could not fetch avatar for crNumber ${crNumber}`);
+		console.error(
+			prefix ? `could not fetch resources with prefix ${prefix}` : 'could not fetch resources'
+		);
 		throw e;
 	}
 }
@@ -321,28 +384,38 @@ export async function getOpenPeriods(prefix: string | null = null) {
 	}
 }
 
-export async function getClaims(token: string, crNumber: string) {
+export async function startPeriod(token: string, period: NewHoldingPeriod) {
 	try {
-		const response = await Promise.race([
-			fetch(`${BASE_URL}/persons/claims/${crNumber}`, {
-				method: 'GET',
-				headers: headers(token)
-			}),
-			new Promise<Response>((_, reject) =>
-				setTimeout(() => reject(new Error('Request timeout')), 5000)
-			)
-		]);
+		const response = await fetch(`${BASE_URL}/resources/periods`, {
+			method: 'POST',
+			headers: headers(token),
+			body: JSON.stringify(period)
+		});
 
 		if (!response.ok) {
 			throw new Error(`http error: ${response.status} ${response.statusText}`);
 		}
 
 		const data = await response.json();
-		const claims = ClaimsSchema.parse(data);
-
-		return claims;
+		return OpenPeriodsSchema.element.parse(data);
 	} catch (e) {
-		console.error(`could not fetch claims for crNumber ${crNumber}: ${e}`);
-		return [];
+		console.error('could not start period');
+		throw e;
+	}
+}
+
+export async function closePeriod(token: string, uuid: string) {
+	try {
+		const response = await fetch(`${BASE_URL}/resources/periods/${uuid}`, {
+			method: 'DELETE',
+			headers: headers(token)
+		});
+
+		if (!response.ok) {
+			throw new Error(`http error: ${response.status} ${response.statusText}`);
+		}
+	} catch (e) {
+		console.error(`could not close period ${uuid}`);
+		throw e;
 	}
 }
