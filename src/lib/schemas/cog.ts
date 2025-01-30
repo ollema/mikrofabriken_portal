@@ -112,7 +112,7 @@ export const ResourceSchema = z.object({
 	shortDescription: z.string().min(1),
 	shared: z.boolean(),
 	periodAttributes: z.array(PeriodAttributeSchema).nullable(),
-	polygon: PolygonSchema
+	polygon: PolygonSchema.nullable()
 });
 
 export const ResourcesSchema = z.array(ResourceSchema);

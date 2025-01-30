@@ -67,6 +67,15 @@ export const navigation: Navigation[] = [
 		]
 	},
 	{
+		title: 'Storage',
+		items: [
+			{
+				title: 'Temporary',
+				href: '/storage/temporary'
+			}
+		]
+	},
+	{
 		title: 'Admin',
 		requireAdmin: true,
 		requireViewProducts: true,
