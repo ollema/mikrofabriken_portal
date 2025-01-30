@@ -1,5 +1,11 @@
 import { getToken, getUser } from '$lib/server/auth.js';
-import { getOpenPeriods, getResources, startPeriod, closePeriod, getAvatar } from '$lib/server/cog.js';
+import {
+	getOpenPeriods,
+	getResources,
+	startPeriod,
+	closePeriod,
+	getAvatar
+} from '$lib/server/cog.js';
 import { getMember } from '$lib/server/members.js';
 import { fail } from '@sveltejs/kit';
 
