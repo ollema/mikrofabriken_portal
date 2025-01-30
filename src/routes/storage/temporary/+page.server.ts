@@ -6,7 +6,7 @@ import {
 	closePeriod,
 	getAvatar
 } from '$lib/server/cog.js';
-import { getMember } from '$lib/server/members.js';
+import { getMembers } from '$lib/server/members.js';
 import { fail } from '@sveltejs/kit';
 
 const temporaryStorageRows = [
@@ -16,8 +16,8 @@ const temporaryStorageRows = [
 ];
 
 export const load = async ({ locals, url }) => {
-	const user = getUser(locals, url);
-	const member = getMember(user.slackID);
+	getUser(locals, url);
+	const members = getMembers();
 
 	const storageResources = await getResources('storage');
 	const storageOpenPeriods = await getOpenPeriods('storage');
@@ -42,17 +42,22 @@ export const load = async ({ locals, url }) => {
 					throw new Error(`Multiple open periods found for resource: ${temporaryStorage}`);
 				}
 
+				const member = period
+					? members.find((member) => member.crNumber === period.memberCrNumber)
+					: null;
+
 				return {
 					name: resource.name,
-					period: period
-						? {
-								uuid: period.uuid,
-								member: {
-									name: member.name,
-									avatar: getAvatar(member.crNumber)
+					period:
+						period && member
+							? {
+									uuid: period.uuid,
+									member: {
+										name: member.name,
+										avatar: getAvatar(member.crNumber)
+									}
 								}
-							}
-						: null
+							: null
 				};
 			})
 			.filter((storage): storage is NonNullable<typeof storage> => storage !== null)
