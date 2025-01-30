@@ -83,7 +83,7 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 			}
 		}
 
-		if (event.url.pathname.startsWith('/admin/workpools')) {
+		if (event.url.pathname.startsWith('/admin/work-pools')) {
 			if (event.locals.allowedToViewWorkPools) {
 				return await resolve(event);
 			}
