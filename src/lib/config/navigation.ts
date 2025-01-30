@@ -85,7 +85,7 @@ export const navigation: Navigation[] = [
 			{
 				title: 'Work pools',
 				requireViewWorkPools: true,
-				href: '/admin/workpools'
+				href: '/admin/work-pools'
 			}
 		]
 	}
