@@ -73,8 +73,8 @@ export const HistoricPurchaseSchema = z.object({
 	buyerCrNumber: z.string(),
 	dateTime: z.string().transform((value) => new Date(value)),
 	productName: z.string(),
-	pricePerUnit: z.number().positive(),
-	quantity: z.number().positive(),
+	pricePerUnit: z.number(),
+	quantity: z.number(),
 	pointOfSale: z.string()
 });
 
@@ -82,7 +82,7 @@ export const HistoricPurchasesSchema = z.array(HistoricPurchaseSchema);
 
 export const PurchaseSchema = z.object({
 	productUuid: z.string(),
-	quantity: z.number().positive(),
+	quantity: z.number(),
 	pointOfSale: z.string(),
 	forced: z.boolean()
 });
