@@ -30,6 +30,12 @@ WORKDIR /usr/src/app
 # set correct ownership and permissions
 RUN chown -R node:node /usr/src && chmod 755 /usr/src
 
+# install git-lfs
+RUN apt-get update && \
+  apt-get install -y git-lfs && \
+  git lfs install && \
+  rm -rf /var/lib/apt/lists/*
+
 # add tini
 ENV TINI_VERSION=v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
