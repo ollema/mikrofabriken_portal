@@ -72,11 +72,11 @@ export const navigation: Navigation[] = [
 			{
 				title: 'Short term',
 				href: '/project-storage/short-term'
+			},
+			{
+				title: 'Medium term',
+				href: '/project-storage/medium-term'
 			}
-			// {
-			// 	title: 'Medium term',
-			// 	href: '/project-storage/medium-term'
-			// }
 		]
 	},
 	{

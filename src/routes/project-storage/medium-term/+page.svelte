@@ -47,30 +47,16 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Short term project storage</PageHeader.Title>
-			<PageHeader.Description>Also known as schackrutor.</PageHeader.Description>
+			<PageHeader.Title>Medium term project storage</PageHeader.Title>
+			<PageHeader.Description>Also known as X-storage.</PageHeader.Description>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
-	<div class="flex max-w-screen-md flex-col items-start gap-2 lg:flex-row lg:justify-between">
-		<div>
-			<div class="grid auto-cols-[80px] grid-flow-col justify-start gap-2">
-				{#each data.storageRows[0] as storage}
-					<ProjectStorageSpot {storage} avatars={data.avatars} onClick={handleStorageClick} />
-				{/each}
-			</div>
-		</div>
-		<div class="flex flex-col items-center gap-2">
-			<div class="grid auto-cols-[80px] grid-flow-col justify-start gap-2">
-				{#each data.storageRows[1] as storage}
-					<ProjectStorageSpot {storage} avatars={data.avatars} onClick={handleStorageClick} />
-				{/each}
-			</div>
-			<div class="grid auto-cols-[80px] grid-flow-col justify-start gap-2">
-				{#each data.storageRows[2] as storage}
-					<ProjectStorageSpot {storage} avatars={data.avatars} onClick={handleStorageClick} />
-				{/each}
-			</div>
+	<div class="flex max-w-screen-md flex-col items-start gap-2">
+		<div class="grid auto-cols-[80px] grid-flow-col justify-start gap-2">
+			{#each data.storageRows[0] as storage}
+				<ProjectStorageSpot {storage} avatars={data.avatars} onClick={handleStorageClick} />
+			{/each}
 		</div>
 	</div>
 </div>

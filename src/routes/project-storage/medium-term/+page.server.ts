@@ -9,11 +9,7 @@ import {
 import { findMember, getMembers } from '$lib/server/members.js';
 import { fail } from '@sveltejs/kit';
 
-const shortTermStorageRows = [
-	['storage/a1', 'storage/a2', 'storage/a3', 'storage/a4'],
-	['storage/b1', 'storage/b2', 'storage/b3', 'storage/b4'],
-	['storage/b5', 'storage/b6', 'storage/b7']
-];
+const mediumTermStorageRows = [['storage/x1', 'storage/x2', 'storage/x3']];
 
 export const load = async ({ locals, url }) => {
 	const user = getUser(locals, url);
@@ -23,7 +19,7 @@ export const load = async ({ locals, url }) => {
 	const storageResources = await getResources('storage');
 	const storageOpenPeriods = await getOpenPeriods('storage');
 
-	const storageRows = shortTermStorageRows.map((row) =>
+	const storageRows = mediumTermStorageRows.map((row) =>
 		row
 			.map((temporaryStorage) => {
 				const resource = storageResources.find((resource) => resource.name === temporaryStorage);
@@ -82,7 +78,7 @@ export const load = async ({ locals, url }) => {
 	const memberStoragePeriods = storageOpenPeriods.filter(
 		(period) =>
 			period.memberCrNumber === member.crNumber &&
-			shortTermStorageRows.flat().includes(period.resourceName)
+			mediumTermStorageRows.flat().includes(period.resourceName)
 	);
 
 	return {
