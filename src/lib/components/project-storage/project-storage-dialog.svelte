@@ -19,6 +19,8 @@
 							name: string;
 							slackID: string;
 						};
+						start: Date;
+						end: Date | null;
 					} | null;
 			  }
 			| undefined;
@@ -100,7 +102,13 @@
 	<div class="text-xl font-semibold">
 		Release {storage?.name.replace('storage/', '').toUpperCase()}?
 	</div>
-	<div class="mt-2 text-muted-foreground">Reserved by: {storage?.period?.member?.name}</div>
+	<div class="mt-2 text-muted-foreground">
+		Reserved by {storage?.period?.member?.name}<br />
+		since {storage?.period?.start.toLocaleDateString(undefined, {
+			day: '2-digit',
+			month: '2-digit'
+		})}
+	</div>
 
 	<form
 		method="POST"
@@ -134,7 +142,13 @@
 	<div class="text-xl font-semibold">
 		{storage?.name.replace('storage/', '').toUpperCase()} is occupied
 	</div>
-	<div class="mt-2 text-muted-foreground">Currently in use by: {storage?.period?.member?.name}</div>
+	<div class="mt-2 text-muted-foreground">
+		Reserved by {storage?.period?.member?.name}<br />
+		since {storage?.period?.start.toLocaleDateString(undefined, {
+			day: '2-digit',
+			month: '2-digit'
+		})}
+	</div>
 
 	<div class="mt-4 flex w-full justify-end">
 		<Button class="h-12 w-full md:w-fit" variant="outline" onclick={closeDialog}>Close</Button>

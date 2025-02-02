@@ -6,23 +6,24 @@ import {
 	closePeriod,
 	getAvatar
 } from '$lib/server/cog.js';
-import { getMembers } from '$lib/server/members.js';
+import { findMember, getMembers } from '$lib/server/members.js';
 import { fail } from '@sveltejs/kit';
 
-const temporaryStorageRows = [
+const shortTermStorageRows = [
 	['storage/a1', 'storage/a2', 'storage/a3', 'storage/a4'],
 	['storage/b1', 'storage/b2', 'storage/b3', 'storage/b4'],
 	['storage/b5', 'storage/b6', 'storage/b7']
 ];
 
 export const load = async ({ locals, url }) => {
-	getUser(locals, url);
+	const user = getUser(locals, url);
 	const members = getMembers();
+	const member = findMember(members, user.slackID);
 
 	const storageResources = await getResources('storage');
 	const storageOpenPeriods = await getOpenPeriods('storage');
 
-	const storageRows = temporaryStorageRows.map((row) =>
+	const storageRows = shortTermStorageRows.map((row) =>
 		row
 			.map((temporaryStorage) => {
 				const resource = storageResources.find((resource) => resource.name === temporaryStorage);
@@ -55,7 +56,9 @@ export const load = async ({ locals, url }) => {
 										name: member.name,
 										slackID: member.slackID,
 										crNumber: member.crNumber
-									}
+									},
+									start: period.start,
+									end: period.end
 								}
 							: null
 				};
@@ -76,9 +79,14 @@ export const load = async ({ locals, url }) => {
 		Array.from(membersWithStorage).map((member) => [member.slackID, getAvatar(member.crNumber)])
 	);
 
+	const memberStoragePeriods = storageOpenPeriods.filter(
+		(period) => period.memberCrNumber === member.crNumber
+	);
+
 	return {
 		storageRows,
-		avatars: avatarPromises
+		avatars: avatarPromises,
+		storagePeriods: memberStoragePeriods
 	};
 };
 

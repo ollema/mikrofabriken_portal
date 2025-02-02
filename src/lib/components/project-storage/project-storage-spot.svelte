@@ -14,6 +14,8 @@
 					name: string;
 					slackID: string;
 				};
+				start: Date;
+				end: Date | null;
 			} | null;
 		};
 		avatars: Record<string, Promise<string | undefined>>;
