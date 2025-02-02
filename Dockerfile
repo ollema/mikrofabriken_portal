@@ -4,7 +4,9 @@
 FROM node:22 AS base
 ENV PNPM_HOME="/usr/local/.pnpm-store"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+# TODO: revert when fixed upstream
+# RUN corepack enable
+RUN npm install -g pnpm@9.15.5
 
 # ------------------------------------------------------------------------------
 # builder image
