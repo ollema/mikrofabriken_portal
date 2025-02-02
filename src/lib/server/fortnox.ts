@@ -81,7 +81,10 @@ export const getInvoicesForCustomer = async (customerNumber: string) => {
 		allInvoices = [...allInvoices, ...validatedData.Invoices];
 	}
 
-	return allInvoices.reverse();
+	// filter out any invoices that are cancelled
+	const filteredInvoices = allInvoices.filter((invoice) => !invoice.Cancelled).reverse();
+
+	return filteredInvoices;
 };
 
 /**

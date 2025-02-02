@@ -26,6 +26,7 @@ export const CustomersResponseSchema = z.object({
 export const InvoiceSchema = z.object({
 	CustomerName: z.string(),
 	CustomerNumber: z.string(),
+	Cancelled: z.boolean(),
 	DocumentNumber: z.string(),
 	DueDate: z.string(),
 	InvoiceDate: z.string(),
