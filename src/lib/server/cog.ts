@@ -49,6 +49,8 @@ export async function getAvatar(crNumber: string, size = 128) {
 		try {
 			await fs.promises.access(photoPath);
 		} catch (err) {
+			console.log(`could not read path to avatar: ${photoPath}`);
+			console.log(err);
 			return undefined;
 		}
 
@@ -65,6 +67,7 @@ export async function getAvatar(crNumber: string, size = 128) {
 		cache.set(cacheKey, base64Data);
 		return base64Data;
 	} catch (e) {
+		console.log(`could not fetch avatar for crNumber ${crNumber}: ${e}`);
 		return undefined;
 	}
 }
