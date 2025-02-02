@@ -1,3 +1,6 @@
+import * as fs from 'node:fs';
+import sharp from 'sharp';
+
 import {
 	BillingCategoriesSchema,
 	ClaimsSchema,
@@ -41,24 +44,28 @@ export async function getAvatar(crNumber: string, size = 128) {
 	}
 
 	try {
-		const response = await fetch(`${BASE_URL}/persons/avatar/${size}/${crNumber}?raw=true`, {
-			method: 'GET',
-			headers: headers(undefined)
-		});
+		const photoPath = `${env.UFPERSONSLIST_REPO_PATH}/photos/${crNumber}.jpg`;
 
-		if (!response.ok) {
+		try {
+			await fs.promises.access(photoPath);
+		} catch (err) {
 			return undefined;
 		}
 
-		const data = await response.blob();
-		const buffer = Buffer.from(await data.arrayBuffer());
-		const base64Data = `data:image/png;base64,${buffer.toString('base64')}`;
+		const processedBuffer = await sharp(photoPath)
+			.resize(size, size, {
+				fit: 'cover',
+				position: 'centre'
+			})
+			.webp({ quality: 80 })
+			.toBuffer();
+
+		const base64Data = `data:image/webp;base64,${processedBuffer.toString('base64')}`;
 
 		cache.set(cacheKey, base64Data);
 		return base64Data;
 	} catch (e) {
-		console.error(`could not fetch avatar for crNumber ${crNumber}`);
-		throw e;
+		return undefined;
 	}
 }
 
