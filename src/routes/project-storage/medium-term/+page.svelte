@@ -48,7 +48,9 @@
 	<PageHeader.Root>
 		<PageHeader.Heading>
 			<PageHeader.Title>Medium term project storage</PageHeader.Title>
-			<PageHeader.Description>Also known as X-storage.</PageHeader.Description>
+			<PageHeader.Description>
+				When short term project storage is not enough.
+			</PageHeader.Description>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
