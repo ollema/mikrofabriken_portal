@@ -3,6 +3,7 @@ export type Navigation = {
 	requireAdmin?: boolean;
 	requireViewProducts?: boolean;
 	requireViewWorkPools?: boolean;
+	requireViewPallets?: boolean;
 	items: NavItem[];
 };
 
@@ -11,6 +12,7 @@ export type NavItem = {
 	requireAdmin?: boolean;
 	requireViewProducts?: boolean;
 	requireViewWorkPools?: boolean;
+	requireViewPallets?: boolean;
 	href: string;
 };
 
@@ -84,6 +86,7 @@ export const navigation: Navigation[] = [
 		requireAdmin: true,
 		requireViewProducts: true,
 		requireViewWorkPools: true,
+		requireViewPallets: true,
 		items: [
 			{
 				title: 'Members',
@@ -99,6 +102,11 @@ export const navigation: Navigation[] = [
 				title: 'Work pools',
 				requireViewWorkPools: true,
 				href: '/admin/work-pools'
+			},
+			{
+				title: 'Pallets',
+				requireViewPallets: true,
+				href: '/admin/pallets'
 			}
 		]
 	}
@@ -108,14 +116,17 @@ export function allowedToViewCategory(
 	requireAdmin: boolean | undefined,
 	requireViewProducts: boolean | undefined,
 	requireViewWorkPools: boolean | undefined,
+	requireViewPallets: boolean | undefined,
 	admin: boolean | undefined,
 	allowedToViewProducts: boolean | undefined,
-	allowedToViewWorkPools: boolean | undefined
+	allowedToViewWorkPools: boolean | undefined,
+	allowedToViewPallets: boolean | undefined
 ) {
 	if (admin === true) return true;
 	if (!requireAdmin && !requireViewProducts && !requireViewWorkPools) return true;
 	if (requireViewProducts && allowedToViewProducts) return true;
 	if (requireViewWorkPools && allowedToViewWorkPools) return true;
+	if (requireViewPallets && allowedToViewPallets) return true;
 	return false;
 }
 
@@ -123,13 +134,16 @@ export function allowedToViewPage(
 	requireAdmin: boolean | undefined,
 	requireViewProducts: boolean | undefined,
 	requireViewWorkPools: boolean | undefined,
+	requireViewPallets: boolean | undefined,
 	admin: boolean | undefined,
 	allowedToViewProducts: boolean | undefined,
-	allowedToViewWorkPools: boolean | undefined
+	allowedToViewWorkPools: boolean | undefined,
+	allowedToViewPallets: boolean | undefined
 ) {
 	if (admin === true) return true;
 	if (!requireAdmin && !requireViewProducts && !requireViewWorkPools) return true;
 	if (requireViewProducts && allowedToViewProducts) return true;
 	if (requireViewWorkPools && allowedToViewWorkPools) return true;
+	if (requireViewPallets && allowedToViewPallets) return true;
 	return false;
 }

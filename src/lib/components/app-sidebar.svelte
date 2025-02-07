@@ -55,13 +55,13 @@
 	</Sidebar.Header>
 	<Sidebar.Content>
 		{#each navigation as group}
-			{#if allowedToViewCategory(group.requireAdmin, group.requireViewProducts, group.requireViewWorkPools, page.data.user?.role === 'admin', page.data.allowedToViewProducts, page.data.allowedToViewWorkPools)}
+			{#if allowedToViewCategory(group.requireAdmin, group.requireViewProducts, group.requireViewWorkPools, group.requireViewPallets, page.data.user?.role === 'admin', page.data.allowedToViewProducts, page.data.allowedToViewWorkPools, page.data.allowedToViewPallets)}
 				<Sidebar.Group>
 					<Sidebar.GroupLabel>{group.title}</Sidebar.GroupLabel>
 					<Sidebar.GroupContent>
 						<Sidebar.Menu>
 							{#each group.items as item (item.title)}
-								{#if allowedToViewPage(item.requireAdmin, item.requireViewProducts, item.requireViewWorkPools, page.data.user?.role === 'admin', page.data.allowedToViewProducts, page.data.allowedToViewWorkPools)}
+								{#if allowedToViewPage(item.requireAdmin, item.requireViewProducts, item.requireViewWorkPools, item.requireViewPallets, page.data.user?.role === 'admin', page.data.allowedToViewProducts, page.data.allowedToViewWorkPools, page.data.allowedToViewPallets)}
 									<Sidebar.MenuItem>
 										<Sidebar.MenuButton>
 											{#snippet child({ props })}

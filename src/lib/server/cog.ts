@@ -68,7 +68,7 @@ export async function getAvatar(crNumber: string, size = 128) {
 		return data;
 	} catch (e) {
 		console.log(`could not fetch avatar for crNumber ${crNumber}: ${e}`);
-		return undefined;
+		throw e;
 	}
 }
 

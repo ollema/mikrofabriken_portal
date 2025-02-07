@@ -12,6 +12,7 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 	// load the page since that is prevented here in the server hooks
 	event.locals.allowedToViewProducts = false;
 	event.locals.allowedToViewWorkPools = false;
+	event.locals.allowedToViewPallets = false;
 
 	// --------------------------------------------------------------------------
 	// fetch session token from cookies
@@ -70,6 +71,13 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 				workPools.some((pool) => pool.managedByCommissions.includes(commission.type))
 		);
 
+	// for the admin/pallets page, it's enough to have an active 'workshop/asylumstorage' commission
+	event.locals.allowedToViewPallets =
+		member !== null &&
+		member.commissions.some(
+			(commission) => isCommissionActive(commission) && commission.type === 'workshop/asylumstorage'
+		);
+
 	// validate admin role
 	if (event.url.pathname.startsWith('/admin')) {
 		// admins should have access to everything
@@ -85,6 +93,12 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 
 		if (event.url.pathname.startsWith('/admin/work-pools')) {
 			if (event.locals.allowedToViewWorkPools) {
+				return await resolve(event);
+			}
+		}
+
+		if (event.url.pathname.startsWith('/admin/pallets')) {
+			if (event.locals.allowedToViewPallets) {
 				return await resolve(event);
 			}
 		}
