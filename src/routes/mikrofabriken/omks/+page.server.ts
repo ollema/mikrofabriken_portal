@@ -18,7 +18,7 @@ export const load = async ({ locals, url }) => {
 		{} as Record<string, boolean>
 	);
 
-	const { omks } = getFormattedMembersBasedOnCommissions(members, here);
+	const { omks } = await getFormattedMembersBasedOnCommissions(members, here);
 
 	return {
 		omks: omks

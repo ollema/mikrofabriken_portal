@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Avatar from '$lib/components/ui/avatar/index.js';
-	import { nameToInitials } from '$lib/utils/member.js';
 	import { page } from '$app/state';
 	import { cn } from '$lib/utils';
 
@@ -18,7 +17,7 @@
 				end: Date | null;
 			} | null;
 		};
-		avatars: Record<string, Promise<string | undefined>>;
+		avatars: Record<string, string>;
 		onClick: (storage: Props['storage']) => void;
 	}
 
@@ -40,13 +39,10 @@
 		<div class="flex h-full flex-col items-center">
 			<div class="flex grow items-center justify-center">
 				<Avatar.Root class="size-12">
-					{#await avatars[storage.period.member.slackID]}
-						<Avatar.Fallback>{nameToInitials(storage.period.member.name)}</Avatar.Fallback>
-					{:then avatar}
-						<Avatar.Image src={avatar} alt={storage.period.member.name} />
-					{:catch}
-						<Avatar.Fallback>{nameToInitials(storage.period.member.name)}</Avatar.Fallback>
-					{/await}
+					<Avatar.Image
+						src={avatars[storage.period.member.slackID]}
+						alt={storage.period.member.name}
+					/>
 				</Avatar.Root>
 			</div>
 			<span class="text-lg font-bold uppercase">

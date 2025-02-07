@@ -19,6 +19,6 @@ export const load = async ({ locals, url }) => {
 	);
 
 	return {
-		members: getFormattedMembers(members, here)
+		members: await getFormattedMembers(members, here)
 	};
 };

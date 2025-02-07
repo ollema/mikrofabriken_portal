@@ -2,10 +2,10 @@ import { isAgreementActive, isCommissionActive } from '$lib/utils/member.js';
 import { getAvatar } from '$lib/server/cog.js';
 import type { Member } from '$lib/types/members.js';
 
-const formatMember = (here: Record<string, boolean>) => (member: Member) => {
+const formatMember = (here: Record<string, boolean>) => async (member: Member) => {
 	return {
 		name: member.name,
-		avatar: getAvatar(member.crNumber),
+		avatar: await getAvatar(member.crNumber),
 		here: here[member.crNumber] || false,
 		commissions: member.commissions.reduce((acc: string[], commission) => {
 			if (isCommissionActive(commission)) {
@@ -16,7 +16,7 @@ const formatMember = (here: Record<string, boolean>) => (member: Member) => {
 	};
 };
 
-export function getFormattedMembers(members: Member[], here: Record<string, boolean>) {
+export async function getFormattedMembers(members: Member[], here: Record<string, boolean>) {
 	const activeMembers = members.filter((member) => {
 		let hasActiveMembership = false;
 		let hasActivePassiveMembership = false;
@@ -36,10 +36,10 @@ export function getFormattedMembers(members: Member[], here: Record<string, bool
 
 	const sortedMembers = activeMembers.sort((a, b) => a.name.localeCompare(b.name));
 
-	return sortedMembers.map(formatMember(here));
+	return Promise.all(sortedMembers.map(formatMember(here)));
 }
 
-export function getFormattedMembersBasedOnCommissions(
+export async function getFormattedMembersBasedOnCommissions(
 	members: Member[],
 	here: Record<string, boolean>
 ) {
@@ -185,107 +185,107 @@ export function getFormattedMembersBasedOnCommissions(
 		board: [
 			{
 				label: 'board/chairman',
-				members: membersInChairman.map(formatMember(here))
+				members: await Promise.all(membersInChairman.map(formatMember(here)))
 			},
 			{
 				label: 'board/cashier',
-				members: membersInCashier.map(formatMember(here))
+				members: await Promise.all(membersInCashier.map(formatMember(here)))
 			},
 			{
 				label: 'board/secretary',
-				members: membersInSecretary.map(formatMember(here))
+				members: await Promise.all(membersInSecretary.map(formatMember(here)))
 			},
 			{
 				label: 'board/member',
-				members: membersInMember.map(formatMember(here))
+				members: await Promise.all(membersInMember.map(formatMember(here)))
 			},
 			{
 				label: 'board/alternate',
-				members: membersInAlternate.map(formatMember(here))
+				members: await Promise.all(membersInAlternate.map(formatMember(here)))
 			}
 		],
 		groups: [
 			{
 				label: 'auditor/member',
-				members: membersInAuditor.map(formatMember(here))
+				members: await Promise.all(membersInAuditor.map(formatMember(here)))
 			},
 			{
 				label: 'nomination/member',
-				members: membersInNomination.map(formatMember(here))
+				members: await Promise.all(membersInNomination.map(formatMember(here)))
 			},
 			{
 				label: 'committee/economy',
-				members: membersInGroupEconomy.map(formatMember(here))
+				members: await Promise.all(membersInGroupEconomy.map(formatMember(here)))
 			},
 			{
 				label: 'committee/it',
-				members: membersInGroupIT.map(formatMember(here))
+				members: await Promise.all(membersInGroupIT.map(formatMember(here)))
 			},
 			{
 				label: 'committee/pr',
-				members: membersInGroupPR.map(formatMember(here))
+				members: await Promise.all(membersInGroupPR.map(formatMember(here)))
 			},
 			{
 				label: 'committee/sponsorships',
-				members: membersInGroupSpons.map(formatMember(here))
+				members: await Promise.all(membersInGroupSpons.map(formatMember(here)))
 			}
 		],
 		omks: [
 			{
 				label: 'workshop/3dprint',
-				members: membersInOmk3dPrint.map(formatMember(here))
+				members: await Promise.all(membersInOmk3dPrint.map(formatMember(here)))
 			},
 			{
 				label: 'workshop/3s',
-				members: membersInOmk3s.map(formatMember(here))
+				members: await Promise.all(membersInOmk3s.map(formatMember(here)))
 			},
 			{
 				label: 'workshop/asylumstorage',
-				members: membersInOmkAsylumOchLagring.map(formatMember(here))
+				members: await Promise.all(membersInOmkAsylumOchLagring.map(formatMember(here)))
 			},
 			{
 				label: 'workshop/brewery',
-				members: membersInOmkBryggeri.map(formatMember(here))
+				members: await Promise.all(membersInOmkBryggeri.map(formatMember(here)))
 			},
 			{
 				label: 'workshop/electronics',
-				members: membersInOmkElektronik.map(formatMember(here))
+				members: await Promise.all(membersInOmkElektronik.map(formatMember(here)))
 			},
 			{
 				label: 'workshop/vehicle',
-				members: membersInOmkFordon.map(formatMember(here))
+				members: await Promise.all(membersInOmkFordon.map(formatMember(here)))
 			},
 			{
 				label: 'workshop/office',
-				members: membersInOmkKontor.map(formatMember(here))
+				members: await Promise.all(membersInOmkKontor.map(formatMember(here)))
 			},
 			{
 				label: 'workshop/laser',
-				members: membersInOmkLaser.map(formatMember(here))
+				members: await Promise.all(membersInOmkLaser.map(formatMember(here)))
 			},
 			{
 				label: 'workshop/painting',
-				members: membersInOmkMaleri.map(formatMember(here))
+				members: await Promise.all(membersInOmkMaleri.map(formatMember(here)))
 			},
 			{
 				label: 'workshop/metal',
-				members: membersInOmkMetall.map(formatMember(here))
+				members: await Promise.all(membersInOmkMetall.map(formatMember(here)))
 			},
 			{
 				label: 'workshop/support',
-				members: membersInOmkSupport.map(formatMember(here))
+				members: await Promise.all(membersInOmkSupport.map(formatMember(here)))
 			},
 			{
 				label: 'workshop/textile',
-				members: membersInOmkTextil.map(formatMember(here))
+				members: await Promise.all(membersInOmkTextil.map(formatMember(here)))
 			},
 			{
 				label: 'workshop/plaza',
-				members: membersInOmkTorget.map(formatMember(here))
+				members: await Promise.all(membersInOmkTorget.map(formatMember(here)))
 			},
 			{
 				label: 'workshop/wood',
-				members: membersInOmkTra.map(formatMember(here))
+				members: await Promise.all(membersInOmkTra.map(formatMember(here)))
 			}
 		]
 	};

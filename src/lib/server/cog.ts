@@ -44,17 +44,17 @@ export async function getAvatar(crNumber: string, size = 128) {
 	}
 
 	try {
-		const photoPath = `${env.UFPERSONSLIST_REPO_PATH}/photos/${crNumber}.jpg`;
+		let path = `${env.UFPERSONSLIST_REPO_PATH}/photos/${crNumber}.jpg`;
 
 		try {
-			await fs.promises.access(photoPath);
+			await fs.promises.access(path);
 		} catch (err) {
-			console.log(`could not read path to avatar: ${photoPath}`);
+			console.log(`could not read path to avatar: ${path}, using default`);
 			console.log(err);
-			return undefined;
+			path = `${env.UFPERSONSLIST_REPO_PATH}/photos/default.png`;
 		}
 
-		const processedBuffer = await sharp(photoPath)
+		const buffer = await sharp(path)
 			.resize(size, size, {
 				fit: 'cover',
 				position: 'centre'
@@ -62,10 +62,10 @@ export async function getAvatar(crNumber: string, size = 128) {
 			.webp({ quality: 80 })
 			.toBuffer();
 
-		const base64Data = `data:image/webp;base64,${processedBuffer.toString('base64')}`;
+		const data = `data:image/webp;base64,${buffer.toString('base64')}`;
 
-		cache.set(cacheKey, base64Data);
-		return base64Data;
+		cache.set(cacheKey, data);
+		return data;
 	} catch (e) {
 		console.log(`could not fetch avatar for crNumber ${crNumber}: ${e}`);
 		return undefined;

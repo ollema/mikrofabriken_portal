@@ -25,7 +25,7 @@
 
 	let params = $state({
 		columnFilters: [],
-		sorting: [{ id: 'Start Date', desc: true }],
+		sorting: [{ id: 'Start', desc: true }],
 		pagination: {
 			pageIndex: 1,
 			pageSize: 10

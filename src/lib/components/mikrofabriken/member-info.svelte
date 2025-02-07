@@ -5,7 +5,7 @@
 	interface Props {
 		member: {
 			name: string;
-			avatar: Promise<string | undefined>;
+			avatar: string;
 			here: boolean;
 			commissions: string[];
 		};
@@ -22,9 +22,7 @@
 					? 'animate-pulse-border'
 					: 'border-muted '}"
 			>
-				{#await member.avatar then avatar}
-					<Avatar.Image src={avatar} alt={member.name} />
-				{/await}
+				<Avatar.Image src={member.avatar} alt={member.name} />
 				<Avatar.Fallback>{nameToInitials(member.name || '')}</Avatar.Fallback>
 			</Avatar.Root>
 		</div>

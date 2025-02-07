@@ -75,8 +75,13 @@ export const load = async ({ locals, url }) => {
 			.map((s) => s.period!.member)
 	);
 
-	const avatarPromises = Object.fromEntries(
-		Array.from(membersWithStorage).map((member) => [member.slackID, getAvatar(member.crNumber)])
+	const avatars = Object.fromEntries(
+		await Promise.all(
+			Array.from(membersWithStorage).map(async (member) => [
+				member.slackID,
+				await getAvatar(member.crNumber)
+			])
+		)
 	);
 
 	const memberStoragePeriods = storageOpenPeriods.filter(
@@ -87,7 +92,7 @@ export const load = async ({ locals, url }) => {
 
 	return {
 		storageRows,
-		avatars: avatarPromises,
+		avatars,
 		storagePeriods: memberStoragePeriods
 	};
 };

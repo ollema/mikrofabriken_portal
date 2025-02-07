@@ -9,7 +9,7 @@
 
 	let selectedMember: {
 		name: string;
-		avatar: Promise<string | undefined>;
+		avatar: string;
 		here: boolean;
 		commissions: string[];
 	} | null = $state(null);

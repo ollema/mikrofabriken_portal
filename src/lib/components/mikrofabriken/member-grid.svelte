@@ -7,13 +7,13 @@
 		label: string | undefined;
 		members: {
 			name: string;
-			avatar: Promise<string | undefined>;
+			avatar: string;
 			here: boolean;
 			commissions: string[];
 		}[];
 		selectedMember?: {
 			name: string;
-			avatar: Promise<string | undefined>;
+			avatar: string;
 			here: boolean;
 			commissions: string[];
 		} | null;
@@ -29,7 +29,7 @@
 
 	function selectMember(member: {
 		name: string;
-		avatar: Promise<string | undefined>;
+		avatar: string;
 		here: boolean;
 		commissions: string[];
 	}) {
@@ -50,9 +50,7 @@
 				class="relative flex h-auto w-16 flex-col items-center px-2 py-0"
 			>
 				<Avatar.Root class="size-16 rounded-full">
-					{#await member.avatar then avatar}
-						<Avatar.Image src={avatar} alt={member.name} />
-					{/await}
+					<Avatar.Image src={member.avatar} alt={member.name} />
 					<Avatar.Fallback>{nameToInitials(member.name)}</Avatar.Fallback>
 				</Avatar.Root>
 				<div

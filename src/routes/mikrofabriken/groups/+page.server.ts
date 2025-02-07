@@ -18,7 +18,7 @@ export const load = async ({ locals, url }) => {
 		{} as Record<string, boolean>
 	);
 
-	const { groups } = getFormattedMembersBasedOnCommissions(members, here);
+	const { groups } = await getFormattedMembersBasedOnCommissions(members, here);
 
 	return {
 		groups: groups
