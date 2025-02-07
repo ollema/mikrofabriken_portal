@@ -16,7 +16,6 @@ export const load = async ({ locals }) => {
 	getUser(locals);
 	const members = getMembers();
 
-	// First find the highest pallet ID in use
 	let maxPalletId = minimumPallets;
 	members.forEach((member: Member) => {
 		member.agreements.forEach((agreement) => {
@@ -30,12 +29,10 @@ export const load = async ({ locals }) => {
 		});
 	});
 
-	// Create array of all pallets up to maxPalletId
 	const pallets: PalletInfo[] = Array.from({ length: maxPalletId }, (_, i) => ({
 		id: i + 1
 	}));
 
-	// Assign members to pallets
 	members.forEach((member: Member) => {
 		member.agreements.forEach((agreement) => {
 			if (
