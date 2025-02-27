@@ -121,7 +121,7 @@ export const NewHoldingPeriodSchema = z.object({
 	resourceName: z.string().min(1)
 });
 
-export const OpenPeriodsSchema = z.array(
+export const PeriodsSchema = z.array(
 	z.object({
 		uuid: z.string(),
 		resourceName: z.string(),
@@ -133,3 +133,20 @@ export const OpenPeriodsSchema = z.array(
 			.nullable()
 	})
 );
+
+export const PeriodCostSchema = z.object({
+	cost: z.number(),
+	maximumMonthlyDiscount: z.number()
+});
+
+export const PeriodDiscountSchema = z.object({
+	usedDiscountClosed: z.number(),
+	usedDiscountOpen: z.number(),
+	availableDiscount: z.number()
+});
+
+export const SamplePeriodSchema = z.object({
+	resourceName: z.string().min(1),
+	startDate: z.string().transform((value) => new Date(value)),
+	endDate: z.string().transform((value) => new Date(value))
+});

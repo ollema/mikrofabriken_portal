@@ -18,7 +18,10 @@ import type {
 	ResourceSchema,
 	ResourcesSchema,
 	NewHoldingPeriodSchema,
-	OpenPeriodsSchema
+	PeriodsSchema,
+	PeriodCostSchema,
+	PeriodDiscountSchema,
+	SamplePeriodSchema
 } from '$lib/schemas/cog.js';
 
 // claims
@@ -45,5 +48,8 @@ export type PeriodAttribute = z.infer<typeof PeriodAttributeSchema>;
 export type Resource = z.infer<typeof ResourceSchema>;
 export type Resources = z.infer<typeof ResourcesSchema>;
 export type NewHoldingPeriod = z.infer<typeof NewHoldingPeriodSchema>;
-export type OpenPeriod = z.infer<typeof OpenPeriodsSchema.element>;
-export type OpenPeriods = z.infer<typeof OpenPeriodsSchema>;
+export type Period = z.infer<typeof PeriodsSchema.element>;
+export type Periods = z.infer<typeof PeriodsSchema>;
+export type PeriodCost = z.infer<typeof PeriodCostSchema>;
+export type PeriodDiscount = z.infer<typeof PeriodDiscountSchema>;
+export type SamplePeriod = z.infer<typeof SamplePeriodSchema>;

@@ -46,7 +46,7 @@
 				</Avatar.Root>
 			</div>
 			<span class="text-lg font-bold uppercase">
-				{storage.name.replace('storage/', '')}
+				{storage.name.replace(/storage(Short|Medium)Term\//, '')}
 			</span>
 		</div>
 	</Button>
@@ -59,7 +59,7 @@
 		<div class="flex h-full flex-col items-center">
 			<div class="flex grow items-center justify-center"></div>
 			<span class="text-lg font-bold uppercase">
-				{storage.name.replace('storage/', '')}
+				{storage.name.replace(/storage(Short|Medium)Term\//, '')}
 			</span>
 		</div>
 	</Button>

@@ -4,20 +4,23 @@ import {
 	getResources,
 	startPeriod,
 	closePeriod,
-	getAvatar
+	getAvatar,
+	getMyClosedPeriods
 } from '$lib/server/cog.js';
 import { findMember, getMembers } from '$lib/server/members.js';
 import { fail } from '@sveltejs/kit';
 
-const mediumTermStorageRows = [['storage/x1', 'storage/x2', 'storage/x3']];
+const mediumTermStorageRows = [
+	['storageMediumTerm/x1', 'storageMediumTerm/x2', 'storageMediumTerm/x3']
+];
 
 export const load = async ({ locals, url }) => {
 	const user = getUser(locals, url);
 	const members = getMembers();
 	const member = findMember(members, user.slackID);
 
-	const storageResources = await getResources('storage');
-	const storageOpenPeriods = await getOpenPeriods('storage');
+	const storageResources = await getResources('storageMediumTerm');
+	const storageOpenPeriods = await getOpenPeriods('storageMediumTerm');
 
 	const storageRows = mediumTermStorageRows.map((row) =>
 		row
@@ -80,10 +83,22 @@ export const load = async ({ locals, url }) => {
 		)
 	);
 
-	const memberStoragePeriods = storageOpenPeriods.filter(
+	// Get the user's open periods for this storage type
+	const memberOpenStoragePeriods = storageOpenPeriods.filter(
 		(period) =>
 			period.memberCrNumber === member.crNumber &&
 			mediumTermStorageRows.flat().includes(period.resourceName)
+	);
+
+	// Get the user's closed periods for this storage type
+	const memberClosedStoragePeriods = await getMyClosedPeriods(
+		getToken(locals),
+		'storageMediumTerm'
+	);
+
+	// Combine open and closed periods for the history table
+	const memberStoragePeriods = [...memberOpenStoragePeriods, ...memberClosedStoragePeriods].sort(
+		(a, b) => b.start.getTime() - a.start.getTime()
 	);
 
 	return {

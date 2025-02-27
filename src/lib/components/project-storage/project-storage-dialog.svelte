@@ -72,7 +72,7 @@
 
 {#snippet reserveContent()}
 	<div class="text-xl font-semibold">
-		Reserve {storage?.name.replace('storage/', '').toUpperCase()}?
+		Reserve {storage?.name.replace(/storage(Short|Medium)Term\//, '').toUpperCase()}?
 	</div>
 
 	<form
@@ -100,7 +100,7 @@
 
 {#snippet releaseContent()}
 	<div class="text-xl font-semibold">
-		Release {storage?.name.replace('storage/', '').toUpperCase()}?
+		Release {storage?.name.replace(/storage(Short|Medium)Term\//, '').toUpperCase()}?
 	</div>
 	<div class="mt-2 text-muted-foreground">
 		Reserved by {storage?.period?.member?.name}<br />
@@ -140,7 +140,7 @@
 
 {#snippet occupiedContent()}
 	<div class="text-xl font-semibold">
-		{storage?.name.replace('storage/', '').toUpperCase()} is occupied
+		{storage?.name.replace(/storage(Short|Medium)Term\//, '').toUpperCase()} is occupied
 	</div>
 	<div class="mt-2 text-muted-foreground">
 		Reserved by {storage?.period?.member?.name}<br />

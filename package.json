@@ -24,7 +24,7 @@
 		"@tanstack/table-core": "^8.21.2",
 		"@types/better-sqlite3": "^7.6.12",
 		"@types/eslint": "^9.6.1",
-		"arctic": "^2.3.4",
+		"arctic": "^3.4.0",
 		"autoprefixer": "^10.4.20",
 		"barcode-validator": "^1.0.2",
 		"barqode": "^0.0.2",

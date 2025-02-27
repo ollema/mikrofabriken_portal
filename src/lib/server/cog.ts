@@ -5,7 +5,9 @@ import {
 	BillingCategoriesSchema,
 	ClaimsSchema,
 	HistoricPurchasesSchema,
-	OpenPeriodsSchema,
+	PeriodCostSchema,
+	PeriodDiscountSchema,
+	PeriodsSchema,
 	ProductCategoriesSchema,
 	ProductSchema,
 	ProductsSchema,
@@ -385,7 +387,7 @@ export async function getOpenPeriods(prefix: string | null = null) {
 		}
 
 		const data = await response.json();
-		const periods = OpenPeriodsSchema.parse(data);
+		const periods = PeriodsSchema.parse(data);
 
 		return periods;
 	} catch (e) {
@@ -407,7 +409,7 @@ export async function startPeriod(token: string, period: NewHoldingPeriod) {
 		}
 
 		const data = await response.json();
-		return OpenPeriodsSchema.element.parse(data);
+		return PeriodsSchema.element.parse(data);
 	} catch (e) {
 		console.error('could not start period');
 		throw e;
@@ -426,6 +428,96 @@ export async function closePeriod(token: string, uuid: string) {
 		}
 	} catch (e) {
 		console.error(`could not close period ${uuid}`);
+		throw e;
+	}
+}
+
+export async function getClosedPeriods(token: string, monthOffset: number, prefix: string) {
+	try {
+		const response = await fetch(`${BASE_URL}/resources/periods/closed/${monthOffset}/${prefix}`, {
+			method: 'GET',
+			headers: headers(token)
+		});
+
+		if (!response.ok) {
+			throw new Error(`http error: ${response.status} ${response.statusText}`);
+		}
+
+		const data = await response.json();
+		const periods = PeriodsSchema.parse(data);
+
+		return periods;
+	} catch (e) {
+		console.error(
+			`could not fetch closed periods for month offset ${monthOffset} and prefix ${prefix}`
+		);
+		throw e;
+	}
+}
+
+export async function getMyClosedPeriods(token: string, prefix: string) {
+	try {
+		const response = await fetch(`${BASE_URL}/resources/periods/myClosed/${prefix}`, {
+			method: 'GET',
+			headers: headers(token)
+		});
+
+		if (!response.ok) {
+			throw new Error(`http error: ${response.status} ${response.statusText}`);
+		}
+
+		const data = await response.json();
+		const periods = PeriodsSchema.parse(data);
+
+		return periods;
+	} catch (e) {
+		console.error(`could not fetch my closed periods for prefix ${prefix}`);
+		throw e;
+	}
+}
+
+export async function getEstimatedCost(
+	token: string,
+	samplePeriod: {
+		resourceName: string;
+		startDate: Date;
+		endDate: Date;
+	}
+) {
+	try {
+		const response = await fetch(`${BASE_URL}/resources/periods/estimatedCost`, {
+			method: 'POST',
+			headers: headers(token),
+			body: JSON.stringify(samplePeriod)
+		});
+
+		if (!response.ok) {
+			throw new Error(`http error: ${response.status} ${response.statusText}`);
+		}
+
+		const data = await response.json();
+		return PeriodCostSchema.parse(data);
+	} catch (e) {
+		console.error(`could not get estimated cost for period`);
+		throw e;
+	}
+}
+
+export async function getPeriodDiscount(token: string, costModel: string) {
+	try {
+		const response = await fetch(`${BASE_URL}/resources/periods/discount/${costModel}`, {
+			method: 'GET',
+			headers: headers(token)
+		});
+
+		if (!response.ok) {
+			throw new Error(`http error: ${response.status} ${response.statusText}`);
+		}
+
+		const data = await response.json();
+		return PeriodDiscountSchema.parse(data);
+	} catch (e) {
+		console.error(`could not get period discount for cost model ${costModel}`);
 		throw e;
 	}
 }
