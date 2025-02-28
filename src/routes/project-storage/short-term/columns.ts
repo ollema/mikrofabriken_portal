@@ -20,13 +20,9 @@ export const columns: ColumnDef<Period & { cost: number | null }>[] = [
 		id: 'Start',
 		accessorFn: (row) =>
 			row.start
-				.toLocaleDateString(undefined, {
-					day: '2-digit',
-					month: '2-digit',
-					hour: '2-digit',
-					minute: '2-digit'
-				})
-				.replace(',', ''),
+				.toISOString()
+				.replace('T', ' ')
+				.replace(/\.\d{3}Z/, ''),
 		header: ({ column }) =>
 			renderComponent(DataTableColumnHeader<Period & { cost: number | null }, unknown>, {
 				column,
@@ -37,13 +33,9 @@ export const columns: ColumnDef<Period & { cost: number | null }>[] = [
 		id: 'End',
 		accessorFn: (row) =>
 			row.end
-				?.toLocaleDateString(undefined, {
-					day: '2-digit',
-					month: '2-digit',
-					hour: '2-digit',
-					minute: '2-digit'
-				})
-				.replace(',', ''),
+				?.toISOString()
+				.replace('T', ' ')
+				.replace(/\.\d{3}Z/, ''),
 		header: ({ column }) =>
 			renderComponent(DataTableColumnHeader<Period & { cost: number | null }, unknown>, {
 				column,

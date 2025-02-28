@@ -104,10 +104,10 @@
 	</div>
 	<div class="mt-2 text-muted-foreground">
 		Reserved by {storage?.period?.member?.name}<br />
-		since {storage?.period?.start.toLocaleDateString(undefined, {
-			day: '2-digit',
-			month: '2-digit'
-		})}
+		since {storage?.period?.start
+			.toISOString()
+			.replace('T', ' ')
+			.replace(/\.\d{3}Z/, '')}
 	</div>
 
 	<form
