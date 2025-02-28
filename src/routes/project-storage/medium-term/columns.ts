@@ -29,7 +29,7 @@ export const columns: ColumnDef<Period & { cost: number | null }>[] = [
 	{
 		id: 'End',
 		accessorFn: (row) =>
-			row.end?.toLocaleDateString(undefined, { day: '2-digit', month: '2-digit' }) ?? '-',
+			row.end?.toLocaleDateString(undefined, { day: '2-digit', month: '2-digit' }),
 		header: ({ column }) =>
 			renderComponent(DataTableColumnHeader<Period & { cost: number | null }, unknown>, {
 				column,
