@@ -5,7 +5,9 @@ import {
 	startPeriod,
 	closePeriod,
 	getAvatar,
-	getMyClosedPeriods
+	getMyClosedPeriods,
+	getPeriodDiscount,
+	getEstimatedCost
 } from '$lib/server/cog.js';
 import { findMember, getMembers } from '$lib/server/members.js';
 import { fail } from '@sveltejs/kit';
@@ -85,25 +87,48 @@ export const load = async ({ locals, url }) => {
 		)
 	);
 
-	// Get the user's open periods for this storage type
 	const memberOpenStoragePeriods = storageOpenPeriods.filter(
 		(period) =>
 			period.memberCrNumber === member.crNumber &&
 			shortTermStorageRows.flat().includes(period.resourceName)
 	);
 
-	// Get the user's closed periods for this storage type
 	const memberClosedStoragePeriods = await getMyClosedPeriods(getToken(locals), 'storageShortTerm');
 
-	// Combine open and closed periods for the history table
+	// TODO: fix this to be more robust
+	const costModel = storageResources[0].costModel as string;
+	const discountInfo = await getPeriodDiscount(getToken(locals), costModel);
+
 	const memberStoragePeriods = [...memberOpenStoragePeriods, ...memberClosedStoragePeriods].sort(
 		(a, b) => b.start.getTime() - a.start.getTime()
+	);
+
+	const periodsWithCost = await Promise.all(
+		memberStoragePeriods.map(async (period) => {
+			if (period.end) {
+				const costInfo = await getEstimatedCost(getToken(locals), {
+					resourceName: period.resourceName,
+					startDate: period.start,
+					endDate: period.end
+				});
+				return { ...period, cost: costInfo.cost };
+			} else {
+				const costInfo = await getEstimatedCost(getToken(locals), {
+					resourceName: period.resourceName,
+					startDate: period.start,
+					endDate: new Date()
+				});
+				return { ...period, cost: costInfo.cost };
+			}
+		})
 	);
 
 	return {
 		storageRows,
 		avatars,
-		storagePeriods: memberStoragePeriods
+		storagePeriods: periodsWithCost,
+		usedDiscount: discountInfo.usedDiscountOpen + discountInfo.usedDiscountClosed,
+		availableDiscount: discountInfo.availableDiscount
 	};
 };
 

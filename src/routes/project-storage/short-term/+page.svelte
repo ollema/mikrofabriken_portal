@@ -5,6 +5,7 @@
 	import * as PageHeader from '$lib/components/page-header/index.js';
 	import ProjectStorageDialog from '$lib/components/project-storage/project-storage-dialog.svelte';
 	import ProjectStorageSpot from '$lib/components/project-storage/project-storage-spot.svelte';
+	import { Progress } from '$lib/components/ui/progress/index.js';
 
 	let { data } = $props();
 
@@ -42,6 +43,10 @@
 	function onClose() {
 		selectedStorage = undefined;
 	}
+
+	// TODO: does this need to be reactive?
+	const date = new Date();
+	const currentMonth = date.toLocaleString('en-US', { month: 'long' });
 </script>
 
 <div class="mx-auto w-full min-w-0">
@@ -51,6 +56,8 @@
 			<PageHeader.Description>Also known as schackrutor.</PageHeader.Description>
 		</PageHeader.Heading>
 	</PageHeader.Root>
+
+	<div class="mb-4 text-muted-foreground">Click to book/release a square.</div>
 
 	<div class="flex max-w-screen-md flex-col items-start gap-2 lg:flex-row lg:justify-between">
 		<div>
@@ -73,10 +80,22 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="mt-4">Discount ({currentMonth})</div>
+	<div class="max-w-screen-md">
+		<div class="text-sm">
+			{data.usedDiscount.toFixed(0)} kr used, {data.availableDiscount.toFixed(0)} kr left
+		</div>
+		<Progress value={data.usedDiscount / data.availableDiscount} max={1} class="my-2 h-2" />
+		<div class="flex justify-between">
+			<div class="text-sm">0 kr</div>
+			<div class="text-sm">400 kr</div>
+		</div>
+	</div>
 </div>
 
-<div class="mt-8 max-w-screen-md">
-	<h2 class="mb-4 w-full text-lg">History</h2>
+<div class="mt-4 max-w-screen-md">
+	<h2 class="mb-2 w-full text-lg">History</h2>
 	<DataTable data={data.storagePeriods} {columns} {params}>
 		{#snippet paginationControls(table)}
 			<DataTablePagination {table} rowName={'period'} showPerPage={true} />

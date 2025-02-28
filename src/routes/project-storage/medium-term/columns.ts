@@ -3,7 +3,7 @@ import { renderComponent } from '$lib/components/ui/data-table/index.js';
 import { DataTableColumnHeader } from '$lib/components/data-table/index.js';
 import type { Period } from '$lib/types/cog.js';
 
-export const columns: ColumnDef<Period>[] = [
+export const columns: ColumnDef<Period & { cost: number | null }>[] = [
 	{
 		id: 'Resource',
 		accessorKey: 'resourceName',
@@ -11,7 +11,7 @@ export const columns: ColumnDef<Period>[] = [
 			return row.resourceName.replace('storageMediumTerm/', '').toUpperCase();
 		},
 		header: ({ column }) =>
-			renderComponent(DataTableColumnHeader<Period, unknown>, {
+			renderComponent(DataTableColumnHeader<Period & { cost: number | null }, unknown>, {
 				column,
 				title: 'Resource'
 			})
@@ -21,7 +21,7 @@ export const columns: ColumnDef<Period>[] = [
 		accessorFn: (row) =>
 			row.start.toLocaleDateString(undefined, { day: '2-digit', month: '2-digit' }),
 		header: ({ column }) =>
-			renderComponent(DataTableColumnHeader<Period, unknown>, {
+			renderComponent(DataTableColumnHeader<Period & { cost: number | null }, unknown>, {
 				column,
 				title: 'Start'
 			})
@@ -31,15 +31,18 @@ export const columns: ColumnDef<Period>[] = [
 		accessorFn: (row) =>
 			row.end?.toLocaleDateString(undefined, { day: '2-digit', month: '2-digit' }) ?? '-',
 		header: ({ column }) =>
-			renderComponent(DataTableColumnHeader<Period, unknown>, {
+			renderComponent(DataTableColumnHeader<Period & { cost: number | null }, unknown>, {
 				column,
 				title: 'End'
 			})
 	},
 	{
 		id: 'Cost',
-		accessorKey: 'cost',
+		accessorFn: (row) => (row.cost ? `${row.cost.toFixed(2)} kr` : '-'),
 		header: ({ column }) =>
-			renderComponent(DataTableColumnHeader<Period, unknown>, { column, title: 'Cost' })
+			renderComponent(DataTableColumnHeader<Period & { cost: number | null }, unknown>, {
+				column,
+				title: 'Cost'
+			})
 	}
 ];
