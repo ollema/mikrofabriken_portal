@@ -57,7 +57,7 @@
 	<div class="mb-4 text-muted-foreground">Click to book/release a square.</div>
 
 	<div class="flex max-w-screen-md flex-col items-start gap-2">
-		<div class="grid auto-cols-[80px] grid-flow-col justify-start gap-2">
+		<div class="grid auto-cols-[60px] grid-flow-col justify-start gap-2 sm:auto-cols-[70px]">
 			{#each data.storageRows[0] as storage}
 				<ProjectStorageSpot {storage} avatars={data.avatars} onClick={handleStorageClick} />
 			{/each}

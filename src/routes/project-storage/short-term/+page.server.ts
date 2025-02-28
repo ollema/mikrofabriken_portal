@@ -14,8 +14,14 @@ import { fail } from '@sveltejs/kit';
 
 const shortTermStorageRows = [
 	['storageShortTerm/a1', 'storageShortTerm/a2', 'storageShortTerm/a3', 'storageShortTerm/a4'],
-	['storageShortTerm/b1', 'storageShortTerm/b2', 'storageShortTerm/b3', 'storageShortTerm/b4'],
-	['storageShortTerm/b5', 'storageShortTerm/b6', 'storageShortTerm/b7']
+	[
+		'storageShortTerm/b1',
+		'storageShortTerm/b2',
+		'storageShortTerm/b3',
+		'storageShortTerm/b4',
+		'storageShortTerm/b5'
+	],
+	['storageShortTerm/b7', 'storageShortTerm/b6']
 ];
 
 export const load = async ({ locals, url }) => {

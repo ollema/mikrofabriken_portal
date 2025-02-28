@@ -30,7 +30,7 @@
 	<Button
 		variant="outline"
 		class={cn(
-			'relative h-32 w-[75px] border border-muted bg-muted p-0',
+			'relative h-32 w-[60px] border border-muted bg-muted p-0 sm:w-[70px]',
 			storage.period && 'hover:border-foreground hover:bg-foreground/30',
 			owner && 'hover:border-destructive hover:bg-destructive/30'
 		)}
@@ -53,7 +53,7 @@
 {:else}
 	<Button
 		variant="outline"
-		class="relative h-32 w-[75px] border p-0 hover:border-emerald-600 hover:bg-emerald-600/30"
+		class="relative h-32 w-[60px] border p-0 hover:border-emerald-600 hover:bg-emerald-600/30 sm:w-[70px]"
 		onclick={() => onClick(storage)}
 	>
 		<div class="flex h-full flex-col items-center">
