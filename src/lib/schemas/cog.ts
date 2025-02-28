@@ -111,6 +111,7 @@ export const ResourceSchema = z.object({
 	description: z.string().min(1),
 	shortDescription: z.string().min(1),
 	shared: z.boolean(),
+	costModel: z.string().nullable(),
 	periodAttributes: z.array(PeriodAttributeSchema).nullable(),
 	polygon: PolygonSchema.nullable()
 });
