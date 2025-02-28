@@ -7,6 +7,7 @@
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import { tick } from 'svelte';
+	import { fromDate, toCalendarDate, toTime } from '@internationalized/date';
 
 	interface Props {
 		open: boolean;
@@ -68,6 +69,13 @@
 			await closeDialog();
 		}
 	}
+
+	const periodSince = $derived.by(() => {
+		if (storage?.period) {
+			const date = fromDate(storage.period.start, 'Europe/Stockholm');
+			return toCalendarDate(date) + ' ' + toTime(date).toString().split('.')[0];
+		}
+	});
 </script>
 
 {#snippet reserveContent()}
@@ -144,10 +152,7 @@
 	</div>
 	<div class="mt-2 text-muted-foreground">
 		Reserved by {storage?.period?.member?.name}<br />
-		since {storage?.period?.start.toLocaleDateString(undefined, {
-			day: '2-digit',
-			month: '2-digit'
-		})}
+		since {periodSince}
 	</div>
 
 	<div class="mt-4 flex w-full justify-end">
