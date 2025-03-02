@@ -64,7 +64,6 @@
 		"zod": "^3.24.2"
 	},
 	"dependencies": {
-		"@gitbeaker/rest": "^42.1.0",
 		"@oslojs/crypto": "^1.0.1",
 		"@oslojs/encoding": "^1.1.0",
 		"better-sqlite3": "^11.8.1",

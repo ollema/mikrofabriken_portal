@@ -4,12 +4,13 @@ import fs from 'fs/promises';
 import stringify from 'safe-stable-stringify';
 import path from 'path';
 import os from 'os';
-import { Gitlab, type MergeRequestSchemaWithBasicLabels } from '@gitbeaker/rest';
 
 import { env } from '$env/dynamic/private';
 
 import type { Member } from '$lib/types/members.js';
 import { MembersSchema } from '$lib/schemas/members.js';
+import { MergeRequestsSchema, MergeRequestSchema } from '$lib/schemas/gitlab';
+import type { MergeRequest, MergeRequests } from '$lib/types/gitlab';
 
 /**
  * Options for suggesting a change in GitLab.
@@ -40,11 +41,12 @@ export type MergeRequestOptions = Pick<SuggestChangeOptions, 'branch' | 'title' 
 };
 
 /**
- * Returns an object containing options for updating information about a member.
- * @param existingMember - The member whose information is being updated.
- * @param editor - The member who submitted the change request. Defaults to `existingMember`.
- * @param sourceBranch - The name of the branch to base the change on. Defaults to `undefined`.
- * @returns An object containing the branch name,source branch name, commit message, merge request title, and description.
+ * Generates options for suggesting changes to an existing member's information.
+ *
+ * @param existingMember - The member whose information is being updated
+ * @param editor - The member who is making the edit (defaults to existingMember if not provided)
+ * @param sourceBranch - Optional branch name to base the changes on
+ * @returns An object containing branch name, commit message, MR title and description
  */
 export function getSuggestChangeOptions(
 	existingMember: Member,
@@ -63,9 +65,10 @@ export function getSuggestChangeOptions(
 }
 
 /**
- * Returns an object containing options for adding new members.
- * @param editor - The member who submitted the change request.
- * @returns An object containing the branch name, commit message, merge request title, and description.
+ * Generates options for suggesting changes to add new members.
+ *
+ * @param sourceBranch - Optional branch name to base the changes on
+ * @returns An object containing branch name, commit message, MR title and description for adding new members
  */
 export function getNewMemberOptions(
 	sourceBranch: string | undefined = undefined
@@ -79,10 +82,14 @@ export function getNewMemberOptions(
 }
 
 /**
- * Checks if a merge request title contains a specific CR number (SSN).
- * @param title - The title of the merge request.
- * @param crNumber - The CR number to check for.
- * @returns True if the merge request title contains the given CR number, false otherwise.
+ * Determines if a merge request is for a specific member based on their CR number.
+ *
+ * This function safely extracts the CR number from the merge request title,
+ * handling cases where users might try to manipulate the title format.
+ *
+ * @param title - The title of the merge request
+ * @param crNumber - The CR number to check against
+ * @returns True if the merge request is for the specified member, false otherwise
  */
 function isMergeRequestForMember(title: string, crNumber: string): boolean {
 	// the user could try to trick us by adding parentheses to their name
@@ -98,26 +105,125 @@ function isMergeRequestForMember(title: string, crNumber: string): boolean {
 	return extractedCrNumber === crNumber;
 }
 
+const BASE_URL = 'https://gitlab.mikrofabriken.se/api/v4';
+
 /**
- * Retrieves the list of pending merge requests from a GitLab project that match the provided filter.
+ * Creates HTTP headers for GitLab API requests.
  *
- * @param filter - A function that takes a `MergeRequestSchemaWithBasicLabels` object and returns a boolean indicating whether the merge request matches the criteria.
- * @returns A promise that resolves to an array of `MergeRequestSchemaWithBasicLabels` objects that match the filter criteria.
- * @throws Will log an error and throw a 500 error if there is an issue retrieving the merge requests.
+ * @param token - Optional GitLab personal access token for authentication
+ * @returns An object containing the necessary HTTP headers
  */
-export async function getPendingMergeRequests(
-	filter: (mr: MergeRequestSchemaWithBasicLabels) => boolean
-): Promise<MergeRequestSchemaWithBasicLabels[]> {
+function headers(token: string | undefined) {
+	return {
+		Accept: 'application/json',
+		'Content-Type': 'application/json',
+		...(token ? { Authorization: `Bearer ${token}` } : {})
+	};
+}
+
+/**
+ * Retrieves all open merge requests for a specific GitLab project.
+ *
+ * @param projectId - The ID of the GitLab project
+ * @returns A promise that resolves to an array of merge requests
+ * @throws Error if the API request fails
+ */
+async function getAllOpenMergeRequests(projectId: string) {
 	try {
-		const gitlab = new Gitlab({
-			host: `http://${env.GITLAB_HOST}`,
-			token: env.UFDATA_GITLAB_PERSONAL_ACCESS_TOKEN
+		const response = await fetch(`${BASE_URL}/projects/${projectId}/merge_requests?state=opened`, {
+			method: 'GET',
+			headers: headers(env.UFDATA_GITLAB_PERSONAL_ACCESS_TOKEN)
 		});
 
-		const mergeRequests = await gitlab.MergeRequests.all({
-			projectId: env.UFDATA_GITLAB_PROJECT_ID,
-			state: 'opened'
-		});
+		if (!response.ok) {
+			throw new Error(`http error: ${response.status} ${response.statusText}`);
+		}
+
+		const data = await response.json();
+		const mergeRequests = MergeRequestsSchema.parse(data);
+
+		return mergeRequests;
+	} catch (e) {
+		console.error(`could not fetch merge requests for project ID ${projectId}`);
+		throw e;
+	}
+}
+
+/**
+ * Retrieves the raw content of a file from a GitLab repository.
+ *
+ * @param projectId - The ID of the GitLab project
+ * @param file - The path to the file in the repository
+ * @returns A promise that resolves to the raw content of the file as a string
+ * @throws Error if the API request fails
+ */
+async function getRawFileContent(projectId: string, file: string) {
+	try {
+		const response = await fetch(
+			`${BASE_URL}/projects/${projectId}/repository/files/${file}/raw?ref=HEAD`,
+			{
+				method: 'GET',
+				headers: headers(env.UFDATA_GITLAB_PERSONAL_ACCESS_TOKEN)
+			}
+		);
+
+		if (!response.ok) {
+			throw new Error(`http error: ${response.status} ${response.statusText}`);
+		}
+
+		const data = await response.text();
+
+		return data;
+	} catch (e) {
+		console.error(`could not fetch raw file ${file}`);
+		throw e;
+	}
+}
+
+/**
+ * Creates a new merge request in GitLab.
+ *
+ * @param projectId - The ID of the GitLab project
+ * @param options - Configuration options for the merge request
+ * @returns A promise that resolves to the created merge request
+ * @throws Error if the API request fails
+ */
+async function createMR(projectId: string, options: MergeRequestOptions) {
+	try {
+		const response = await fetch(
+			`${BASE_URL}/projects/${projectId}/merge_requests?source_branch=${options.branch}&target_branch=${options.target}&title=${options.title}&description=${options.desc}&squash=true&remove_source_branch=true`,
+			{
+				method: 'POST',
+				headers: headers(env.UFDATA_GITLAB_PERSONAL_ACCESS_TOKEN)
+			}
+		);
+
+		if (!response.ok) {
+			throw new Error(`http error: ${response.status} ${response.statusText}`);
+		}
+
+		const data = await response.json();
+		const mergeRequest = MergeRequestSchema.parse(data);
+
+		return mergeRequest;
+	} catch (e) {
+		console.error(`could not create merge request for project ID ${projectId}`);
+		throw e;
+	}
+}
+
+/**
+ * Retrieves pending merge requests that match a specified filter.
+ *
+ * @param filter - A function that determines which merge requests to include
+ * @returns A promise that resolves to an array of filtered merge requests
+ * @throws SvelteKit error with status 500 if the operation fails
+ */
+export async function getPendingMergeRequests(
+	filter: (mr: MergeRequest) => boolean
+): Promise<MergeRequests> {
+	try {
+		const mergeRequests = await getAllOpenMergeRequests(env.UFDATA_GITLAB_PROJECT_ID);
 
 		return mergeRequests.filter(filter);
 	} catch (e) {
@@ -127,20 +233,15 @@ export async function getPendingMergeRequests(
 }
 
 /**
- * Retrieves the pending update for a member based on the provided CR number.
+ * Retrieves pending updates for a specific member based on their CR number.
  *
- * @param crNumber - The change request number associated with the member.
- * @returns An object containing the members, source branch, and link of the pending merge request.
- *          If no pending merge requests are found, returns an object with undefined values.
+ * This function checks for open merge requests that are updating the specified member
+ * and returns the updated member data, source branch, and link to the merge request.
  *
- * @throws Will throw an error if there is an issue with fetching the pending merge requests or reading the file content.
+ * @param crNumber - The CR number of the member
+ * @returns An object containing members data, source branch, and web URL of the merge request
  */
 export async function getPendingUpdateForMember(crNumber: string) {
-	const gitlab = new Gitlab({
-		host: `http://${env.GITLAB_HOST}`,
-		token: env.UFDATA_GITLAB_PERSONAL_ACCESS_TOKEN
-	});
-
 	const pendingMergeRequests = await getPendingMergeRequests((mr) =>
 		isMergeRequestForMember(mr.title, crNumber)
 	);
@@ -158,11 +259,7 @@ export async function getPendingUpdateForMember(crNumber: string) {
 	const sourceBranch = mergeRequest.source_branch;
 	const link = mergeRequest.web_url;
 
-	const fileContent = (await gitlab.RepositoryFiles.showRaw(
-		env.UFDATA_GITLAB_PROJECT_ID,
-		'members.json',
-		sourceBranch
-	)) as string;
+	const fileContent = await getRawFileContent(env.UFDATA_GITLAB_PROJECT_ID, 'members.json');
 
 	const members = MembersSchema.parse(JSON.parse(fileContent));
 
@@ -170,25 +267,14 @@ export async function getPendingUpdateForMember(crNumber: string) {
 }
 
 /**
- * Fetches the pending update for new members from GitLab.
+ * Retrieves pending updates for new members.
  *
- * This function interacts with the GitLab API to retrieve pending merge requests
- * with the title 'Portal: add new members'. If there are no such merge requests,
- * it returns an object with undefined properties. If there is at least one pending
- * merge request, it fetches the content of the 'members.json' file from the source
- * branch of the first pending merge request and parses it according to the
- * `MembersSchema`.
+ * This function checks for open merge requests that are adding new members
+ * and returns the updated member data, source branch, and link to the merge request.
  *
- * @returns {Promise<{ members: typeof MembersSchema | undefined, sourceBranch: string | undefined, link: string | undefined }>}
- * An object containing the parsed members, the source branch name, and the link to the merge request.
- * If no pending merge requests are found, all properties will be undefined.
+ * @returns An object containing members data, source branch, and web URL of the merge request
  */
 export async function getPendingUpdateForNewMembers() {
-	const gitlab = new Gitlab({
-		host: `http://${env.GITLAB_HOST}`,
-		token: env.UFDATA_GITLAB_PERSONAL_ACCESS_TOKEN
-	});
-
 	const pendingMergeRequests = await getPendingMergeRequests(
 		(mr) => mr.title === 'Portal: add new members'
 	);
@@ -206,11 +292,7 @@ export async function getPendingUpdateForNewMembers() {
 	const sourceBranch = mergeRequest.source_branch;
 	const link = mergeRequest.web_url;
 
-	const fileContent = (await gitlab.RepositoryFiles.showRaw(
-		env.UFDATA_GITLAB_PROJECT_ID,
-		'members.json',
-		sourceBranch
-	)) as string;
+	const fileContent = await getRawFileContent(env.UFDATA_GITLAB_PROJECT_ID, 'members.json');
 
 	const members = MembersSchema.parse(JSON.parse(fileContent));
 
@@ -218,10 +300,14 @@ export async function getPendingUpdateForNewMembers() {
 }
 
 /**
- * Updates the Git repository located at the specified path to the latest version of the master branch.
- * @param repoPath The path to the Git repository to update.
- * @returns The hash of the latest commit after the update.
- * @throws An error with status code 500 if the repository could not be updated.
+ * Updates a local Git repository to the latest version from the remote.
+ *
+ * This function fetches all updates from the remote repository and
+ * resets the local repository to match the remote master branch.
+ *
+ * @param repoPath - The file system path to the Git repository
+ * @returns A promise that resolves to the hash of the latest commit
+ * @throws SvelteKit error with status 500 if the operation fails
  */
 export async function updateRepo(repoPath: string) {
 	try {
@@ -238,10 +324,15 @@ export async function updateRepo(repoPath: string) {
 }
 
 /**
- * Creates a temporary directory and copies the contents of the specified directory to it.
- * @param dir The directory to copy.
- * @returns The path to the temporary directory.
- * @throws An error if the temporary directory could not be created.
+ * Creates a temporary copy of a directory.
+ *
+ * This function creates a unique temporary directory and copies the contents
+ * of the specified directory into it. The temporary directory name includes
+ * a timestamp to ensure uniqueness.
+ *
+ * @param dir - The path to the directory to copy
+ * @returns A promise that resolves to the path of the temporary directory
+ * @throws SvelteKit error with status 500 if the operation fails
  */
 async function mktempcp(dir: string) {
 	try {
@@ -261,41 +352,19 @@ async function mktempcp(dir: string) {
 }
 
 /**
- * Creates a new merge request in GitLab.
+ * Suggests a change to the members file by creating or updating a merge request.
  *
- * @param options - The options for the merge request.
- * @returns A Promise that resolves when the merge request has been created.
- */
-async function createMergeRequest(options: MergeRequestOptions) {
-	const gitlab = new Gitlab({
-		host: `http://${env.GITLAB_HOST}`,
-		token: env.UFDATA_GITLAB_PERSONAL_ACCESS_TOKEN
-	});
-
-	await gitlab.MergeRequests.create(
-		env.UFDATA_GITLAB_PROJECT_ID,
-		options.branch,
-		options.target,
-		options.title,
-		{
-			description: options.desc,
-			squash: true,
-			removeSourceBranch: true
-		}
-	);
-}
-
-/**
- * Suggests a change to the members file by creating a new branch, updating the members file,
- * committing and pushing the changes, and creating a merge request.
+ * This function:
+ * 1. Updates the local repository to the latest version
+ * 2. Creates a temporary copy of the repository
+ * 3. Checks out the appropriate branch
+ * 4. Updates the members.json file with the provided members data
+ * 5. Commits and pushes the changes
+ * 6. Creates a merge request if needed
+ * 7. Cleans up the temporary repository
  *
- * @param options - The options for suggesting the change.
- * @param options.branch - The name of the new branch to create.
- * @param options.members - The updated members object to write to the members file.
- * @param options.message - The commit message for the change.
- * @param options.title - The title of the merge request.
- * @param options.desc - The description of the merge request.
- * @throws Will throw an error if the change could not be suggested.
+ * @param options - Configuration options for the change
+ * @throws SvelteKit error with status 500 if the operation fails
  */
 export async function suggestChange(options: SuggestChangeOptions) {
 	// start from latest commit on master
@@ -328,7 +397,7 @@ export async function suggestChange(options: SuggestChangeOptions) {
 
 		// create merge request if needed
 		if (!options.sourceBranch) {
-			createMergeRequest({
+			await createMR(env.UFDATA_GITLAB_PROJECT_ID, {
 				branch: options.branch,
 				target: 'master',
 				title: options.title,
