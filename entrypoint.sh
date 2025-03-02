@@ -99,7 +99,7 @@ clear_directory "${UFDATA_REPO_PATH}"
 echo -e "${UFDATA_GITLAB_PERSONAL_ACCESS_TOKEN}"
 echo -e "${GITLAB_HOST}"
 if git clone \
-  "http://gitlab-bot-user:${UFDATA_GITLAB_PERSONAL_ACCESS_TOKEN}@${GITLAB_HOST}/mikrofabriken/ufdata.git" \
+  "https://gitlab-bot-user:${UFDATA_GITLAB_PERSONAL_ACCESS_TOKEN}@${GITLAB_HOST}/mikrofabriken/ufdata.git" \
   "${UFDATA_REPO_PATH}"; then
   echo -e "${GREEN}Clone successful!${NC}\n"
 else
