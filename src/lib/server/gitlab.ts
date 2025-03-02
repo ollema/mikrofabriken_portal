@@ -157,10 +157,10 @@ async function getAllOpenMergeRequests(projectId: string) {
  * @returns A promise that resolves to the raw content of the file as a string
  * @throws Error if the API request fails
  */
-async function getRawFileContent(projectId: string, file: string) {
+async function getRawFileContent(projectId: string, file: string, branch: string) {
 	try {
 		const response = await fetch(
-			`${BASE_URL}/projects/${projectId}/repository/files/${file}/raw?ref=HEAD`,
+			`${BASE_URL}/projects/${projectId}/repository/files/${file}/raw?ref=${branch}`,
 			{
 				method: 'GET',
 				headers: headers(env.UFDATA_GITLAB_PERSONAL_ACCESS_TOKEN)
@@ -259,7 +259,11 @@ export async function getPendingUpdateForMember(crNumber: string) {
 	const sourceBranch = mergeRequest.source_branch;
 	const link = mergeRequest.web_url;
 
-	const fileContent = await getRawFileContent(env.UFDATA_GITLAB_PROJECT_ID, 'members.json');
+	const fileContent = await getRawFileContent(
+		env.UFDATA_GITLAB_PROJECT_ID,
+		'members.json',
+		sourceBranch
+	);
 
 	const members = MembersSchema.parse(JSON.parse(fileContent));
 
@@ -292,7 +296,11 @@ export async function getPendingUpdateForNewMembers() {
 	const sourceBranch = mergeRequest.source_branch;
 	const link = mergeRequest.web_url;
 
-	const fileContent = await getRawFileContent(env.UFDATA_GITLAB_PROJECT_ID, 'members.json');
+	const fileContent = await getRawFileContent(
+		env.UFDATA_GITLAB_PROJECT_ID,
+		'members.json',
+		sourceBranch
+	);
 
 	const members = MembersSchema.parse(JSON.parse(fileContent));
 
