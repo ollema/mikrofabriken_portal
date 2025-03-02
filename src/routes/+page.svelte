@@ -54,7 +54,7 @@
 			{@render app({ href: '/kiosk/browse', Icon: KioskBrowse, label: 'Kiosk (browse)' })}
 			{@render app({ href: env.PUBLIC_LOOTMOBIL_LINK, Icon: Lootmobil, label: 'Lootmobil' })}
 			{@render app({ href: env.PUBLIC_LOOTSLAP_LINK, Icon: Lootslap, label: 'Lootsläp' })}
-			{@render app({ href: 'https://git.mikrofabriken.se', Icon: Gitlab, label: 'Gitlab' })}
+			{@render app({ href: 'https://gitlib.mikrofabriken.se', Icon: Gitlab, label: 'Gitlab' })}
 			{@render app({ href: slackHref, Icon: Slack, label: 'Slack' })}
 			{@render app({
 				href: 'http://wiki.mikrofabriken.se',
