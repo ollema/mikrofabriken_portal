@@ -10,7 +10,7 @@ import { env } from '$env/dynamic/private';
 
 function parseWorkPools() {
 	return WorkPoolsSchema.parse(
-		JSON.parse(fs.readFileSync(env.UFPERSONSLIST_REPO_PATH + '/workpools.json', 'utf-8'))
+		JSON.parse(fs.readFileSync(env.UFDATA_REPO_PATH + '/workpools.json', 'utf-8'))
 	);
 }
 

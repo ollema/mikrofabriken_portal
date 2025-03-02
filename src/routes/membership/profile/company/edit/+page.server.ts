@@ -36,7 +36,7 @@ export const load = async ({ locals, url }) => {
 export const actions = {
 	edit: async ({ locals, url, request, cookies }) => {
 		const user = getUser(locals, url);
-		await updateRepo(env.UFPERSONSLIST_REPO_PATH);
+		await updateRepo(env.UFDATA_REPO_PATH);
 		let members = getMembers();
 		let member = findMember(members, user.slackID);
 		const redirectUrl = `/membership/profile`;
@@ -92,7 +92,7 @@ export const actions = {
 
 	delete: async ({ locals, url, cookies }) => {
 		const user = getUser(locals, url);
-		await updateRepo(env.UFPERSONSLIST_REPO_PATH);
+		await updateRepo(env.UFDATA_REPO_PATH);
 		let members = getMembers();
 		let member = findMember(members, user.slackID);
 		const redirectUrl = `/membership/profile`;

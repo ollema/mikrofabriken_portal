@@ -46,14 +46,14 @@ export async function getAvatar(crNumber: string, size = 128) {
 	}
 
 	try {
-		let path = `${env.UFPERSONSLIST_REPO_PATH}/photos/${crNumber}.jpg`;
+		let path = `${env.UFDATA_REPO_PATH}/photos/${crNumber}.jpg`;
 
 		try {
 			await fs.promises.access(path);
 		} catch (err) {
 			console.log(`could not read path to avatar: ${path}, using default`);
 			console.log(err);
-			path = `${env.UFPERSONSLIST_REPO_PATH}/photos/default.png`;
+			path = `${env.UFDATA_REPO_PATH}/photos/default.png`;
 		}
 
 		const buffer = await sharp(path)

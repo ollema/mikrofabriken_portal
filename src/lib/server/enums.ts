@@ -6,7 +6,7 @@ import { env } from '$env/dynamic/private';
 
 function parseEnums() {
 	return EnumsSchema.parse(
-		JSON.parse(fs.readFileSync(env.UFPERSONSLIST_REPO_PATH + '/enums.schema.json', 'utf-8'))
+		JSON.parse(fs.readFileSync(env.UFDATA_REPO_PATH + '/enums.schema.json', 'utf-8'))
 	);
 }
 

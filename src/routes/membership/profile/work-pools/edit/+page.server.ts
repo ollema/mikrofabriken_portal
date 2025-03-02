@@ -57,7 +57,7 @@ export const load = async ({ locals, url }) => {
 export const actions = {
 	default: async ({ locals, request, cookies, url }) => {
 		const user = getUser(locals, url);
-		await updateRepo(env.UFPERSONSLIST_REPO_PATH);
+		await updateRepo(env.UFDATA_REPO_PATH);
 		let members = getMembers();
 		let member = findMember(members, user.slackID);
 		const redirectUrl = `/membership/profile`;

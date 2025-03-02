@@ -14,11 +14,11 @@ if you are interested in contributing, please contact me on Slack.
 
 ### developing locally
 
-#### 1. clone the `mikrofabriken_portal` and `ufPersonsList` repos
+#### 1. clone the `mikrofabriken_portal` and `ufData` repos
 
 ```bash
 git clone git@github.com:ollema/mikrofabriken_portal.git
-git clone git@git.mikrofabriken.se:mikrofabriken/ufpersonslist.git
+git clone git@gitlab.mikrofabriken.se:mikrofabriken/ufdata.git
 ```
 
 #### 2. install dependencies

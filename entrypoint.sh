@@ -9,12 +9,12 @@ NC='\033[0m'
 echo -e "Running script 'entrypoint.sh':\n"
 
 check_env_var() {
-    local var_name=$1
-    if [ -z "${!var_name}" ]; then
-        echo -e "${RED}${var_name} is not set${NC}"
-        return 1
-    fi
-    return 0
+  local var_name=$1
+  if [ -z "${!var_name}" ]; then
+    echo -e "${RED}${var_name} is not set${NC}"
+    return 1
+  fi
+  return 0
 }
 
 echo "Checking if all environment variables are set..."
@@ -43,10 +43,10 @@ check_env_var "FORTNOX_CLIENT_SECRET" || exit 1
 # ------------------------------------------------------------------------------
 check_env_var "GITLAB_HOST" || exit 1
 
-# ufpersonslist repo
-check_env_var "UFPERSONSLIST_REPO_PATH" || exit 1
-check_env_var "UFPERSONSLIST_GITLAB_PERSONAL_ACCESS_TOKEN" || exit 1
-check_env_var "UFPERSONSLIST_GITLAB_PROJECT_ID" || exit 1
+# ufData repo
+check_env_var "UFDATA_REPO_PATH" || exit 1
+check_env_var "UFDATA_GITLAB_PERSONAL_ACCESS_TOKEN" || exit 1
+check_env_var "UFDATA_GITLAB_PROJECT_ID" || exit 1
 
 # ------------------------------------------------------------------------------
 # sqlite3 database
@@ -76,10 +76,10 @@ echo -e "${GREEN}All environment variables are set!${NC}\n"
 echo -e "Checking if GitLab is reachable at GITLAB_HOST: ${GITLAB_HOST}..."
 RESPONSE=$(curl -L --write-out "%{http_code}\n" --silent --output /dev/null "$GITLAB_HOST")
 if [ "$RESPONSE" -eq 200 ]; then
-    echo -e "${GREEN}GitLab is reachable at $GITLAB_HOST!${NC}\n"
+  echo -e "${GREEN}GitLab is reachable at $GITLAB_HOST!${NC}\n"
 else
-    echo -e "${RED}GitLab is not reachable at $GITLAB_HOST${NC}\n"
-    exit 1
+  echo -e "${RED}GitLab is not reachable at $GITLAB_HOST${NC}\n"
+  exit 1
 fi
 
 # function to clear a directory
@@ -93,34 +93,33 @@ clear_directory() {
   mkdir -p "$dir_path"
 }
 
-# clone ufpersonslist repo into UFPERSONSLIST_REPO_PATH
-echo -e "Cloning ufpersonslist repo into UFPERSONSLIST_REPO_PATH: ${UFPERSONSLIST_REPO_PATH}..."
-clear_directory "${UFPERSONSLIST_REPO_PATH}"
+# clone ufData repo into UFDATA_REPO_PATH
+echo -e "Cloning ufData repo into UFDATA_REPO_PATH: ${UFDATA_REPO_PATH}..."
+clear_directory "${UFDATA_REPO_PATH}"
 if git clone \
-  "http://gitlab-bot-user:${UFPERSONSLIST_GITLAB_PERSONAL_ACCESS_TOKEN}@${GITLAB_HOST}/mikrofabriken/ufpersonslist.git" \
-  "${UFPERSONSLIST_REPO_PATH}"
-then
-    echo -e "${GREEN}Clone successful!${NC}\n"
+  "http://gitlab-bot-user:${UFDATA_GITLAB_PERSONAL_ACCESS_TOKEN}@${GITLAB_HOST}/mikrofabriken/ufdata.git" \
+  "${UFDATA_REPO_PATH}"; then
+  echo -e "${GREEN}Clone successful!${NC}\n"
 else
-    echo -e "${RED}Clone failed${NC}\n"
-    exit 1
+  echo -e "${RED}Clone failed${NC}\n"
+  exit 1
 fi
 
-# ensure that ufpersonslist repo is cloned by checking for the existence of the members.json file
-echo -e "Checking if ${UFPERSONSLIST_REPO_PATH}/members.json exists..."
-if [ -f "${UFPERSONSLIST_REPO_PATH}/members.json" ]; then
-    echo -e "${GREEN}${UFPERSONSLIST_REPO_PATH}/member.json exists!${NC}\n"
+# ensure that ufData repo is cloned by checking for the existence of the members.json file
+echo -e "Checking if ${UFDATA_REPO_PATH}/members.json exists..."
+if [ -f "${UFDATA_REPO_PATH}/members.json" ]; then
+  echo -e "${GREEN}${UFDATA_REPO_PATH}/member.json exists!${NC}\n"
 else
-    echo -e "${RED}${UFPERSONSLIST_REPO_PATH}/members.json does not exist${NC}\n"
-    exit 1
+  echo -e "${RED}${UFDATA_REPO_PATH}/members.json does not exist${NC}\n"
+  exit 1
 fi
 
-# configure git for ufpersonslist repo
+# configure git for ufData repo
 echo "Configuring git..."
-pushd "${UFPERSONSLIST_REPO_PATH}" > /dev/null
+pushd "${UFDATA_REPO_PATH}" >/dev/null
 git config user.email "no-reply+portal@mikrofabriken.se"
 git config user.name "Portal"
-popd > /dev/null
+popd >/dev/null
 echo -e "${GREEN}Git configured!${NC}\n"
 
 # start node server

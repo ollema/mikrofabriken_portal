@@ -111,11 +111,11 @@ export async function getPendingMergeRequests(
 	try {
 		const gitlab = new Gitlab({
 			host: `http://${env.GITLAB_HOST}`,
-			token: env.UFPERSONSLIST_GITLAB_PERSONAL_ACCESS_TOKEN
+			token: env.UFDATA_GITLAB_PERSONAL_ACCESS_TOKEN
 		});
 
 		const mergeRequests = await gitlab.MergeRequests.all({
-			projectId: env.UFPERSONSLIST_GITLAB_PROJECT_ID,
+			projectId: env.UFDATA_GITLAB_PROJECT_ID,
 			state: 'opened'
 		});
 
@@ -138,7 +138,7 @@ export async function getPendingMergeRequests(
 export async function getPendingUpdateForMember(crNumber: string) {
 	const gitlab = new Gitlab({
 		host: `http://${env.GITLAB_HOST}`,
-		token: env.UFPERSONSLIST_GITLAB_PERSONAL_ACCESS_TOKEN
+		token: env.UFDATA_GITLAB_PERSONAL_ACCESS_TOKEN
 	});
 
 	const pendingMergeRequests = await getPendingMergeRequests((mr) =>
@@ -159,7 +159,7 @@ export async function getPendingUpdateForMember(crNumber: string) {
 	const link = mergeRequest.web_url;
 
 	const fileContent = (await gitlab.RepositoryFiles.showRaw(
-		env.UFPERSONSLIST_GITLAB_PROJECT_ID,
+		env.UFDATA_GITLAB_PROJECT_ID,
 		'members.json',
 		sourceBranch
 	)) as string;
@@ -186,7 +186,7 @@ export async function getPendingUpdateForMember(crNumber: string) {
 export async function getPendingUpdateForNewMembers() {
 	const gitlab = new Gitlab({
 		host: `http://${env.GITLAB_HOST}`,
-		token: env.UFPERSONSLIST_GITLAB_PERSONAL_ACCESS_TOKEN
+		token: env.UFDATA_GITLAB_PERSONAL_ACCESS_TOKEN
 	});
 
 	const pendingMergeRequests = await getPendingMergeRequests(
@@ -207,7 +207,7 @@ export async function getPendingUpdateForNewMembers() {
 	const link = mergeRequest.web_url;
 
 	const fileContent = (await gitlab.RepositoryFiles.showRaw(
-		env.UFPERSONSLIST_GITLAB_PROJECT_ID,
+		env.UFDATA_GITLAB_PROJECT_ID,
 		'members.json',
 		sourceBranch
 	)) as string;
@@ -269,11 +269,11 @@ async function mktempcp(dir: string) {
 async function createMergeRequest(options: MergeRequestOptions) {
 	const gitlab = new Gitlab({
 		host: `http://${env.GITLAB_HOST}`,
-		token: env.UFPERSONSLIST_GITLAB_PERSONAL_ACCESS_TOKEN
+		token: env.UFDATA_GITLAB_PERSONAL_ACCESS_TOKEN
 	});
 
 	await gitlab.MergeRequests.create(
-		env.UFPERSONSLIST_GITLAB_PROJECT_ID,
+		env.UFDATA_GITLAB_PROJECT_ID,
 		options.branch,
 		options.target,
 		options.title,
@@ -299,10 +299,10 @@ async function createMergeRequest(options: MergeRequestOptions) {
  */
 export async function suggestChange(options: SuggestChangeOptions) {
 	// start from latest commit on master
-	updateRepo(env.UFPERSONSLIST_REPO_PATH);
+	updateRepo(env.UFDATA_REPO_PATH);
 
 	// create temporary copy of repo
-	const tempRepoPath = await mktempcp(env.UFPERSONSLIST_REPO_PATH);
+	const tempRepoPath = await mktempcp(env.UFDATA_REPO_PATH);
 	const tempRepoMembersFilePath = path.join(tempRepoPath, 'members.json');
 	const repo = git(tempRepoPath);
 

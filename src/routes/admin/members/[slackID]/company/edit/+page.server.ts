@@ -41,7 +41,7 @@ export const load = async ({ locals, params }) => {
 export const actions = {
 	edit: async ({ locals, params, request, cookies }) => {
 		const user = getUser(locals);
-		await updateRepo(env.UFPERSONSLIST_REPO_PATH);
+		await updateRepo(env.UFDATA_REPO_PATH);
 		let members = getMembers();
 		let member = findMember(members, params.slackID);
 		const admin = findMember(members, user.slackID);
@@ -98,7 +98,7 @@ export const actions = {
 
 	delete: async ({ locals, params, cookies }) => {
 		const user = getUser(locals);
-		await updateRepo(env.UFPERSONSLIST_REPO_PATH);
+		await updateRepo(env.UFDATA_REPO_PATH);
 		let members = getMembers();
 		let member = findMember(members, params.slackID);
 		const admin = findMember(members, user.slackID);
