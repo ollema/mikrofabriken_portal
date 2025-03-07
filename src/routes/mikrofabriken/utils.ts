@@ -70,6 +70,7 @@ export async function getFormattedMembersBasedOnCommissions(
 	const membersInAuditor = [];
 	const membersInNomination = [];
 	const membersInGroupEconomy = [];
+	const membersInGroupGate = [];
 	const membersInGroupIT = [];
 	const membersInGroupPR = [];
 	const membersInGroupSpons = [];
@@ -121,6 +122,9 @@ export async function getFormattedMembersBasedOnCommissions(
 						break;
 					case 'committee/economy':
 						membersInGroupEconomy.push(member);
+						break;
+					case 'committee/gate':
+						membersInGroupGate.push(member);
 						break;
 					case 'committee/it':
 						membersInGroupIT.push(member);
@@ -216,6 +220,10 @@ export async function getFormattedMembersBasedOnCommissions(
 			{
 				label: 'committee/economy',
 				members: await Promise.all(membersInGroupEconomy.map(formatMember(here)))
+			},
+			{
+				label: 'committee/gate',
+				members: await Promise.all(membersInGroupGate.map(formatMember(here)))
 			},
 			{
 				label: 'committee/it',
