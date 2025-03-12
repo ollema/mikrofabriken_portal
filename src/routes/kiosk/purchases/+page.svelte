@@ -37,15 +37,15 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Purchases</PageHeader.Title>
-			<PageHeader.Description>Registered purchases last/current month.</PageHeader.Description>
+			<PageHeader.Title>Dina köp</PageHeader.Title>
+			<PageHeader.Description>Registrerade köp nuvarande/föregående månad.</PageHeader.Description>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
 	<Tabs.Root value="current">
 		<Tabs.List class="mb-2 h-8">
-			<Tabs.Trigger class="px-4 py-0.5" value="last">Last month</Tabs.Trigger>
-			<Tabs.Trigger class="px-4 py-0.5" value="current">Current month</Tabs.Trigger>
+			<Tabs.Trigger class="px-4 py-0.5" value="last">Föregående</Tabs.Trigger>
+			<Tabs.Trigger class="px-4 py-0.5" value="current">Nuvarande</Tabs.Trigger>
 		</Tabs.List>
 		<Tabs.Content value="last">
 			<DataTable data={data.purchases[0]} {columns} {params}>
@@ -53,7 +53,7 @@
 					<DataTableToolbar {table} />
 				{/snippet}
 				{#snippet paginationControls(table)}
-					<DataTablePagination {table} rowName="purchase" showPerPage={false} />
+					<DataTablePagination {table} rowName="köp" showPerPage={false} />
 				{/snippet}
 			</DataTable>
 		</Tabs.Content>
@@ -63,7 +63,7 @@
 					<DataTableToolbar {table} />
 				{/snippet}
 				{#snippet paginationControls(table)}
-					<DataTablePagination {table} showPerPage={false} />
+					<DataTablePagination {table} rowName="köp" showPerPage={false} />
 				{/snippet}
 			</DataTable>
 		</Tabs.Content>

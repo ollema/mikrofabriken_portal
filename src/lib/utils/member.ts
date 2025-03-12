@@ -75,19 +75,19 @@ export function isMemberActive(member: Member): boolean {
 export function agreementToHumanReadable(agreement: AgreementType): string {
 	switch (agreement) {
 		case 'membership':
-			return 'Membership';
+			return 'Medlemskap';
 		case 'investment':
-			return 'Investment';
+			return 'Investering';
 		case 'passive':
-			return 'Passive';
+			return 'Vilande medlemskap';
 		case 'asylumInside':
 			return 'Asylum';
 		case 'asylumOutside':
-			return 'Asylum (outside)';
+			return 'Asylum (ute)';
 		case 'palletInside':
-			return 'Pallet';
+			return 'Pallplats';
 		case 'palletOutside':
-			return 'Pallet (outside)';
+			return 'Pallplats (ute)';
 		default: {
 			const exhaustive: never = agreement;
 			return exhaustive;

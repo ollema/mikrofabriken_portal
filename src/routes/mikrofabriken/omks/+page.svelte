@@ -18,8 +18,8 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>OMKs</PageHeader.Title>
-			<PageHeader.Description>Områdeskommittéer (OMKs).</PageHeader.Description>
+			<PageHeader.Title>Områdeskommittéer</PageHeader.Title>
+			<PageHeader.Description>Förkortas ibland OMKs.</PageHeader.Description>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 

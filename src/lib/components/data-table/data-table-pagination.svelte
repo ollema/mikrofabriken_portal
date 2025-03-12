@@ -27,14 +27,14 @@
 	{#if rowName}
 		{#if hasSelectColumn}
 			<div class="hidden flex-1 text-sm text-muted-foreground md:block">
-				{table.getFilteredSelectedRowModel().rows.length} of
+				{table.getFilteredSelectedRowModel().rows.length} av
 				{table.getFilteredRowModel().rows.length}
-				{rowName}(s) selected.
+				{rowName} valda.
 			</div>
 		{:else}
 			<div class="hidden flex-1 text-sm text-muted-foreground md:block">
 				{table.getFilteredRowModel().rows.length}
-				{rowName}(s) found.
+				{rowName} hittade.
 			</div>
 		{/if}
 	{:else}
@@ -43,7 +43,7 @@
 	<div class="flex items-center gap-2">
 		{#if showPerPage}
 			<div class="flex items-center gap-2">
-				<p class="text-sm font-medium">Per page</p>
+				<p class="text-sm font-medium">Per sida</p>
 				<Select.Root
 					allowDeselect={false}
 					type="single"
@@ -74,7 +74,6 @@
 				onclick={() => table.setPageIndex(0)}
 				disabled={!table.getCanPreviousPage()}
 			>
-				<span class="sr-only">Go to first page</span>
 				<ChevronsLeft />
 			</Button>
 			<Button
@@ -83,11 +82,10 @@
 				onclick={() => table.previousPage()}
 				disabled={!table.getCanPreviousPage()}
 			>
-				<span class="sr-only">Go to previous page</span>
 				<ChevronLeft />
 			</Button>
 			<div class="flex w-[60px] items-center justify-center text-sm font-medium">
-				{table.getState().pagination.pageIndex + 1} of
+				{table.getState().pagination.pageIndex + 1} av
 				{table.getPageCount()}
 			</div>
 			<Button
@@ -96,7 +94,6 @@
 				onclick={() => table.nextPage()}
 				disabled={!table.getCanNextPage()}
 			>
-				<span class="sr-only">Go to next page</span>
 				<ChevronRight />
 			</Button>
 			<Button
@@ -105,7 +102,6 @@
 				onclick={() => table.setPageIndex(table.getPageCount() - 1)}
 				disabled={!table.getCanNextPage()}
 			>
-				<span class="sr-only">Go to last page</span>
 				<ChevronsRight />
 			</Button>
 		</div>

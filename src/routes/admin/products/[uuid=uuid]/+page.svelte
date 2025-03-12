@@ -22,21 +22,22 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>{data.product?.name ?? 'Not found'}</PageHeader.Title>
+			<PageHeader.Title
+				>{data.product?.name ?? 'Kunde inte hitta produkten du söker.'}</PageHeader.Title
+			>
 		</PageHeader.Heading>
 		<PageHeader.Actions>
 			<DropdownMenu.Root>
 				<DropdownMenu.Trigger>
 					{#snippet child({ props })}
 						<Button {...props} variant="outline" size="sm" class="data-[state=open]:bg-muted">
-							Edit
-							<span class="sr-only">Open Menu</span>
+							Redigera
 						</Button>
 					{/snippet}
 				</DropdownMenu.Trigger>
 				<DropdownMenu.Content class="w-fit" align="end">
-					<DropdownMenu.Item onSelect={onEditProductSelected}>Edit product</DropdownMenu.Item>
-					<DropdownMenu.Item onSelect={onDeleteProductSelected}>Delete product</DropdownMenu.Item>
+					<DropdownMenu.Item onSelect={onEditProductSelected}>Redigera produkt</DropdownMenu.Item>
+					<DropdownMenu.Item onSelect={onDeleteProductSelected}>Ta bort produkt</DropdownMenu.Item>
 				</DropdownMenu.Content>
 			</DropdownMenu.Root>
 		</PageHeader.Actions>
@@ -51,17 +52,17 @@
 
 	{#if data.product}
 		<div class="flex flex-col gap-4">
-			{@render row({ label: 'Name', value: data.product.name })}
-			{@render row({ label: 'Category', value: data.product.category })}
-			{@render row({ label: 'Details', value: data.product.details })}
-			{@render row({ label: 'Unit type', value: data.product.unitType })}
-			{@render row({ label: 'Unit name', value: data.product.unitName })}
-			{@render row({ label: 'Price per unit', value: data.product.pricePerUnit })}
-			{@render row({ label: 'VAT', value: data.product.vat })}
+			{@render row({ label: 'Namn', value: data.product.name })}
+			{@render row({ label: 'Kategori', value: data.product.category })}
+			{@render row({ label: 'Detaljer', value: data.product.details })}
+			{@render row({ label: 'Enhetstyp', value: data.product.unitType })}
+			{@render row({ label: 'Enhetsnamn', value: data.product.unitName })}
+			{@render row({ label: 'Pris per enhet', value: data.product.pricePerUnit })}
+			{@render row({ label: 'Moms', value: data.product.vat })}
 			{@render row({ label: 'EAN', value: data.product.ean })}
-			{@render row({ label: 'Billing category', value: data.product.billingCategory })}
-			{@render row({ label: 'Seller ID', value: data.product.sellerId })}
-			{@render row({ label: 'Stock status', value: data.product.stockStatus })}
+			{@render row({ label: 'Faktureringskategori', value: data.product.billingCategory })}
+			{@render row({ label: 'Säljare', value: data.product.sellerId })}
+			{@render row({ label: 'Lagerstatus', value: data.product.stockStatus })}
 		</div>
 
 		{#if data.product.ean}
@@ -73,6 +74,6 @@
 			/>
 		{/if}
 	{:else}
-		<div>Product not found</div>
+		<div>Kunde inte hitta produkten du söker.</div>
 	{/if}
 </div>

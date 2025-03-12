@@ -17,10 +17,6 @@
 		goto('/membership/invoices');
 	}
 
-	function gotoPurchases() {
-		goto('/kiosk/purchases');
-	}
-
 	function submitSignoutForm() {
 		if (signoutForm) {
 			signoutForm.requestSubmit();
@@ -47,7 +43,7 @@
 					</div>
 					<div class="ml-0.5 flex flex-col gap-0.5 leading-none">
 						<span class="font-semibold">Mikrofabriken</span>
-						<span>Membership Portal</span>
+						<span>Medlemsportal</span>
 					</div>
 				</Sidebar.MenuButton>
 			</Sidebar.MenuItem>
@@ -98,23 +94,20 @@
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content side="top" class="w-[--bits-dropdown-menu-anchor-width]">
 							<DropdownMenu.Item onSelect={gotoProfile}>
-								<span>Profile</span>
+								<span>Profil</span>
 							</DropdownMenu.Item>
 							<DropdownMenu.Item onSelect={gotoInvoices}>
-								<span>Invoices</span>
-							</DropdownMenu.Item>
-							<DropdownMenu.Item onSelect={gotoPurchases}>
-								<span>Purchases</span>
+								<span>Fakturor</span>
 							</DropdownMenu.Item>
 							<DropdownMenu.Item onSelect={submitSignoutForm}>
-								<span>Sign out</span>
+								<span>Logga ut</span>
 							</DropdownMenu.Item>
 						</DropdownMenu.Content>
 					</DropdownMenu.Root>
 				{:else}
 					<Sidebar.MenuButton>
 						{#snippet child({ props })}
-							<a href="/auth/sign_in" {...props}>Sign in</a>
+							<a href="/auth/sign_in" {...props}>Logga in</a>
 						{/snippet}
 					</Sidebar.MenuButton>
 				{/if}

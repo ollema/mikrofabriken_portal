@@ -39,24 +39,30 @@
 					<DropdownMenu.Trigger>
 						{#snippet child({ props })}
 							<Button {...props} variant="outline" size="sm" class="data-[state=open]:bg-muted">
-								Edit
-								<span class="sr-only">Open Menu</span>
+								Redigera
 							</Button>
 						{/snippet}
 					</DropdownMenu.Trigger>
-					<DropdownMenu.Content class="w-[160px]" align="end">
-						<DropdownMenu.Item onSelect={onEditProfileSelected}>Edit profile</DropdownMenu.Item>
+					<DropdownMenu.Content class="w-[180px]" align="end">
+						<DropdownMenu.Item onSelect={onEditProfileSelected}>Redigera profil</DropdownMenu.Item>
 						{#if data.member.company}
-							<DropdownMenu.Item onSelect={onEditCompanySelected}>Edit company</DropdownMenu.Item>
+							<DropdownMenu.Item onSelect={onEditCompanySelected}>
+								Redigera företag
+							</DropdownMenu.Item>
 						{:else}
-							<DropdownMenu.Item onSelect={onEditCompanySelected}>Add company</DropdownMenu.Item>
+							<DropdownMenu.Item onSelect={onEditCompanySelected}>
+								Lägg till företag
+							</DropdownMenu.Item>
 						{/if}
 						<DropdownMenu.Item onSelect={onEditIceContactsSelected}>
-							Edit ICE contacts
+							Redigera ICE-kontakter
 						</DropdownMenu.Item>
-						<DropdownMenu.Item onSelect={onEditRFIDSelected}>Edit RFID-tags</DropdownMenu.Item>
-						<DropdownMenu.Item onSelect={onEditWorkPoolsSelected}>Edit work pools</DropdownMenu.Item
-						>
+						<DropdownMenu.Item onSelect={onEditRFIDSelected}>
+							Redigera RFID-taggar
+						</DropdownMenu.Item>
+						<DropdownMenu.Item onSelect={onEditWorkPoolsSelected}>
+							Redigera arbetspooler
+						</DropdownMenu.Item>
 					</DropdownMenu.Content>
 				</DropdownMenu.Root>
 			</div>

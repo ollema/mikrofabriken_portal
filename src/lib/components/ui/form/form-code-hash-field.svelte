@@ -46,8 +46,10 @@
 
 <div class="mt-2 space-y-3">
 	<div class="text-sm font-medium leading-none">
-		<div class="mb-2">Code</div>
-		<div class="text-xs text-muted-foreground">(Optional if code hash already exists)</div>
+		<div class="mb-2">Kod</div>
+		<div class="text-xs text-muted-foreground">
+			(Behöver inte fyllas i om kodhash redan existerar nedan)
+		</div>
 	</div>
 	<InputOTP.Root
 		maxlength={4}
@@ -72,10 +74,10 @@
 <Form.ElementField {form} {name}>
 	<Form.Control>
 		{#snippet children({ props })}
-			<Form.Label>Code hash</Form.Label>
+			<Form.Label>Kodhash</Form.Label>
 			<Input
 				type="text"
-				class="w-full cursor-default text-xs text-muted-foreground"
+				class="w-full cursor-default cursor-not-allowed text-xs text-muted-foreground"
 				{...props}
 				bind:value={rfidCodeHash}
 				readonly

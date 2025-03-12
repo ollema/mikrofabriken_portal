@@ -25,15 +25,15 @@
 
 <PageHeader.Root>
 	<PageHeader.Heading>
-		<PageHeader.Title>Members</PageHeader.Title>
-		<PageHeader.Description>Members of Mikrofabriken.</PageHeader.Description>
+		<PageHeader.Title>Medlemmar</PageHeader.Title>
+		<PageHeader.Description>Medlemmar i Mikrofabriken.</PageHeader.Description>
 	</PageHeader.Heading>
 </PageHeader.Root>
 
 <div class="mb-5 text-sm text-muted-foreground">
 	<div class="flex items-center space-x-2">
 		<Switch id="on-site-switch" bind:checked={onsiteOnly} />
-		<Label for="on-site-switch">Show on-site members only.</Label>
+		<Label for="on-site-switch">Visa bara incheckade medlemmar</Label>
 	</div>
 </div>
 

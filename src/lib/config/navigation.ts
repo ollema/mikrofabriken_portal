@@ -21,32 +21,32 @@ export const navigation: Navigation[] = [
 		title: 'Mikrofabriken',
 		items: [
 			{
-				title: 'Members',
+				title: 'Medlemmar',
 				href: '/mikrofabriken/members'
 			},
 			{
-				title: 'OMKs',
+				title: 'Områdeskommittéer',
 				href: '/mikrofabriken/omks'
 			},
 			{
-				title: 'Board',
+				title: 'Styrelsen',
 				href: '/mikrofabriken/board'
 			},
 			{
-				title: 'Other groups',
+				title: 'Övriga roller',
 				href: '/mikrofabriken/groups'
 			}
 		]
 	},
 	{
-		title: 'Membership',
+		title: 'Medlemskap',
 		items: [
 			{
-				title: 'Profile',
+				title: 'Profil',
 				href: '/membership/profile'
 			},
 			{
-				title: 'Invoices',
+				title: 'Fakturor',
 				href: '/membership/invoices'
 			}
 		]
@@ -55,28 +55,28 @@ export const navigation: Navigation[] = [
 		title: 'Kiosk',
 		items: [
 			{
-				title: 'Scan',
+				title: 'Skanna',
 				href: '/kiosk/scan'
 			},
 			{
-				title: 'Browse',
+				title: 'Bläddra',
 				href: '/kiosk/browse'
 			},
 			{
-				title: 'Purchases',
+				title: 'Köphistorik',
 				href: '/kiosk/purchases'
 			}
 		]
 	},
 	{
-		title: 'Project storage',
+		title: 'Lagring',
 		items: [
 			{
-				title: 'Short term',
+				title: 'Schackrutor',
 				href: '/project-storage/short-term'
 			},
 			{
-				title: 'Medium term',
+				title: 'Tillfälliga projektytor',
 				href: '/project-storage/medium-term'
 			}
 		]
@@ -89,7 +89,7 @@ export const navigation: Navigation[] = [
 		requireViewPallets: true,
 		items: [
 			{
-				title: 'Members',
+				title: 'Medlemslista',
 				requireAdmin: true,
 				href: '/admin/members'
 			},
@@ -99,17 +99,17 @@ export const navigation: Navigation[] = [
 				href: '/admin/inval'
 			},
 			{
-				title: 'Products',
+				title: 'Produkter',
 				requireViewProducts: true,
 				href: '/admin/products'
 			},
 			{
-				title: 'Work pools',
+				title: 'Arbetspooler',
 				requireViewWorkPools: true,
 				href: '/admin/work-pools'
 			},
 			{
-				title: 'Pallets',
+				title: 'Pallar',
 				requireViewPallets: true,
 				href: '/admin/pallets'
 			}

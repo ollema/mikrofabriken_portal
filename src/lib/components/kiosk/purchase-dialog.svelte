@@ -69,11 +69,11 @@
 </script>
 
 {#snippet content(product: Product)}
-	<div class="text-xl font-semibold">Purchase {product.name}?</div>
+	<div class="text-xl font-semibold">Köp {product.name}?</div>
 	<div class="mt-2 text-muted-foreground">EAN: {product.ean}</div>
-	<div class="mt-2 text-muted-foreground">Price: {product.pricePerUnit} kr</div>
-	<div class="text-muted-foreground">Details: {product.details}</div>
-	<div class="text-muted-foreground">Category: {product.category}</div>
+	<div class="mt-2 text-muted-foreground">Pris: {product.pricePerUnit} kr</div>
+	<div class="text-muted-foreground">Detaljer: {product.details}</div>
+	<div class="text-muted-foreground">Kategori: {product.category}</div>
 	<form
 		method="POST"
 		action="?/purchase"
@@ -83,7 +83,7 @@
 	>
 		<input type="hidden" name="uuid" value={product.uuid} />
 		<div class="mx-auto my-4 flex w-full flex-col items-center gap-3">
-			<div class="text-md text-muted-foreground">Quantity:</div>
+			<div class="text-md text-muted-foreground">Antal:</div>
 			<div class="flex items-center gap-2">
 				<Button
 					class="hidden h-12 w-12 px-2 py-0 sm:inline-flex"
@@ -141,27 +141,27 @@
 	</form>
 
 	<div class="mt-4 flex w-full flex-col-reverse gap-4 self-center md:w-fit md:flex-row md:self-end">
-		<Button class="h-12 w-full md:w-fit" variant="outline" onclick={closeDialog}>Cancel</Button>
+		<Button class="h-12 w-full md:w-fit" variant="outline" onclick={closeDialog}>Avbryt</Button>
 		<Button id="confirm-purchase" class="h-12 w-full md:w-fit" onclick={submitForm}>
 			{#if purchasing}
 				<LoaderCircle class="animate-spin" />
-				Processing...
+				Bearbetar...
 			{:else}
-				Confirm
+				Bekräfta
 			{/if}
 		</Button>
 	</div>
 {/snippet}
 
 {#snippet missingProductContent()}
-	<div class="text-xl font-semibold">Unknown product</div>
+	<div class="text-xl font-semibold">Okänd produkt</div>
 	<div class="mt-2 text-muted-foreground">
-		Barcode:
+		Streckkod:
 		<span class="font-mono text-lg text-foreground">{barcode}</span>
 	</div>
-	<div class="text-muted-foreground">did not match any known products.</div>
+	<div class="text-muted-foreground">motsvarar ingen känd produkt.</div>
 	<div class="mt-2 text-muted-foreground">
-		If the problem persists, the product might not exist in our database records.
+		Om felet kvarstår kan produkten saknas från kioskens sortiment.
 	</div>
 	<Button class="mt-4 max-w-40 self-end" onclick={closeDialog}>OK</Button>
 {/snippet}

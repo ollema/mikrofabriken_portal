@@ -164,7 +164,9 @@
 					</Table.Row>
 				{:else}
 					<Table.Row>
-						<Table.Cell colspan={columns.length} class="h-24 text-center">No results.</Table.Cell>
+						<Table.Cell colspan={columns.length} class="h-24 text-center"
+							>Ingen data hittad.</Table.Cell
+						>
 					</Table.Row>
 				{/each}
 			</Table.Body>

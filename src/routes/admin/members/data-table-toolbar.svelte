@@ -13,23 +13,23 @@
 	let { table }: { table: Table<ExtendedMember> } = $props();
 
 	const isFiltered = $derived(table.getState().columnFilters.length > 0);
-	const membershipCol = $derived(table.getColumn('Membership'));
-	const investmentCol = $derived(table.getColumn('Investment'));
+	const membershipCol = $derived(table.getColumn('Medlemskap'));
+	const investmentCol = $derived(table.getColumn('Investering'));
 	const asylumCol = $derived(table.getColumn('Asylum'));
-	const asylumOutsideCol = $derived(table.getColumn('Asylum (outside)'));
-	const palletCol = $derived(table.getColumn('Pallet'));
-	const companyCol = $derived(table.getColumn('Company'));
+	const asylumOutsideCol = $derived(table.getColumn('Asylum (ute)'));
+	const palletCol = $derived(table.getColumn('Pallplats'));
+	const companyCol = $derived(table.getColumn('Företag'));
 </script>
 
 <div class="flex items-center justify-between">
 	<Input
-		placeholder="Filter members..."
-		value={(table.getColumn('Name')?.getFilterValue() as string) ?? ''}
+		placeholder="Filtrera medlemmar..."
+		value={(table.getColumn('Namn')?.getFilterValue() as string) ?? ''}
 		oninput={(e) => {
-			table.getColumn('Name')?.setFilterValue(e.currentTarget.value);
+			table.getColumn('Namn')?.setFilterValue(e.currentTarget.value);
 		}}
 		onchange={(e) => {
-			table.getColumn('Name')?.setFilterValue(e.currentTarget.value);
+			table.getColumn('Namn')?.setFilterValue(e.currentTarget.value);
 		}}
 		class="h-8 w-[150px] lg:w-[250px]"
 		autocomplete="off"
@@ -43,12 +43,12 @@
 		{#if membershipCol}
 			<DataTableFacetedFilter
 				column={membershipCol}
-				title="Membership"
+				title="Medlemskap"
 				enableSearch={false}
 				options={[
-					{ label: 'Active', value: 'active' },
-					{ label: 'Passive', value: 'passive' },
-					{ label: 'None', value: 'none' }
+					{ label: 'Aktivt', value: 'active' },
+					{ label: 'Vilande', value: 'passive' },
+					{ label: 'Inget', value: 'none' }
 				]}
 			/>
 		{/if}
@@ -56,11 +56,11 @@
 		{#if investmentCol}
 			<DataTableFacetedFilter
 				column={investmentCol}
-				title="Investment"
+				title="Investering"
 				enableSearch={false}
 				options={[
-					{ label: 'Yes', value: 'true' },
-					{ label: 'No', value: 'false' }
+					{ label: 'Ja', value: 'true' },
+					{ label: 'Nej', value: 'false' }
 				]}
 			/>
 		{/if}
@@ -71,8 +71,8 @@
 				title="Asylum"
 				enableSearch={false}
 				options={[
-					{ label: 'Yes', value: 'true' },
-					{ label: 'No', value: 'false' }
+					{ label: 'Ja', value: 'true' },
+					{ label: 'Nej', value: 'false' }
 				]}
 			/>
 		{/if}
@@ -80,11 +80,11 @@
 		{#if asylumOutsideCol}
 			<DataTableFacetedFilter
 				column={asylumOutsideCol}
-				title="Asylum (outside)"
+				title="Asylum (ute)"
 				enableSearch={false}
 				options={[
-					{ label: 'Yes', value: 'true' },
-					{ label: 'No', value: 'false' }
+					{ label: 'Ja', value: 'true' },
+					{ label: 'Nej', value: 'false' }
 				]}
 			/>
 		{/if}
@@ -92,11 +92,11 @@
 		{#if palletCol}
 			<DataTableFacetedFilter
 				column={palletCol}
-				title="Pallet"
+				title="Pallplats"
 				enableSearch={false}
 				options={[
-					{ label: 'Yes', value: 'true' },
-					{ label: 'No', value: 'false' }
+					{ label: 'Ja', value: 'true' },
+					{ label: 'Nej', value: 'false' }
 				]}
 			/>
 		{/if}
@@ -104,18 +104,18 @@
 		{#if companyCol}
 			<DataTableFacetedFilter
 				column={companyCol}
-				title="Company"
+				title="Företag"
 				enableSearch={false}
 				options={[
-					{ label: 'Yes', value: 'true' },
-					{ label: 'No', value: 'false' }
+					{ label: 'Ja', value: 'true' },
+					{ label: 'Nej', value: 'false' }
 				]}
 			/>
 		{/if}
 
 		{#if isFiltered}
 			<Button variant="ghost" onclick={() => table.resetColumnFilters()} class="h-8 px-2 text-xs">
-				Reset
+				Återställ
 				<X />
 			</Button>
 		{/if}

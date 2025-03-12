@@ -20,11 +20,10 @@
 		})}
 	>
 		<Settings2 />
-		View
 	</DropdownMenu.Trigger>
 	<DropdownMenu.Content align="end">
 		<DropdownMenu.Group>
-			<DropdownMenu.GroupHeading>Toggle columns</DropdownMenu.GroupHeading>
+			<DropdownMenu.GroupHeading>Visa kolumner</DropdownMenu.GroupHeading>
 			<DropdownMenu.Separator />
 			{#each table
 				.getAllColumns()

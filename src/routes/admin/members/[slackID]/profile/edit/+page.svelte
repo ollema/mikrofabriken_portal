@@ -33,7 +33,7 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Edit {appendPossessive(data.member.name)} profile</PageHeader.Title>
+			<PageHeader.Title>Redigera {appendPossessive(data.member.name)} profil</PageHeader.Title>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
@@ -43,11 +43,11 @@
 		<Form.Field {form} name="crNumber">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>PIN</Form.Label>
+					<Form.Label>Personnummer</Form.Label>
 					<Input {...props} bind:value={$formData.crNumber} />
 				{/snippet}
 			</Form.Control>
-			<Form.Description>Important: changing this has consequences!</Form.Description>
+			<Form.Description>Viktigt: påverkar fakturering!</Form.Description>
 			<Form.FieldErrors />
 		</Form.Field>
 
@@ -64,7 +64,7 @@
 		<Form.Field {form} name="name">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Name</Form.Label>
+					<Form.Label>Namn</Form.Label>
 					<Input {...props} bind:value={$formData.name} />
 				{/snippet}
 			</Form.Control>
@@ -74,7 +74,7 @@
 		<Form.Field {form} name="postalAdress">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Address</Form.Label>
+					<Form.Label>Adress</Form.Label>
 					<Input {...props} bind:value={$formData.postalAdress} />
 				{/snippet}
 			</Form.Control>
@@ -84,7 +84,7 @@
 		<Form.Field {form} name="postalCode">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Postal code</Form.Label>
+					<Form.Label>Postnummer</Form.Label>
 					<Input {...props} bind:value={$formData.postalCode} />
 				{/snippet}
 			</Form.Control>
@@ -94,7 +94,7 @@
 		<Form.Field {form} name="postalCity">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>City</Form.Label>
+					<Form.Label>Ort</Form.Label>
 					<Input {...props} bind:value={$formData.postalCity} />
 				{/snippet}
 			</Form.Control>
@@ -114,13 +114,13 @@
 		<Form.Field {form} name="phone">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Phone</Form.Label>
+					<Form.Label>Telefonnummer</Form.Label>
 					<Input {...props} bind:value={$formData.phone} placeholder="0712345678" />
 				{/snippet}
 			</Form.Control>
 			<Form.FieldErrors />
 		</Form.Field>
 
-		<Form.SubmitButton {delayed} label="Submit change request" />
+		<Form.SubmitButton {delayed} label="Skicka förslag på ändring" />
 	</form>
 </div>

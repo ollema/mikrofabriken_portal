@@ -16,23 +16,23 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 			renderComponent(DataTableCheckbox, {
 				checked: table.getIsAllPageRowsSelected(),
 				onCheckedChange: (value) => table.toggleAllRowsSelected(!!value),
-				'aria-label': 'Select all',
+				'aria-label': 'Välj alla rader',
 				class: 'translate-y-[2px]'
 			}),
 		cell: ({ row }) =>
 			renderComponent(DataTableCheckbox, {
 				checked: row.getIsSelected(),
 				onCheckedChange: (value) => row.toggleSelected(!!value),
-				'aria-label': 'Select row',
+				'aria-label': 'Völj den här raden',
 				class: 'translate-y-[2px]'
 			}),
 		enableHiding: false
 	},
 	{
-		id: 'Name',
+		id: 'Namn',
 		accessorKey: 'name',
 		header: ({ column }) =>
-			renderComponent(DataTableColumnHeader<ExtendedMember, unknown>, { column, title: 'Name' }),
+			renderComponent(DataTableColumnHeader<ExtendedMember, unknown>, { column, title: 'Namn' }),
 		cell: ({ row }) => {
 			const name = row.original.name;
 			const slackID = row.original.slackID;
@@ -59,31 +59,41 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 		header: 'Email'
 	},
 	{
-		id: 'Phone',
+		id: 'Telefonnummer',
 		accessorKey: 'phone',
-		header: 'Phone'
+		header: 'Telefonnummer'
 	},
 	{
-		id: 'Membership',
+		id: 'Medlemskap',
 		accessorKey: 'membership',
-		header: 'Membership',
+		header: 'Medlemskap',
+		cell: ({ row }) => {
+			const membership = row.original.membership;
+			if (membership === 'active') {
+				return 'Aktivt';
+			} else if (membership === 'passive') {
+				return 'Vilande';
+			} else {
+				return 'Inget';
+			}
+		},
 		filterFn: (row, id, value) => {
 			return value.includes(row.getValue(id));
 		}
 	},
 	{
-		id: 'Member since',
+		id: 'Medlem sedan',
 		accessorKey: 'memberSince',
 		header: ({ column }) =>
 			renderComponent(DataTableColumnHeader<ExtendedMember, unknown>, {
 				column,
-				title: 'Member since'
+				title: 'Medlem sedan'
 			})
 	},
 	{
-		id: 'Investment',
+		id: 'Investering',
 		accessorKey: 'hasInvestment',
-		header: 'Investment',
+		header: 'Investering',
 		cell: ({ row }) => {
 			return renderComponent(DataTableBooleanCell, {
 				value: row.original.hasInvestment
@@ -107,9 +117,9 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 		}
 	},
 	{
-		id: 'Asylum (outside)',
+		id: 'Asylum (ute)',
 		accessorKey: 'hasAsylumOutside',
-		header: 'Asylum (outside)',
+		header: 'Asylum (ute)',
 		cell: ({ row }) => {
 			return renderComponent(DataTableBooleanCell, {
 				value: row.original.hasAsylumOutside
@@ -120,9 +130,9 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 		}
 	},
 	{
-		id: 'Pallet',
+		id: 'Pallplats',
 		accessorKey: 'hasPallet',
-		header: 'Pallet',
+		header: 'Pallplats',
 		cell: ({ row }) => {
 			return renderComponent(DataTableBooleanCell, {
 				value: row.original.hasPallet
@@ -133,9 +143,9 @@ export const columns: ColumnDef<ExtendedMember>[] = [
 		}
 	},
 	{
-		id: 'Company',
+		id: 'Företag',
 		accessorKey: 'hasCompany',
-		header: 'Company',
+		header: 'Företag',
 		cell: ({ row }) => {
 			return renderComponent(DataTableBooleanCell, {
 				value: row.original.hasCompany

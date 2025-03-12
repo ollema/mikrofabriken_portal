@@ -96,7 +96,7 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Edit {appendPossessive(data.member.name)} agreements</PageHeader.Title>
+			<PageHeader.Title>Redigera {appendPossessive(data.member.name)} avtal</PageHeader.Title>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
@@ -104,19 +104,19 @@
 
 	<form method="POST" class="flex max-w-lg flex-col gap-4" use:enhance>
 		<Form.Fieldset {form} name="memberships">
-			<Form.Legend class="text-xl">Membership agreement</Form.Legend>
+			<Form.Legend class="text-xl">Medlemsavtal</Form.Legend>
 			{#if $formData.memberships.length > 0}
 				<div class="flex flex-col gap-4">
 					{#each Array.from(Array($formData.memberships.length).keys()) as i (i)}
 						<div class="rounded-md border border-muted p-4">
-							<Form.Legend class="text-lg">Membership agreement #{i + 1}</Form.Legend>
+							<Form.Legend class="text-lg">Avtal #{i + 1}</Form.Legend>
 
 							<Form.Status endDate={$formData.memberships[i].endDate} />
 
 							<div class="flex flex-col gap-4">
 								<Form.ElementField {form} name="memberships[{i}].type">
 									<Form.Fieldset {form} name="memberships[{i}].type" class="space-y-3">
-										<Form.Legend>Membership type</Form.Legend>
+										<Form.Legend>Avtalstyp</Form.Legend>
 										<RadioGroup.Root
 											bind:value={$formData.memberships[i].type}
 											class="flex flex-col space-y-1"
@@ -126,7 +126,7 @@
 												<Form.Control>
 													{#snippet children({ props })}
 														<RadioGroup.Item value="membership" {...props} />
-														<Form.Label class="font-normal">Membership</Form.Label>
+														<Form.Label class="font-normal">Medlemskap</Form.Label>
 													{/snippet}
 												</Form.Control>
 											</div>
@@ -134,7 +134,7 @@
 												<Form.Control>
 													{#snippet children({ props })}
 														<RadioGroup.Item value="investment" {...props} />
-														<Form.Label class="font-normal">Investment</Form.Label>
+														<Form.Label class="font-normal">Investering</Form.Label>
 													{/snippet}
 												</Form.Control>
 											</div>
@@ -142,7 +142,7 @@
 												<Form.Control>
 													{#snippet children({ props })}
 														<RadioGroup.Item value="passive" {...props} />
-														<Form.Label class="font-normal">Passive</Form.Label>
+														<Form.Label class="font-normal">Passivt medlemskap</Form.Label>
 													{/snippet}
 												</Form.Control>
 											</div>
@@ -154,7 +154,7 @@
 								<Form.CalendarField
 									{form}
 									name="memberships[{i}].startDate"
-									label="Start date"
+									label="Start"
 									bind:date={$formData.memberships[i].startDate}
 									showStartButtons
 								/>
@@ -162,7 +162,7 @@
 								<Form.CalendarField
 									{form}
 									name="memberships[{i}].endDate"
-									label="End date"
+									label="Slut"
 									bind:date={$formData.memberships[i].endDate}
 									showEndButtons
 								/>
@@ -173,7 +173,7 @@
 									class="w-full hover:border-red-900"
 									onclick={() => removeMembership(i)}
 								>
-									Remove membership agreement #{i + 1}
+									Ta bort avtal #{i + 1}
 								</Button>
 							</div>
 						</div>
@@ -183,24 +183,24 @@
 			{/if}
 
 			<Button type="button" variant="secondary" class="w-full" onclick={addMembership}>
-				Add new membership agreement
+				Lägg till nytt medlemsavtal
 			</Button>
 		</Form.Fieldset>
 
 		<Form.Fieldset {form} name="asylums">
-			<Form.Legend class="text-xl">Asylum agreements</Form.Legend>
+			<Form.Legend class="text-xl">Asylumavtal</Form.Legend>
 			{#if $formData.asylums.length > 0}
 				<div class="flex flex-col gap-4">
 					{#each Array.from(Array($formData.asylums.length).keys()) as i (i)}
 						<div class="rounded-md border border-muted p-4">
-							<Form.Legend class="text-lg">Asylum agreement #{i + 1}</Form.Legend>
+							<Form.Legend class="text-lg">Avtal #{i + 1}</Form.Legend>
 
 							<Form.Status endDate={$formData.asylums[i].endDate} />
 
 							<div class="flex flex-col gap-4">
 								<Form.ElementField {form} name="asylums[{i}].type">
 									<Form.Fieldset {form} name="asylums[{i}].type" class="space-y-3">
-										<Form.Legend>Asylum type</Form.Legend>
+										<Form.Legend>Avtalstyp</Form.Legend>
 										<RadioGroup.Root
 											bind:value={$formData.asylums[i].type}
 											class="flex flex-col space-y-1"
@@ -210,7 +210,7 @@
 												<Form.Control>
 													{#snippet children({ props })}
 														<RadioGroup.Item value="asylumInside" {...props} />
-														<Form.Label class="font-normal">Inside</Form.Label>
+														<Form.Label class="font-normal">Inne</Form.Label>
 													{/snippet}
 												</Form.Control>
 											</div>
@@ -218,7 +218,7 @@
 												<Form.Control>
 													{#snippet children({ props })}
 														<RadioGroup.Item value="asylumOutside" {...props} />
-														<Form.Label class="font-normal">Outside</Form.Label>
+														<Form.Label class="font-normal">Ute</Form.Label>
 													{/snippet}
 												</Form.Control>
 											</div>
@@ -230,21 +230,21 @@
 								<Form.CalendarField
 									{form}
 									name="asylums[{i}].startDate"
-									label="Start date"
+									label="Start"
 									bind:date={$formData.asylums[i].startDate}
 								/>
 
 								<Form.CalendarField
 									{form}
 									name="asylums[{i}].endDate"
-									label="End date"
+									label="Slut"
 									bind:date={$formData.asylums[i].endDate}
 								/>
 
 								<Form.ElementField {form} name="asylums[{i}].size">
 									<Form.Control>
 										{#snippet children({ props })}
-											<Form.Label>Size</Form.Label>
+											<Form.Label>Storlek (i kvadratmeter)</Form.Label>
 											<Input
 												type="number"
 												min="0"
@@ -264,7 +264,7 @@
 									class="w-full hover:border-red-900"
 									onclick={() => removeAsylum(i)}
 								>
-									Remove asylum agreement #{i + 1}
+									Ta bort avtal #{i + 1}
 								</Button>
 							</div>
 						</div>
@@ -274,24 +274,24 @@
 			{/if}
 
 			<Button type="button" variant="secondary" class="w-full" onclick={addAsylum}>
-				Add new asylum agreement
+				Lägg till nytt asylumavtal
 			</Button>
 		</Form.Fieldset>
 
 		<Form.Fieldset {form} name="pallets">
-			<Form.Legend class="text-xl">Pallet agreements</Form.Legend>
+			<Form.Legend class="text-xl">Pallplatsavtal</Form.Legend>
 			{#if $formData.pallets.length > 0}
 				<div class="flex flex-col gap-4">
 					{#each Array.from(Array($formData.pallets.length).keys()) as i (i)}
 						<div class="rounded-md border border-muted p-4">
-							<Form.Legend class="text-lg">Pallet agreement #{i + 1}</Form.Legend>
+							<Form.Legend class="text-lg">Avtal #{i + 1}</Form.Legend>
 
 							<Form.Status endDate={$formData.pallets[i].endDate} />
 
 							<div class="flex flex-col gap-4">
 								<Form.ElementField {form} name="pallets[{i}].type">
 									<Form.Fieldset {form} name="pallets[{i}].type" class="space-y-3">
-										<Form.Legend>Pallet type</Form.Legend>
+										<Form.Legend>Avtalstyp</Form.Legend>
 										<RadioGroup.Root
 											bind:value={$formData.pallets[i].type}
 											class="flex flex-col space-y-1"
@@ -301,7 +301,7 @@
 												<Form.Control>
 													{#snippet children({ props })}
 														<RadioGroup.Item value="palletInside" {...props} />
-														<Form.Label class="font-normal">Inside</Form.Label>
+														<Form.Label class="font-normal">Inne</Form.Label>
 													{/snippet}
 												</Form.Control>
 											</div>
@@ -309,7 +309,7 @@
 												<Form.Control>
 													{#snippet children({ props })}
 														<RadioGroup.Item value="palletOutside" {...props} />
-														<Form.Label class="font-normal">Outside</Form.Label>
+														<Form.Label class="font-normal">Ute</Form.Label>
 													{/snippet}
 												</Form.Control>
 											</div>
@@ -321,36 +321,36 @@
 								<Form.CalendarField
 									{form}
 									name="pallets[{i}].startDate"
-									label="Start date"
+									label="Start"
 									bind:date={$formData.pallets[i].startDate}
 								/>
 
 								<Form.CalendarField
 									{form}
 									name="pallets[{i}].endDate"
-									label="End date"
+									label="Slut"
 									bind:date={$formData.pallets[i].endDate}
 								/>
 
 								<Form.ElementField {form} name="pallets[{i}].palletCount">
 									<Form.Control>
 										{#snippet children({ props })}
-											<Form.Label>Pallet count</Form.Label>
+											<Form.Label>Antal pallplatser</Form.Label>
 											<Input
 												type="number"
-												class="w-full cursor-default text-muted-foreground"
+												class="w-full cursor-default cursor-not-allowed text-muted-foreground"
 												{...props}
 												bind:value={$formData.pallets[i].palletCount}
 												readonly
 											/>
 										{/snippet}
 									</Form.Control>
-									<Form.Description>Derived from pallet IDs below</Form.Description>
+									<Form.Description>Räknas ut från pall-IDs nedan</Form.Description>
 								</Form.ElementField>
 
 								{#if $formData.pallets[i].palletIds.length > 0}
 									<div class="flex flex-col gap-4">
-										<Form.Legend>Pallet IDs</Form.Legend>
+										<Form.Legend>Pall-IDs</Form.Legend>
 										{#each Array.from(Array($formData.pallets[i].palletIds.length).keys()) as idIndex (idIndex)}
 											<div class="flex flex-col gap-4">
 												<Form.ElementField {form} name="pallets[{i}].palletIds[{idIndex}]">
@@ -390,7 +390,7 @@
 									class="w-full"
 									onclick={() => addPalletId(i)}
 								>
-									Add new pallet ID
+									Lägg till nytt pall-ID
 								</Button>
 
 								<Button
@@ -399,7 +399,7 @@
 									class="w-full hover:border-red-900"
 									onclick={() => removePallet(i)}
 								>
-									Remove pallet agreement #{i + 1}
+									Ta bort avtal #{i + 1}
 								</Button>
 							</div>
 						</div>
@@ -409,10 +409,10 @@
 			{/if}
 
 			<Button type="button" variant="secondary" class="w-full" onclick={addPallet}>
-				Add new pallet agreement
+				Lögg till nytt pallplatsavtal
 			</Button>
 		</Form.Fieldset>
 
-		<Form.SubmitButton {delayed} label="Submit change request" />
+		<Form.SubmitButton {delayed} label="Skicka förslag på ändring" />
 	</form>
 </div>

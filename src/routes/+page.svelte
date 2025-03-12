@@ -10,7 +10,7 @@
 	import Drive from '$lib/icons/drive.svelte';
 	import { env } from '$env/dynamic/public';
 	import { onMount, type Component } from 'svelte';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
 	let slackHref: string = $state('#');
 
@@ -44,14 +44,14 @@
 <div class="mx-auto w-full">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Portal</PageHeader.Title>
+			<PageHeader.Title>Medlemsportal</PageHeader.Title>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
-	{#if $page.data.user !== null}
+	{#if page.data.user !== null}
 		<div class="grid grid-cols-[repeat(auto-fill,minmax(5rem,1fr))] gap-8">
-			{@render app({ href: '/kiosk/scan', Icon: KioskBarcode, label: 'Kiosk (scan)' })}
-			{@render app({ href: '/kiosk/browse', Icon: KioskBrowse, label: 'Kiosk (browse)' })}
+			{@render app({ href: '/kiosk/scan', Icon: KioskBarcode, label: 'Kiosk (skanna)' })}
+			{@render app({ href: '/kiosk/browse', Icon: KioskBrowse, label: 'Kiosk (bläddra)' })}
 			{@render app({ href: env.PUBLIC_LOOTMOBIL_LINK, Icon: Lootmobil, label: 'Lootmobil' })}
 			{@render app({ href: env.PUBLIC_LOOTSLAP_LINK, Icon: Lootslap, label: 'Lootsläp' })}
 			{@render app({ href: 'https://gitlab.mikrofabriken.se', Icon: Gitlab, label: 'Gitlab' })}
@@ -65,7 +65,7 @@
 		</div>
 	{:else}
 		<div>
-			<a href="/auth/sign_in" class="underline">Sign in with Slack</a> to get started.
+			<a href="/auth/sign_in" class="underline">Logga in med Slack</a>.
 		</div>
 	{/if}
 </div>

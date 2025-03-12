@@ -44,12 +44,12 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root class="mb-1">
 		<PageHeader.Heading>
-			<PageHeader.Title>Invoices</PageHeader.Title>
+			<PageHeader.Title>Fakturor</PageHeader.Title>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
 	{#if data.invoices.personal !== null}
-		{@render subtitle('Personal')}
+		{@render subtitle('Personliga')}
 		<DataTable data={data.invoices.personal} {columns} params={personalParams} {onRowClick}>
 			{#snippet paginationControls(table)}
 				<DataTablePagination {table} showPerPage={false} />
@@ -58,7 +58,7 @@
 	{/if}
 
 	{#if data.invoices.company !== null}
-		{@render subtitle('Company')}
+		{@render subtitle('Företag')}
 		<DataTable data={data.invoices.company} {columns} params={companyParams} {onRowClick}>
 			{#snippet paginationControls(table)}
 				<DataTablePagination {table} showPerPage={false} />

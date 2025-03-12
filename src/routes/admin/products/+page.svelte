@@ -14,14 +14,14 @@
 	const params = queryParameters(
 		{
 			columnFilters: ssp.object<ColumnFiltersState>([]),
-			sorting: ssp.object<SortingState>([{ id: 'Category', desc: false }]),
+			sorting: ssp.object<SortingState>([{ id: 'Kategori', desc: false }]),
 			pagination: ssp.object<PaginationState>({
 				pageIndex: 1,
 				pageSize: 10
 			}),
 			visibility: ssp.object<VisibilityState>({
 				UUID: false,
-				VAT: false
+				Moms: false
 			})
 		},
 		{
@@ -36,8 +36,7 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Products</PageHeader.Title>
-			<PageHeader.Description>Manage products.</PageHeader.Description>
+			<PageHeader.Title>Produkter</PageHeader.Title>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
@@ -46,7 +45,7 @@
 			<DataTableToolbar {table} />
 		{/snippet}
 		{#snippet paginationControls(table)}
-			<DataTablePagination {table} rowName="product" showPerPage />
+			<DataTablePagination {table} rowName="produkter" showPerPage />
 		{/snippet}
 	</DataTable>
 </div>

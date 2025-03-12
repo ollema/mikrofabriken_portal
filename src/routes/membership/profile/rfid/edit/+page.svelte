@@ -50,7 +50,7 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Edit RFID-tags</PageHeader.Title>
+			<PageHeader.Title>Redigera RFID-taggar</PageHeader.Title>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
@@ -62,7 +62,7 @@
 				<div class="flex flex-col gap-4">
 					{#each Array.from(Array($formData.rfidTags.length).keys()) as i (i)}
 						<div class="rounded-md border border-muted p-4">
-							<Form.Legend class="text-lg">RFID-tag #{i + 1}</Form.Legend>
+							<Form.Legend class="text-lg">RFID-tagg #{i + 1}</Form.Legend>
 
 							<Form.Status endDate={$formData.rfidTags[i].endDate} />
 
@@ -70,14 +70,14 @@
 								<Form.CalendarField
 									{form}
 									name="rfidTags[{i}].startDate"
-									label="Start date"
+									label="Start"
 									bind:date={$formData.rfidTags[i].startDate}
 								/>
 
 								<Form.CalendarField
 									{form}
 									name="rfidTags[{i}].endDate"
-									label="End date"
+									label="Slut"
 									bind:date={$formData.rfidTags[i].endDate}
 								/>
 
@@ -108,7 +108,7 @@
 									class="w-full hover:border-red-900"
 									onclick={() => removeRFIDTag(i)}
 								>
-									Remove RFID-tag #{i + 1}
+									Ta bort RFID-tagg #{i + 1}
 								</Button>
 							</div>
 						</div>
@@ -118,10 +118,10 @@
 			{/if}
 
 			<Button type="button" variant="secondary" class="w-full" onclick={addRFIDTag}>
-				Add new RFID-tag
+				Lägg till ny RFID-tag
 			</Button>
 		</Form.Fieldset>
 
-		<Form.SubmitButton {delayed} label="Submit change request" />
+		<Form.SubmitButton {delayed} label="Skicka förslag på ändring" />
 	</form>
 </div>

@@ -32,13 +32,12 @@
 				class="my-[-1rem] flex h-4 w-4 p-4 data-[state=open]:bg-muted"
 			>
 				<Ellipsis />
-				<span class="sr-only">Open Menu</span>
 			</Button>
 		{/snippet}
 	</DropdownMenu.Trigger>
 	<DropdownMenu.Content class="w-fit" align="end">
-		<DropdownMenu.Item onSelect={onOpenProductSelected}>Open product</DropdownMenu.Item>
-		<DropdownMenu.Item onSelect={onEditProductSelected}>Edit product</DropdownMenu.Item>
-		<DropdownMenu.Item onSelect={onDeleteProductSelected}>Delete product</DropdownMenu.Item>
+		<DropdownMenu.Item onSelect={onOpenProductSelected}>Välj product</DropdownMenu.Item>
+		<DropdownMenu.Item onSelect={onEditProductSelected}>Redigera product</DropdownMenu.Item>
+		<DropdownMenu.Item onSelect={onDeleteProductSelected}>Ta bort product</DropdownMenu.Item>
 	</DropdownMenu.Content>
 </DropdownMenu.Root>

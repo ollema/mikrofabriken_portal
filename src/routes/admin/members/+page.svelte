@@ -14,9 +14,9 @@
 	const params = queryParameters(
 		{
 			columnFilters: ssp.object<ColumnFiltersState>([
-				{ id: 'Membership', value: ['active', 'passive'] }
+				{ id: 'Medlemskap', value: ['active', 'passive'] }
 			]),
-			sorting: ssp.object<SortingState>([{ id: 'Member since', desc: false }]),
+			sorting: ssp.object<SortingState>([{ id: 'Medlem sedan', desc: false }]),
 			pagination: ssp.object<PaginationState>({
 				pageIndex: 1,
 				pageSize: 10
@@ -24,8 +24,8 @@
 			visibility: ssp.object<VisibilityState>({
 				Email: false,
 				'Slack ID': false,
-				Phone: false,
-				'Member since': false
+				Telefonnummer: false,
+				'Medlem sedan': false
 			})
 		},
 		{
@@ -39,8 +39,7 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Members</PageHeader.Title>
-			<PageHeader.Description>Manage members of Mikrofabriken.</PageHeader.Description>
+			<PageHeader.Title>Medlemslista</PageHeader.Title>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
@@ -49,7 +48,7 @@
 			<DataTableToolbar {table} />
 		{/snippet}
 		{#snippet paginationControls(table)}
-			<DataTablePagination {table} rowName="member" showPerPage />
+			<DataTablePagination {table} rowName="medlemmar" showPerPage />
 		{/snippet}
 	</DataTable>
 </div>

@@ -43,7 +43,7 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Edit product</PageHeader.Title>
+			<PageHeader.Title>Redigera produkt</PageHeader.Title>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
@@ -51,7 +51,7 @@
 		<Form.Field {form} name="name">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Name</Form.Label>
+					<Form.Label>Namn</Form.Label>
 					<Input {...props} bind:value={$formData.name} placeholder="Product name" />
 				{/snippet}
 			</Form.Control>
@@ -61,7 +61,7 @@
 		<Form.Field {form} name="category">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Category</Form.Label>
+					<Form.Label>Kategori</Form.Label>
 					<Select.Root type="single" bind:value={$formData.category} name={props.name}>
 						<Select.Trigger {...props}>
 							{$formData.category ?? 'Select category'}
@@ -81,15 +81,15 @@
 		<Form.Field {form} name="details">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Details</Form.Label>
-					<Form.Description>
-						Optional description, for example packaging, amount, dimensions...
-					</Form.Description>
+					<Form.Label>Detaljer</Form.Label>
 					<Input
 						{...props}
 						bind:value={$formData.details}
 						placeholder="100 ml or 25 g or 1200x800 mm"
 					/>
+					<Form.Description>
+						Frivillig beskrivning, t.ex. förpackning, mängd, mått...
+					</Form.Description>
 				{/snippet}
 			</Form.Control>
 			<Form.FieldErrors />
@@ -98,16 +98,16 @@
 		<Form.Field {form} name="pricePerUnit">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Price per Unit</Form.Label>
-					<Form.Description>SEK including VAT</Form.Description>
+					<Form.Label>Pris per enhet</Form.Label>
 					<Input {...props} bind:value={$formData.pricePerUnit} />
+					<Form.Description>SEK inkl. moms</Form.Description>
 				{/snippet}
 			</Form.Control>
 			<Form.FieldErrors />
 		</Form.Field>
 
 		<Form.Fieldset {form} name="vat" class="">
-			<Form.Legend class="mb-2 pt-2">VAT</Form.Legend>
+			<Form.Legend class="mb-2 pt-2">Moms</Form.Legend>
 			<RadioGroup.Root
 				class="flex flex-col space-y-1"
 				name="vat"
@@ -133,15 +133,17 @@
 		<Form.Field {form} name="ean">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>EAN barcode</Form.Label>
-					<Form.Description>Optional (but recommended) EAN-8 or EAN-13 barcode.</Form.Description>
+					<Form.Label>Streckkod - EAN</Form.Label>
+					<Form.Description
+						>Frivillig (men rekommenderad) EAN-8 eller EAN-13 streckkod.</Form.Description
+					>
 					<Input
 						{...props}
 						bind:value={$formData.ean}
 						placeholder="e.g. 12345678 or 1234567891011"
 					/>
 					<Button variant="outline" class="w-full" onclick={generateBarcode}>
-						Generate random barcode
+						Generera en slumpad streckkod
 					</Button>
 				{/snippet}
 			</Form.Control>
@@ -149,7 +151,7 @@
 		</Form.Field>
 
 		<Form.Fieldset {form} name="unitType" class="">
-			<Form.Legend class="mb-2 pt-2">Unit Type</Form.Legend>
+			<Form.Legend class="mb-2 pt-2">Enhetstyp</Form.Legend>
 			<RadioGroup.Root
 				bind:value={$formData.unitType}
 				class="flex flex-col space-y-1"
@@ -176,7 +178,7 @@
 		</Form.Fieldset>
 
 		<Form.Fieldset {form} name="unitName" class="">
-			<Form.Legend class="mb-2 pt-2">Unit Name</Form.Legend>
+			<Form.Legend class="mb-2 pt-2">Enhetsnamn</Form.Legend>
 			<RadioGroup.Root
 				class="flex flex-col space-y-1"
 				bind:value={$formData.unitName!}
@@ -199,7 +201,7 @@
 		</Form.Fieldset>
 
 		<Form.Fieldset {form} name="billingCategory" class="">
-			<Form.Legend class="mb-2 pt-2">Billing category</Form.Legend>
+			<Form.Legend class="mb-2 pt-2">Faktureringskategori</Form.Legend>
 			<RadioGroup.Root
 				class="flex flex-col space-y-1"
 				name="billingCategory"
@@ -222,14 +224,14 @@
 		<Form.Field {form} name="sellerId">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Seller ID</Form.Label>
-					<Form.Description>Optional</Form.Description>
+					<Form.Label>Säljare</Form.Label>
 					<Input {...props} bind:value={$formData.sellerId} />
+					<Form.Description>Frivillig</Form.Description>
 				{/snippet}
 			</Form.Control>
 			<Form.FieldErrors />
 		</Form.Field>
 
-		<Form.SubmitButton {delayed} label="Edit product" />
+		<Form.SubmitButton {delayed} label="Redigera produkt" />
 	</form>
 </div>

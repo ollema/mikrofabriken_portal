@@ -36,7 +36,9 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Edit {appendPossessive(data.member.name)} company</PageHeader.Title>
+			<PageHeader.Title
+				>Redigera {appendPossessive(data.member.name)} företagskoppling</PageHeader.Title
+			>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
@@ -46,18 +48,18 @@
 		<Form.Field {form} name="orgNum">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Org. number</Form.Label>
+					<Form.Label>Organisationsnummer</Form.Label>
 					<Input {...props} bind:value={$formData.orgNum} />
 				{/snippet}
 			</Form.Control>
-			<Form.Description>Important: changing this has consequences!</Form.Description>
+			<Form.Description>Viktigt: påverkar fakturering!</Form.Description>
 			<Form.FieldErrors />
 		</Form.Field>
 
 		<Form.Field {form} name="name">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Name</Form.Label>
+					<Form.Label>Företagets namn</Form.Label>
 					<Input {...props} bind:value={$formData.name} />
 				{/snippet}
 			</Form.Control>
@@ -67,18 +69,18 @@
 		<Form.Field {form} name="email">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Email</Form.Label>
+					<Form.Label>Företagets email</Form.Label>
 					<Input {...props} bind:value={$formData.email} />
 				{/snippet}
 			</Form.Control>
-			<Form.Description>Note: company invoices are sent to this email</Form.Description>
+			<Form.Description>Fakturor skickas till denna mail.</Form.Description>
 			<Form.FieldErrors />
 		</Form.Field>
 
 		<Form.Field {form} name="postalAdress">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Address</Form.Label>
+					<Form.Label>Företagets adress</Form.Label>
 					<Input {...props} bind:value={$formData.postalAdress} />
 				{/snippet}
 			</Form.Control>
@@ -88,7 +90,7 @@
 		<Form.Field {form} name="postalCode">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Postal code</Form.Label>
+					<Form.Label>Företagets postnummer</Form.Label>
 					<Input {...props} bind:value={$formData.postalCode} />
 				{/snippet}
 			</Form.Control>
@@ -98,7 +100,7 @@
 		<Form.Field {form} name="postalCity">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>City</Form.Label>
+					<Form.Label>Företagets ort</Form.Label>
 					<Input {...props} bind:value={$formData.postalCity} />
 				{/snippet}
 			</Form.Control>
@@ -108,7 +110,7 @@
 		<div class="h-[1px]"></div>
 
 		<Form.Fieldset {form} name="invoiceDefaultTo">
-			<Form.Legend>By default, include invoice categories in:</Form.Legend>
+			<Form.Legend>Inkludera per default fakturakategorier i:</Form.Legend>
 			<RadioGroup.Root
 				bind:value={$formData.invoiceDefaultTo}
 				class="flex flex-col space-y-1"
@@ -118,7 +120,7 @@
 					<Form.Control>
 						{#snippet children({ props })}
 							<RadioGroup.Item {...props} value="personal" />
-							<Form.Label class="font-normal">Personal invoice</Form.Label>
+							<Form.Label class="font-normal">Personlig faktura</Form.Label>
 						{/snippet}
 					</Form.Control>
 				</div>
@@ -126,7 +128,7 @@
 					<Form.Control>
 						{#snippet children({ props })}
 							<RadioGroup.Item {...props} value="company" />
-							<Form.Label class="font-normal">Company invoice</Form.Label>
+							<Form.Label class="font-normal">Faktura till företaget</Form.Label>
 						{/snippet}
 					</Form.Control>
 				</div>
@@ -139,7 +141,7 @@
 			<Form.Control>
 				{#snippet children({ props })}
 					<Form.Label>
-						Invoice categories to exclude from <strong>{$formData.invoiceDefaultTo}</strong> invoice:
+						Fakturakategorier som ska uteslutas från <strong>{$formData.invoiceDefaultTo}</strong> faktura:
 					</Form.Label>
 					<Select.Root
 						type="multiple"
@@ -152,7 +154,7 @@
 						<Select.Trigger {...props}>
 							{$formData.invoiceExcludeCategoriesFromDefault.length
 								? $formData.invoiceExcludeCategoriesFromDefault.join(', ')
-								: 'Select categories'}
+								: 'Välj fakturakategorier'}
 						</Select.Trigger>
 						<Select.Content>
 							{#each InvoiceCategoryTypes.options as option (option)}
@@ -165,10 +167,10 @@
 			</Form.Control>
 		</Form.Field>
 
-		<Form.SubmitButton {delayed} label="Submit change request" />
+		<Form.SubmitButton {delayed} label="Skicka förslag på ändring" />
 	</form>
 
 	<form method="POST" class="mt-6 flex max-w-lg flex-col gap-4" action="?/delete">
-		<Form.SubmitButton {delayed} label="Delete company" variant="destructive" separator={false} />
+		<Form.SubmitButton {delayed} label="Ta bort företag" variant="destructive" separator={false} />
 	</form>
 </div>

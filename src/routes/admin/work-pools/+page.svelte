@@ -22,7 +22,7 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Work pools</PageHeader.Title>
+			<PageHeader.Title>Arbetspooler</PageHeader.Title>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
@@ -38,7 +38,9 @@
 				<p class="mb-6 text-muted-foreground">{workPool.description}</p>
 
 				<div>
-					<h3 class="text-lg font-medium">Members ({workPool.members.length})</h3>
+					<h3 class="text-md font-medium">
+						Medlemmar i {workPool.name} ({workPool.members.length} st)
+					</h3>
 					<Button
 						variant="outline"
 						size="sm"
@@ -46,7 +48,7 @@
 						disabled={workPool.members.length === 0}
 						onclick={() => copyEmails(workPool)}
 					>
-						Copy all emails
+						Kopiera alla emails
 					</Button>
 					{#if workPool.members.length > 0}
 						<ul class="space-y-3">

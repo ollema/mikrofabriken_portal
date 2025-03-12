@@ -4,34 +4,17 @@ import type { Member } from '$lib/types/members.js';
 
 type PalletInfo = {
 	id: number;
-	member?: {
+	member: {
 		name: string;
 		slackID: string;
 	};
 };
 
-const minimumPallets = 24;
-
 export const load = async ({ locals }) => {
 	getUser(locals);
 	const members = getMembers();
 
-	let maxPalletId = minimumPallets;
-	members.forEach((member: Member) => {
-		member.agreements.forEach((agreement) => {
-			if (
-				(agreement.type === 'palletInside' || agreement.type === 'palletOutside') &&
-				!agreement.endDate
-			) {
-				const highestId = Math.max(...agreement.attributes.palletIds);
-				maxPalletId = Math.max(maxPalletId, highestId);
-			}
-		});
-	});
-
-	const pallets: PalletInfo[] = Array.from({ length: maxPalletId }, (_, i) => ({
-		id: i + 1
-	}));
+	const pallets: PalletInfo[] = [];
 
 	members.forEach((member: Member) => {
 		member.agreements.forEach((agreement) => {
@@ -40,16 +23,22 @@ export const load = async ({ locals }) => {
 				!agreement.endDate
 			) {
 				agreement.attributes.palletIds.forEach((palletId) => {
-					pallets[palletId - 1].member = {
-						name: member.name,
-						slackID: member.slackID
-					};
+					pallets.push({
+						id: palletId,
+						member: {
+							name: member.name,
+							slackID: member.slackID
+						}
+					});
 				});
 			}
 		});
 	});
 
 	const midPoint = Math.ceil(pallets.length / 2);
+
+	pallets.sort((a, b) => a.id - b.id);
+
 	return {
 		pallets,
 		leftPallets: pallets.slice(0, midPoint),

@@ -35,7 +35,7 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Edit work pools</PageHeader.Title>
+			<PageHeader.Title>Redigera arbetspooler</PageHeader.Title>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
@@ -43,7 +43,7 @@
 
 	<form method="POST" class="flex max-w-lg flex-col gap-4" use:enhance>
 		<Form.Fieldset {form} name="workPools">
-			<Form.Legend class="text-xl">Work pools</Form.Legend>
+			<Form.Legend class="mb-2 text-xl">Valda arbetspooler</Form.Legend>
 			<div class="flex flex-col gap-4">
 				{#each data.validWorkPools.sort( (a, b) => data.workPoolNameMapping[a].localeCompare(data.workPoolNameMapping[b]) ) as pool (pool)}
 					<div class="center flex items-start gap-2">
@@ -71,6 +71,6 @@
 			<Form.FieldErrors />
 		</Form.Fieldset>
 
-		<Form.SubmitButton {delayed} label="Submit change request" />
+		<Form.SubmitButton {delayed} label="Skicka förslag på ändringar" />
 	</form>
 </div>

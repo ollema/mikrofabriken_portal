@@ -18,14 +18,14 @@
 	const params = queryParameters(
 		{
 			columnFilters: ssp.object<ColumnFiltersState>([]),
-			sorting: ssp.object<SortingState>([{ id: 'Category', desc: false }]),
+			sorting: ssp.object<SortingState>([{ id: 'Kategori', desc: false }]),
 			pagination: ssp.object<PaginationState>({
 				pageIndex: 1,
 				pageSize: 10
 			}),
 			visibility: ssp.object<VisibilityState>({
 				UUID: false,
-				VAT: false,
+				Moms: false,
 				EAN: false
 			})
 		},
@@ -53,8 +53,8 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Browse products</PageHeader.Title>
-			<PageHeader.Description>Browse and purchase products.</PageHeader.Description>
+			<PageHeader.Title>Bläddra bland produkter</PageHeader.Title>
+			<PageHeader.Description>Bläddra och köp produkter i kiosken.</PageHeader.Description>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 

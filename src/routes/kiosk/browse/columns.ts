@@ -10,39 +10,39 @@ export const columns: ColumnDef<Product>[] = [
 		header: 'UUID'
 	},
 	{
-		id: 'Name',
+		id: 'Namn',
 		accessorKey: 'name',
 		header: ({ column }) =>
-			renderComponent(DataTableColumnHeader<Product, unknown>, { column, title: 'Name' }),
+			renderComponent(DataTableColumnHeader<Product, unknown>, { column, title: 'Namn' }),
 		enableHiding: false
 	},
 	{
-		id: 'Details',
+		id: 'Detaljer',
 		accessorKey: 'details',
-		header: 'Details'
+		header: 'Detaljer'
 	},
 	{
-		id: 'Category',
+		id: 'Kategori',
 		accessorKey: 'category',
 		header: ({ column }) =>
 			renderComponent(DataTableColumnHeader<Product, unknown>, {
 				column,
-				title: 'Category'
+				title: 'Kategori'
 			})
 	},
 	{
-		id: 'Price',
+		id: 'Pris',
 		accessorKey: 'pricePerUnit',
 		header: ({ column }) =>
 			renderComponent(DataTableColumnHeader<Product, unknown>, {
 				column,
-				title: 'Price'
+				title: 'Pris'
 			})
 	},
 	{
-		id: 'VAT',
+		id: 'Moms',
 		accessorFn: (row) => row.vat.toString() + '%',
-		header: 'VAT'
+		header: 'Moms'
 	},
 	{
 		id: 'EAN',

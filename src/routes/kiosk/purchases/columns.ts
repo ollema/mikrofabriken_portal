@@ -5,35 +5,35 @@ import { DataTableColumnHeader } from '$lib/components/data-table/index.js';
 
 export const columns: ColumnDef<HistoricPurchase>[] = [
 	{
-		id: 'Name',
+		id: 'Namn',
 		accessorKey: 'productName',
 		header: ({ column }) =>
-			renderComponent(DataTableColumnHeader<HistoricPurchase, unknown>, { column, title: 'Name' }),
+			renderComponent(DataTableColumnHeader<HistoricPurchase, unknown>, { column, title: 'Namn' }),
 		enableHiding: false
 	},
 	{
-		id: 'Date',
+		id: 'Datum',
 		accessorFn: (row) => row.dateTime.toLocaleDateString(),
 		header: ({ column }) =>
-			renderComponent(DataTableColumnHeader<HistoricPurchase, unknown>, { column, title: 'Date' })
+			renderComponent(DataTableColumnHeader<HistoricPurchase, unknown>, { column, title: 'Datum' })
 	},
 	{
-		id: 'Price',
+		id: 'Pris',
 		accessorFn: (row) => row.pricePerUnit.toString() + ' kr',
 		header: ({ column }) =>
 			renderComponent(DataTableColumnHeader<HistoricPurchase, unknown>, {
 				column,
-				title: 'Price'
+				title: 'Pris'
 			})
 	},
 	{
-		id: 'Quantity',
+		id: 'Antal',
 		accessorFn: (row) => row.quantity.toString(),
-		header: 'Quantity'
+		header: 'Antal'
 	},
 	{
-		id: 'Total',
+		id: 'Totalt',
 		accessorFn: (row) => `${row.pricePerUnit * row.quantity} kr`,
-		header: 'Total'
+		header: 'Totalt'
 	}
 ];
