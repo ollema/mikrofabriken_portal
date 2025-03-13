@@ -86,7 +86,11 @@
 		<div class="text-sm">
 			{data.usedDiscount.toFixed(0)} kr used, {data.availableDiscount.toFixed(0)} kr left
 		</div>
-		<Progress value={data.usedDiscount / data.availableDiscount} max={1} class="my-2 h-2" />
+		<Progress
+			value={data.usedDiscount / (data.availableDiscount + data.usedDiscount)}
+			max={1}
+			class="my-2 h-2"
+		/>
 		<div class="flex justify-between">
 			<div class="text-sm">0 kr</div>
 			<div class="text-sm">400 kr</div>
