@@ -44,8 +44,8 @@ function getExtendedMemberProperties(member: Member) {
 		}
 
 		if (
-			agreement.type === 'palletInside' ||
-			(agreement.type === 'palletOutside' && isAgreementActive(agreement))
+			(agreement.type === 'palletInside' || agreement.type === 'palletOutside') &&
+			isAgreementActive(agreement)
 		) {
 			hasPallet = true;
 		}
