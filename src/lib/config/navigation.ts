@@ -94,6 +94,11 @@ export const navigation: Navigation[] = [
 				href: '/admin/members'
 			},
 			{
+				title: 'Inval',
+				requireAdmin: true,
+				href: '/admin/inval'
+			},
+			{
 				title: 'Products',
 				requireViewProducts: true,
 				href: '/admin/products'
