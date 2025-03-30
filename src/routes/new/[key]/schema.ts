@@ -15,7 +15,7 @@ export const newMemberFormSchema = MemberSchema.omit({
 	crNumber: z
 		.string()
 		.regex(new RegExp('^[0-9]{8}-[0-9]{4}$'), {
-			message: 'Personnummer måste ges i formatet 123456-7890'
+			message: 'Personnummer måste ges i formatet 12345678-1234'
 		})
 		.refine(
 			(value) => {
