@@ -159,10 +159,6 @@ export const MemberSchema = z
 		postalCode: z.string().min(1, { message: 'Postal code needs to be at least 1 character long' }),
 		postalCity: z.string().min(1, { message: 'Postal city needs to be at least 1 character long' }),
 		email: z.string().email({ message: 'Email needs to be a valid email address' }),
-		slackEmail: z
-			.string()
-			.email({ message: 'Slack email needs to be a valid email address' })
-			.optional(),
 		phone: z.string().regex(/^[0-9]{10}$/, {
 			message: 'Phone number must start with 0 and be 10 digits long'
 		}),

@@ -11,7 +11,7 @@
 
 	const members: {
 		name: string;
-		slackId: string;
+		slackID: string;
 		rfidData: string;
 		investment: boolean;
 		link: string | null;
@@ -20,7 +20,7 @@
 	function addNewMember() {
 		members.push({
 			name: '',
-			slackId: '',
+			slackID: '',
 			rfidData: '',
 			investment: false,
 			link: null
@@ -29,10 +29,10 @@
 
 	const membersWithLinks = $derived.by(() => {
 		return members.map((member) => {
-			if (member.name !== '' && member.slackId !== '' && member.rfidData !== '') {
+			if (member.name !== '' && member.slackID !== '' && member.rfidData !== '') {
 				const input = {
 					name: member.name,
-					slackId: member.slackId,
+					slackID: member.slackID,
 					rfidData: member.rfidData,
 					investment: member.investment
 				};
@@ -118,7 +118,7 @@
 			{/if}
 			<div class="mt-4 flex max-w-md flex-col gap-2">
 				<Input type="text" placeholder="Namn" bind:value={member.name} />
-				<Input type="text" placeholder="Slack ID" bind:value={member.slackId} />
+				<Input type="text" placeholder="Slack ID" bind:value={member.slackID} />
 				<Input type="text" placeholder="RFID-data" bind:value={member.rfidData} />
 				<div class="mt-2 flex items-center gap-2">
 					<Checkbox id="insats" placeholder="Insats" bind:checked={member.investment} />

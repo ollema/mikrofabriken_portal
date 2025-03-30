@@ -40,7 +40,6 @@ export function areMembersEqual(a: Member, b: Member): boolean {
 		a.postalCode !== b.postalCode ||
 		a.postalCity !== b.postalCity ||
 		a.email !== b.email ||
-		a.slackEmail !== b.slackEmail ||
 		a.phone !== b.phone
 	) {
 		return false;
