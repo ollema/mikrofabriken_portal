@@ -145,7 +145,12 @@
 			<Form.Control>
 				{#snippet children({ props })}
 					<Form.Label>RFID-data</Form.Label>
-					<Input {...props} bind:value={$formData.rfidData} />
+					<Input
+						{...props}
+						bind:value={$formData.rfidData}
+						readonly
+						class="cursor-not-allowed text-muted-foreground"
+					/>
 				{/snippet}
 			</Form.Control>
 			<Form.FieldErrors />
