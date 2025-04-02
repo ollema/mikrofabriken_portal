@@ -165,8 +165,8 @@
 		<Dialog.Content
 			class="flex flex-col items-start gap-0"
 			onOpenAutoFocus={focusConfirmButton}
-			escapeKeydownBehavior={'ignore'}
-			interactOutsideBehavior={'ignore'}
+			escapeKeydownBehavior="ignore"
+			interactOutsideBehavior="ignore"
 		>
 			{#if storage}
 				{#if storage.period}
@@ -185,8 +185,8 @@
 	<Drawer.Root bind:open {onOpenChange}>
 		<Drawer.Content
 			onOpenAutoFocus={focusConfirmButton}
-			escapeKeydownBehavior={'ignore'}
-			interactOutsideBehavior={'ignore'}
+			escapeKeydownBehavior="ignore"
+			interactOutsideBehavior="ignore"
 		>
 			<div class="px-3 pb-2 pt-4">
 				{#if storage}

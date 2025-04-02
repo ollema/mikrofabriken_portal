@@ -62,19 +62,19 @@
 	<div class="flex max-w-screen-md flex-col items-start gap-2 lg:flex-row lg:justify-between">
 		<div>
 			<div class="grid auto-cols-[60px] grid-flow-col justify-start gap-2 sm:auto-cols-[70px]">
-				{#each data.storageRows[0] as storage}
+				{#each data.storageRows[0] as storage (storage)}
 					<ProjectStorageSpot {storage} avatars={data.avatars} onClick={handleStorageClick} />
 				{/each}
 			</div>
 		</div>
 		<div class="flex flex-col items-center gap-2">
 			<div class="grid auto-cols-[60px] grid-flow-col justify-start gap-2 sm:auto-cols-[70px]">
-				{#each data.storageRows[1] as storage}
+				{#each data.storageRows[1] as storage (storage)}
 					<ProjectStorageSpot {storage} avatars={data.avatars} onClick={handleStorageClick} />
 				{/each}
 			</div>
 			<div class="grid auto-cols-[60px] grid-flow-col justify-start gap-2 sm:auto-cols-[70px]">
-				{#each data.storageRows[2] as storage}
+				{#each data.storageRows[2] as storage (storage)}
 					<ProjectStorageSpot {storage} avatars={data.avatars} onClick={handleStorageClick} />
 				{/each}
 			</div>
@@ -102,7 +102,7 @@
 	<h2 class="mb-2 w-full text-lg">History</h2>
 	<DataTable data={data.storagePeriods} {columns} {params}>
 		{#snippet paginationControls(table)}
-			<DataTablePagination {table} rowName={'period'} showPerPage={true} />
+			<DataTablePagination {table} rowName="period" showPerPage={true} />
 		{/snippet}
 	</DataTable>
 </div>

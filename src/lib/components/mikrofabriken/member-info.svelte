@@ -36,7 +36,7 @@
 		{#if member.commissions.length > 0}
 			<div class="mt-4 text-sm font-semibold">Roles:</div>
 			<div class="mt-1 flex flex-col gap-1 text-sm text-muted-foreground">
-				{#each member.commissions as commission}
+				{#each member.commissions as commission (commission)}
 					<div>
 						{commission}
 					</div>

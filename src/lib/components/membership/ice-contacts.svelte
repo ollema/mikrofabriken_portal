@@ -16,7 +16,7 @@
 </script>
 
 {#if iceContacts.length > 0}
-	{#each iceContacts as contact}
+	{#each iceContacts as contact (contact)}
 		<IconEntry Icon={Bandage}>
 			{contact.name} - <a href={phoneHref(contact.phone)}>{contact.phone}</a>
 		</IconEntry>

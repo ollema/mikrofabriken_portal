@@ -172,16 +172,16 @@
 			<Dialog.Content
 				class="flex flex-col items-start gap-0"
 				onOpenAutoFocus={focusConfirmButton}
-				escapeKeydownBehavior={'ignore'}
-				interactOutsideBehavior={'ignore'}
+				escapeKeydownBehavior="ignore"
+				interactOutsideBehavior="ignore"
 			>
 				{@render content(product)}
 			</Dialog.Content>
 		{:else}
 			<Dialog.Content
 				class="flex flex-col items-start gap-0"
-				escapeKeydownBehavior={'ignore'}
-				interactOutsideBehavior={'ignore'}
+				escapeKeydownBehavior="ignore"
+				interactOutsideBehavior="ignore"
 			>
 				{@render missingProductContent()}
 			</Dialog.Content>
@@ -192,15 +192,15 @@
 		{#if product !== null && product !== undefined}
 			<Drawer.Content
 				onOpenAutoFocus={focusConfirmButton}
-				escapeKeydownBehavior={'ignore'}
-				interactOutsideBehavior={'ignore'}
+				escapeKeydownBehavior="ignore"
+				interactOutsideBehavior="ignore"
 			>
 				<div class="px-3 pb-2 pt-4">
 					{@render content(product)}
 				</div>
 			</Drawer.Content>
 		{:else}
-			<Drawer.Content escapeKeydownBehavior={'ignore'} interactOutsideBehavior={'ignore'}>
+			<Drawer.Content escapeKeydownBehavior="ignore" interactOutsideBehavior="ignore">
 				<div class="px-3 py-4 pb-2">
 					{@render missingProductContent()}
 				</div>

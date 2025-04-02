@@ -60,7 +60,7 @@
 		<Form.Fieldset {form} name="rfidTags">
 			{#if $formData.rfidTags.length > 0}
 				<div class="flex flex-col gap-4">
-					{#each Array.from(Array($formData.rfidTags.length).keys()) as i}
+					{#each Array.from(Array($formData.rfidTags.length).keys()) as i (i)}
 						<div class="rounded-md border border-muted p-4">
 							<Form.Legend class="text-lg">RFID-tag #{i + 1}</Form.Legend>
 
@@ -70,14 +70,14 @@
 								<Form.CalendarField
 									{form}
 									name="rfidTags[{i}].startDate"
-									label={'Start date'}
+									label="Start date"
 									bind:date={$formData.rfidTags[i].startDate}
 								/>
 
 								<Form.CalendarField
 									{form}
 									name="rfidTags[{i}].endDate"
-									label={'End date'}
+									label="End date"
 									bind:date={$formData.rfidTags[i].endDate}
 								/>
 

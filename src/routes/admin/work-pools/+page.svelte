@@ -27,7 +27,7 @@
 	</PageHeader.Root>
 
 	<div class="mt-4 space-y-4">
-		{#each data.workPools as workPool, i}
+		{#each data.workPools as workPool, i (i)}
 			{#if i > 0}
 				<div class="py-2">
 					<Separator />
@@ -50,7 +50,7 @@
 					</Button>
 					{#if workPool.members.length > 0}
 						<ul class="space-y-3">
-							{#each workPool.members as member}
+							{#each workPool.members as member (member.email)}
 								<li>
 									<div class="font-medium">{member.name}</div>
 									<div class="text-sm text-muted-foreground">

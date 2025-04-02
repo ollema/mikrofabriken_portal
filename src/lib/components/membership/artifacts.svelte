@@ -23,7 +23,7 @@
 </script>
 
 <div class="space-y-4">
-	{#each activeRFIDArtifacts as activeRFIDArtifact}
+	{#each activeRFIDArtifacts as activeRFIDArtifact (activeRFIDArtifact)}
 		<IconEntry Icon={Nfc}>
 			RFID tag
 			<span class="font-mono">[{activeRFIDArtifact.attributes?.data}]</span>
@@ -31,7 +31,7 @@
 		</IconEntry>
 	{/each}
 
-	{#each activeKeyArtifacts as activeKeyArtifact}
+	{#each activeKeyArtifacts as activeKeyArtifact (activeKeyArtifact)}
 		<IconEntry Icon={KeyRound}>
 			Entrusted with key #{activeKeyArtifact.attributes?.number ?? 0} since {activeKeyArtifact.startDate}
 		</IconEntry>

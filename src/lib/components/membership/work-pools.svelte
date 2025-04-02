@@ -8,7 +8,7 @@
 </script>
 
 <div class="space-y-2">
-	{#each workPools as workPool}
+	{#each workPools as workPool (workPool)}
 		<div class="text-sm">
 			{workPoolNameMapping[workPool]}
 		</div>

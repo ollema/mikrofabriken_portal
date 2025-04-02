@@ -112,7 +112,7 @@
 	</div>
 
 	<div class="mt-4">
-		{#each members as member, i}
+		{#each members as member, i (i)}
 			{#if i > 0}
 				<Separator class="my-12 max-w-md" />
 			{/if}

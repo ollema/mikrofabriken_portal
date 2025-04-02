@@ -92,7 +92,7 @@
 							{$formData.category ?? 'Select a category'}
 						</Select.Trigger>
 						<Select.Content>
-							{#each data.productCategories as category}
+							{#each data.productCategories as category (category)}
 								<Select.Item value={category} label={category} />
 							{/each}
 						</Select.Content>
@@ -141,7 +141,7 @@
 					$formData.vat = parseInt(value);
 				}}
 			>
-				{#each data.vatPercentages as vatPercentage}
+				{#each data.vatPercentages as vatPercentage (vatPercentage)}
 					<div class="flex items-center space-x-3 pl-2">
 						<Form.Control>
 							{#snippet children({ props })}
@@ -207,7 +207,7 @@
 				bind:value={$formData.unitName!}
 				name="unitName"
 			>
-				{#each data.unitNames as unitName}
+				{#each data.unitNames as unitName (unitName)}
 					{#if unitName !== null}
 						<div class="flex items-center space-x-3 pl-2">
 							<Form.Control>
@@ -230,7 +230,7 @@
 				name="billingCategory"
 				bind:value={$formData.billingCategory}
 			>
-				{#each data.billingCategories as billingCategory}
+				{#each data.billingCategories as billingCategory (billingCategory)}
 					<div class="flex items-center space-x-3 pl-2">
 						<Form.Control>
 							{#snippet children({ props })}

@@ -107,7 +107,7 @@
 			<Form.Legend class="text-xl">Membership agreement</Form.Legend>
 			{#if $formData.memberships.length > 0}
 				<div class="flex flex-col gap-4">
-					{#each Array.from(Array($formData.memberships.length).keys()) as i}
+					{#each Array.from(Array($formData.memberships.length).keys()) as i (i)}
 						<div class="rounded-md border border-muted p-4">
 							<Form.Legend class="text-lg">Membership agreement #{i + 1}</Form.Legend>
 
@@ -154,7 +154,7 @@
 								<Form.CalendarField
 									{form}
 									name="memberships[{i}].startDate"
-									label={'Start date'}
+									label="Start date"
 									bind:date={$formData.memberships[i].startDate}
 									showStartButtons
 								/>
@@ -162,7 +162,7 @@
 								<Form.CalendarField
 									{form}
 									name="memberships[{i}].endDate"
-									label={'End date'}
+									label="End date"
 									bind:date={$formData.memberships[i].endDate}
 									showEndButtons
 								/>
@@ -191,7 +191,7 @@
 			<Form.Legend class="text-xl">Asylum agreements</Form.Legend>
 			{#if $formData.asylums.length > 0}
 				<div class="flex flex-col gap-4">
-					{#each Array.from(Array($formData.asylums.length).keys()) as i}
+					{#each Array.from(Array($formData.asylums.length).keys()) as i (i)}
 						<div class="rounded-md border border-muted p-4">
 							<Form.Legend class="text-lg">Asylum agreement #{i + 1}</Form.Legend>
 
@@ -230,14 +230,14 @@
 								<Form.CalendarField
 									{form}
 									name="asylums[{i}].startDate"
-									label={'Start date'}
+									label="Start date"
 									bind:date={$formData.asylums[i].startDate}
 								/>
 
 								<Form.CalendarField
 									{form}
 									name="asylums[{i}].endDate"
-									label={'End date'}
+									label="End date"
 									bind:date={$formData.asylums[i].endDate}
 								/>
 
@@ -282,7 +282,7 @@
 			<Form.Legend class="text-xl">Pallet agreements</Form.Legend>
 			{#if $formData.pallets.length > 0}
 				<div class="flex flex-col gap-4">
-					{#each Array.from(Array($formData.pallets.length).keys()) as i}
+					{#each Array.from(Array($formData.pallets.length).keys()) as i (i)}
 						<div class="rounded-md border border-muted p-4">
 							<Form.Legend class="text-lg">Pallet agreement #{i + 1}</Form.Legend>
 
@@ -321,14 +321,14 @@
 								<Form.CalendarField
 									{form}
 									name="pallets[{i}].startDate"
-									label={'Start date'}
+									label="Start date"
 									bind:date={$formData.pallets[i].startDate}
 								/>
 
 								<Form.CalendarField
 									{form}
 									name="pallets[{i}].endDate"
-									label={'End date'}
+									label="End date"
 									bind:date={$formData.pallets[i].endDate}
 								/>
 
@@ -351,7 +351,7 @@
 								{#if $formData.pallets[i].palletIds.length > 0}
 									<div class="flex flex-col gap-4">
 										<Form.Legend>Pallet IDs</Form.Legend>
-										{#each Array.from(Array($formData.pallets[i].palletIds.length).keys()) as idIndex}
+										{#each Array.from(Array($formData.pallets[i].palletIds.length).keys()) as idIndex (idIndex)}
 											<div class="flex flex-col gap-4">
 												<Form.ElementField {form} name="pallets[{i}].palletIds[{idIndex}]">
 													<Form.Control>

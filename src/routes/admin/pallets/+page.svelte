@@ -17,7 +17,7 @@
 				</Table.Row>
 			</Table.Header>
 			<Table.Body>
-				{#each pallets as pallet}
+				{#each pallets as pallet (pallet.id)}
 					<Table.Row>
 						<Table.Cell class="w-4">{pallet.id}</Table.Cell>
 						<Table.Cell>

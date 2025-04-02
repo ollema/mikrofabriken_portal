@@ -61,7 +61,7 @@
 	>
 		{#snippet children({ cells })}
 			<InputOTP.Group>
-				{#each cells as cell}
+				{#each cells as cell (cell)}
 					<InputOTP.Slot {cell} />
 				{/each}
 			</InputOTP.Group>

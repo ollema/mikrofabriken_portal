@@ -140,7 +140,7 @@
 						bind:value={$formData.invoiceExcludeCategoriesFromDefault}
 						name={props.name}
 					>
-						{#each $formData.invoiceExcludeCategoriesFromDefault as invoiceCategory}
+						{#each $formData.invoiceExcludeCategoriesFromDefault as invoiceCategory (invoiceCategory)}
 							<input name={props.name} hidden value={invoiceCategory} />
 						{/each}
 						<Select.Trigger {...props}>
@@ -149,7 +149,7 @@
 								: 'Select categories'}
 						</Select.Trigger>
 						<Select.Content>
-							{#each InvoiceCategoryTypes.options as option}
+							{#each InvoiceCategoryTypes.options as option (option)}
 								<Select.Item value={option} label={option} />
 							{/each}
 						</Select.Content>

@@ -54,7 +54,7 @@
 		</Sidebar.Menu>
 	</Sidebar.Header>
 	<Sidebar.Content>
-		{#each navigation as group}
+		{#each navigation as group (group.title)}
 			{#if allowedToViewCategory(group.requireAdmin, group.requireViewProducts, group.requireViewWorkPools, group.requireViewPallets, page.data.user?.role === 'admin', page.data.allowedToViewProducts, page.data.allowedToViewWorkPools, page.data.allowedToViewPallets)}
 				<Sidebar.Group>
 					<Sidebar.GroupLabel>{group.title}</Sidebar.GroupLabel>

@@ -49,7 +49,7 @@
 			<DataTableToolbar {table} />
 		{/snippet}
 		{#snippet paginationControls(table)}
-			<DataTablePagination {table} rowName={'member'} showPerPage />
+			<DataTablePagination {table} rowName="member" showPerPage />
 		{/snippet}
 	</DataTable>
 </div>

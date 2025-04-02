@@ -56,7 +56,7 @@
 	agreements: Agreement[];
 	Icon: ComponentType<Icon>;
 })}
-	{#each agreements as agreement, index}
+	{#each agreements as agreement, index (agreement)}
 		<IconEntry {Icon}>
 			{agreementToHumanReadable(agreement.type)}
 			{#if agreement.type === 'asylumInside' || agreement.type === 'asylumOutside'}
@@ -67,7 +67,7 @@
 			since {agreement.startDate}
 		</IconEntry>
 		{#if index === 1 && (agreement.type === 'membership' || agreement.type === 'investment')}
-			<Alert.Root class="my-6 w-full max-w-screen-md" variant={'destructive'}>
+			<Alert.Root class="my-6 w-full max-w-screen-md" variant="destructive">
 				<Alert.Title class="text-lg font-semibold">Heads up!</Alert.Title>
 				<Alert.Description class="mt-2">
 					<div>

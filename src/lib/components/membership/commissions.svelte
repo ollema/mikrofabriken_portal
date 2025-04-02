@@ -14,7 +14,7 @@
 </script>
 
 <div class="space-y-2">
-	{#each activeCommissions as commission}
+	{#each activeCommissions as commission (commission)}
 		<div class="text-sm">
 			{commission.type} since {commission.startDate}
 		</div>

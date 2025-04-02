@@ -45,7 +45,7 @@
 		<Form.Fieldset {form} name="workPools">
 			<Form.Legend class="text-xl">Work pools</Form.Legend>
 			<div class="flex flex-col gap-4">
-				{#each data.validWorkPools.sort( (a, b) => data.workPoolNameMapping[a].localeCompare(data.workPoolNameMapping[b]) ) as pool}
+				{#each data.validWorkPools.sort( (a, b) => data.workPoolNameMapping[a].localeCompare(data.workPoolNameMapping[b]) ) as pool (pool)}
 					<div class="center flex items-start gap-2">
 						<Checkbox
 							id={pool}

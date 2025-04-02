@@ -25,7 +25,7 @@
 
 	<MemberInfoDialog bind:selectedMember bind:open />
 
-	{#each data.board as { label, members }}
+	{#each data.board as { label, members } (label)}
 		{#if members.length > 0}
 			<MemberGrid {label} {members} bind:selectedMember bind:open />
 		{/if}

@@ -64,7 +64,7 @@
 			<Form.Legend class="text-xl">Roles</Form.Legend>
 			{#if $formData.commissions.length > 0}
 				<div class="flex flex-col gap-4">
-					{#each Array.from(Array($formData.commissions.length).keys()) as i}
+					{#each Array.from(Array($formData.commissions.length).keys()) as i (i)}
 						<div class="rounded-md border border-muted p-4">
 							<Form.Legend class="text-lg">Role #{i + 1}</Form.Legend>
 
@@ -86,7 +86,7 @@
 														: 'Select a commission type'}
 												</Select.Trigger>
 												<Select.Content>
-													{#each data.validCommissions as option}
+													{#each data.validCommissions as option (option)}
 														<Select.Item label={option} value={option} />
 													{/each}
 												</Select.Content>
@@ -99,7 +99,7 @@
 								<Form.CalendarField
 									{form}
 									name="commissions[{i}].startDate"
-									label={'Start date'}
+									label="Start date"
 									bind:date={$formData.commissions[i].startDate}
 									showStartButtons
 								/>
@@ -107,7 +107,7 @@
 								<Form.CalendarField
 									{form}
 									name="commissions[{i}].endDate"
-									label={'End date'}
+									label="End date"
 									bind:date={$formData.commissions[i].endDate}
 									showEndButtons
 								/>

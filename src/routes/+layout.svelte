@@ -58,7 +58,7 @@
 	);
 </script>
 
-<Toaster expand={true} duration={5000} richColors position={'top-center'} />
+<Toaster expand={true} duration={5000} richColors position="top-center" />
 
 <Metadata />
 
@@ -70,7 +70,7 @@
 				<Sidebar.Trigger class="-ml-1" />
 				<Breadcrumb.Root class="hidden md:block">
 					<Breadcrumb.List>
-						{#each breadcrumbsLinks as breadcrumb, index}
+						{#each breadcrumbsLinks as breadcrumb, index (breadcrumb)}
 							{#if index === 0}
 								<Breadcrumb.Item>
 									{breadcrumb.label}

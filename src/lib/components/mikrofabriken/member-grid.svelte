@@ -43,7 +43,7 @@
 		<div class="mb-3 text-lg font-bold text-foreground">{label}</div>
 	{/if}
 	<div class="grid grid-cols-[repeat(auto-fill,minmax(4rem,1fr))] gap-4">
-		{#each members as member}
+		{#each members as member (member)}
 			<Button
 				onclick={() => selectMember(member)}
 				variant="ghost"

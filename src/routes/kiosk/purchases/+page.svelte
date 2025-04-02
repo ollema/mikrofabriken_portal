@@ -53,7 +53,7 @@
 					<DataTableToolbar {table} />
 				{/snippet}
 				{#snippet paginationControls(table)}
-					<DataTablePagination {table} rowName={'purchase'} showPerPage={false} />
+					<DataTablePagination {table} rowName="purchase" showPerPage={false} />
 				{/snippet}
 			</DataTable>
 		</Tabs.Content>
