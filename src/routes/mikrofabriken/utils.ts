@@ -68,6 +68,7 @@ export async function getFormattedMembersBasedOnCommissions(
 	const membersInMember = [];
 	const membersInAlternate = [];
 	const membersInAuditor = [];
+	const membersInPortalAdmin = [];
 	const membersInNomination = [];
 	const membersInGroupEconomy = [];
 	const membersInGroupGate = [];
@@ -107,6 +108,9 @@ export async function getFormattedMembersBasedOnCommissions(
 						break;
 					case 'board/alternate':
 						membersInAlternate.push(member);
+						break;
+					case 'admin/portal':
+						membersInPortalAdmin.push(member);
 						break;
 					case 'auditor/member':
 						membersInAuditor.push(member);
@@ -236,6 +240,10 @@ export async function getFormattedMembersBasedOnCommissions(
 			{
 				label: 'committee/sponsorships',
 				members: await Promise.all(membersInGroupSpons.map(formatMember(here)))
+			},
+			{
+				label: 'admin/portal',
+				members: await Promise.all(membersInPortalAdmin.map(formatMember(here)))
 			}
 		],
 		omks: [
