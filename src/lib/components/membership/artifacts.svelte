@@ -25,15 +25,15 @@
 <div class="space-y-4">
 	{#each activeRFIDArtifacts as activeRFIDArtifact (activeRFIDArtifact)}
 		<IconEntry Icon={Nfc}>
-			RFID tag
+			RFID-tagg
 			<span class="font-mono">[{activeRFIDArtifact.attributes?.data}]</span>
-			since {activeRFIDArtifact.startDate}
+			sedan {activeRFIDArtifact.startDate}
 		</IconEntry>
 	{/each}
 
 	{#each activeKeyArtifacts as activeKeyArtifact (activeKeyArtifact)}
 		<IconEntry Icon={KeyRound}>
-			Entrusted with key #{activeKeyArtifact.attributes?.number ?? 0} since {activeKeyArtifact.startDate}
+			Nyckel #{activeKeyArtifact.attributes?.number ?? 0} sedan {activeKeyArtifact.startDate}
 		</IconEntry>
 	{/each}
 </div>

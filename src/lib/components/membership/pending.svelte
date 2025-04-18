@@ -14,9 +14,9 @@
 </script>
 
 <Alert.Root class="my-6 w-full">
-	<Alert.Title class="text-lg font-semibold">Heads up!</Alert.Title>
+	<Alert.Title class="text-lg font-semibold">Observera!</Alert.Title>
 	<Alert.Description class="mt-2">
-		<div>There is a merge request for this member under review.</div>
+		<div>Det finns ett förslag på ändring som väntar på godkännande.</div>
 		{#if sourceBranch && link}
 			<a
 				href={link}
@@ -30,7 +30,7 @@
 		{/if}
 		<div class="mt-4 flex items-center space-x-2">
 			<Switch bind:checked={showPending} id="show-pending" />
-			<Label for="show-pending" class="font-semibold">Show pending changes</Label>
+			<Label for="show-pending" class="font-semibold">Visa föreslagna ändringar</Label>
 		</div>
 	</Alert.Description>
 </Alert.Root>

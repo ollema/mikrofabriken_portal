@@ -18,8 +18,8 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Board</PageHeader.Title>
-			<PageHeader.Description>Board of Mikrofabriken.</PageHeader.Description>
+			<PageHeader.Title>Styrelsen</PageHeader.Title>
+			<PageHeader.Description>Mikrofabrikens styrelse.</PageHeader.Description>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 

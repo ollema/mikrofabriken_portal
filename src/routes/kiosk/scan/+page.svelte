@@ -61,8 +61,8 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Scan products</PageHeader.Title>
-			<PageHeader.Description>Scan and purchase products.</PageHeader.Description>
+			<PageHeader.Title>Skanna produkter</PageHeader.Title>
+			<PageHeader.Description>Skanna och köp produkter i kiosken.</PageHeader.Description>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 

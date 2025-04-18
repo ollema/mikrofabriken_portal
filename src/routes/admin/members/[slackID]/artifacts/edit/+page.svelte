@@ -66,7 +66,8 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Edit {appendPossessive(data.member.name)} RFID-tags & keys</PageHeader.Title
+			<PageHeader.Title
+				>Redigera {appendPossessive(data.member.name)} RFID-taggar & nycklar</PageHeader.Title
 			>
 		</PageHeader.Heading>
 	</PageHeader.Root>
@@ -75,12 +76,12 @@
 
 	<form method="POST" class="flex max-w-lg flex-col gap-4" use:enhance>
 		<Form.Fieldset {form} name="rfidTags">
-			<Form.Legend class="text-xl">RFID-tags</Form.Legend>
+			<Form.Legend class="text-xl">RFID-taggar</Form.Legend>
 			{#if $formData.rfidTags.length > 0}
 				<div class="flex flex-col gap-4">
 					{#each Array.from(Array($formData.rfidTags.length).keys()) as i (i)}
 						<div class="rounded-md border border-muted p-4">
-							<Form.Legend class="text-lg">RFID-tag #{i + 1}</Form.Legend>
+							<Form.Legend class="text-lg">RFID-tagg #{i + 1}</Form.Legend>
 
 							<Form.Status endDate={$formData.rfidTags[i].endDate} />
 
@@ -88,14 +89,14 @@
 								<Form.CalendarField
 									{form}
 									name="rfidTags[{i}].startDate"
-									label="Start date"
+									label="Start"
 									bind:date={$formData.rfidTags[i].startDate}
 								/>
 
 								<Form.CalendarField
 									{form}
 									name="rfidTags[{i}].endDate"
-									label="End date"
+									label="Slut"
 									bind:date={$formData.rfidTags[i].endDate}
 								/>
 
@@ -126,7 +127,7 @@
 									class="w-full hover:border-red-900"
 									onclick={() => removeRFIDTag(i)}
 								>
-									Remove RFID-tag #{i + 1}
+									Ta bort RFID-tagg #{i + 1}
 								</Button>
 							</div>
 						</div>
@@ -136,17 +137,17 @@
 			{/if}
 
 			<Button type="button" variant="secondary" class="w-full" onclick={addRFIDTag}>
-				Add new RFID-tag
+				Lägg till ny RFID-tagg
 			</Button>
 		</Form.Fieldset>
 
 		<Form.Fieldset {form} name="keys">
-			<Form.Legend class="text-xl">Keys</Form.Legend>
+			<Form.Legend class="text-xl">Nycklar</Form.Legend>
 			{#if $formData.keys.length > 0}
 				<div class="flex flex-col gap-4">
 					{#each Array.from(Array($formData.keys.length).keys()) as i (i)}
 						<div class="rounded-md border border-muted p-4">
-							<Form.Legend class="text-lg">Key #{i + 1}</Form.Legend>
+							<Form.Legend class="text-lg">Nyckel #{i + 1}</Form.Legend>
 
 							<Form.Status endDate={$formData.keys[i].endDate} />
 
@@ -154,21 +155,21 @@
 								<Form.CalendarField
 									{form}
 									name="keys[{i}].startDate"
-									label="Start date"
+									label="Start"
 									bind:date={$formData.keys[i].startDate}
 								/>
 
 								<Form.CalendarField
 									{form}
 									name="keys[{i}].endDate"
-									label="End date"
+									label="Slut"
 									bind:date={$formData.keys[i].endDate}
 								/>
 
 								<Form.ElementField {form} name="keys[{i}].number">
 									<Form.Control>
 										{#snippet children({ props })}
-											<Form.Label>Key number</Form.Label>
+											<Form.Label>Nyckelnummer</Form.Label>
 											<Input
 												type="number"
 												min="0"
@@ -181,8 +182,8 @@
 										{/snippet}
 									</Form.Control>
 									<Form.Description class="text-xs">
-										<div>Number of the key.</div>
-										<div>Not to be confused with the enumeration in this form.</div>
+										<div>Numret på nyckeln.</div>
+										<div>Ska inte blandas ihop med numreringen i det här formuläret.</div>
 									</Form.Description>
 								</Form.ElementField>
 
@@ -192,7 +193,7 @@
 									class="w-full hover:border-red-900"
 									onclick={() => removeKey(i)}
 								>
-									Remove key #{i + 1}
+									Ta bort nyckel #{i + 1}
 								</Button>
 							</div>
 						</div>
@@ -200,9 +201,11 @@
 				</div>
 				<Form.FieldErrors />
 			{/if}
-			<Button type="button" variant="secondary" class="w-full" onclick={addKey}>Add new key</Button>
+			<Button type="button" variant="secondary" class="w-full" onclick={addKey}
+				>Lägg till ny nyckel</Button
+			>
 		</Form.Fieldset>
 
-		<Form.SubmitButton {delayed} label="Submit change request" />
+		<Form.SubmitButton {delayed} label="Skicka förslag på ändring" />
 	</form>
 </div>

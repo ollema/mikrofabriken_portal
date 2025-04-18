@@ -31,33 +31,33 @@
 {/snippet}
 
 {#snippet profile(member: Member)}
-	<div class="mb-4 w-full text-xl">Personal information</div>
+	<div class="mb-4 w-full text-xl">Personlig information</div>
 
 	<PersonalInfo {member} />
 
 	{#if member.company}
-		{@render subtitle('Company information')}
+		{@render subtitle('Företagsinformation')}
 		<Company company={member.company} />
 	{/if}
 
-	{@render subtitle('ICE contacts')}
+	{@render subtitle('ICE-kontakter ')}
 	<IceContacts iceContacts={member.iceContacts} />
 
-	{@render subtitle('Work pools')}
+	{@render subtitle('Arbetspooler')}
 	<WorkPools workPools={member.workPools} {workPoolNameMapping} />
 
 	{#if member.agreements.filter((agreement) => isAgreementActive(agreement)).length > 0}
-		{@render subtitle('Agreements')}
+		{@render subtitle('Avtal')}
 		<Agreements agreements={member.agreements} />
 	{/if}
 
 	{#if member.artifacts.filter((artifact) => isArtifactActive(artifact)).length > 0}
-		{@render subtitle('RFID tags & keys')}
+		{@render subtitle('RFID taggar & nycklar')}
 		<Artifacts artifacts={member.artifacts} />
 	{/if}
 
 	{#if member.commissions.filter((commission) => isCommissionActive(commission)).length > 0}
-		{@render subtitle('Roles')}
+		{@render subtitle('Roller')}
 		<Commissions commissions={member.commissions} />
 	{/if}
 {/snippet}

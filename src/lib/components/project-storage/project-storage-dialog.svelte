@@ -80,7 +80,7 @@
 
 {#snippet reserveContent()}
 	<div class="text-xl font-semibold">
-		Reserve {storage?.name.replace(/storage(Short|Medium)Term\//, '').toUpperCase()}?
+		Boka {storage?.name.replace(/storage(Short|Medium)Term\//, '').toUpperCase()}?
 	</div>
 
 	<form
@@ -94,13 +94,13 @@
 	</form>
 
 	<div class="mt-4 flex w-full flex-col-reverse gap-4 self-center md:w-fit md:flex-row md:self-end">
-		<Button class="h-12 w-full md:w-fit" variant="outline" onclick={closeDialog}>Cancel</Button>
+		<Button class="h-12 w-full md:w-fit" variant="outline" onclick={closeDialog}>Avbryt</Button>
 		<Button id="confirm-storage" class="h-12 w-full md:w-fit" onclick={submitForm}>
 			{#if processing}
 				<LoaderCircle class="animate-spin" />
-				Processing...
+				Laddar...
 			{:else}
-				Confirm
+				Bekräfta
 			{/if}
 		</Button>
 	</div>
@@ -108,11 +108,11 @@
 
 {#snippet releaseContent()}
 	<div class="text-xl font-semibold">
-		Release {storage?.name.replace(/storage(Short|Medium)Term\//, '').toUpperCase()}?
+		Avboka {storage?.name.replace(/storage(Short|Medium)Term\//, '').toUpperCase()}?
 	</div>
 	<div class="mt-2 text-muted-foreground">
-		Reserved by {storage?.period?.member?.name}<br />
-		since {storage?.period?.start
+		Bokad av dig<br />
+		sedan {storage?.period?.start
 			.toISOString()
 			.replace('T', ' ')
 			.replace(/\.\d{3}Z/, '')}
@@ -129,7 +129,7 @@
 	</form>
 
 	<div class="mt-4 flex w-full flex-col-reverse gap-4 self-center md:w-fit md:flex-row md:self-end">
-		<Button class="h-12 w-full md:w-fit" variant="outline" onclick={closeDialog}>Cancel</Button>
+		<Button class="h-12 w-full md:w-fit" variant="outline" onclick={closeDialog}>Avbryt</Button>
 		<Button
 			id="confirm-storage"
 			class="h-12 w-full md:w-fit"
@@ -138,9 +138,9 @@
 		>
 			{#if processing}
 				<LoaderCircle class="animate-spin" />
-				Processing...
+				Laddar...
 			{:else}
-				Confirm
+				Bekräfta
 			{/if}
 		</Button>
 	</div>
@@ -148,15 +148,15 @@
 
 {#snippet occupiedContent()}
 	<div class="text-xl font-semibold">
-		{storage?.name.replace(/storage(Short|Medium)Term\//, '').toUpperCase()} is occupied
+		{storage?.name.replace(/storage(Short|Medium)Term\//, '').toUpperCase()} är upptagen
 	</div>
 	<div class="mt-2 text-muted-foreground">
-		Reserved by {storage?.period?.member?.name}<br />
-		since {periodSince}
+		Bokad av {storage?.period?.member?.name}<br />
+		sedan {periodSince}
 	</div>
 
 	<div class="mt-4 flex w-full justify-end">
-		<Button class="h-12 w-full md:w-fit" variant="outline" onclick={closeDialog}>Close</Button>
+		<Button class="h-12 w-full md:w-fit" variant="outline" onclick={closeDialog}>Stäng</Button>
 	</div>
 {/snippet}
 

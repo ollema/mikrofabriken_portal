@@ -15,10 +15,10 @@
 </script>
 
 <Alert.Root class="my-6 w-full max-w-lg">
-	<Alert.Title class="text-lg font-semibold">Note:</Alert.Title>
+	<Alert.Title class="text-lg font-semibold">Observera:</Alert.Title>
 	<Alert.Description class="mt-2 space-y-2">
-		<div>Each merge request will be reviewed by an admin before being applied.</div>
-		<div>This means that your requested changes will not be active immediately.</div>
+		<div>Varje ändring behöver godkännas manuellt av en administratör.</div>
+		<div>Det innebär att föreslagna ändringar inte börjar gälla direkt.</div>
 	</Alert.Description>
 </Alert.Root>
 

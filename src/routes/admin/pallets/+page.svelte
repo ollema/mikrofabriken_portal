@@ -13,7 +13,7 @@
 			<Table.Header>
 				<Table.Row>
 					<Table.Head class="w-4">#</Table.Head>
-					<Table.Head>Member</Table.Head>
+					<Table.Head>Medlem</Table.Head>
 				</Table.Row>
 			</Table.Header>
 			<Table.Body>
@@ -39,8 +39,7 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Pallets</PageHeader.Title>
-			<PageHeader.Description>Overview of pallet agreements.</PageHeader.Description>
+			<PageHeader.Title>Pallplatser</PageHeader.Title>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 

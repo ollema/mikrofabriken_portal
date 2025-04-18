@@ -91,7 +91,7 @@
 						!dateValue && 'text-muted-foreground'
 					)}
 				>
-					{dateValue ? df.format(dateValue.toDate(getLocalTimeZone())) : 'Pick a date'}
+					{dateValue ? df.format(dateValue.toDate(getLocalTimeZone())) : 'Välj ett datum'}
 					<CalendarIcon class="ml-auto size-4 opacity-50" />
 				</Popover.Trigger>
 				<Popover.Content class="w-auto p-0" side="top">
@@ -124,7 +124,7 @@
 					date = today(getLocalTimeZone()).set({ day: 1, month: 1 }).toString();
 				}}
 			>
-				Start of year
+				Årets första dag
 			</Button>
 			<Button
 				size="sm"
@@ -133,7 +133,7 @@
 					date = today(getLocalTimeZone()).cycle('year', 1).set({ day: 1, month: 1 }).toString();
 				}}
 			>
-				Start of next year
+				Nästa års första dag
 			</Button>
 		</div>
 	{/if}
@@ -147,7 +147,7 @@
 					date = today(getLocalTimeZone()).set({ day: 31, month: 12 }).toString();
 				}}
 			>
-				End of year
+				Årets sista dag
 			</Button>
 			<Button
 				size="sm"
@@ -156,7 +156,7 @@
 					date = today(getLocalTimeZone()).cycle('year', 1).set({ day: 31, month: 12 }).toString();
 				}}
 			>
-				End of next year
+				Nästa års sista dag
 			</Button>
 		</div>
 	{/if}

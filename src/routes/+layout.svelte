@@ -7,7 +7,7 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import AppSidebar from '$lib/components/app-sidebar.svelte';
 	import * as Breadcrumb from '$lib/components/ui/breadcrumb/index.js';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
 	import '../app.css';
 
@@ -41,7 +41,7 @@
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
 
-	let breadcrumbs = $derived($page.url.pathname.split('/').filter((x) => x !== ''));
+	let breadcrumbs = $derived(page.url.pathname.split('/').filter((x) => x !== ''));
 	let breadcrumbsLinks = $derived(
 		breadcrumbs.map((breadcrumb, index) => {
 			const href = '/' + breadcrumbs.slice(0, index + 1).join('/');
@@ -92,7 +92,7 @@
 				<div class="flex gap-2 md:hidden">
 					<a href="/" class="ml-0.5 flex flex-col gap-0.5 text-sm leading-none">
 						<span class="font-semibold">Mikrofabriken</span>
-						<span>Membership Portal</span>
+						<span>Medlemsportal</span>
 					</a>
 				</div>
 			</header>

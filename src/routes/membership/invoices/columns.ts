@@ -20,13 +20,13 @@ export const columns: ColumnDef<Invoice>[] = [
 		header: ({ column }) =>
 			renderComponent(DataTableColumnHeader<Invoice, unknown>, {
 				column,
-				title: 'Due'
+				title: 'Förfallodatum'
 			})
 	},
 	{
 		id: 'Paid',
 		accessorKey: 'FinalPayDate',
-		header: 'Paid',
+		header: 'Betaldatum',
 		cell: ({ row }) => {
 			if (row.original.FinalPayDate !== null) {
 				return row.original.FinalPayDate;
@@ -38,6 +38,6 @@ export const columns: ColumnDef<Invoice>[] = [
 	{
 		id: 'Invoice',
 		accessorKey: 'DocumentNumber',
-		header: 'Invoice'
+		header: 'Faktura'
 	}
 ];

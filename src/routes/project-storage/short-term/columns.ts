@@ -6,7 +6,7 @@ import { fromDate, toCalendarDate, toTime } from '@internationalized/date';
 
 export const columns: ColumnDef<Period & { cost: number | null }>[] = [
 	{
-		id: 'Resource',
+		id: 'Ruta',
 		accessorKey: 'resourceName',
 		accessorFn: (row) => {
 			return row.resourceName.replace('storageShortTerm/', '').toUpperCase();
@@ -14,11 +14,12 @@ export const columns: ColumnDef<Period & { cost: number | null }>[] = [
 		header: ({ column }) =>
 			renderComponent(DataTableColumnHeader<Period & { cost: number | null }, unknown>, {
 				column,
-				title: 'Resource'
+				title: 'Ruta'
 			})
 	},
 	{
 		id: 'Start',
+		accessorKey: 'start',
 		accessorFn: (row) => {
 			const date = fromDate(row.start, 'Europe/Stockholm');
 			return toCalendarDate(date) + ' ' + toTime(date).toString().split('.')[0];
@@ -30,7 +31,8 @@ export const columns: ColumnDef<Period & { cost: number | null }>[] = [
 			})
 	},
 	{
-		id: 'End',
+		id: 'Slut',
+		accessorKey: 'end',
 		accessorFn: (row) => {
 			if (row.end) {
 				const date = fromDate(row.end, 'Europe/Stockholm');
@@ -42,16 +44,16 @@ export const columns: ColumnDef<Period & { cost: number | null }>[] = [
 		header: ({ column }) =>
 			renderComponent(DataTableColumnHeader<Period & { cost: number | null }, unknown>, {
 				column,
-				title: 'End'
+				title: 'Slut'
 			})
 	},
 	{
-		id: 'Cost',
+		id: 'Kostnad',
 		accessorFn: (row) => (row.cost ? `${row.cost.toFixed(2)} kr` : '-'),
 		header: ({ column }) =>
 			renderComponent(DataTableColumnHeader<Period & { cost: number | null }, unknown>, {
 				column,
-				title: 'Cost'
+				title: 'Kostnad'
 			})
 	}
 ];

@@ -30,7 +30,7 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Delete product</PageHeader.Title>
+			<PageHeader.Title>Ta bort produkt</PageHeader.Title>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
@@ -38,7 +38,7 @@
 		<Form.Field {form} name="uuid">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Name</Form.Label>
+					<Form.Label>UUID</Form.Label>
 					<Input
 						{...props}
 						bind:value={$formData.uuid}
@@ -50,6 +50,6 @@
 			<Form.FieldErrors />
 		</Form.Field>
 
-		<Form.SubmitButton {delayed} label="Delete product" variant="destructive" />
+		<Form.SubmitButton {delayed} label="Ta bort produkt" variant="destructive" />
 	</form>
 </div>

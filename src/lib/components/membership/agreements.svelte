@@ -60,19 +60,19 @@
 		<IconEntry {Icon}>
 			{agreementToHumanReadable(agreement.type)}
 			{#if agreement.type === 'asylumInside' || agreement.type === 'asylumOutside'}
-				of size {agreement.attributes.size} m<sup>2</sup>
+				av storlek {agreement.attributes.size} m<sup>2</sup>
 			{:else if agreement.type === 'palletInside' || agreement.type === 'palletOutside'}
-				with IDs {agreement.attributes.palletIds.join(', ')}
+				med IDs {agreement.attributes.palletIds.join(', ')}
 			{/if}
-			since {agreement.startDate}
+			sedan {agreement.startDate}
 		</IconEntry>
 		{#if index === 1 && (agreement.type === 'membership' || agreement.type === 'investment')}
 			<Alert.Root class="my-6 w-full max-w-screen-md" variant="destructive">
-				<Alert.Title class="text-lg font-semibold">Heads up!</Alert.Title>
+				<Alert.Title class="text-lg font-semibold">Obs!</Alert.Title>
 				<Alert.Description class="mt-2">
 					<div>
-						You have more than one active {agreementToHumanReadable(agreement.type)} agreement. This
-						is unexpected. Please contact the board.
+						Du har mer än 1 aktivt {agreementToHumanReadable(agreement.type)} avtal. Det var oväntat.
+						Kontakta styrelsen för att få hjälp med att lösa det.
 					</div>
 				</Alert.Description>
 			</Alert.Root>

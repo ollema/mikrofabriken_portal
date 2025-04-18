@@ -16,7 +16,7 @@
 <div class="space-y-2">
 	{#each activeCommissions as commission (commission)}
 		<div class="text-sm">
-			{commission.type} since {commission.startDate}
+			{commission.type} sedan {commission.startDate}
 		</div>
 	{/each}
 </div>

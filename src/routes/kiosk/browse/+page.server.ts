@@ -31,6 +31,6 @@ export const actions = {
 
 		await purchaseProduct(token, data);
 
-		setFlash({ type: 'success', message: 'Purchase successful!' }, event);
+		setFlash({ type: 'success', message: 'Köp genomfört!' }, event);
 	}
 };

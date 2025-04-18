@@ -32,18 +32,18 @@
 
 <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 	<div class="flex flex-col gap-4 text-sm">
-		<Item label="Name" value={company.name} />
-		<Item label="Org. num" value={company.orgNum} />
-		<Item label="Email" value={company.email || ''} />
+		<Item label="Företagets namn" value={company.name} />
+		<Item label="Organisationsnummer" value={company.orgNum} />
+		<Item label="Företagets email" value={company.email || ''} />
 	</div>
 	<div class="flex flex-col gap-4 text-sm">
-		<Item label="Address" value={company.postalAdress} />
-		<Item label="Postal code" value={company.postalCode} />
-		<Item label="City" value={company.postalCity} />
+		<Item label="Företagets adress" value={company.postalAdress} />
+		<Item label="Företagets postnummer" value={company.postalCode} />
+		<Item label="Företagets ort" value={company.postalCity} />
 	</div>
 	<div class="flex flex-col gap-4 text-sm">
-		<Item label="Categories in personal invoice" value={categoriesIncludedInPersonalInvoice} />
+		<Item label="Kategorier i personlig faktura" value={categoriesIncludedInPersonalInvoice} />
 		<div></div>
-		<Item label="Categories in company invoice" value={categoriesIncludedInCompanyInvoice} />
+		<Item label="Kategorier i företagets faktura" value={categoriesIncludedInCompanyInvoice} />
 	</div>
 </div>

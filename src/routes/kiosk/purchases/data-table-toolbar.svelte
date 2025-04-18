@@ -9,13 +9,13 @@
 
 <div class="flex items-center justify-between">
 	<Input
-		placeholder="Filter purchases..."
-		value={(table.getColumn('Name')?.getFilterValue() as string) ?? ''}
+		placeholder="Filtrera köp..."
+		value={(table.getColumn('Namn')?.getFilterValue() as string) ?? ''}
 		oninput={(e) => {
-			table.getColumn('Name')?.setFilterValue(e.currentTarget.value);
+			table.getColumn('Namn')?.setFilterValue(e.currentTarget.value);
 		}}
 		onchange={(e) => {
-			table.getColumn('Name')?.setFilterValue(e.currentTarget.value);
+			table.getColumn('Namn')?.setFilterValue(e.currentTarget.value);
 		}}
 		class="h-8 w-[150px] lg:w-[250px]"
 		autocomplete="off"

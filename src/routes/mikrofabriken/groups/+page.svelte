@@ -18,8 +18,8 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Other groups</PageHeader.Title>
-			<PageHeader.Description>Other groups at Mikrofabriken.</PageHeader.Description>
+			<PageHeader.Title>Övriga roller</PageHeader.Title>
+			<PageHeader.Description>Övriga roller i Mikrofabriken.</PageHeader.Description>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 

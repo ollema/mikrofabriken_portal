@@ -47,8 +47,8 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Edit ICE contacts</PageHeader.Title>
-			<PageHeader.Description>In Case of Emergency contacts.</PageHeader.Description>
+			<PageHeader.Title>Redigera ICE-kontakter</PageHeader.Title>
+			<PageHeader.Description>In Case of Emergency-kontakter.</PageHeader.Description>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
@@ -56,18 +56,18 @@
 
 	<form method="POST" class="flex max-w-lg flex-col gap-4" use:enhance>
 		<Form.Fieldset {form} name="iceContacts">
-			<Form.Legend class="text-xl">ICE contacts</Form.Legend>
+			<Form.Legend class="text-xl">ICE-kontakter.</Form.Legend>
 			{#if $formData.iceContacts.length > 0}
 				<div class="flex flex-col gap-4">
 					{#each Array.from(Array($formData.iceContacts.length).keys()) as i (i)}
 						<div class="rounded-md border border-muted p-4">
-							<Form.Legend class="text-lg">Contact #{i + 1}</Form.Legend>
+							<Form.Legend class="text-lg">Kontakt #{i + 1}</Form.Legend>
 
 							<div class="mt-4 flex flex-col gap-4">
 								<Form.ElementField {form} name="iceContacts[{i}].name">
 									<Form.Control>
 										{#snippet children({ props })}
-											<Form.Label>Name</Form.Label>
+											<Form.Label>Namn</Form.Label>
 											<Input
 												type="text"
 												class="w-full"
@@ -81,7 +81,7 @@
 								<Form.ElementField {form} name="iceContacts[{i}].phone">
 									<Form.Control>
 										{#snippet children({ props })}
-											<Form.Label>Phone</Form.Label>
+											<Form.Label>Telefonnummer</Form.Label>
 											<Input
 												type="text"
 												class="w-full"
@@ -98,7 +98,7 @@
 									class="w-full hover:border-red-900"
 									onclick={() => removeIceContact(i)}
 								>
-									Remove ICE contact #{i + 1}
+									Ta bort ICE-kontakt #{i + 1}
 								</Button>
 							</div>
 						</div>
@@ -108,10 +108,10 @@
 			{/if}
 
 			<Button type="button" variant="secondary" class="w-full" onclick={addIceContact}>
-				Add new ICE contact
+				Lägg till ny ICE-kontakt
 			</Button>
 		</Form.Fieldset>
 
-		<Form.SubmitButton {delayed} label="Submit change request" />
+		<Form.SubmitButton {delayed} label="Skicka förslag på ändring" />
 	</form>
 </div>

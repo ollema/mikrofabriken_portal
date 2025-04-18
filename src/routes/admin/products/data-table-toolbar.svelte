@@ -13,7 +13,7 @@
 	let { table }: { table: Table<Product> } = $props();
 
 	let isFiltered = $derived(table.getState().columnFilters.length > 0);
-	let categoryCol = $derived(table.getColumn('Category'));
+	let categoryCol = $derived(table.getColumn('Kategori'));
 	let categoryColOptions = $derived(
 		Array.from(categoryCol?.getFacetedUniqueValues().keys() ?? [])
 			.sort()
@@ -22,7 +22,7 @@
 				value
 			}))
 	);
-	let vatCol = $derived(table.getColumn('VAT'));
+	let vatCol = $derived(table.getColumn('Moms'));
 	let vatColOptions = $derived(
 		Array.from(vatCol?.getFacetedUniqueValues().keys() ?? [])
 			.sort()
@@ -45,7 +45,7 @@
 
 <div class="flex items-center justify-between">
 	<Input
-		placeholder="Filter products..."
+		placeholder="Filtrera produkter..."
 		value={(table.getColumn('Name')?.getFilterValue() as string) ?? ''}
 		oninput={(e) => {
 			table.getColumn('Name')?.setFilterValue(e.currentTarget.value);
@@ -58,9 +58,9 @@
 	/>
 	<div class="flex gap-2">
 		<Button onclick={gotoAddNewProduct} variant="outline" size="sm" class="h-8">
-			Add new product</Button
+			Lägg till ny produkt</Button
 		>
-		<Button onclick={gotoScan} variant="outline" size="sm" class="h-8">Scan</Button>
+		<Button onclick={gotoScan} variant="outline" size="sm" class="h-8">Skanna</Button>
 	</div>
 </div>
 
@@ -69,7 +69,7 @@
 		{#if categoryCol}
 			<DataTableFacetedFilter
 				column={categoryCol}
-				title="Category"
+				title="Kategori"
 				enableSearch={false}
 				options={categoryColOptions}
 			/>
@@ -78,7 +78,7 @@
 		{#if vatCol}
 			<DataTableFacetedFilter
 				column={vatCol}
-				title="VAT"
+				title="Moms"
 				enableSearch={false}
 				options={vatColOptions}
 			/>
@@ -86,7 +86,7 @@
 
 		{#if isFiltered}
 			<Button variant="ghost" onclick={() => table.resetColumnFilters()} class="h-8 px-2 text-xs">
-				Reset
+				Återställ
 				<X />
 			</Button>
 		{/if}

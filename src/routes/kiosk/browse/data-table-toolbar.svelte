@@ -12,7 +12,7 @@
 	let { table }: { table: Table<Product> } = $props();
 
 	let isFiltered = $derived(table.getState().columnFilters.length > 0);
-	let categoryCol = $derived(table.getColumn('Category'));
+	let categoryCol = $derived(table.getColumn('Kategori'));
 	let categoryColOptions = $derived(
 		Array.from(categoryCol?.getFacetedUniqueValues().keys() ?? [])
 			.sort()
@@ -24,13 +24,13 @@
 </script>
 
 <Input
-	placeholder="Filter products..."
-	value={(table.getColumn('Name')?.getFilterValue() as string) ?? ''}
+	placeholder="Filtrera produkter..."
+	value={(table.getColumn('Namn')?.getFilterValue() as string) ?? ''}
 	oninput={(e) => {
-		table.getColumn('Name')?.setFilterValue(e.currentTarget.value);
+		table.getColumn('Namn')?.setFilterValue(e.currentTarget.value);
 	}}
 	onchange={(e) => {
-		table.getColumn('Name')?.setFilterValue(e.currentTarget.value);
+		table.getColumn('Namn')?.setFilterValue(e.currentTarget.value);
 	}}
 	class="h-8 w-[150px] lg:w-[250px]"
 	autocomplete="off"
@@ -41,7 +41,7 @@
 		{#if categoryCol}
 			<DataTableFacetedFilter
 				column={categoryCol}
-				title="Category"
+				title="Kategori"
 				enableSearch={false}
 				options={categoryColOptions}
 			/>
@@ -49,7 +49,7 @@
 
 		{#if isFiltered}
 			<Button variant="ghost" onclick={() => table.resetColumnFilters()} class="h-8 px-2 text-xs">
-				Reset
+				Återställ
 				<X />
 			</Button>
 		{/if}

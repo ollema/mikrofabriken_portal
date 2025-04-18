@@ -21,7 +21,7 @@
 <Form.Button class="w-full" {variant}>
 	{#if $delayed}
 		<LoaderCircle class="animate-spin" />
-		Processing...
+		Laddar...
 	{:else}
 		{label}
 	{/if}

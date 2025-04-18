@@ -42,42 +42,41 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Invoice {data.invoice.DocumentNumber}</PageHeader.Title>
+			<PageHeader.Title>Faktura {data.invoice.DocumentNumber}</PageHeader.Title>
 		</PageHeader.Heading>
 		<PageHeader.Actions>
-			<Button variant="outline" size="sm" onclick={downloadPDF}>Download PDF</Button>
+			<Button variant="outline" size="sm" onclick={downloadPDF}>Ladda ner som PDF</Button>
 		</PageHeader.Actions>
 	</PageHeader.Root>
 
 	<div class="flex flex-col gap-4">
 		<Invoice.Root>
 			<Invoice.Group>
-				<Invoice.Item label="Name" value={data.invoice.CustomerName} />
-				<Invoice.Item label="Org. Number" value={data.invoice.OrganisationNumber} />
+				<Invoice.Item label="Namn" value={data.invoice.CustomerName} />
+				<Invoice.Item label="Person/organisationsnummer" value={data.invoice.OrganisationNumber} />
 				<Invoice.Item label="Customer Number" value={data.invoice.CustomerNumber} />
 			</Invoice.Group>
 			<Invoice.Group>
-				<Invoice.Item label="Address" value={data.invoice.Address1} />
-				<Invoice.Item label="Postal code" value={data.invoice.ZipCode} />
-				<Invoice.Item label="City" value={data.invoice.City} />
+				<Invoice.Item label="Adress" value={data.invoice.Address1} />
+				<Invoice.Item label="Postkod" value={data.invoice.ZipCode} />
+				<Invoice.Item label="Ort" value={data.invoice.City} />
 			</Invoice.Group>
 			<Invoice.Group>
 				<Invoice.Item label="OCR" value={data.invoice.OCR} />
-				<Invoice.Item label="Invoice Date" value={data.invoice.InvoiceDate} />
-				<Invoice.Item label="Due Date" value={data.invoice.DueDate} />
+				<Invoice.Item label="Faktureringsdatum" value={data.invoice.InvoiceDate} />
+				<Invoice.Item label="Förfallodatum" value={data.invoice.DueDate} />
 			</Invoice.Group>
 		</Invoice.Root>
 
 		<Invoice.Root>
 			<Invoice.Group>
-				<Invoice.Item label="Gross" value={data.invoice.Gross} />
-				<Invoice.Item label="Net" value={data.invoice.Net} />
-				<Invoice.Item label="VAT" value={data.invoice.TotalVAT} />
+				<Invoice.Item label="Exkl. moms" value={data.invoice.Gross} />
+				<Invoice.Item label="Moms" value={data.invoice.TotalVAT} />
+				<Invoice.Item label="Öresutjämning" value={data.invoice.RoundOff} />
 			</Invoice.Group>
 			<Invoice.Group>
-				<Invoice.Item label="Round Off" value={data.invoice.RoundOff} />
-				<Invoice.Item label="Total" value={data.invoice.TotalToPay} />
-				<Invoice.Item label="Paid Date" value={data.invoice.FinalPayDate || '-'} />
+				<Invoice.Item label="Totalt" value={data.invoice.TotalToPay} />
+				<Invoice.Item label="Betaldatum" value={data.invoice.FinalPayDate || '-'} />
 			</Invoice.Group>
 		</Invoice.Root>
 

@@ -47,14 +47,12 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Medium term project storage</PageHeader.Title>
-			<PageHeader.Description>
-				When short term project storage is not enough.
-			</PageHeader.Description>
+			<PageHeader.Title>Tillfälliga projektytor</PageHeader.Title>
+			<PageHeader.Description>När schackrutor inte räcker till.</PageHeader.Description>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
-	<div class="mb-4 text-muted-foreground">Click to book/release a square.</div>
+	<div class="mb-4 text-muted-foreground">Klicka på en ruta för att boka/avboka.</div>
 
 	<div class="flex max-w-screen-md flex-col items-start gap-2">
 		<div class="grid auto-cols-[60px] grid-flow-col justify-start gap-2 sm:auto-cols-[70px]">
@@ -66,10 +64,10 @@
 </div>
 
 <div class="mt-8 max-w-screen-md">
-	<h2 class="mb-2 w-full text-lg">History</h2>
+	<h2 class="mb-2 w-full text-lg">Dina bokningar</h2>
 	<DataTable data={data.storagePeriods} {columns} {params}>
 		{#snippet paginationControls(table)}
-			<DataTablePagination {table} rowName="period" showPerPage={true} />
+			<DataTablePagination {table} rowName="bokningar" showPerPage={true} />
 		{/snippet}
 	</DataTable>
 </div>
