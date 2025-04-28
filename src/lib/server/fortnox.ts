@@ -11,7 +11,7 @@ import { env } from '$env/dynamic/private';
 /**
  * The base URL for the Fortnox API.
  */
-const BASE_URL = 'https://api.fortnox.se/3';
+const BASE_URL = 'https://fnp.mikrofabriken.se/proxy/3';
 
 /**
  * Sends a GET request to the Fortnox API with the specified path and returns the response as JSON.
@@ -22,14 +22,19 @@ const get = async (path: string) => {
 	const headers = {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
-		'Access-Token': env.FORTNOX_ACCESS_TOKEN as string,
-		'Client-Secret': env.FORTNOX_CLIENT_SECRET as string
+		Authorization: env.FNP_KEY as string
 	};
 
 	const response = await fetch(`${BASE_URL}${path}`, {
 		method: 'GET',
 		headers
 	});
+
+	if (!response.ok) {
+		const error = await response.text();
+		throw new Error(`Fortnox API error: ${response.status} - ${error}`);
+	}
+
 	return await response.json();
 };
 
