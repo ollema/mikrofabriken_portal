@@ -167,9 +167,8 @@ export const downloadInvoicePdf = async (documentNumber: string) => {
 	const headers = {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
-		'Access-Token': env.FORTNOX_ACCESS_TOKEN as string,
-		'Client-Secret': env.FORTNOX_CLIENT_SECRET as string
-	};
+		Authorization: env.FNP_KEY as string
+	}
 
 	const response = await fetch(`${BASE_URL}/invoices/${documentNumber}/print`, {
 		method: 'GET',
