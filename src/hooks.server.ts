@@ -4,6 +4,18 @@ import { hasClaim } from '$lib/utils/cog';
 import { getMember } from '$lib/server/members';
 import { getWorkPools } from '$lib/server/workpools';
 import { isCommissionActive } from '$lib/utils/member';
+import { dev } from '$app/environment';
+import { env } from '$env/dynamic/private';
+
+// MSW setup for mocking in development
+if (dev && env.MOCK === 'true') {
+	const { server } = await import('$lib/mocks/server');
+	server.listen({
+		onUnhandledRequest: (request) => {
+			console.log(`[MSW] Unhandled request: ${request.method} ${request.url}`);
+		}
+	});
+}
 
 const handleAuth: Handle = async ({ event, resolve }) => {
 	// these flags passed to the the client through +layout.server.ts

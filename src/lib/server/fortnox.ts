@@ -11,7 +11,7 @@ import { env } from '$env/dynamic/private';
 /**
  * The base URL for the Fortnox API.
  */
-const BASE_URL = 'https://fnp.mikrofabriken.se/proxy/3';
+export const BASE_URL = 'https://fnp.mikrofabriken.se/proxy/3' as const;
 
 /**
  * Sends a GET request to the Fortnox API with the specified path and returns the response as JSON.

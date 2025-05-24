@@ -4,6 +4,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
+		"dev:mock": "MOCK=true vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -13,8 +14,10 @@
 		"db:push": "drizzle-kit push"
 	},
 	"devDependencies": {
+		"@faker-js/faker": "^9.8.0",
 		"@internationalized/date": "^3.8.0",
 		"@lucide/svelte": "^0.509.0",
+		"@mswjs/data": "^0.16.2",
 		"@sveltejs/adapter-node": "^5.2.12",
 		"@sveltejs/kit": "^2.20.8",
 		"@sveltejs/vite-plugin-svelte": "^5.0.3",
@@ -42,6 +45,7 @@
 		"lru-cache": "^11.1.0",
 		"lucide-svelte": "^0.509.0",
 		"mode-watcher": "^1.0.7",
+		"msw": "^2.8.4",
 		"prettier": "^3.5.3",
 		"prettier-plugin-svelte": "^3.3.3",
 		"prettier-plugin-tailwindcss": "^0.6.11",
