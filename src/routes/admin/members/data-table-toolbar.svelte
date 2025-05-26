@@ -1,5 +1,5 @@
 <script lang="ts">
-	import X from 'lucide-svelte/icons/x';
+	import X from '@lucide/svelte/icons/x';
 	import type { Table } from '@tanstack/table-core';
 	import {
 		DataTableFacetedFilter,

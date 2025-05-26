@@ -4,7 +4,7 @@
 </script>
 
 <script lang="ts" generics="TData, TValue">
-	import Check from 'lucide-svelte/icons/check';
+	import Check from '@lucide/svelte/icons/check';
 	import type { Column } from '@tanstack/table-core';
 	import { SvelteSet } from 'svelte/reactivity';
 	import * as Command from '$lib/components/ui/command/index.js';
@@ -14,7 +14,7 @@
 	import { Separator } from '$lib/components/ui/separator/index.js';
 	import { Badge } from '$lib/components/ui/badge/index.js';
 	import type { ComponentType } from 'svelte';
-	import type { Icon } from 'lucide-svelte';
+	import type { Icon } from '@lucide/svelte';
 
 	type Props<TData, TValue> = {
 		column: Column<TData, TValue>;

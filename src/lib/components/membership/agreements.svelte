@@ -4,13 +4,13 @@
 	import { agreementToHumanReadable, isAgreementActive } from '$lib/utils/member.js';
 	import * as Alert from '$lib/components/ui/alert/index.js';
 	import { type ComponentType } from 'svelte';
-	import { type Icon } from 'lucide-svelte';
+	import { type Icon } from '@lucide/svelte';
 	import Mikrofabriken from '$lib/icons/mikrofabriken.svelte';
-	import Banknote from 'lucide-svelte/icons/banknote';
-	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
-	import Box from 'lucide-svelte/icons/box';
-	import Container from 'lucide-svelte/icons/container';
-	import Package from 'lucide-svelte/icons/package';
+	import Banknote from '@lucide/svelte/icons/banknote';
+	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
+	import Box from '@lucide/svelte/icons/box';
+	import Container from '@lucide/svelte/icons/container';
+	import Package from '@lucide/svelte/icons/package';
 
 	interface Props {
 		agreements: Agreement[];
