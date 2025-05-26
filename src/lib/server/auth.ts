@@ -51,7 +51,7 @@ export async function validateSessionToken(token: string) {
 		.innerJoin(table.user, eq(table.session.userId, table.user.id))
 		.where(eq(table.session.id, sessionId));
 
-	if (!result) {
+	if (result == null) {
 		return { session: null, user: null };
 	}
 	const { session, user } = result;
