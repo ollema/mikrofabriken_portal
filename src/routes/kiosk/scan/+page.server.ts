@@ -1,7 +1,7 @@
+import { setFlash } from 'sveltekit-flash-message/server';
 import { getToken, getUser } from '$lib/server/auth.js';
 import { getMember } from '$lib/server/members.js';
 import { purchaseProduct } from '$lib/server/cog.js';
-import { setFlash } from 'sveltekit-flash-message/server';
 import { PurchaseSchema } from '$lib/schemas/cog.js';
 
 export async function load({ locals, url }) {

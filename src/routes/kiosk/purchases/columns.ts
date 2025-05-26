@@ -3,7 +3,7 @@ import type { HistoricPurchase } from '$lib/types/cog.js';
 import { renderComponent } from '$lib/components/ui/data-table/index.js';
 import { DataTableColumnHeader } from '$lib/components/data-table/index.js';
 
-export const columns: ColumnDef<HistoricPurchase>[] = [
+export const columns: Array<ColumnDef<HistoricPurchase>> = [
 	{
 		id: 'Namn',
 		accessorKey: 'productName',

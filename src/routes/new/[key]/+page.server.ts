@@ -1,13 +1,13 @@
+import { createHash } from 'node:crypto';
 import { error, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
-import { getMembers } from '$lib/server/members.js';
 import { newMemberFormSchema } from './schema.js';
-import { createHash } from 'crypto';
+import { getMembers } from '$lib/server/members.js';
 import {
-	getPendingUpdateForNewMembers,
 	getNewMemberOptions,
+	getPendingUpdateForNewMembers,
 	suggestChange,
 	updateRepo
 } from '$lib/server/gitlab.js';

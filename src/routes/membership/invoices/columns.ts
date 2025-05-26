@@ -1,9 +1,9 @@
 import type { ColumnDef } from '@tanstack/table-core';
 import type { Invoice } from '$lib/types/fortnox.js';
 import { renderComponent } from '$lib/components/ui/data-table/index.js';
-import { DataTableColumnHeader, DataTableBooleanCell } from '$lib/components/data-table/index.js';
+import { DataTableBooleanCell, DataTableColumnHeader } from '$lib/components/data-table/index.js';
 
-export const columns: ColumnDef<Invoice>[] = [
+export const columns: Array<ColumnDef<Invoice>> = [
 	{
 		id: 'Status',
 		accessorKey: 'FinalPayDate',

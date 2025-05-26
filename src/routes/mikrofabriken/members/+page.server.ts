@@ -1,7 +1,7 @@
+import { getFormattedMembers } from '../utils.js';
 import { getUser } from '$lib/server/auth.js';
 import { getOpenPeriods } from '$lib/server/cog.js';
 import { getMembers } from '$lib/server/members.js';
-import { getFormattedMembers } from '../utils.js';
 
 export const load = async ({ locals, url }) => {
 	getUser(locals, url);

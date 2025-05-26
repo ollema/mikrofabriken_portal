@@ -1,22 +1,22 @@
+import type { Member } from '$lib/types/members.js';
 import { isAgreementActive, isCommissionActive } from '$lib/utils/member.js';
 import { getAvatar } from '$lib/server/cog.js';
-import type { Member } from '$lib/types/members.js';
 
 const formatMember = (here: Record<string, boolean>) => async (member: Member) => {
 	return {
 		name: member.name,
 		avatar: await getAvatar(member.crNumber),
 		here: here[member.crNumber] || false,
-		commissions: member.commissions.reduce((acc: string[], commission) => {
+		commissions: member.commissions.reduce((acc: Array<string>, commission) => {
 			if (isCommissionActive(commission)) {
 				acc.push(commission.type);
 			}
 			return acc;
-		}, [] as string[])
+		}, [] as Array<string>)
 	};
 };
 
-export async function getFormattedMembers(members: Member[], here: Record<string, boolean>) {
+export async function getFormattedMembers(members: Array<Member>, here: Record<string, boolean>) {
 	const activeMembers = members.filter((member) => {
 		let hasActiveMembership = false;
 		let hasActivePassiveMembership = false;
@@ -40,7 +40,7 @@ export async function getFormattedMembers(members: Member[], here: Record<string
 }
 
 export async function getFormattedMembersBasedOnCommissions(
-	members: Member[],
+	members: Array<Member>,
 	here: Record<string, boolean>
 ) {
 	const activeMembers = members.filter((member) => {

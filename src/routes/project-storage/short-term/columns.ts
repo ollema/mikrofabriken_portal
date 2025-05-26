@@ -1,10 +1,10 @@
+import { fromDate, toCalendarDate, toTime } from '@internationalized/date';
 import type { ColumnDef } from '@tanstack/table-core';
+import type { Period } from '$lib/types/cog.js';
 import { renderComponent } from '$lib/components/ui/data-table/index.js';
 import { DataTableColumnHeader } from '$lib/components/data-table/index.js';
-import type { Period } from '$lib/types/cog.js';
-import { fromDate, toCalendarDate, toTime } from '@internationalized/date';
 
-export const columns: ColumnDef<Period & { cost: number | null }>[] = [
+export const columns: Array<ColumnDef<Period & { cost: number | null }>> = [
 	{
 		id: 'Ruta',
 		accessorKey: 'resourceName',
