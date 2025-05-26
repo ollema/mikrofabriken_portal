@@ -104,16 +104,12 @@ function populateFromCurrent(member: Member): z.infer<typeof rfidTagsFormSchema>
 
 	artifacts.forEach((artifact) => {
 		if (artifact.type === 'rfid') {
-			if (artifact.attributes?.data !== undefined && artifact.attributes.codeHash !== undefined) {
-				rfidTags.push({
-					startDate: artifact.startDate,
-					data: artifact.attributes.data,
-					codeHash: artifact.attributes.codeHash,
-					endDate: artifact.endDate
-				});
-			} else {
-				throw new Error('RFID artifact is missing data or codeHash');
-			}
+			rfidTags.push({
+				startDate: artifact.startDate,
+				data: artifact.attributes.data,
+				codeHash: artifact.attributes.codeHash,
+				endDate: artifact.endDate
+			});
 		}
 	});
 
