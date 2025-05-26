@@ -3,8 +3,7 @@
 	import type { Agreement } from '$lib/types/members.js';
 	import { agreementToHumanReadable, isAgreementActive } from '$lib/utils/member.js';
 	import * as Alert from '$lib/components/ui/alert/index.js';
-	import { type ComponentType } from 'svelte';
-	import { type Icon } from '@lucide/svelte';
+	import { type Icon as IconType } from '@lucide/svelte';
 	import Mikrofabriken from '$lib/icons/mikrofabriken.svelte';
 	import Banknote from '@lucide/svelte/icons/banknote';
 	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
@@ -54,7 +53,7 @@
 	Icon
 }: {
 	agreements: Agreement[];
-	Icon: ComponentType<Icon>;
+	Icon: typeof IconType;
 })}
 	{#each agreements as agreement, index (agreement)}
 		<IconEntry {Icon}>

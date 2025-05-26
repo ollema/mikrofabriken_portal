@@ -13,8 +13,7 @@
 	import { cn } from '$lib/utils.js';
 	import { Separator } from '$lib/components/ui/separator/index.js';
 	import { Badge } from '$lib/components/ui/badge/index.js';
-	import type { ComponentType } from 'svelte';
-	import type { Icon } from '@lucide/svelte';
+	import type { Icon as IconType } from '@lucide/svelte';
 
 	type Props<TData, TValue> = {
 		column: Column<TData, TValue>;
@@ -23,7 +22,7 @@
 		options: {
 			label: string;
 			value: string;
-			icon?: ComponentType<Icon>;
+			icon?: typeof IconType;
 		}[];
 	};
 

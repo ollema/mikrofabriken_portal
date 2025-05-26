@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { Icon as IconType } from '@lucide/svelte';
-	import type { ComponentType, Snippet } from 'svelte';
+	import type { Snippet } from 'svelte';
 
 	type Props = {
-		Icon?: ComponentType<IconType>;
+		Icon?: typeof IconType;
 		children?: Snippet;
 	};
 
