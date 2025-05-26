@@ -30,6 +30,13 @@ export default ts.config(
 		}
 	},
 	{
-		ignores: ['build/', '.svelte-kit/', 'dist/', '*.config.{ts,js}', '**/service-worker.ts']
+		ignores: [
+			'build/',
+			'.svelte-kit/',
+			'dist/',
+			'*.config.{ts,js}',
+			'**/service-worker.ts',
+			'**/components/ui/**'
+		]
 	}
 );
