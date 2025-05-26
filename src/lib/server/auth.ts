@@ -170,7 +170,7 @@ export function isAdmin(member: Member) {
 	}
 
 	// selected list of users are also admins
-	if (env.ADMINS?.split(',').includes(member.slackID)) {
+	if (env.ADMINS && env.ADMINS.split(',').includes(member.slackID)) {
 		admin = true;
 	}
 
