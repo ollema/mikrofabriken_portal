@@ -362,7 +362,7 @@
 																	min="0"
 																	max="100"
 																	step="1"
-																	class="w-full flex-0"
+																	class="w-full"
 																	{...props}
 																	bind:value={$formData.pallets[i].palletIds[idIndex]}
 																/>
@@ -370,7 +370,7 @@
 																	type="button"
 																	variant="destructive"
 																	size="icon"
-																	class=" w-12 hover:border-red-900"
+																	class="w-12 hover:border-red-900"
 																	onclick={() => removePalletId(i, idIndex)}
 																>
 																	<Trash2 />
