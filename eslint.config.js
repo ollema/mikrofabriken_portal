@@ -36,7 +36,8 @@ export default ts.config(
 			'dist/',
 			'*.config.{ts,js}',
 			'**/service-worker.ts',
-			'**/components/ui/**'
+			'**/components/ui/**',
+			'src/lib/utils.ts'
 		]
 	}
 );
