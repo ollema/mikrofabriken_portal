@@ -100,7 +100,7 @@ export const load = async ({ locals, url }) => {
 	const memberClosedStoragePeriods = await getMyClosedPeriods(getToken(locals), 'storageShortTerm');
 
 	// TODO: fix this to be more robust
-	const costModel = storageResources[0].costModel as string;
+	const costModel = storageResources[0]?.costModel as string;
 	const discountInfo = await getPeriodDiscount(getToken(locals), costModel);
 
 	const memberStoragePeriods = [...memberOpenStoragePeriods, ...memberClosedStoragePeriods].sort(
