@@ -9,7 +9,7 @@ export const columns: ColumnDef<InvoiceRow>[] = [
 	},
 	{
 		id: 'Quantity',
-		accessorKey: 'Quantity',
+		accessorKey: 'DeliveredQuantity',
 		header: 'Quantity'
 	},
 	{
