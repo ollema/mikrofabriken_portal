@@ -9,6 +9,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
+		"prelint": "svelte-kit sync",
 		"lint": "prettier --check . && eslint .",
 		"lint:fix": "prettier --write . && eslint --fix .",
 		"db:push": "drizzle-kit push"
