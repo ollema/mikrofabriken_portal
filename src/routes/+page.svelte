@@ -32,7 +32,7 @@
 {#snippet app({ href, Icon, label }: { href: string; Icon: Component; label: string })}
 	<a
 		{href}
-		class="duration-400 flex w-full flex-col items-center justify-center gap-4 text-xs transition-transform hover:scale-110"
+		class="flex w-full flex-col items-center justify-center gap-4 text-xs transition-transform duration-400 hover:scale-110"
 	>
 		<div class="h-14 w-14 [&_svg]:h-full [&_svg]:w-full">
 			<Icon />

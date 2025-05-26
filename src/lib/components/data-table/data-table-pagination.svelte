@@ -26,13 +26,13 @@
 <div class="flex flex-col items-center justify-between gap-2 lg:flex-row">
 	{#if rowName}
 		{#if hasSelectColumn}
-			<div class="hidden flex-1 text-sm text-muted-foreground md:block">
+			<div class="text-muted-foreground hidden flex-1 text-sm md:block">
 				{table.getFilteredSelectedRowModel().rows.length} av
 				{table.getFilteredRowModel().rows.length}
 				{rowName} valda.
 			</div>
 		{:else}
-			<div class="hidden flex-1 text-sm text-muted-foreground md:block">
+			<div class="text-muted-foreground hidden flex-1 text-sm md:block">
 				{table.getFilteredRowModel().rows.length}
 				{rowName} hittade.
 			</div>

@@ -35,7 +35,7 @@
 			{/if}
 			<div>
 				<h2 class="mb-2 text-2xl font-semibold">{workPool.name}</h2>
-				<p class="mb-6 text-muted-foreground">{workPool.description}</p>
+				<p class="text-muted-foreground mb-6">{workPool.description}</p>
 
 				<div>
 					<h3 class="text-md font-medium">
@@ -55,10 +55,10 @@
 							{#each workPool.members as member (member.email)}
 								<li>
 									<div class="font-medium">{member.name}</div>
-									<div class="text-sm text-muted-foreground">
+									<div class="text-muted-foreground text-sm">
 										{member.email}
 									</div>
-									<div class="text-sm text-muted-foreground">
+									<div class="text-muted-foreground text-sm">
 										{member.phone}
 									</div>
 								</li>

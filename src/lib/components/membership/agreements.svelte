@@ -67,7 +67,7 @@
 			sedan {agreement.startDate}
 		</IconEntry>
 		{#if index === 1 && (agreement.type === 'membership' || agreement.type === 'investment')}
-			<Alert.Root class="my-6 w-full max-w-screen-md" variant="destructive">
+			<Alert.Root class="my-6 w-full max-w-(--breakpoint-md)" variant="destructive">
 				<Alert.Title class="text-lg font-semibold">Obs!</Alert.Title>
 				<Alert.Description class="mt-2">
 					<div>

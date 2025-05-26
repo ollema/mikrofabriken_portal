@@ -30,7 +30,7 @@
 	</PageHeader.Heading>
 </PageHeader.Root>
 
-<div class="mb-5 text-sm text-muted-foreground">
+<div class="text-muted-foreground mb-5 text-sm">
 	<div class="flex items-center space-x-2">
 		<Switch id="on-site-switch" bind:checked={onsiteOnly} />
 		<Label for="on-site-switch">Visa bara incheckade medlemmar</Label>

@@ -37,7 +37,7 @@
 				{/if}
 			</Drawer.Header>
 			<Drawer.Footer class="pt-2">
-				<Drawer.Close class={buttonVariants({ variant: 'outline' })}>Close</Drawer.Close>
+				<Drawer.Close class={buttonVariants({ variant: 'outline-solid' })}>Close</Drawer.Close>
 			</Drawer.Footer>
 		</Drawer.Content>
 	</Drawer.Root>

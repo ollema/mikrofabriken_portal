@@ -131,7 +131,7 @@
 
 <div class="space-y-4">
 	{@render toolbar?.(table)}
-	<div class="text-nowrap rounded-md border">
+	<div class="rounded-md border text-nowrap">
 		<Table.Root>
 			<Table.Header>
 				{#each table.getHeaderGroups() as headerGroup (headerGroup.id)}

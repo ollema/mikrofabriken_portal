@@ -40,19 +40,19 @@
 				{title}
 				{#if selectedValues.size > 0}
 					<Separator orientation="vertical" class="ml-1 h-4" />
-					<Badge variant="secondary" class="mr-[-0.25rem] rounded-sm px-1 font-normal lg:hidden">
+					<Badge variant="secondary" class="-mr-1 rounded-sm px-1 font-normal lg:hidden">
 						{selectedValues.size}
 					</Badge>
 					<div class="hidden lg:flex">
 						{#if selectedValues.size > 2}
-							<Badge variant="secondary" class="mr-[-0.25rem] rounded-sm px-1 font-normal">
+							<Badge variant="secondary" class="-mr-1 rounded-sm px-1 font-normal">
 								{selectedValues.size} selected
 							</Badge>
 						{:else}
 							{#each options.filter((opt) => selectedValues.has(opt.value)) as option (option)}
 								<Badge
 									variant="secondary"
-									class="rounded-sm px-1 font-normal last:mr-[-0.25rem] [&:not(:last-child)]:mr-1"
+									class="rounded-sm px-1 font-normal not-last:mr-1 last:-mr-1"
 								>
 									{option.label}
 								</Badge>
@@ -86,7 +86,7 @@
 						>
 							<div
 								class={cn(
-									'mr-2 flex size-4 items-center justify-center rounded-sm border border-primary',
+									'border-primary mr-2 flex size-4 items-center justify-center rounded-sm border',
 									isSelected ? 'bg-primary text-primary-foreground' : 'opacity-50 [&_svg]:invisible'
 								)}
 							>

@@ -86,7 +86,7 @@
 				<Popover.Trigger
 					{...props}
 					class={cn(
-						buttonVariants({ variant: 'outline' }),
+						buttonVariants({ variant: 'outline-solid' }),
 						'flex w-full justify-start px-3 text-left font-normal',
 						!dateValue && 'text-muted-foreground'
 					)}

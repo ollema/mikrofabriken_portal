@@ -65,13 +65,13 @@
 			{#if $formData.commissions.length > 0}
 				<div class="flex flex-col gap-4">
 					{#each Array.from(Array($formData.commissions.length).keys()) as i (i)}
-						<div class="rounded-md border border-muted p-4">
+						<div class="border-muted rounded-md border p-4">
 							<Form.Legend class="text-lg">Role #{i + 1}</Form.Legend>
 
 							<Form.Status endDate={$formData.commissions[i].endDate} />
 
 							<div class="flex flex-col gap-4">
-								<Form.ElementField {form} name="commissions[{i}].type" class="mb-[-0.5rem]">
+								<Form.ElementField {form} name="commissions[{i}].type" class="-mb-2">
 									<Form.Legend>Role type</Form.Legend>
 									<Form.Control>
 										{#snippet children({ props })}
