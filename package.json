@@ -10,6 +10,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
+		"lint:fix": "prettier --write . && eslint --fix .",
 		"db:push": "drizzle-kit push"
 	},
 	"devDependencies": {
@@ -23,6 +24,7 @@
 		"@tailwindcss/forms": "^0.5.10",
 		"@tailwindcss/typography": "^0.5.16",
 		"@tailwindcss/vite": "^4.1.7",
+		"@tanstack/eslint-config": "^0.1.0",
 		"@tanstack/table-core": "^8.21.3",
 		"@types/better-sqlite3": "^7.6.13",
 		"@types/eslint": "^9.6.1",
