@@ -26,7 +26,7 @@
 		"@tanstack/table-core": "^8.21.3",
 		"@types/better-sqlite3": "^7.6.13",
 		"@types/eslint": "^9.6.1",
-		"arctic": "^3.6.1",
+		"arctic": "^3.7.0",
 		"barcode-validator": "^1.0.2",
 		"barqode": "^0.0.2",
 		"bits-ui": "^1.8.0",
