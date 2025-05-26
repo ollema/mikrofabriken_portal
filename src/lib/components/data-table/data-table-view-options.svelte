@@ -14,7 +14,7 @@
 <DropdownMenu.Root>
 	<DropdownMenu.Trigger
 		class={buttonVariants({
-			variant: 'outline-solid',
+			variant: 'outline',
 			size: 'sm',
 			class: 'ml-auto hidden h-8 lg:flex'
 		})}

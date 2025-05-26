@@ -65,7 +65,7 @@
 	<Dialog.Root bind:open>
 		<Dialog.Trigger
 			class={cn(
-				buttonVariants({ variant: 'outline-solid', size: 'sm' }),
+				buttonVariants({ variant: 'outline', size: 'sm' }),
 				'h-8',
 				disabled && 'pointer-events-none opacity-50'
 			)}
@@ -109,7 +109,7 @@
 	<Drawer.Root bind:open>
 		<Drawer.Trigger
 			class={cn(
-				buttonVariants({ variant: 'outline-solid', size: 'sm' }),
+				buttonVariants({ variant: 'outline', size: 'sm' }),
 				'h-8',
 				disabled && 'pointer-events-none opacity-50'
 			)}
