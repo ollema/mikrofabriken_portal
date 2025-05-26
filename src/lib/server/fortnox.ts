@@ -168,7 +168,7 @@ export const downloadInvoicePdf = async (documentNumber: string) => {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
 		Authorization: env.FNP_KEY as string
-	}
+	};
 
 	const response = await fetch(`${BASE_URL}/invoices/${documentNumber}/print`, {
 		method: 'GET',
