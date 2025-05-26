@@ -96,7 +96,7 @@
 					</a>
 				</div>
 			</header>
-			<div class="w-full max-w-screen-xl p-4 pb-12">
+			<div class="w-full max-w-(--breakpoint-xl) p-4 pb-12">
 				{@render children?.()}
 			</div>
 		</Sidebar.Inset>

@@ -3,7 +3,7 @@
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import * as Drawer from '$lib/components/ui/drawer/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
+	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import { tick } from 'svelte';
@@ -110,7 +110,7 @@
 	<div class="text-xl font-semibold">
 		Avboka {storage?.name.replace(/storage(Short|Medium)Term\//, '').toUpperCase()}?
 	</div>
-	<div class="mt-2 text-muted-foreground">
+	<div class="text-muted-foreground mt-2">
 		Bokad av dig<br />
 		sedan {storage?.period?.start
 			.toISOString()
@@ -150,7 +150,7 @@
 	<div class="text-xl font-semibold">
 		{storage?.name.replace(/storage(Short|Medium)Term\//, '').toUpperCase()} är upptagen
 	</div>
-	<div class="mt-2 text-muted-foreground">
+	<div class="text-muted-foreground mt-2">
 		Bokad av {storage?.period?.member?.name}<br />
 		sedan {periodSince}
 	</div>
@@ -188,7 +188,7 @@
 			escapeKeydownBehavior="ignore"
 			interactOutsideBehavior="ignore"
 		>
-			<div class="px-3 pb-2 pt-4">
+			<div class="px-3 pt-4 pb-2">
 				{#if storage}
 					{#if storage.period}
 						{#if storage.period.member?.slackID === currentUserSlackID}

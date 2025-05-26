@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
-	import ChevronUp from 'lucide-svelte/icons/chevron-up';
+	import ChevronUp from '@lucide/svelte/icons/chevron-up';
 	import Mikrofabriken from '$lib/icons/mikrofabriken.svelte';
 	import { allowedToViewCategory, allowedToViewPage, navigation } from '$lib/config/navigation.js';
 	import { goto } from '$app/navigation';
@@ -92,7 +92,7 @@
 								</Sidebar.MenuButton>
 							{/snippet}
 						</DropdownMenu.Trigger>
-						<DropdownMenu.Content side="top" class="w-[--bits-dropdown-menu-anchor-width]">
+						<DropdownMenu.Content side="top" class="w-(--bits-dropdown-menu-anchor-width)">
 							<DropdownMenu.Item onSelect={gotoProfile}>
 								<span>Profil</span>
 							</DropdownMenu.Item>

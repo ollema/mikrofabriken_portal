@@ -1,7 +1,7 @@
 <script lang="ts">
 	import IconEntry from './icon-entry.svelte';
-	import Bandage from 'lucide-svelte/icons/bandage';
-	import OctagonAlert from 'lucide-svelte/icons/octagon-alert';
+	import Bandage from '@lucide/svelte/icons/bandage';
+	import OctagonAlert from '@lucide/svelte/icons/octagon-alert';
 	import type { IceContact } from '$lib/types/members.js';
 
 	type Props = {

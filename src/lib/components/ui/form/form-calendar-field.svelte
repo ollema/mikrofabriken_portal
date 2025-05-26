@@ -9,7 +9,7 @@
 	import { Calendar } from '$lib/components/ui/calendar/index.js';
 	import { Button, buttonVariants } from '$lib/components/ui/button/index.js';
 	import * as Popover from '$lib/components/ui/popover/index.js';
-	import CalendarIcon from 'lucide-svelte/icons/calendar';
+	import CalendarIcon from '@lucide/svelte/icons/calendar';
 	import { cn } from '$lib/utils.js';
 	import {
 		CalendarDate,

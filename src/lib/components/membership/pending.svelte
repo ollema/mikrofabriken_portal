@@ -2,7 +2,7 @@
 	import * as Alert from '$lib/components/ui/alert/index.js';
 	import { Switch } from '$lib/components/ui/switch/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
-	import GitBranch from 'lucide-svelte/icons/git-branch';
+	import GitBranch from '@lucide/svelte/icons/git-branch';
 
 	interface Props {
 		showPending: boolean;

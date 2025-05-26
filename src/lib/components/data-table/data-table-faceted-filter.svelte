@@ -4,7 +4,7 @@
 </script>
 
 <script lang="ts" generics="TData, TValue">
-	import Check from 'lucide-svelte/icons/check';
+	import Check from '@lucide/svelte/icons/check';
 	import type { Column } from '@tanstack/table-core';
 	import { SvelteSet } from 'svelte/reactivity';
 	import * as Command from '$lib/components/ui/command/index.js';
@@ -13,8 +13,7 @@
 	import { cn } from '$lib/utils.js';
 	import { Separator } from '$lib/components/ui/separator/index.js';
 	import { Badge } from '$lib/components/ui/badge/index.js';
-	import type { ComponentType } from 'svelte';
-	import type { Icon } from 'lucide-svelte';
+	import type { Icon as IconType } from '@lucide/svelte';
 
 	type Props<TData, TValue> = {
 		column: Column<TData, TValue>;
@@ -23,7 +22,7 @@
 		options: {
 			label: string;
 			value: string;
-			icon?: ComponentType<Icon>;
+			icon?: typeof IconType;
 		}[];
 	};
 
@@ -40,19 +39,19 @@
 				{title}
 				{#if selectedValues.size > 0}
 					<Separator orientation="vertical" class="ml-1 h-4" />
-					<Badge variant="secondary" class="mr-[-0.25rem] rounded-sm px-1 font-normal lg:hidden">
+					<Badge variant="secondary" class="-mr-1 rounded-sm px-1 font-normal lg:hidden">
 						{selectedValues.size}
 					</Badge>
 					<div class="hidden lg:flex">
 						{#if selectedValues.size > 2}
-							<Badge variant="secondary" class="mr-[-0.25rem] rounded-sm px-1 font-normal">
+							<Badge variant="secondary" class="-mr-1 rounded-sm px-1 font-normal">
 								{selectedValues.size} selected
 							</Badge>
 						{:else}
 							{#each options.filter((opt) => selectedValues.has(opt.value)) as option (option)}
 								<Badge
 									variant="secondary"
-									class="rounded-sm px-1 font-normal last:mr-[-0.25rem] [&:not(:last-child)]:mr-1"
+									class="rounded-sm px-1 font-normal not-last:mr-1 last:-mr-1"
 								>
 									{option.label}
 								</Badge>
@@ -86,7 +85,7 @@
 						>
 							<div
 								class={cn(
-									'mr-2 flex size-4 items-center justify-center rounded-sm border border-primary',
+									'border-primary mr-2 flex size-4 items-center justify-center rounded-sm border',
 									isSelected ? 'bg-primary text-primary-foreground' : 'opacity-50 [&_svg]:invisible'
 								)}
 							>

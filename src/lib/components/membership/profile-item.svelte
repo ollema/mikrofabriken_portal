@@ -34,7 +34,7 @@
 </script>
 
 <div class="flex flex-col">
-	<div class="text-xs font-medium uppercase text-muted-foreground">{label}</div>
+	<div class="text-muted-foreground text-xs font-medium uppercase">{label}</div>
 	<div class="grid h-6">
 		{#key formattedValue}
 			<div class="col-start-1 col-end-2 row-start-1 row-end-2">

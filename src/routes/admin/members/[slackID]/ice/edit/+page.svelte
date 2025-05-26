@@ -66,7 +66,7 @@
 			{#if $formData.iceContacts.length > 0}
 				<div class="flex flex-col gap-4">
 					{#each Array.from(Array($formData.iceContacts.length).keys()) as i (i)}
-						<div class="rounded-md border border-muted p-4">
+						<div class="border-muted rounded-md border p-4">
 							<Form.Legend class="text-lg">Kontakt #{i + 1}</Form.Legend>
 
 							<div class="mt-4 flex flex-col gap-4">

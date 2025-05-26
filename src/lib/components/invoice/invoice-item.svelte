@@ -8,6 +8,6 @@
 </script>
 
 <div class="flex flex-col">
-	<div class="text-xs font-medium uppercase text-muted-foreground">{label}</div>
+	<div class="text-muted-foreground text-xs font-medium uppercase">{label}</div>
 	<div>{value}</div>
 </div>

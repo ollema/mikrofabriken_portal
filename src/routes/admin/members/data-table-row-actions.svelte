@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Ellipsis from 'lucide-svelte/icons/ellipsis';
+	import Ellipsis from '@lucide/svelte/icons/ellipsis';
 	import type { Row } from '@tanstack/table-core';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
@@ -46,11 +46,7 @@
 <DropdownMenu.Root>
 	<DropdownMenu.Trigger>
 		{#snippet child({ props })}
-			<Button
-				{...props}
-				variant="ghost"
-				class="my-[-1rem] flex h-4 w-4 p-4 data-[state=open]:bg-muted"
-			>
+			<Button {...props} variant="ghost" class="data-[state=open]:bg-muted -my-4 flex h-4 w-4 p-4">
 				<Ellipsis />
 			</Button>
 		{/snippet}
