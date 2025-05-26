@@ -4,7 +4,7 @@ export type Navigation = {
 	requireViewProducts?: boolean;
 	requireViewWorkPools?: boolean;
 	requireViewPallets?: boolean;
-	items: NavItem[];
+	items: Array<NavItem>;
 };
 
 export type NavItem = {
@@ -16,7 +16,7 @@ export type NavItem = {
 	href: string;
 };
 
-export const navigation: Navigation[] = [
+export const navigation: Array<Navigation> = [
 	{
 		title: 'Mikrofabriken',
 		items: [

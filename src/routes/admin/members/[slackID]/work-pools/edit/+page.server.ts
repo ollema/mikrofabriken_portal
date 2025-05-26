@@ -2,7 +2,9 @@ import { error, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
-import { z } from 'zod';
+import { workPoolsFormSchema } from './schema.js';
+import type { z } from 'zod';
+import type { Member } from '$lib/types/members.js';
 import { getUser } from '$lib/server/auth.js';
 import {
 	areMembersEqual,
@@ -12,7 +14,6 @@ import {
 	validateMember
 } from '$lib/server/members.js';
 import { getValidWorkPools } from '$lib/server/enums.js';
-import { workPoolsFormSchema } from './schema.js';
 import {
 	getPendingUpdateForMember,
 	getSuggestChangeOptions,
@@ -20,7 +21,6 @@ import {
 	updateRepo
 } from '$lib/server/gitlab.js';
 import { env } from '$env/dynamic/private';
-import type { Member } from '$lib/types/members.js';
 import { getWorkPoolNames, getWorkPoolsDescriptions } from '$lib/server/workpools.js';
 
 export const load = async ({ locals, params }) => {

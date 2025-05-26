@@ -1,5 +1,5 @@
-import { dev } from '$app/environment';
 import { generateState } from 'arctic';
+import { dev } from '$app/environment';
 import { slack } from '$lib/server/oauth.js';
 
 import { env } from '$env/dynamic/private';

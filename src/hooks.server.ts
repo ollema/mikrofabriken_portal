@@ -1,4 +1,5 @@
-import { redirect, type Handle } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
+import type { Handle } from '@sveltejs/kit';
 import * as auth from '$lib/server/auth.js';
 import { hasClaim } from '$lib/utils/cog';
 import { getMember } from '$lib/server/members';

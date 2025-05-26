@@ -1,8 +1,7 @@
+import { error, json } from '@sveltejs/kit';
+import type { Product } from '$lib/types/cog.js';
 import { getUser } from '$lib/server/auth.js';
 import { getProductByEan } from '$lib/server/cog.js';
-import type { Product } from '$lib/types/cog.js';
-
-import { error, json } from '@sveltejs/kit';
 
 export async function GET({ locals, params }) {
 	try {

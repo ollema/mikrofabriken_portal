@@ -1,10 +1,10 @@
 import type { z } from 'zod';
 
 import type {
-	MembersSchema,
-	MemberSchema,
 	CompanySchema,
-	InvoiceCategoryTypes
+	InvoiceCategoryTypes,
+	MemberSchema,
+	MembersSchema
 } from '$lib/schemas/members.js';
 
 export type Members = z.infer<typeof MembersSchema>;

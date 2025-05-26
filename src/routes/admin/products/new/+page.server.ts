@@ -2,6 +2,7 @@ import { error, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
+import { newProductFormSchema } from './schema.js';
 import { getToken, getUser } from '$lib/server/auth.js';
 import {
 	createProduct,
@@ -10,7 +11,6 @@ import {
 	getUnitNames,
 	getVatPercentages
 } from '$lib/server/cog.js';
-import { newProductFormSchema } from './schema.js';
 import { NewProductSchema } from '$lib/schemas/cog.js';
 
 export const load = async ({ locals }) => {

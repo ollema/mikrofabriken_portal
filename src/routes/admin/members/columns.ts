@@ -1,15 +1,15 @@
+import { createRawSnippet } from 'svelte';
+import DataTableRowActions from './data-table-row-actions.svelte';
 import type { ColumnDef } from '@tanstack/table-core';
 import type { ExtendedMember } from '$lib/types/members.js';
-import { createRawSnippet } from 'svelte';
 import { renderComponent, renderSnippet } from '$lib/components/ui/data-table/index.js';
 import {
+	DataTableBooleanCell,
 	DataTableCheckbox,
-	DataTableColumnHeader,
-	DataTableBooleanCell
+	DataTableColumnHeader
 } from '$lib/components/data-table/index.js';
-import DataTableRowActions from './data-table-row-actions.svelte';
 
-export const columns: ColumnDef<ExtendedMember>[] = [
+export const columns: Array<ColumnDef<ExtendedMember>> = [
 	{
 		id: 'select',
 		header: ({ table }) =>
