@@ -1,5 +1,10 @@
-import { createTable } from '@tanstack/table-core';
-import type { RowData, TableOptions, TableOptionsResolved, TableState } from '@tanstack/table-core';
+import {
+	type RowData,
+	type TableOptions,
+	type TableOptionsResolved,
+	type TableState,
+	createTable
+} from '@tanstack/table-core';
 
 /**
  * Creates a reactive TanStack table object for Svelte.
@@ -76,14 +81,9 @@ export function createSvelteTable<TData extends RowData>(options: TableOptions<T
  * Taken from SolidJS: {@link https://github.com/solidjs/solid/blob/24abc825c0996fd2bc8c1de1491efe9a7e743aff/packages/solid/src/server/rendering.ts#L82-L115}
  */
 function mergeObjects<T>(source: T): T;
-function mergeObjects<T, TOne>(source: T, source1: TOne): T & TOne;
-function mergeObjects<T, TOne, TTwo>(source: T, source1: TOne, source2: TTwo): T & TOne & TTwo;
-function mergeObjects<T, TOne, TTwo, TThree>(
-	source: T,
-	source1: TOne,
-	source2: TTwo,
-	source3: TThree
-): T & TOne & TTwo & TThree;
+function mergeObjects<T, U>(source: T, source1: U): T & U;
+function mergeObjects<T, U, V>(source: T, source1: U, source2: V): T & U & V;
+function mergeObjects<T, U, V, W>(source: T, source1: U, source2: V, source3: W): T & U & V & W;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function mergeObjects(...sources: any): any {
 	const target = {};
