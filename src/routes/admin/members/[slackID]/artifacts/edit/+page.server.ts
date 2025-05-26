@@ -105,35 +105,33 @@ function populateFromCurrent(member: Member): z.infer<typeof artifactsFormSchema
 	const keys: z.infer<typeof artifactsFormSchema>['keys'] = [];
 
 	artifacts.forEach((artifact) => {
-		if (artifact.type === 'rfid') {
-			if (artifact.attributes?.data !== undefined && artifact.attributes.codeHash !== undefined) {
+		switch (artifact.type) {
+			case 'rfid': {
 				rfidTags.push({
 					startDate: artifact.startDate,
 					data: artifact.attributes.data,
 					codeHash: artifact.attributes.codeHash,
 					endDate: artifact.endDate
 				});
-			} else {
-				throw new Error('RFID artifact is missing data or codeHash');
+				break;
 			}
-		} else if (artifact.type === 'key') {
-			if (artifact.attributes?.number !== undefined) {
+			case 'key': {
 				keys.push({
 					startDate: artifact.startDate,
 					number: artifact.attributes.number,
 					endDate: artifact.endDate
 				});
-			} else {
-				throw new Error('Key artifact is missing number');
+				break;
 			}
-		} else {
-			throw new Error('Unknown artifact type');
+			default: {
+				throw new Error('Unknown artifact type');
+			}
 		}
 	});
 
 	return {
-		rfidTags: rfidTags,
-		keys: keys
+		rfidTags,
+		keys
 	};
 }
 
