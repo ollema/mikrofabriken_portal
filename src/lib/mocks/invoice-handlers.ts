@@ -1,12 +1,12 @@
-import { http, HttpResponse } from 'msw';
+import { HttpResponse, http } from 'msw';
 import { db } from './data';
-import { BASE_URL } from '$lib/server/fortnox';
 import type {
 	CustomersResponseSchema,
 	InvoiceResponseSchema,
 	InvoicesResponseSchema
 } from '$lib/schemas/fortnox';
 import type { z } from 'zod';
+import { BASE_URL } from '$lib/server/fortnox';
 
 type CustomersResponse = z.infer<typeof CustomersResponseSchema>;
 type InvoiceResponse = z.infer<typeof InvoiceResponseSchema>;
@@ -28,7 +28,7 @@ const createEmptyResponse = (page: number = 1) => {
 	};
 };
 
-const paginate = <T>(items: T[], page: number, pageSize: number = 100) => {
+const paginate = <T>(items: Array<T>, page: number, pageSize: number = 100) => {
 	const totalResources = items.length;
 	const totalPages = Math.ceil(totalResources / pageSize);
 	const startIndex = (page - 1) * pageSize;
@@ -95,8 +95,7 @@ export const invoiceHandlers = [
 
 		if (sortBy === 'invoicedate') {
 			invoices.sort(
-				(a, b) =>
-					new Date(a.InvoiceDate as string).getTime() - new Date(b.InvoiceDate as string).getTime()
+				(a, b) => new Date(a.InvoiceDate).getTime() - new Date(b.InvoiceDate).getTime()
 			);
 		}
 
@@ -124,14 +123,14 @@ export const invoiceHandlers = [
 			where: { CustomerNumber: { equals: detail?.CustomerNumber } }
 		});
 
-		if (!detail || !customer || !invoiceRows) {
+		if (!detail || !customer) {
 			logProbablyCrMissingError(`invoice: ${documentNumber}`);
 			return HttpResponse.json({ Invoice: {} });
 		}
 
 		const invoiceWithRows = {
 			...detail,
-			InvoiceRows: invoiceRows || [],
+			InvoiceRows: invoiceRows,
 			EmailInformation: { EmailAddressTo: customer.Email },
 			OrganisationNumber: customer.OrganisationNumber
 		};
