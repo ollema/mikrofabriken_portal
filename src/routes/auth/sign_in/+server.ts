@@ -4,7 +4,7 @@ import { slack } from '$lib/server/oauth.js';
 
 import { env } from '$env/dynamic/private';
 
-export const GET = async ({ cookies, url }) => {
+export const GET = ({ cookies, url }) => {
 	const state = generateState();
 	const authUrl = slack.createAuthorizationURL(state, ['openid', 'profile', 'email']);
 	authUrl.searchParams.set('team', env.SLACK_TEAM_ID);

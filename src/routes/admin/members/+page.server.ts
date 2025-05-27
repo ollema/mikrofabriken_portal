@@ -3,7 +3,7 @@ import { getUser } from '$lib/server/auth.js';
 import { getMembers } from '$lib/server/members.js';
 import { isAgreementActive } from '$lib/utils/member.js';
 
-export const load = async ({ locals }) => {
+export const load = ({ locals }) => {
 	getUser(locals);
 	const members = getMembers();
 	const refinedMembers = members.map((member) => {
