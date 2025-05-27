@@ -45,9 +45,9 @@
 </script>
 
 <div class="mt-2 space-y-3">
-	<div class="text-sm font-medium leading-none">
+	<div class="text-sm leading-none font-medium">
 		<div class="mb-2">Kod</div>
-		<div class="text-xs text-muted-foreground">
+		<div class="text-muted-foreground text-xs">
 			(Behöver inte fyllas i om kodhash redan existerar nedan)
 		</div>
 	</div>
@@ -77,7 +77,7 @@
 			<Form.Label>Kodhash</Form.Label>
 			<Input
 				type="text"
-				class="w-full cursor-default cursor-not-allowed text-xs text-muted-foreground"
+				class="text-muted-foreground w-full cursor-default cursor-not-allowed text-xs"
 				{...props}
 				bind:value={rfidCodeHash}
 				readonly

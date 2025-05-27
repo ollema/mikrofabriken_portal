@@ -61,7 +61,7 @@
 			{#if $formData.rfidTags.length > 0}
 				<div class="flex flex-col gap-4">
 					{#each Array.from(Array($formData.rfidTags.length).keys()) as i (i)}
-						<div class="rounded-md border border-muted p-4">
+						<div class="border-muted rounded-md border p-4">
 							<Form.Legend class="text-lg">RFID-tagg #{i + 1}</Form.Legend>
 
 							<Form.Status endDate={$formData.rfidTags[i].endDate} />

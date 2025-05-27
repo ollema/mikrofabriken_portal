@@ -43,7 +43,7 @@
 						{...props}
 						bind:value={$formData.uuid}
 						readonly
-						class="cursor-default text-muted-foreground"
+						class="text-muted-foreground cursor-default"
 					/>
 				{/snippet}
 			</Form.Control>

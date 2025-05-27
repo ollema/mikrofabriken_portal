@@ -3,10 +3,10 @@
 </script>
 
 <script lang="ts" generics="TData">
-	import ChevronRight from 'lucide-svelte/icons/chevron-right';
-	import ChevronLeft from 'lucide-svelte/icons/chevron-left';
-	import ChevronsRight from 'lucide-svelte/icons/chevrons-right';
-	import ChevronsLeft from 'lucide-svelte/icons/chevrons-left';
+	import ChevronRight from '@lucide/svelte/icons/chevron-right';
+	import ChevronLeft from '@lucide/svelte/icons/chevron-left';
+	import ChevronsRight from '@lucide/svelte/icons/chevrons-right';
+	import ChevronsLeft from '@lucide/svelte/icons/chevrons-left';
 	import type { Table } from '@tanstack/table-core';
 	import * as Select from '$lib/components/ui/select/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
@@ -26,13 +26,13 @@
 <div class="flex flex-col items-center justify-between gap-2 lg:flex-row">
 	{#if rowName}
 		{#if hasSelectColumn}
-			<div class="hidden flex-1 text-sm text-muted-foreground md:block">
+			<div class="text-muted-foreground hidden flex-1 text-sm md:block">
 				{table.getFilteredSelectedRowModel().rows.length} av
 				{table.getFilteredRowModel().rows.length}
 				{rowName} valda.
 			</div>
 		{:else}
-			<div class="hidden flex-1 text-sm text-muted-foreground md:block">
+			<div class="text-muted-foreground hidden flex-1 text-sm md:block">
 				{table.getFilteredRowModel().rows.length}
 				{rowName} hittade.
 			</div>

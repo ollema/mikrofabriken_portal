@@ -3,14 +3,13 @@
 	import type { Agreement } from '$lib/types/members.js';
 	import { agreementToHumanReadable, isAgreementActive } from '$lib/utils/member.js';
 	import * as Alert from '$lib/components/ui/alert/index.js';
-	import { type ComponentType } from 'svelte';
-	import { type Icon } from 'lucide-svelte';
+	import { type Icon as IconType } from '@lucide/svelte';
 	import Mikrofabriken from '$lib/icons/mikrofabriken.svelte';
-	import Banknote from 'lucide-svelte/icons/banknote';
-	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
-	import Box from 'lucide-svelte/icons/box';
-	import Container from 'lucide-svelte/icons/container';
-	import Package from 'lucide-svelte/icons/package';
+	import Banknote from '@lucide/svelte/icons/banknote';
+	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
+	import Box from '@lucide/svelte/icons/box';
+	import Container from '@lucide/svelte/icons/container';
+	import Package from '@lucide/svelte/icons/package';
 
 	interface Props {
 		agreements: Agreement[];
@@ -54,7 +53,7 @@
 	Icon
 }: {
 	agreements: Agreement[];
-	Icon: ComponentType<Icon>;
+	Icon: typeof IconType;
 })}
 	{#each agreements as agreement, index (agreement)}
 		<IconEntry {Icon}>
@@ -67,7 +66,7 @@
 			sedan {agreement.startDate}
 		</IconEntry>
 		{#if index === 1 && (agreement.type === 'membership' || agreement.type === 'investment')}
-			<Alert.Root class="my-6 w-full max-w-screen-md" variant="destructive">
+			<Alert.Root class="my-6 w-full max-w-(--breakpoint-md)" variant="destructive">
 				<Alert.Title class="text-lg font-semibold">Obs!</Alert.Title>
 				<Alert.Description class="mt-2">
 					<div>

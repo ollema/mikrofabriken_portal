@@ -1,10 +1,9 @@
+import * as fs from 'node:fs';
 import { error } from '@sveltejs/kit';
 
-import * as fs from 'node:fs';
-
-import { WorkPoolSchema, WorkPoolsSchema } from '$lib/schemas/workpools.js';
 import type { WorkPool, WorkPools } from '$lib/types/workpools.js';
-import { getValidWorkPools, getValidCommissions } from '$lib/server/enums.js';
+import { WorkPoolSchema, WorkPoolsSchema } from '$lib/schemas/workpools.js';
+import { getValidCommissions, getValidWorkPools } from '$lib/server/enums.js';
 
 import { env } from '$env/dynamic/private';
 
@@ -49,7 +48,7 @@ export function areAllWorkPoolsEqual(a: WorkPools, b: WorkPools): boolean {
 	return a.every((workPool, index) => areWorkPoolsEqual(workPool, b[index]));
 }
 
-function areArraysEqual<T>(a: T[], b: T[]): boolean {
+function areArraysEqual<T>(a: Array<T>, b: Array<T>): boolean {
 	if (a.length !== b.length) return false;
 	return JSON.stringify(a) === JSON.stringify(b);
 }
@@ -84,7 +83,7 @@ export function validateWorkPoolID(id: string) {
 	}
 }
 
-export function validateWorkPoolCommissions(commissions: string[]) {
+export function validateWorkPoolCommissions(commissions: Array<string>) {
 	const validCommissions = getValidCommissions();
 
 	for (const commission of commissions) {

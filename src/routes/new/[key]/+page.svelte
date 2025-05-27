@@ -54,7 +54,7 @@
 						{...props}
 						bind:value={$formData.slackID}
 						readonly
-						class="cursor-not-allowed text-muted-foreground"
+						class="text-muted-foreground cursor-not-allowed"
 					/>
 				{/snippet}
 			</Form.Control>
@@ -149,7 +149,7 @@
 						{...props}
 						bind:value={$formData.rfidData}
 						readonly
-						class="cursor-not-allowed text-muted-foreground"
+						class="text-muted-foreground cursor-not-allowed"
 					/>
 				{/snippet}
 			</Form.Control>

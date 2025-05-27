@@ -30,7 +30,7 @@
 	<Button
 		variant="outline"
 		class={cn(
-			'relative h-32 w-[60px] border border-muted bg-muted p-0 sm:w-[70px]',
+			'border-muted bg-muted relative h-32 w-[60px] border p-0 sm:w-[70px]',
 			storage.period && 'hover:border-foreground hover:bg-foreground/30',
 			owner && 'hover:border-destructive hover:bg-destructive/30'
 		)}

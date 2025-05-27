@@ -1,11 +1,12 @@
-import { error, redirect, type RequestEvent } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 import { sha256 } from '@oslojs/crypto/sha2';
 import { encodeBase32LowerCase, encodeBase64url, encodeHexLowerCase } from '@oslojs/encoding';
+import type { RequestEvent } from '@sveltejs/kit';
+import type { Member } from '$lib/types/members.js';
 import { db } from '$lib/server/db/index.js';
 import * as table from '$lib/server/db/schema.js';
 
-import type { Member } from '$lib/types/members.js';
 import { getMembers } from '$lib/server/members.js';
 
 import { env } from '$env/dynamic/private';
@@ -50,7 +51,7 @@ export async function validateSessionToken(token: string) {
 		.innerJoin(table.user, eq(table.session.userId, table.user.id))
 		.where(eq(table.session.id, sessionId));
 
-	if (!result) {
+	if (result == null) {
 		return { session: null, user: null };
 	}
 	const { session, user } = result;
@@ -169,7 +170,7 @@ export function isAdmin(member: Member) {
 	}
 
 	// selected list of users are also admins
-	if (env.ADMINS?.split(',').includes(member.slackID)) {
+	if (env.ADMINS && env.ADMINS.split(',').includes(member.slackID)) {
 		admin = true;
 	}
 

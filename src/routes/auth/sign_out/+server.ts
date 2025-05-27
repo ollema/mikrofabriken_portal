@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import { invalidateSession, deleteSessionTokenCookie } from '$lib/server/auth.js';
+import { deleteSessionTokenCookie, invalidateSession } from '$lib/server/auth.js';
 
 export const POST = async (event) => {
 	if (!event.locals.session) redirect(302, '/');

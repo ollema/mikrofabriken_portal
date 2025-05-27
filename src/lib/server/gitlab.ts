@@ -1,23 +1,23 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import os from 'node:os';
 import { error } from '@sveltejs/kit';
 import git from 'simple-git';
-import fs from 'fs/promises';
 import stringify from 'safe-stable-stringify';
-import path from 'path';
-import os from 'os';
-
-import { env } from '$env/dynamic/private';
 
 import type { Member } from '$lib/types/members.js';
-import { MembersSchema } from '$lib/schemas/members.js';
-import { MergeRequestsSchema, MergeRequestSchema } from '$lib/schemas/gitlab';
 import type { MergeRequest, MergeRequests } from '$lib/types/gitlab';
+import { env } from '$env/dynamic/private';
+
+import { MembersSchema } from '$lib/schemas/members.js';
+import { MergeRequestSchema, MergeRequestsSchema } from '$lib/schemas/gitlab';
 
 /**
  * Options for suggesting a change in GitLab.
  */
 export type SuggestChangeOptions = {
 	/** An array of members to suggest the change to. */
-	members: Member[];
+	members: Array<Member>;
 	/** The name of the branch to create the change on. */
 	branch: string;
 	/** The name of the branch to base the change on. */

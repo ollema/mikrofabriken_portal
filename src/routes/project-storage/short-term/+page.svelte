@@ -57,9 +57,11 @@
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
-	<div class="mb-4 text-muted-foreground">Klicka på en ruta för att boka/avboka.</div>
+	<div class="text-muted-foreground mb-4">Klicka på en ruta för att boka/avboka.</div>
 
-	<div class="flex max-w-screen-md flex-col items-start gap-2 lg:flex-row lg:justify-between">
+	<div
+		class="flex max-w-(--breakpoint-md) flex-col items-start gap-2 lg:flex-row lg:justify-between"
+	>
 		<div>
 			<div class="grid auto-cols-[60px] grid-flow-col justify-start gap-2 sm:auto-cols-[70px]">
 				{#each data.storageRows[0] as storage (storage)}
@@ -82,7 +84,7 @@
 	</div>
 
 	<div class="mt-4">Fribelopp ({currentMonth})</div>
-	<div class="max-w-screen-md">
+	<div class="max-w-(--breakpoint-md)">
 		<div class="text-sm">
 			{data.usedDiscount.toFixed(0)} kr använt, {data.availableDiscount.toFixed(0)} kr kvar
 		</div>
@@ -98,7 +100,7 @@
 	</div>
 </div>
 
-<div class="mt-8 max-w-screen-md">
+<div class="mt-8 max-w-(--breakpoint-md)">
 	<h2 class="mb-2 w-full text-lg">Dina bokningar</h2>
 	<DataTable data={data.storagePeriods} {columns} {params}>
 		{#snippet paginationControls(table)}

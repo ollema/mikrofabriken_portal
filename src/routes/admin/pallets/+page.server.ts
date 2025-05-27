@@ -1,6 +1,6 @@
+import type { Member } from '$lib/types/members.js';
 import { getUser } from '$lib/server/auth.js';
 import { getMembers } from '$lib/server/members.js';
-import type { Member } from '$lib/types/members.js';
 
 type PalletInfo = {
 	id: number;
@@ -14,7 +14,7 @@ export const load = async ({ locals }) => {
 	getUser(locals);
 	const members = getMembers();
 
-	const pallets: PalletInfo[] = [];
+	const pallets: Array<PalletInfo> = [];
 
 	members.forEach((member: Member) => {
 		member.agreements.forEach((agreement) => {

@@ -40,7 +40,7 @@
 
 <div class="mb-5">
 	{#if label}
-		<div class="mb-3 text-lg font-bold text-foreground">{label}</div>
+		<div class="text-foreground mb-3 text-lg font-bold">{label}</div>
 	{/if}
 	<div class="grid grid-cols-[repeat(auto-fill,minmax(4rem,1fr))] gap-4">
 		{#each members as member (member)}
@@ -54,12 +54,10 @@
 					<Avatar.Fallback>{nameToInitials(member.name)}</Avatar.Fallback>
 				</Avatar.Root>
 				<div
-					class="absolute top-0 h-16 w-16 rounded-full outline outline-[4px] outline-offset-[-3px] outline-muted"
+					class="outline-muted absolute top-0 h-16 w-16 rounded-full outline-4 outline-offset-[-3px] outline-solid"
 				></div>
 				{#if member.here}
-					<div
-						class="animate-pulse-border absolute top-0 h-16 w-16 rounded-full border-[2px]"
-					></div>
+					<div class="animate-pulse-border absolute top-0 h-16 w-16 rounded-full border-2"></div>
 				{/if}
 				<div class="mt-1 w-16 truncate pb-1 text-center text-xs">
 					{nameToFirstName(member.name)}

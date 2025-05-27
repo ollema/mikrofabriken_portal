@@ -107,7 +107,7 @@
 			<Form.FieldErrors />
 		</Form.Field>
 
-		<div class="h-[1px]"></div>
+		<div class="h-px"></div>
 
 		<Form.Fieldset {form} name="invoiceDefaultTo">
 			<Form.Legend>Inkludera per default fakturakategorier i:</Form.Legend>
@@ -116,7 +116,7 @@
 				class="flex flex-col space-y-1"
 				name="invoiceDefaultTo"
 			>
-				<div class="flex items-center space-x-3 space-y-0">
+				<div class="flex items-center space-y-0 space-x-3">
 					<Form.Control>
 						{#snippet children({ props })}
 							<RadioGroup.Item {...props} value="personal" />
@@ -124,7 +124,7 @@
 						{/snippet}
 					</Form.Control>
 				</div>
-				<div class="flex items-center space-x-3 space-y-0">
+				<div class="flex items-center space-y-0 space-x-3">
 					<Form.Control>
 						{#snippet children({ props })}
 							<RadioGroup.Item {...props} value="company" />
@@ -135,7 +135,7 @@
 			</RadioGroup.Root>
 		</Form.Fieldset>
 
-		<div class="h-[1px]"></div>
+		<div class="h-px"></div>
 
 		<Form.Field {form} name="invoiceExcludeCategoriesFromDefault">
 			<Form.Control>

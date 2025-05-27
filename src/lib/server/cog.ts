@@ -1,6 +1,8 @@
 import * as fs from 'node:fs';
 import sharp from 'sharp';
 
+import { LRUCache } from 'lru-cache';
+import type { NewHoldingPeriod, NewProduct, Product, Purchase } from '$lib/types/cog.js';
 import {
 	BillingCategoriesSchema,
 	ClaimsSchema,
@@ -15,9 +17,6 @@ import {
 	UnitNamesSchema,
 	VatPercentagesSchema
 } from '$lib/schemas/cog.js';
-import type { NewHoldingPeriod, NewProduct, Product, Purchase } from '$lib/types/cog.js';
-
-import { LRUCache } from 'lru-cache';
 
 import { env } from '$env/dynamic/private';
 

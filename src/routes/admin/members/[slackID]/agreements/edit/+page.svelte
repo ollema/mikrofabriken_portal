@@ -5,7 +5,7 @@
 	import * as RadioGroup from '$lib/components/ui/radio-group/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import Trash2 from 'lucide-svelte/icons/trash-2';
+	import Trash2 from '@lucide/svelte/icons/trash-2';
 	import { getLocalTimeZone, today } from '@internationalized/date';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
@@ -108,7 +108,7 @@
 			{#if $formData.memberships.length > 0}
 				<div class="flex flex-col gap-4">
 					{#each Array.from(Array($formData.memberships.length).keys()) as i (i)}
-						<div class="rounded-md border border-muted p-4">
+						<div class="border-muted rounded-md border p-4">
 							<Form.Legend class="text-lg">Avtal #{i + 1}</Form.Legend>
 
 							<Form.Status endDate={$formData.memberships[i].endDate} />
@@ -122,7 +122,7 @@
 											class="flex flex-col space-y-1"
 											name="type"
 										>
-											<div class="flex items-center space-x-3 space-y-0">
+											<div class="flex items-center space-y-0 space-x-3">
 												<Form.Control>
 													{#snippet children({ props })}
 														<RadioGroup.Item value="membership" {...props} />
@@ -130,7 +130,7 @@
 													{/snippet}
 												</Form.Control>
 											</div>
-											<div class="flex items-center space-x-3 space-y-0">
+											<div class="flex items-center space-y-0 space-x-3">
 												<Form.Control>
 													{#snippet children({ props })}
 														<RadioGroup.Item value="investment" {...props} />
@@ -138,7 +138,7 @@
 													{/snippet}
 												</Form.Control>
 											</div>
-											<div class="flex items-center space-x-3 space-y-0">
+											<div class="flex items-center space-y-0 space-x-3">
 												<Form.Control>
 													{#snippet children({ props })}
 														<RadioGroup.Item value="passive" {...props} />
@@ -192,7 +192,7 @@
 			{#if $formData.asylums.length > 0}
 				<div class="flex flex-col gap-4">
 					{#each Array.from(Array($formData.asylums.length).keys()) as i (i)}
-						<div class="rounded-md border border-muted p-4">
+						<div class="border-muted rounded-md border p-4">
 							<Form.Legend class="text-lg">Avtal #{i + 1}</Form.Legend>
 
 							<Form.Status endDate={$formData.asylums[i].endDate} />
@@ -206,7 +206,7 @@
 											class="flex flex-col space-y-1"
 											name="type"
 										>
-											<div class="flex items-center space-x-3 space-y-0">
+											<div class="flex items-center space-y-0 space-x-3">
 												<Form.Control>
 													{#snippet children({ props })}
 														<RadioGroup.Item value="asylumInside" {...props} />
@@ -214,7 +214,7 @@
 													{/snippet}
 												</Form.Control>
 											</div>
-											<div class="flex items-center space-x-3 space-y-0">
+											<div class="flex items-center space-y-0 space-x-3">
 												<Form.Control>
 													{#snippet children({ props })}
 														<RadioGroup.Item value="asylumOutside" {...props} />
@@ -283,7 +283,7 @@
 			{#if $formData.pallets.length > 0}
 				<div class="flex flex-col gap-4">
 					{#each Array.from(Array($formData.pallets.length).keys()) as i (i)}
-						<div class="rounded-md border border-muted p-4">
+						<div class="border-muted rounded-md border p-4">
 							<Form.Legend class="text-lg">Avtal #{i + 1}</Form.Legend>
 
 							<Form.Status endDate={$formData.pallets[i].endDate} />
@@ -297,7 +297,7 @@
 											class="flex flex-col space-y-1"
 											name="type"
 										>
-											<div class="flex items-center space-x-3 space-y-0">
+											<div class="flex items-center space-y-0 space-x-3">
 												<Form.Control>
 													{#snippet children({ props })}
 														<RadioGroup.Item value="palletInside" {...props} />
@@ -305,7 +305,7 @@
 													{/snippet}
 												</Form.Control>
 											</div>
-											<div class="flex items-center space-x-3 space-y-0">
+											<div class="flex items-center space-y-0 space-x-3">
 												<Form.Control>
 													{#snippet children({ props })}
 														<RadioGroup.Item value="palletOutside" {...props} />
@@ -338,7 +338,7 @@
 											<Form.Label>Antal pallplatser</Form.Label>
 											<Input
 												type="number"
-												class="w-full cursor-default cursor-not-allowed text-muted-foreground"
+												class="text-muted-foreground w-full cursor-default cursor-not-allowed"
 												{...props}
 												bind:value={$formData.pallets[i].palletCount}
 												readonly
@@ -356,13 +356,13 @@
 												<Form.ElementField {form} name="pallets[{i}].palletIds[{idIndex}]">
 													<Form.Control>
 														{#snippet children({ props })}
-															<div class="flex items-center space-x-3 space-y-0">
+															<div class="flex items-center space-y-0 space-x-3">
 																<Input
 																	type="number"
 																	min="0"
 																	max="100"
 																	step="1"
-																	class="flex-0 w-full"
+																	class="w-full"
 																	{...props}
 																	bind:value={$formData.pallets[i].palletIds[idIndex]}
 																/>
@@ -370,7 +370,7 @@
 																	type="button"
 																	variant="destructive"
 																	size="icon"
-																	class=" w-12 hover:border-red-900"
+																	class="w-12 hover:border-red-900"
 																	onclick={() => removePalletId(i, idIndex)}
 																>
 																	<Trash2 />

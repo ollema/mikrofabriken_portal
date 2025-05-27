@@ -1,15 +1,15 @@
+import { fail } from '@sveltejs/kit';
 import { getToken, getUser } from '$lib/server/auth.js';
 import {
-	getOpenPeriods,
-	getResources,
-	startPeriod,
 	closePeriod,
 	getAvatar,
+	getEstimatedCost,
 	getMyClosedPeriods,
-	getEstimatedCost
+	getOpenPeriods,
+	getResources,
+	startPeriod
 } from '$lib/server/cog.js';
 import { findMember, getMembers } from '$lib/server/members.js';
-import { fail } from '@sveltejs/kit';
 
 const mediumTermStorageRows = [
 	['storageMediumTerm/x1', 'storageMediumTerm/x2', 'storageMediumTerm/x3']
@@ -24,48 +24,46 @@ export const load = async ({ locals, url }) => {
 	const storageOpenPeriods = await getOpenPeriods('storageMediumTerm');
 
 	const storageRows = mediumTermStorageRows.map((row) =>
-		row
-			.map((temporaryStorage) => {
-				const resource = storageResources.find((resource) => resource.name === temporaryStorage);
-				if (!resource) {
-					throw new Error(`Resource not found: ${temporaryStorage}`);
-				}
+		row.map((temporaryStorage) => {
+			const resource = storageResources.find((resource) => resource.name === temporaryStorage);
+			if (!resource) {
+				throw new Error(`Resource not found: ${temporaryStorage}`);
+			}
 
-				const period = storageOpenPeriods.find(
-					(openPeriod) => openPeriod.resourceName === temporaryStorage
-				);
+			const period = storageOpenPeriods.find(
+				(openPeriod) => openPeriod.resourceName === temporaryStorage
+			);
 
-				const multiplePeriodsFound =
-					storageOpenPeriods.filter((openPeriod) => openPeriod.resourceName === temporaryStorage)
-						.length > 1;
-				if (multiplePeriodsFound) {
-					throw new Error(`Multiple open periods found for resource: ${temporaryStorage}`);
-				}
+			const multiplePeriodsFound =
+				storageOpenPeriods.filter((openPeriod) => openPeriod.resourceName === temporaryStorage)
+					.length > 1;
+			if (multiplePeriodsFound) {
+				throw new Error(`Multiple open periods found for resource: ${temporaryStorage}`);
+			}
 
-				const member = period
-					? members.find((member) => member.crNumber === period.memberCrNumber)
-					: null;
+			const member = period
+				? members.find((member) => member.crNumber === period.memberCrNumber)
+				: null;
 
-				const storage = {
-					name: resource.name,
-					period:
-						period && member
-							? {
-									uuid: period.uuid,
-									member: {
-										name: member.name,
-										slackID: member.slackID,
-										crNumber: member.crNumber
-									},
-									start: period.start,
-									end: period.end
-								}
-							: null
-				};
+			const storage = {
+				name: resource.name,
+				period:
+					period && member
+						? {
+								uuid: period.uuid,
+								member: {
+									name: member.name,
+									slackID: member.slackID,
+									crNumber: member.crNumber
+								},
+								start: period.start,
+								end: period.end
+							}
+						: null
+			};
 
-				return storage;
-			})
-			.filter((storage): storage is NonNullable<typeof storage> => storage !== null)
+			return storage;
+		})
 	);
 
 	const membersWithStorage = new Set(

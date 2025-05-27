@@ -1,9 +1,8 @@
+import * as fs from 'node:fs';
 import { error } from '@sveltejs/kit';
 
-import * as fs from 'node:fs';
-
-import { MemberSchema, MembersSchema } from '$lib/schemas/members.js';
 import type { Commission, Member, Members } from '$lib/types/members.js';
+import { MemberSchema, MembersSchema } from '$lib/schemas/members.js';
 import { getValidCommissions, getValidWorkPools } from '$lib/server/enums.js';
 
 import { env } from '$env/dynamic/private';
@@ -75,7 +74,7 @@ export function areAllMembersEqual(a: Members, b: Members): boolean {
 	return a.every((member, index) => areMembersEqual(member, b[index]));
 }
 
-function areArraysEqual<T>(a: T[], b: T[]): boolean {
+function areArraysEqual<T>(a: Array<T>, b: Array<T>): boolean {
 	if (a.length !== b.length) return false;
 	return JSON.stringify(a) === JSON.stringify(b);
 }
@@ -101,7 +100,7 @@ export function validateAllMembers(members: unknown): Members {
 	return validatedMembers;
 }
 
-export function validateMemberWorkPools(workPools: string[]) {
+export function validateMemberWorkPools(workPools: Array<string>) {
 	const validWorkPools = getValidWorkPools();
 
 	for (const workPool of workPools) {
@@ -113,7 +112,7 @@ export function validateMemberWorkPools(workPools: string[]) {
 	return workPools;
 }
 
-export function validateMemberCommissions(commissions: Commission[]) {
+export function validateMemberCommissions(commissions: Array<Commission>) {
 	const validCommissions = getValidCommissions();
 
 	for (const commission of commissions) {

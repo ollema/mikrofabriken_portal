@@ -1,12 +1,12 @@
 import type { BarcodeFormat } from 'barqode';
 
 export function paintOutline(
-	detectedCodes: {
-		cornerPoints: { x: number; y: number }[];
+	detectedCodes: Array<{
+		cornerPoints: Array<{ x: number; y: number }>;
 		boundingBox: DOMRectReadOnly;
 		rawValue: string;
 		format: BarcodeFormat;
-	}[],
+	}>,
 	ctx: CanvasRenderingContext2D
 ) {
 	for (const detectedCode of detectedCodes) {

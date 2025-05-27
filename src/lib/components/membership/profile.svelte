@@ -27,7 +27,7 @@
 </script>
 
 {#snippet subtitle(title: string)}
-	<div class="mb-4 mt-6 w-full text-xl">{title}</div>
+	<div class="mt-6 mb-4 w-full text-xl">{title}</div>
 {/snippet}
 
 {#snippet profile(member: Member)}

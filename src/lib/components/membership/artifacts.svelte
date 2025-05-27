@@ -2,8 +2,8 @@
 	import IconEntry from './icon-entry.svelte';
 	import type { Artifact } from '$lib/types/members.js';
 	import { isArtifactActive } from '$lib/utils/member.js';
-	import Nfc from 'lucide-svelte/icons/nfc';
-	import KeyRound from 'lucide-svelte/icons/key-round';
+	import Nfc from '@lucide/svelte/icons/nfc';
+	import KeyRound from '@lucide/svelte/icons/key-round';
 
 	interface Props {
 		artifacts: Artifact[];

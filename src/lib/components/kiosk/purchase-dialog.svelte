@@ -4,7 +4,7 @@
 	import * as Drawer from '$lib/components/ui/drawer/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
+	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
 	import type { Product } from '$lib/types/cog.js';
 
 	import { enhance } from '$app/forms';
@@ -70,8 +70,8 @@
 
 {#snippet content(product: Product)}
 	<div class="text-xl font-semibold">Köp {product.name}?</div>
-	<div class="mt-2 text-muted-foreground">EAN: {product.ean}</div>
-	<div class="mt-2 text-muted-foreground">Pris: {product.pricePerUnit} kr</div>
+	<div class="text-muted-foreground mt-2">EAN: {product.ean}</div>
+	<div class="text-muted-foreground mt-2">Pris: {product.pricePerUnit} kr</div>
 	<div class="text-muted-foreground">Detaljer: {product.details}</div>
 	<div class="text-muted-foreground">Kategori: {product.category}</div>
 	<form
@@ -155,12 +155,12 @@
 
 {#snippet missingProductContent()}
 	<div class="text-xl font-semibold">Okänd produkt</div>
-	<div class="mt-2 text-muted-foreground">
+	<div class="text-muted-foreground mt-2">
 		Streckkod:
-		<span class="font-mono text-lg text-foreground">{barcode}</span>
+		<span class="text-foreground font-mono text-lg">{barcode}</span>
 	</div>
 	<div class="text-muted-foreground">motsvarar ingen känd produkt.</div>
-	<div class="mt-2 text-muted-foreground">
+	<div class="text-muted-foreground mt-2">
 		Om felet kvarstår kan produkten saknas från kioskens sortiment.
 	</div>
 	<Button class="mt-4 max-w-40 self-end" onclick={closeDialog}>OK</Button>
@@ -195,7 +195,7 @@
 				escapeKeydownBehavior="ignore"
 				interactOutsideBehavior="ignore"
 			>
-				<div class="px-3 pb-2 pt-4">
+				<div class="px-3 pt-4 pb-2">
 					{@render content(product)}
 				</div>
 			</Drawer.Content>

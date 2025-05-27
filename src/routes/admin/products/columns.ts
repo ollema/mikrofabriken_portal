@@ -1,11 +1,11 @@
+import { createRawSnippet } from 'svelte';
+import DataTableRowActions from './data-table-row-actions.svelte';
 import type { ColumnDef } from '@tanstack/table-core';
 import type { Product } from '$lib/types/cog.js';
-import { createRawSnippet } from 'svelte';
 import { renderComponent, renderSnippet } from '$lib/components/ui/data-table/index.js';
 import { DataTableColumnHeader } from '$lib/components/data-table/index.js';
-import DataTableRowActions from './data-table-row-actions.svelte';
 
-export const columns: ColumnDef<Product>[] = [
+export const columns: Array<ColumnDef<Product>> = [
 	{
 		id: 'UUID',
 		accessorKey: 'uuid',

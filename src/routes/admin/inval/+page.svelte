@@ -125,7 +125,7 @@
 					<Label for="insats">Medlemmen vill teckna insats</Label>
 				</div>
 				{#if membersWithLinks[i].link !== null}
-					<div class="overflow-scroll text-xs text-muted-foreground">
+					<div class="text-muted-foreground overflow-scroll text-xs">
 						{membersWithLinks[i].link}
 					</div>
 					<Button

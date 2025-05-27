@@ -2,7 +2,10 @@ import { error, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
-import { z } from 'zod';
+import { parseDate } from '@internationalized/date';
+import { commissionsFormSchema } from './schema.js';
+import type { z } from 'zod';
+import type { Member } from '$lib/types/members.js';
 import { getUser } from '$lib/server/auth.js';
 import {
 	areMembersEqual,
@@ -12,8 +15,6 @@ import {
 	validateMember
 } from '$lib/server/members.js';
 import { getValidCommissions } from '$lib/server/enums.js';
-import { commissionsFormSchema } from './schema.js';
-import { parseDate } from '@internationalized/date';
 import {
 	getPendingUpdateForMember,
 	getSuggestChangeOptions,
@@ -21,7 +22,6 @@ import {
 	updateRepo
 } from '$lib/server/gitlab.js';
 import { env } from '$env/dynamic/private';
-import type { Member } from '$lib/types/members.js';
 
 export const load = async ({ locals, params }) => {
 	getUser(locals);

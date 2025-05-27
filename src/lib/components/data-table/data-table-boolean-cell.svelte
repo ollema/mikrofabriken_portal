@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Check from 'lucide-svelte/icons/check';
-	import X from 'lucide-svelte/icons/x';
+	import Check from '@lucide/svelte/icons/check';
+	import X from '@lucide/svelte/icons/x';
 
 	let { value }: { value: string } = $props();
 </script>

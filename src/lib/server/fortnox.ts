@@ -1,5 +1,5 @@
-import type { Member } from '$lib/types/members.js';
 import { error } from '@sveltejs/kit';
+import type { Member } from '$lib/types/members.js';
 import {
 	CustomersResponseSchema,
 	InvoiceResponseSchema,
@@ -22,7 +22,7 @@ const get = async (path: string) => {
 	const headers = {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
-		Authorization: env.FNP_KEY as string
+		Authorization: env.FNP_KEY
 	};
 
 	const response = await fetch(`${BASE_URL}${path}`, {
@@ -167,7 +167,7 @@ export const downloadInvoicePdf = async (documentNumber: string) => {
 	const headers = {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
-		Authorization: env.FNP_KEY as string
+		Authorization: env.FNP_KEY
 	};
 
 	const response = await fetch(`${BASE_URL}/invoices/${documentNumber}/print`, {

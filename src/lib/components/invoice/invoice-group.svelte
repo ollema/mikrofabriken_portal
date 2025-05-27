@@ -6,6 +6,6 @@
 	let { children }: Props = $props();
 </script>
 
-<div class="flex flex-col gap-4 rounded-xl border bg-card p-6 text-card-foreground shadow">
+<div class="bg-card text-card-foreground flex flex-col gap-4 rounded-xl border p-6 shadow-sm">
 	{@render children?.()}
 </div>

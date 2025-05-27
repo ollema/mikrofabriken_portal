@@ -15,7 +15,7 @@
 	const params = queryParameters(
 		{
 			columnFilters: ssp.object<ColumnFiltersState>([]),
-			sorting: ssp.object<SortingState>([{ id: 'Date', desc: true }]),
+			sorting: ssp.object<SortingState>([{ id: 'Datum', desc: true }]),
 			pagination: ssp.object<PaginationState>({
 				pageIndex: 1,
 				pageSize: 10

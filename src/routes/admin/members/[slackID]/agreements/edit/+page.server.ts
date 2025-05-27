@@ -2,11 +2,12 @@ import { error, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
-import { z } from 'zod';
+import { parseDate } from '@internationalized/date';
+import { agreementsFormSchema } from './schema.js';
+import type { z } from 'zod';
+import type { Member } from '$lib/types/members.js';
 import { getUser } from '$lib/server/auth.js';
 import { areMembersEqual, findMember, getMember, getMembers } from '$lib/server/members.js';
-import { agreementsFormSchema } from './schema.js';
-import { parseDate } from '@internationalized/date';
 import {
 	getPendingUpdateForMember,
 	getSuggestChangeOptions,
@@ -14,7 +15,6 @@ import {
 	updateRepo
 } from '$lib/server/gitlab.js';
 import { env } from '$env/dynamic/private';
-import type { Member } from '$lib/types/members.js';
 
 export const load = async ({ locals, params }) => {
 	getUser(locals);
@@ -106,51 +106,50 @@ function populateFromCurrent(member: Member): z.infer<typeof agreementsFormSchem
 	const pallets: z.infer<typeof agreementsFormSchema>['pallets'] = [];
 
 	agreements.forEach((agreement) => {
-		if (agreement.type === 'membership') {
-			memberships.push({
-				type: 'membership' as const,
-				startDate: agreement.startDate,
-				endDate: agreement.endDate
-			});
-		} else if (agreement.type === 'investment') {
-			memberships.push({
-				type: 'investment' as const,
-				startDate: agreement.startDate,
-				endDate: agreement.endDate
-			});
-		} else if (agreement.type === 'passive') {
-			memberships.push({
-				type: 'passive' as const,
-				startDate: agreement.startDate,
-				endDate: agreement.endDate
-			});
-		} else if (agreement.type === 'asylumInside') {
-			if (agreement.attributes?.size !== undefined) {
+		switch (agreement.type) {
+			case 'membership': {
+				memberships.push({
+					type: 'membership' as const,
+					startDate: agreement.startDate,
+					endDate: agreement.endDate
+				});
+				break;
+			}
+			case 'investment': {
+				memberships.push({
+					type: 'investment' as const,
+					startDate: agreement.startDate,
+					endDate: agreement.endDate
+				});
+				break;
+			}
+			case 'passive': {
+				memberships.push({
+					type: 'passive' as const,
+					startDate: agreement.startDate,
+					endDate: agreement.endDate
+				});
+				break;
+			}
+			case 'asylumInside': {
 				asylums.push({
 					type: 'asylumInside' as const,
 					startDate: agreement.startDate,
 					size: agreement.attributes.size,
 					endDate: agreement.endDate
 				});
-			} else {
-				throw new Error('AsylumInside agreement is missing size');
+				break;
 			}
-		} else if (agreement.type === 'asylumOutside') {
-			if (agreement.attributes?.size !== undefined) {
+			case 'asylumOutside': {
 				asylums.push({
 					type: 'asylumOutside' as const,
 					startDate: agreement.startDate,
 					size: agreement.attributes.size,
 					endDate: agreement.endDate
 				});
-			} else {
-				throw new Error('AsylumOutside agreement is missing size');
+				break;
 			}
-		} else if (agreement.type === 'palletInside') {
-			if (
-				agreement.attributes?.palletCount !== undefined &&
-				agreement.attributes.palletIds !== undefined
-			) {
+			case 'palletInside': {
 				pallets.push({
 					type: 'palletInside' as const,
 					startDate: agreement.startDate,
@@ -158,14 +157,9 @@ function populateFromCurrent(member: Member): z.infer<typeof agreementsFormSchem
 					palletIds: agreement.attributes.palletIds,
 					endDate: agreement.endDate
 				});
-			} else {
-				throw new Error('PalletInside agreement is missing palletCount or palletIds');
+				break;
 			}
-		} else if (agreement.type === 'palletOutside') {
-			if (
-				agreement.attributes?.palletCount !== undefined &&
-				agreement.attributes.palletIds !== undefined
-			) {
+			case 'palletOutside': {
 				pallets.push({
 					type: 'palletOutside' as const,
 					startDate: agreement.startDate,
@@ -173,18 +167,18 @@ function populateFromCurrent(member: Member): z.infer<typeof agreementsFormSchem
 					palletIds: agreement.attributes.palletIds,
 					endDate: agreement.endDate
 				});
-			} else {
-				throw new Error('PalletOutside agreement is missing palletCount or palletIds');
+				break;
 			}
-		} else {
-			throw new Error('Unknown agreement type');
+			default: {
+				throw new Error('Unknown agreement type');
+			}
 		}
 	});
 
 	return {
-		memberships: memberships,
-		asylums: asylums,
-		pallets: pallets
+		memberships,
+		asylums,
+		pallets
 	};
 }
 
