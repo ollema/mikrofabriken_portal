@@ -4,7 +4,7 @@ import { getMember } from '$lib/server/members.js';
 import { purchaseProduct } from '$lib/server/cog.js';
 import { PurchaseSchema } from '$lib/schemas/cog.js';
 
-export async function load({ locals, url }) {
+export function load({ locals, url }) {
 	const user = getUser(locals, url);
 	const member = getMember(user.slackID);
 

@@ -18,6 +18,9 @@ export default ts.config(
 				...globals.browser,
 				...globals.node
 			}
+		},
+		rules: {
+			'no-shadow': 'off'
 		}
 	},
 	{

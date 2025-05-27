@@ -3,7 +3,7 @@ import { getMember, getMembers } from '$lib/server/members.js';
 import { getWorkPoolNames, getWorkPools } from '$lib/server/workpools.js';
 import { isCommissionActive, isMemberActive } from '$lib/utils/member.js';
 
-export const load = async ({ locals }) => {
+export const load = ({ locals }) => {
 	const user = getUser(locals);
 	const member = getMember(user.slackID);
 	const workPools = getWorkPools();

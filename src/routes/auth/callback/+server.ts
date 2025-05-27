@@ -100,7 +100,7 @@ function validateMembership(slackID: string) {
 	}
 }
 
-async function upsertUser(slackUser: SlackUser, admin: boolean, claims: Claims, token: string) {
+function upsertUser(slackUser: SlackUser, admin: boolean, claims: Claims, token: string) {
 	return db
 		.insert(user)
 		.values({
