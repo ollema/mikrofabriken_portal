@@ -12,14 +12,19 @@ export const handlers = [
 	 * Data persists until server restart.
 	 */
 	http.get('*/persons/claims/:crNumber', ({ request, params }) => {
-		const crNumber = params.crNumber as string;
+		const [crNumber] = Array.isArray(params.crNumber) ? params.crNumber : [params.crNumber];
+		if (!crNumber) {
+			console.warn('[MSW] No crNumber provided in request to /persons/claims');
+			return passthrough();
+		}
+
 		console.log(
 			`[MSW] COG API /persons/claims/${crNumber} intercepted: ${request.method} ${request.url}`
 		);
 
 		try {
 			const result = seedDatabase(crNumber);
-			if (result.customer && result.invoices.length > 0) {
+			if (result.invoices.length > 0) {
 				console.log(`[MSW] ✅ Successfully seeded invoice data for crNumber: ${crNumber}`);
 				console.log(
 					`[MSW] 📄 Created ${result.invoices.length} invoices for customer: ${result.customer.Name}`

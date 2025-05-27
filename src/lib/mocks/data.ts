@@ -1,7 +1,7 @@
-import { factory, primaryKey, nullable } from '@mswjs/data';
 import { faker } from '@faker-js/faker';
-import type { InvoiceRow, Invoice } from '$lib/types/fortnox.js';
-import type { InvoiceDetailSchema, CustomersResponseSchema } from '$lib/schemas/fortnox.js';
+import { factory, nullable, primaryKey } from '@mswjs/data';
+import type { CustomersResponseSchema, InvoiceDetailSchema } from '$lib/schemas/fortnox.js';
+import type { Invoice, InvoiceRow } from '$lib/types/fortnox.js';
 import type { z } from 'zod';
 
 type InvoiceDetail = z.infer<typeof InvoiceDetailSchema>;
@@ -71,7 +71,10 @@ export const db = factory({
  * @param count - Number of invoice rows to generate
  * @returns Array of InvoiceRow objects (as stored in db)
  */
-export const generateInvoiceRows = (documentNumber: string, count: number = 5): InvoiceRow[] => {
+export const generateInvoiceRows = (
+	documentNumber: string,
+	count: number = 5
+): Array<InvoiceRow> => {
 	const productGenerators = [
 		faker.animal.type,
 		faker.food.vegetable,
@@ -190,10 +193,10 @@ const generateInvoices = (customer: ReturnType<typeof generateCustomer>, count: 
 			CustomerNumber: customer.CustomerNumber,
 			CustomerName: customer.Name,
 			Cancelled: false,
-			InvoiceDate: invoiceDate.toISOString().split('T')[0],
-			DueDate: dueDate.toISOString().split('T')[0],
+			InvoiceDate: invoiceDate.toISOString().split('T')[0] || '',
+			DueDate: dueDate.toISOString().split('T')[0] || '',
 			Total: total,
-			FinalPayDate: finalPayDate
+			FinalPayDate: finalPayDate || ''
 		};
 		invoices.push({
 			basic: basicInvoice,
