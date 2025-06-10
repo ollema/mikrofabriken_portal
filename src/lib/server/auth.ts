@@ -51,6 +51,7 @@ export async function validateSessionToken(token: string) {
 		.innerJoin(table.user, eq(table.session.userId, table.user.id))
 		.where(eq(table.session.id, sessionId));
 
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	if (result == null) {
 		return { session: null, user: null };
 	}
