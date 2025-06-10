@@ -90,6 +90,7 @@
 		$formData.pallets[index].palletIds = $formData.pallets[index].palletIds.filter(
 			(_, i) => i !== idIndex
 		);
+		$formData.pallets[index].palletCount = $formData.pallets[index].palletIds.length;
 	}
 </script>
 
@@ -338,7 +339,7 @@
 											<Form.Label>Antal pallplatser</Form.Label>
 											<Input
 												type="number"
-												class="text-muted-foreground w-full cursor-default cursor-not-allowed"
+												class="text-muted-foreground w-full cursor-not-allowed"
 												{...props}
 												bind:value={$formData.pallets[i].palletCount}
 												readonly
