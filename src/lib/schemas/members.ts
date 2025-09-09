@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const IceContact = z
 	.object({
 		name: z.string().min(1, { message: 'Name needs to be at least 1 character long' }),
-		phone: z.string().regex(/^[0-9]{10}$/, {
+		phone: z.string().regex(/^[0-9]{8,10}$/, {
 			message: 'Phone number must start with 0 and be 10 digits long'
 		})
 	})
@@ -16,7 +16,8 @@ export const AgreementTypes = z.enum([
 	'asylumInside',
 	'asylumOutside',
 	'palletInside',
-	'palletOutside'
+	'palletOutside',
+	'externalAccess'
 ]);
 
 const BaseAgreementSchema = z.object({
@@ -74,6 +75,10 @@ const PalletOutsideAgreementSchema = BaseAgreementSchema.extend({
 		.strict()
 });
 
+const ExternalAccessAgreementSchema = BaseAgreementSchema.extend({
+	type: z.literal('externalAccess')
+});
+
 export const AgreementSchema = z.discriminatedUnion('type', [
 	MembershipAgreementSchema,
 	InvestmentAgreementSchema,
@@ -81,7 +86,8 @@ export const AgreementSchema = z.discriminatedUnion('type', [
 	AsylumInsideAgreementSchema,
 	AsylumOutsideAgreementSchema,
 	PalletInsideAgreementSchema,
-	PalletOutsideAgreementSchema
+	PalletOutsideAgreementSchema,
+	ExternalAccessAgreementSchema
 ]);
 
 export const ArtifactTypes = z.enum(['key', 'rfid']);
@@ -159,7 +165,7 @@ export const MemberSchema = z
 		postalCode: z.string().min(1, { message: 'Postal code needs to be at least 1 character long' }),
 		postalCity: z.string().min(1, { message: 'Postal city needs to be at least 1 character long' }),
 		email: z.string().email({ message: 'Email needs to be a valid email address' }),
-		phone: z.string().regex(/^[0-9]{10}$/, {
+		phone: z.string().regex(/^[0-9]{8,10}$/, {
 			message: 'Phone number must start with 0 and be 10 digits long'
 		}),
 		iceContacts: z.array(IceContact),
