@@ -3,15 +3,15 @@ import { getMember } from '$lib/server/members.js';
 import { downloadInvoicePdf, getInvoice } from '$lib/server/fortnox.js';
 
 export async function handleInvoicePdfRequest(
-	locals: any, 
-	params: { documentNumber: string }, 
+	locals: any,
+	params: { documentNumber: string },
 	url: URL
 ) {
 	const user = getUser(locals, url);
 	const member = getMember(user.slackID);
 
 	// get the invoice from Fortnox
-    // the actual invoice data is ignored, we only need to check if the user is allowed to view the invoice
+	// the actual invoice data is ignored, we only need to check if the user is allowed to view the invoice
 	await getInvoice(params.documentNumber, member, user.role as 'admin' | 'user');
 
 	// download the PDF

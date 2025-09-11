@@ -67,7 +67,8 @@
 							{/snippet}
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content class="w-fit" align="end">
-							<DropdownMenu.Item onSelect={onEditProfileSelected}>Redigera profil</DropdownMenu.Item>
+							<DropdownMenu.Item onSelect={onEditProfileSelected}>Redigera profil</DropdownMenu.Item
+							>
 							{#if data.member.company}
 								<DropdownMenu.Item onSelect={onEditCompanySelected}
 									>Redigera företag</DropdownMenu.Item
@@ -80,7 +81,8 @@
 							<DropdownMenu.Item onSelect={onEditIceContactsSelected}
 								>Redigera ICE-kontakter</DropdownMenu.Item
 							>
-							<DropdownMenu.Item onSelect={onEditAgreementsSelected}>Redigera avtal</DropdownMenu.Item
+							<DropdownMenu.Item onSelect={onEditAgreementsSelected}
+								>Redigera avtal</DropdownMenu.Item
 							>
 							<DropdownMenu.Item onSelect={onEditArtifactsSelected}>
 								Redigera RFID-taggar & nycklar
