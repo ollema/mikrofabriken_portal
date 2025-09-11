@@ -29,7 +29,7 @@ npm install -g pnpm
 pnpm install
 ```
 
-#### 2.1
+#### 2.1 create database
 
 ```bash
 DB_PATH=db/portal.db pnpm db:push
