@@ -16,24 +16,7 @@
 
 	interface Props {
 		data: {
-			invoice: {
-				DocumentNumber: string;
-				CustomerName: string;
-				OrganisationNumber: string;
-				CustomerNumber: string;
-				Address1: string;
-				ZipCode: string;
-				City: string;
-				OCR: string;
-				InvoiceDate: string;
-				DueDate: string;
-				Gross: string;
-				TotalVAT: string;
-				RoundOff: string;
-				TotalToPay: string;
-				FinalPayDate: string | null;
-				InvoiceRows: any[];
-			};
+			invoice: Invoice;
 		};
 		getPdfUrl: (documentNumber: string) => string;
 	}

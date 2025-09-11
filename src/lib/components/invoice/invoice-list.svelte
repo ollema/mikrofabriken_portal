@@ -5,6 +5,7 @@
 	import { columns } from '$lib/components/invoice/invoice-columns.js';
 	import { goto } from '$app/navigation';
 	import type { Invoice } from '$lib/types/fortnox.js';
+	import type { Member } from '$lib/types/members.js';
 
 	interface Props {
 		data: {

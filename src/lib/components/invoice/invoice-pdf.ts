@@ -3,7 +3,7 @@ import { getMember } from '$lib/server/members.js';
 import { downloadInvoicePdf, getInvoice } from '$lib/server/fortnox.js';
 
 export async function handleInvoicePdfRequest(
-	locals: any,
+	locals: App.Locals,
 	params: { documentNumber: string },
 	url: URL
 ) {
