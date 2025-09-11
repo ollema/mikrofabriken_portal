@@ -81,7 +81,9 @@
 						<DropdownMenu.Item onSelect={onEditArtifactsSelected}>
 							Redigera RFID-taggar & nycklar
 						</DropdownMenu.Item>
-						<DropdownMenu.Item onSelect={onEditCommissionsSelected}>Redigera roller</DropdownMenu.Item>
+						<DropdownMenu.Item onSelect={onEditCommissionsSelected}
+							>Redigera roller</DropdownMenu.Item
+						>
 						<DropdownMenu.Item onSelect={onEditWorkPoolsSelected}
 							>Redigera arbetspooler</DropdownMenu.Item
 						>
