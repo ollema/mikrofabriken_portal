@@ -37,6 +37,10 @@
 	function onEditWorkPoolsSelected() {
 		goto(href + '/work-pools/edit');
 	}
+
+	function onViewInvoicesSelected() {
+		goto(href + '/invoices');
+	}
 </script>
 
 <div class="mx-auto w-full">
@@ -50,39 +54,44 @@
 					</Avatar.Root>
 					<PageHeader.Title>{data.member.name}</PageHeader.Title>
 				</div>
-				<DropdownMenu.Root>
-					<DropdownMenu.Trigger>
-						{#snippet child({ props })}
-							<Button {...props} variant="outline" size="sm" class="data-[state=open]:bg-muted">
-								Redigera
-							</Button>
-						{/snippet}
-					</DropdownMenu.Trigger>
-					<DropdownMenu.Content class="w-fit" align="end">
-						<DropdownMenu.Item onSelect={onEditProfileSelected}>Redigera profil</DropdownMenu.Item>
-						{#if data.member.company}
-							<DropdownMenu.Item onSelect={onEditCompanySelected}
-								>Redigera företag</DropdownMenu.Item
+				<div class="flex items-center gap-2">
+					<Button variant="outline" size="sm" onclick={onViewInvoicesSelected}>
+						Visa fakturor
+					</Button>
+					<DropdownMenu.Root>
+						<DropdownMenu.Trigger>
+							{#snippet child({ props })}
+								<Button {...props} variant="outline" size="sm" class="data-[state=open]:bg-muted">
+									Redigera
+								</Button>
+							{/snippet}
+						</DropdownMenu.Trigger>
+						<DropdownMenu.Content class="w-fit" align="end">
+							<DropdownMenu.Item onSelect={onEditProfileSelected}>Redigera profil</DropdownMenu.Item>
+							{#if data.member.company}
+								<DropdownMenu.Item onSelect={onEditCompanySelected}
+									>Redigera företag</DropdownMenu.Item
+								>
+							{:else}
+								<DropdownMenu.Item onSelect={onEditCompanySelected}
+									>Lägg till företag</DropdownMenu.Item
+								>
+							{/if}
+							<DropdownMenu.Item onSelect={onEditIceContactsSelected}
+								>Redigera ICE-kontakter</DropdownMenu.Item
 							>
-						{:else}
-							<DropdownMenu.Item onSelect={onEditCompanySelected}
-								>Lägg till företag</DropdownMenu.Item
+							<DropdownMenu.Item onSelect={onEditAgreementsSelected}>Redigera avtal</DropdownMenu.Item
 							>
-						{/if}
-						<DropdownMenu.Item onSelect={onEditIceContactsSelected}
-							>Redigera ICE-kontakter</DropdownMenu.Item
-						>
-						<DropdownMenu.Item onSelect={onEditAgreementsSelected}>Redigera avtal</DropdownMenu.Item
-						>
-						<DropdownMenu.Item onSelect={onEditArtifactsSelected}>
-							Redigera RFID-taggar & nycklar
-						</DropdownMenu.Item>
-						<DropdownMenu.Item onSelect={onEditCommissionsSelected}>Redigera</DropdownMenu.Item>
-						<DropdownMenu.Item onSelect={onEditWorkPoolsSelected}
-							>Redigera arbetspooler</DropdownMenu.Item
-						>
-					</DropdownMenu.Content>
-				</DropdownMenu.Root>
+							<DropdownMenu.Item onSelect={onEditArtifactsSelected}>
+								Redigera RFID-taggar & nycklar
+							</DropdownMenu.Item>
+							<DropdownMenu.Item onSelect={onEditCommissionsSelected}>Redigera</DropdownMenu.Item>
+							<DropdownMenu.Item onSelect={onEditWorkPoolsSelected}
+								>Redigera arbetspooler</DropdownMenu.Item
+							>
+						</DropdownMenu.Content>
+					</DropdownMenu.Root>
+				</div>
 			</div>
 		</PageHeader.Heading>
 	</PageHeader.Root>

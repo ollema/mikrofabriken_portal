@@ -1,7 +1,7 @@
 import type { ColumnDef } from '@tanstack/table-core';
 import type { InvoiceRow } from '$lib/types/fortnox.js';
 
-export const columns: Array<ColumnDef<InvoiceRow>> = [
+export const invoiceRowColumns: Array<ColumnDef<InvoiceRow>> = [
 	{
 		id: 'Description',
 		accessorKey: 'Description',
