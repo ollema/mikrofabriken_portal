@@ -25,6 +25,7 @@ git clone git@gitlab.mikrofabriken.se:mikrofabriken/ufdata.git
 
 ```bash
 cd mikrofabriken_portal
+npm install -g pnpm
 pnpm install
 ```
 
