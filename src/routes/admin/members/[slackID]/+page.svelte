@@ -55,9 +55,7 @@
 					<PageHeader.Title>{data.member.name}</PageHeader.Title>
 				</div>
 				<div class="flex items-center gap-2">
-					<Button variant="outline" size="sm" onclick={onViewInvoicesClicked}>
-						Visa fakturor
-					</Button>
+					<Button variant="outline" size="sm" onclick={onViewInvoicesClicked}>Visa fakturor</Button>
 					<DropdownMenu.Root>
 						<DropdownMenu.Trigger>
 							{#snippet child({ props })}
