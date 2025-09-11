@@ -1,5 +1,5 @@
-import { getOpenPeriods } from '$lib/server/cog';
 import type { Claims } from '$lib/types/cog.js';
+import { getOpenPeriods } from '$lib/server/cog';
 
 export function hasClaim(claims: Claims | undefined, resource: string, action: string): boolean {
 	if (claims === undefined) {
@@ -16,7 +16,7 @@ export function hasClaim(claims: Claims | undefined, resource: string, action: s
 }
 
 // gets all the members who are currently present (i.e. have an open period in the room resource)
-export async function getPresentMembers() : Promise<Record<string, boolean>> {
+export async function getPresentMembers(): Promise<Record<string, boolean>> {
 	try {
 		const periods = await getOpenPeriods('room');
 		const here = periods.reduce(
@@ -28,7 +28,7 @@ export async function getPresentMembers() : Promise<Record<string, boolean>> {
 		);
 		return here;
 	} catch (e) {
-		console.error('could not fetch member presence status');
+		console.error('could not fetch member presence status', e);
 		return {};
 	}
 }
