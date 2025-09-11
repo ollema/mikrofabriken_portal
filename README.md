@@ -25,12 +25,20 @@ git clone git@gitlab.mikrofabriken.se:mikrofabriken/ufdata.git
 
 ```bash
 cd mikrofabriken_portal
+npm install -g pnpm
 pnpm install
+```
+
+#### 2.1
+
+```bash
+DB_PATH=db/portal.db pnpm db:push
 ```
 
 #### 3. configure environment variables
 
-use `.env.example` as a template for your `.env` file.
+1. use `.env.example` as a template for your `.env` file.
+2. set `UFDATA_REPO_PATH` to the directory where you cloned `ufdata`, e.g. `UFDATA_REPO_PATH=../ufdata`
 
 #### 4. create a new branch to work on your changes:
 
