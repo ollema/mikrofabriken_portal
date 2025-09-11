@@ -29,6 +29,12 @@ npm install -g pnpm
 pnpm install
 ```
 
+#### 2.1
+
+```bash
+DB_PATH=db/portal.db pnpm db:push
+```
+
 #### 3. configure environment variables
 
 1. use `.env.example` as a template for your `.env` file.
