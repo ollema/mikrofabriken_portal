@@ -2,7 +2,7 @@ import * as fs from 'node:fs';
 import { error } from '@sveltejs/kit';
 
 import type { Committee, Committees } from '$lib/types/committees.js';
-import { CommitteesSchema} from '$lib/schemas/committees.js';
+import { CommitteesSchema } from '$lib/schemas/committees.js';
 
 import { env } from '$env/dynamic/private';
 

@@ -2,7 +2,6 @@ import type { Member } from '$lib/types/members.js';
 import { isAgreementActive, isCommissionActive } from '$lib/utils/member.js';
 import { getCommittees } from '$lib/server/committees.js';
 import { getAvatar } from '$lib/server/cog.js';
-import type { Committee } from '$lib/types/committees';
 
 const formatMember = (here: Record<string, boolean>) => async (member: Member) => {
 	return {
@@ -69,30 +68,27 @@ export async function getFormattedMembersBasedOnCommissions(
 	for (const member of sortedMembers) {
 		for (const commission of member.commissions) {
 			if (isEntryActive(commission)) {
-				if (!commissionMembers[commission.type]) {
-					commissionMembers[commission.type] = [];
-				}
+				commissionMembers[commission.type] ??= [];
 				commissionMembers[commission.type].push(member);
 			}
 		}
 	}
-
 
 	const boardEntry = async (commission: string) => {
 		return {
 			label: commission,
 			description: undefined,
 			members: await Promise.all((commissionMembers[commission] ?? []).map(formatMember(here)))
-		}
-	}
+		};
+	};
 
 	const groupEntry = async (commission: string) => {
 		return {
 			label: commission,
 			description: undefined,
 			members: await Promise.all((commissionMembers[commission] ?? []).map(formatMember(here)))
-		}
-	}
+		};
+	};
 
 	const omkEntry = async (commission: string) => {
 		const committee = committees.find((c) => c.name === commission);
@@ -101,10 +97,10 @@ export async function getFormattedMembersBasedOnCommissions(
 		}
 		return {
 			label: committee.friendlyName,
-			description: committee?.description,
+			description: committee.description,
 			members: await Promise.all((commissionMembers[committee.name] ?? []).map(formatMember(here)))
-		}
-	}
+		};
+	};
 
 	return {
 		board: await Promise.all([
@@ -112,7 +108,7 @@ export async function getFormattedMembersBasedOnCommissions(
 			boardEntry('board/cashier'),
 			boardEntry('board/secretary'),
 			boardEntry('board/member'),
-			boardEntry('board/alternate'),
+			boardEntry('board/alternate')
 		]),
 		groups: await Promise.all([
 			groupEntry('auditor/member'),
@@ -122,24 +118,24 @@ export async function getFormattedMembersBasedOnCommissions(
 			groupEntry('committee/it'),
 			groupEntry('committee/pr'),
 			groupEntry('committee/sponsorships'),
-			groupEntry('admin/portal'),
+			groupEntry('admin/portal')
 		]),
 		omks: await Promise.all([
-		 omkEntry('workshop/3dprint'),
-		 omkEntry('workshop/3s'),
-		 omkEntry('workshop/asylumstorage'),
-		 omkEntry('workshop/brewery'),
-		 omkEntry('workshop/electronics'),
-		 omkEntry('workshop/vehicle'),
-		 omkEntry('workshop/office'),
-		 omkEntry('workshop/laser'),
-		 omkEntry('workshop/painting'),
-		 omkEntry('workshop/metal'),
-		 omkEntry('workshop/support'),
-		 omkEntry('workshop/textile'),
-		 omkEntry('workshop/plaza'),
-		 omkEntry('workshop/wood'),
-		]),
+			omkEntry('workshop/3dprint'),
+			omkEntry('workshop/3s'),
+			omkEntry('workshop/asylumstorage'),
+			omkEntry('workshop/brewery'),
+			omkEntry('workshop/electronics'),
+			omkEntry('workshop/vehicle'),
+			omkEntry('workshop/office'),
+			omkEntry('workshop/laser'),
+			omkEntry('workshop/painting'),
+			omkEntry('workshop/metal'),
+			omkEntry('workshop/support'),
+			omkEntry('workshop/textile'),
+			omkEntry('workshop/plaza'),
+			omkEntry('workshop/wood')
+		])
 	};
 }
 
