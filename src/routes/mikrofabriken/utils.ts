@@ -3,19 +3,28 @@ import { isAgreementActive, isCommissionActive } from '$lib/utils/member.js';
 import { findCommittee, getCommittees } from '$lib/server/committees.js';
 import { getAvatar } from '$lib/server/cog.js';
 
-const formatMember = (here: Record<string, boolean>) => async (member: Member) => {
-	return {
-		name: member.name,
-		avatar: await getAvatar(member.crNumber),
-		here: here[member.crNumber] || false,
-		commissions: member.commissions.reduce((acc: Array<string>, commission) => {
-			if (isCommissionActive(commission)) {
-				acc.push(commission.type);
-			}
-			return acc;
-		}, [] as Array<string>)
-	};
+type FormattedMember = {
+	name: string;
+	avatar: string;
+	here: boolean;
+	commissions: Array<string>;
 };
+
+const formatMember =
+	(here: Record<string, boolean>) =>
+	async (member: Member): Promise<FormattedMember> => {
+		return {
+			name: member.name,
+			avatar: await getAvatar(member.crNumber),
+			here: here[member.crNumber] || false,
+			commissions: member.commissions.reduce((acc: Array<string>, commission) => {
+				if (isCommissionActive(commission)) {
+					acc.push(commission.type);
+				}
+				return acc;
+			}, [] as Array<string>)
+		};
+	};
 
 export async function getFormattedMembers(members: Array<Member>, here: Record<string, boolean>) {
 	const activeMembers = members.filter((member) => {
@@ -40,10 +49,20 @@ export async function getFormattedMembers(members: Array<Member>, here: Record<s
 	return Promise.all(sortedMembers.map(formatMember(here)));
 }
 
+type FormattedCommission = {
+	label: string;
+	description?: string;
+	members: Array<FormattedMember>;
+};
+
 export async function getFormattedMembersBasedOnCommissions(
 	members: Array<Member>,
 	here: Record<string, boolean>
-) {
+): Promise<{
+	board: Array<FormattedCommission>;
+	groups: Array<FormattedCommission>;
+	omks: Array<FormattedCommission>;
+}> {
 	const activeMembers = members.filter((member) => {
 		let hasActiveMembership = false;
 		let hasActivePassiveMembership = false;
