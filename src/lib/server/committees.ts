@@ -16,15 +16,10 @@ export function getCommittees(): Committees {
 	return parseCommittees();
 }
 
-export function findCommittee(committees: Committees, id: string): Committee {
-	const committee = committees.find((committee) => committee.id === id);
+export function findCommittee(committees: Committees, name: string): Committee {
+	const committee = committees.find((committee) => committee.name === name);
 	if (!committee) {
-		error(404, `No committee found with ID: ${id}`);
+		error(404, `No committee found with name: ${name}`);
 	}
 	return committee;
-}
-
-export function getCommittee(id: string): Committee {
-	const committees = getCommittees();
-	return findCommittee(committees, id);
 }

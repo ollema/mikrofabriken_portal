@@ -1,6 +1,6 @@
 import type { Member } from '$lib/types/members.js';
 import { isAgreementActive, isCommissionActive } from '$lib/utils/member.js';
-import { getCommittees } from '$lib/server/committees.js';
+import { findCommittee, getCommittees } from '$lib/server/committees.js';
 import { getAvatar } from '$lib/server/cog.js';
 
 const formatMember = (here: Record<string, boolean>) => async (member: Member) => {
@@ -91,10 +91,7 @@ export async function getFormattedMembersBasedOnCommissions(
 	};
 
 	const omkEntry = async (commission: string) => {
-		const committee = committees.find((c) => c.name === commission);
-		if (!committee) {
-			throw new Error(`Committee ${commission} not found`);
-		}
+		const committee = findCommittee(committees, commission);
 		return {
 			label: committee.friendlyName,
 			description: committee.description,
