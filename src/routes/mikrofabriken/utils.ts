@@ -94,7 +94,11 @@ export async function getFormattedMembersBasedOnCommissions(
 		}
 	}
 
-	const omkEntry = async (committee: Committee) => {
+	const omkEntry = async (commission: string) => {
+		const committee = committees.find((c) => c.name === commission);
+		if (!committee) {
+			throw new Error(`Committee ${commission} not found`);
+		}
 		return {
 			label: committee.friendlyName,
 			description: committee?.description,
@@ -120,7 +124,22 @@ export async function getFormattedMembersBasedOnCommissions(
 			groupEntry('committee/sponsorships'),
 			groupEntry('admin/portal'),
 		]),
-		omks: await Promise.all(committees.map((committee) => omkEntry(committee))),
+		omks: await Promise.all([
+		 omkEntry('workshop/3dprint'),
+		 omkEntry('workshop/3s'),
+		 omkEntry('workshop/asylumstorage'),
+		 omkEntry('workshop/brewery'),
+		 omkEntry('workshop/electronics'),
+		 omkEntry('workshop/vehicle'),
+		 omkEntry('workshop/office'),
+		 omkEntry('workshop/laser'),
+		 omkEntry('workshop/painting'),
+		 omkEntry('workshop/metal'),
+		 omkEntry('workshop/support'),
+		 omkEntry('workshop/textile'),
+		 omkEntry('workshop/plaza'),
+		 omkEntry('workshop/wood'),
+		]),
 	};
 }
 
