@@ -5,6 +5,7 @@
 
 	interface Props {
 		label: string | undefined;
+		description?: string;
 		members: {
 			name: string;
 			avatar: string;
@@ -22,6 +23,7 @@
 
 	let {
 		label,
+		description,
 		members,
 		selectedMember = $bindable(null),
 		open = $bindable(false)
@@ -41,6 +43,9 @@
 <div class="mb-5">
 	{#if label}
 		<div class="text-foreground mb-3 text-lg font-bold">{label}</div>
+	{/if}
+	{#if description}
+		<div class="text-foreground mb-3 text-sm italic">{description}</div>
 	{/if}
 	<div class="grid grid-cols-[repeat(auto-fill,minmax(4rem,1fr))] gap-4">
 		{#each members as member (member)}

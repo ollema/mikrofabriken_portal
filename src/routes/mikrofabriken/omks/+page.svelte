@@ -25,7 +25,7 @@
 
 	<MemberInfoDialog bind:selectedMember bind:open />
 
-	{#each data.omks as { label, members } (label)}
-		<MemberGrid {label} {members} bind:selectedMember bind:open />
+	{#each data.omks as { label, description, members } (label)}
+		<MemberGrid label={label} description={description} members={members} bind:selectedMember bind:open />
 	{/each}
 </div>
