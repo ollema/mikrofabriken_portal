@@ -1,6 +1,6 @@
 import { error, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
 import { workPoolsFormSchema } from './schema.js';
 import type { z } from 'zod';
@@ -45,7 +45,7 @@ export const load = async ({ locals, url }) => {
 	const workPoolDescriptionMapping = getWorkPoolsDescriptions();
 
 	return {
-		form: await superValidate(populateFromCurrent(member), zod(workPoolsFormSchema)),
+		form: await superValidate(populateFromCurrent(member), zod4(workPoolsFormSchema)),
 		pending: pending,
 		member: member,
 		validWorkPools: validWorkPools,
@@ -75,7 +75,7 @@ export const actions = {
 		members = pending.members || members;
 		member = pending.member || member;
 
-		const form = await superValidate(request, zod(workPoolsFormSchema));
+		const form = await superValidate(request, zod4(workPoolsFormSchema));
 		if (!form.valid) {
 			return fail(400, { form });
 		}

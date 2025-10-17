@@ -1,6 +1,6 @@
 import { error, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
 import { productFormSchema } from './schema.js';
 import { getToken, getUser } from '$lib/server/auth.js';
@@ -26,7 +26,7 @@ export const load = async ({ locals, params }) => {
 	const vatPercentages = await getVatPercentages();
 
 	return {
-		form: await superValidate(product, zod(productFormSchema)),
+		form: await superValidate(product, zod4(productFormSchema)),
 		productCategories: productCategories,
 		billingCategories: billingCategories,
 		unitNames: unitNames,
@@ -39,7 +39,7 @@ export const actions = {
 		getUser(locals);
 		const token = getToken(locals);
 
-		const form = await superValidate(request, zod(productFormSchema));
+		const form = await superValidate(request, zod4(productFormSchema));
 		if (!form.valid) {
 			return fail(400, { form });
 		}

@@ -5,7 +5,7 @@
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { getLocalTimeZone, today } from '@internationalized/date';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import { rfidTagsFormSchema, type RfidTagsFormSchema } from './schema.js';
 	import type { Member } from '$lib/types/members.js';
 
@@ -24,7 +24,7 @@
 	let { data }: Props = $props();
 
 	const form = superForm(data.form, {
-		validators: zodClient(rfidTagsFormSchema),
+		validators: zod4Client(rfidTagsFormSchema),
 		dataType: 'json'
 	});
 

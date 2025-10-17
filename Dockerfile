@@ -1,12 +1,12 @@
 # ------------------------------------------------------------------------------
 # base image
 # ------------------------------------------------------------------------------
-FROM node:22 AS base
+FROM node:24 AS base
 ENV PNPM_HOME="/usr/local/.pnpm-store"
 ENV PATH="$PNPM_HOME:$PATH"
 # TODO: revert when fixed upstream
 # RUN corepack enable
-RUN npm install -g pnpm@9.15.5
+RUN npm install -g pnpm@10.18.3
 
 # ------------------------------------------------------------------------------
 # builder image

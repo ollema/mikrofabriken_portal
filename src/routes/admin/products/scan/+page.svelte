@@ -6,6 +6,7 @@
 	import { paintOutline } from '$lib/utils/scan.js';
 	import { goto } from '$app/navigation';
 	import { toast } from 'svelte-sonner';
+	import { SvelteMap } from 'svelte/reactivity';
 
 	let paused = $state(false);
 
@@ -25,7 +26,7 @@
 		if (detections.length > 0) {
 			recentDetections = [...recentDetections.slice(-5 + 1), detections[0].rawValue];
 
-			const counts = new Map<string, number>();
+			const counts = new SvelteMap<string, number>();
 			recentDetections.forEach((code) => counts.set(code, (counts.get(code) || 0) + 1));
 			const [mostFrequent] = [...counts.entries()].sort((a, b) => b[1] - a[1]);
 

@@ -6,7 +6,7 @@
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { getLocalTimeZone, today } from '@internationalized/date';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import { artifactsFormSchema, type ArtifactsFormSchema } from './schema.js';
 	import type { Member } from '$lib/types/members.js';
 
@@ -25,7 +25,7 @@
 	let { data }: Props = $props();
 
 	const form = superForm(data.form, {
-		validators: zodClient(artifactsFormSchema),
+		validators: zod4Client(artifactsFormSchema),
 		dataType: 'json'
 	});
 

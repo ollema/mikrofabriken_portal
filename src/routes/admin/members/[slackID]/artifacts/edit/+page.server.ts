@@ -1,6 +1,6 @@
 import { error, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
 import { parseDate } from '@internationalized/date';
 import { artifactsFormSchema } from './schema.js';
@@ -33,7 +33,7 @@ export const load = async ({ locals, params }) => {
 	member = pending.member || member;
 
 	return {
-		form: await superValidate(populateFromCurrent(member), zod(artifactsFormSchema)),
+		form: await superValidate(populateFromCurrent(member), zod4(artifactsFormSchema)),
 		pending: pending,
 		member: member
 	};
@@ -61,7 +61,7 @@ export const actions = {
 		members = pending.members || members;
 		member = pending.member || member;
 
-		const form = await superValidate(request, zod(artifactsFormSchema));
+		const form = await superValidate(request, zod4(artifactsFormSchema));
 		if (!form.valid) {
 			return fail(400, { form });
 		}
