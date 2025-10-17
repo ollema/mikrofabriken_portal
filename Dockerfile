@@ -15,7 +15,7 @@ FROM base AS builder
 WORKDIR /usr/src/app
 
 # copy lock file and fetch dependencies
-COPY pnpm-lock.yaml ./
+COPY pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm fetch
 
 # copy source code and build
