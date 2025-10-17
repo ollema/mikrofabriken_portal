@@ -7,17 +7,13 @@
 		class: className,
 		children,
 		...restProps
-	}: WithElementRef<HTMLAttributes<HTMLTableRowElement>> = $props();
+	}: WithElementRef<HTMLAttributes<HTMLElement>> = $props();
 </script>
 
-<tr
-	bind:this={ref}
-	data-slot="table-row"
-	class={cn(
-		'hover:[&,&>svelte-css-wrapper]:[&>th,td]:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors',
-		className
-	)}
+<nav
 	{...restProps}
+	bind:this={ref}
+	class={cn('absolute inset-x-0 top-0 flex w-full items-center justify-between gap-1', className)}
 >
 	{@render children?.()}
-</tr>
+</nav>

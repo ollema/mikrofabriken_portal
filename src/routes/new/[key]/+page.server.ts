@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { error, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
 import { newMemberFormSchema } from './schema.js';
 import { getMembers } from '$lib/server/members.js';
@@ -49,7 +49,7 @@ export const load = async ({ params, url }) => {
 	const workPoolDescriptionMapping = getWorkPoolsDescriptions();
 
 	return {
-		form: await superValidate(data, zod(newMemberFormSchema), { errors: false }),
+		form: await superValidate(data, zod4(newMemberFormSchema), { errors: false }),
 		validWorkPools: validWorkPools,
 		workPoolNameMapping: workPoolNameMapping,
 		workPoolDescriptionMapping: workPoolDescriptionMapping
@@ -78,7 +78,7 @@ export const actions = {
 
 		console.log('before parsing');
 
-		const form = await superValidate(request, zod(newMemberFormSchema));
+		const form = await superValidate(request, zod4(newMemberFormSchema));
 		if (!form.valid) {
 			return fail(400, { form });
 		}

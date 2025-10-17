@@ -5,6 +5,7 @@
 	import PurchaseDialog from '$lib/components/kiosk/purchase-dialog.svelte';
 	import type { Product } from '$lib/types/cog.js';
 	import { paintOutline } from '$lib/utils/scan.js';
+	import { SvelteMap } from 'svelte/reactivity';
 
 	let open = $state(false);
 	let paused = $state(false);
@@ -25,7 +26,7 @@
 		if (detections.length > 0) {
 			recentDetections = [...recentDetections.slice(-5 + 1), detections[0].rawValue];
 
-			const counts = new Map<string, number>();
+			const counts = new SvelteMap<string, number>();
 			recentDetections.forEach((code) => counts.set(code, (counts.get(code) || 0) + 1));
 			const [mostFrequent] = [...counts.entries()].sort((a, b) => b[1] - a[1]);
 

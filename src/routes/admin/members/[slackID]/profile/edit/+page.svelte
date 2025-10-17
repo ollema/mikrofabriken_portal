@@ -4,7 +4,7 @@
 	import * as Form from '$lib/components/ui/form/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import { profileFormSchema, type ProfileFormSchema } from './schema.js';
 	import type { Member } from '$lib/types/members.js';
 
@@ -23,7 +23,7 @@
 	let { data }: Props = $props();
 
 	const form = superForm(data.form, {
-		validators: zodClient(profileFormSchema),
+		validators: zod4Client(profileFormSchema),
 		dataType: 'json'
 	});
 

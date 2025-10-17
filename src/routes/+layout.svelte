@@ -10,6 +10,7 @@
 	import { page } from '$app/state';
 
 	import '../app.css';
+	import { ModeWatcher } from 'mode-watcher';
 
 	const flash = getFlash(page);
 
@@ -57,6 +58,8 @@
 		})
 	);
 </script>
+
+<ModeWatcher defaultMode="dark" track={false} />
 
 <Toaster expand={true} duration={5000} richColors position="top-center" />
 

@@ -1,6 +1,6 @@
 import { error, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
 import { iceContactsFormSchema } from './schema.js';
 import type { z } from 'zod';
@@ -28,7 +28,7 @@ export const load = async ({ locals, url }) => {
 	member = pending.member || member;
 
 	return {
-		form: await superValidate(populateFromCurrent(member), zod(iceContactsFormSchema)),
+		form: await superValidate(populateFromCurrent(member), zod4(iceContactsFormSchema)),
 		pending: pending
 	};
 };
@@ -54,7 +54,7 @@ export const actions = {
 		members = pending.members || members;
 		member = pending.member || member;
 
-		const form = await superValidate(request, zod(iceContactsFormSchema));
+		const form = await superValidate(request, zod4(iceContactsFormSchema));
 		if (!form.valid) {
 			return fail(400, { form });
 		}

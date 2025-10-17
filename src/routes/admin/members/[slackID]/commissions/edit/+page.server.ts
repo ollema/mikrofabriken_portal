@@ -1,6 +1,6 @@
 import { error, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
 import { parseDate } from '@internationalized/date';
 import { commissionsFormSchema } from './schema.js';
@@ -42,7 +42,7 @@ export const load = async ({ locals, params }) => {
 	const validCommissions = getValidCommissions();
 
 	return {
-		form: await superValidate(populateFromCurrent(member), zod(commissionsFormSchema)),
+		form: await superValidate(populateFromCurrent(member), zod4(commissionsFormSchema)),
 		pending: pending,
 		member: member,
 		validCommissions: validCommissions
@@ -71,7 +71,7 @@ export const actions = {
 		members = pending.members || members;
 		member = pending.member || member;
 
-		const form = await superValidate(request, zod(commissionsFormSchema));
+		const form = await superValidate(request, zod4(commissionsFormSchema));
 		if (!form.valid) {
 			return fail(400, { form });
 		}

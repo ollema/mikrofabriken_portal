@@ -13,10 +13,11 @@
 	import * as Invoice from '$lib/components/invoice/index.js';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import type { InvoiceDetail } from '$lib/types/fortnox.js';
 
 	interface Props {
 		data: {
-			invoice: Invoice;
+			invoice: InvoiceDetail;
 		};
 		getPdfUrl: (documentNumber: string) => string;
 	}
@@ -42,7 +43,7 @@
 	);
 
 	function downloadPDF() {
-		goto(getPdfUrl($page.params.documentNumber));
+		goto(getPdfUrl($page.params.documentNumber!));
 	}
 </script>
 

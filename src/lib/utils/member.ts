@@ -88,6 +88,8 @@ export function agreementToHumanReadable(agreement: AgreementType): string {
 			return 'Pallplats';
 		case 'palletOutside':
 			return 'Pallplats (ute)';
+		case 'externalAccess':
+			return 'Extern access';
 		default: {
 			const exhaustive: never = agreement;
 			return exhaustive;

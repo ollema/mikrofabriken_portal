@@ -3,7 +3,7 @@
 	import * as Form from '$lib/components/ui/form/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import { deleteProductFormSchema, type DeleteProductFormSchema } from './schema.js';
 
 	interface Props {
@@ -20,7 +20,7 @@
 	let { data }: Props = $props();
 
 	const form = superForm(data.form, {
-		validators: zodClient(deleteProductFormSchema),
+		validators: zod4Client(deleteProductFormSchema),
 		dataType: 'json'
 	});
 

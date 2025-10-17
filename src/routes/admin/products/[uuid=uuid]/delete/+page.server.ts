@@ -1,6 +1,6 @@
 import { error, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 } from 'sveltekit-superforms/adapters';
 import { redirect } from 'sveltekit-flash-message/server';
 import { deleteProductFormSchema } from './schema.js';
 import { getToken, getUser } from '$lib/server/auth.js';
@@ -14,7 +14,7 @@ export const load = async ({ locals, params }) => {
 	}
 
 	return {
-		form: await superValidate(product, zod(deleteProductFormSchema))
+		form: await superValidate(product, zod4(deleteProductFormSchema))
 	};
 };
 
@@ -23,7 +23,7 @@ export const actions = {
 		getUser(locals);
 		const token = getToken(locals);
 
-		const form = await superValidate(request, zod(deleteProductFormSchema));
+		const form = await superValidate(request, zod4(deleteProductFormSchema));
 		if (!form.valid) {
 			return fail(400, { form });
 		}

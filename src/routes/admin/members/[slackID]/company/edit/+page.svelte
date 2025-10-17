@@ -6,7 +6,7 @@
 	import * as RadioGroup from '$lib/components/ui/radio-group/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import { companyFormSchema, type CompanyFormSchema } from './schema.js';
 	import type { Member } from '$lib/types/members.js';
 	import { InvoiceCategoryTypes } from '$lib/schemas/members.js';
@@ -26,7 +26,7 @@
 	let { data }: Props = $props();
 
 	const form = superForm(data.form, {
-		validators: zodClient(companyFormSchema),
+		validators: zod4Client(companyFormSchema),
 		dataType: 'json'
 	});
 

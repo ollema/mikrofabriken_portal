@@ -6,7 +6,7 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import { newProductFormSchema, type NewProductFormSchema } from './schema.js';
 	import { generateEAN13 } from '$lib/utils/barcode.js';
 	import { page } from '$app/stores';
@@ -25,7 +25,7 @@
 	let { data }: Props = $props();
 
 	const form = superForm(data.form, {
-		validators: zodClient(newProductFormSchema),
+		validators: zod4Client(newProductFormSchema),
 		dataType: 'json'
 	});
 

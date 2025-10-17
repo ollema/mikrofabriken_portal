@@ -4,7 +4,7 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Checkbox } from '$lib/components/ui/checkbox/index.js';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import { newMemberFormSchema, type NewMemberFormSchema } from './schema.js';
 	import type { Member } from '$lib/types/members.js';
 
@@ -21,7 +21,7 @@
 	let { data }: Props = $props();
 
 	const form = superForm(data.form, {
-		validators: zodClient(newMemberFormSchema),
+		validators: zod4Client(newMemberFormSchema),
 		dataType: 'json'
 	});
 

@@ -20,7 +20,8 @@ export default ts.config(
 			}
 		},
 		rules: {
-			'no-shadow': 'off'
+			'no-shadow': 'off',
+			'svelte/no-navigation-without-resolve': 'off'
 		}
 	},
 	{
