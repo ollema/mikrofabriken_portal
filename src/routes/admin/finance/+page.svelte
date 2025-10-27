@@ -4,7 +4,7 @@
 	const financeLinks = [
 		{
 			title: 'Verifikationer',
-			description: 'View and manage vouchers',
+			description: 'Visa verifikationer',
 			href: '/admin/finance/vouchers'
 		}
 	];
@@ -14,7 +14,7 @@
 	<PageHeader.Root>
 		<PageHeader.Heading>
 			<PageHeader.Title>Finance</PageHeader.Title>
-			<PageHeader.Description>Financial management and reporting</PageHeader.Description>
+			<PageHeader.Description>Ekonomiska rapporter mm</PageHeader.Description>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 

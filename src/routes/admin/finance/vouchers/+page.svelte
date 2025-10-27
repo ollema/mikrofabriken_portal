@@ -32,8 +32,8 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Finance</PageHeader.Title>
-			<PageHeader.Description>Financial management and reporting</PageHeader.Description>
+			<PageHeader.Title>Verifikationer</PageHeader.Title>
+			<PageHeader.Description>Verifikationer för innevarande år</PageHeader.Description>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
