@@ -3,10 +3,13 @@ import type { Member } from '$lib/types/members.js';
 import {
 	CustomersResponseSchema,
 	InvoiceResponseSchema,
-	InvoicesResponseSchema
+	InvoicesResponseSchema,
+	VouchersResponseSchema,
+	VoucherResponseSchema
 } from '$lib/schemas/fortnox.js';
 
 import { env } from '$env/dynamic/private';
+import type { Voucher, VoucherListItem } from '$lib/types/fortnox';
 
 /**
  * The base URL for the Fortnox API.
@@ -175,4 +178,30 @@ export const downloadInvoicePdf = async (documentNumber: string) => {
 		headers
 	});
 	return response.blob();
+};
+
+/**
+ * Retrieves all vouchers for the current financial year.
+ * @param year - The year to retrieve vouchers for.
+ * @returns An array of voucher list items for the given year.
+ */
+export const getVouchersThisYear = async (): Promise<VoucherListItem[]> => {
+	const data = await get(`/vouchers/sublist`);
+	const validatedData = VouchersResponseSchema.parse(data);
+
+	// TODO: use MetaInformation to fetch more pages if needed, or make the caller do it.
+
+	return validatedData.Vouchers;
+};
+
+/**
+ * Retrieves a single voucher by its number.
+ * @param series - The voucher series
+ * @param voucherNumber - The voucher number
+ * @returns The voucher with its rows
+ */
+export const getVoucher = async (series: string, voucherNumber: number): Promise<Voucher> => {
+	const data = await get(`/vouchers/${series}/${voucherNumber}`);
+	const validatedData = VoucherResponseSchema.parse(data);
+	return validatedData.Voucher;
 };

@@ -77,3 +77,65 @@ export const InvoiceDetailSchema = z.object({
 export const InvoiceResponseSchema = z.object({
 	Invoice: InvoiceDetailSchema
 });
+
+const ReferenceTypeEnum = z.enum([
+	'INVOICE',
+	'SUPPLIERINVOICE',
+	'INVOICEPAYMENT',
+	'SUPPLIERPAYMENT',
+	'MANUAL',
+	'CASHINVOICE',
+	'ACCRUAL'
+]);
+
+export const VoucherListItemSchema = z.object({
+	'@url': z.string(),
+	ApprovalState: z.number().int(),
+	Comments: z.string().nullable(),
+	Description: z.string(),
+	ReferenceNumber: z.string(),
+	ReferenceType: ReferenceTypeEnum,
+	TransactionDate: z.string(),
+	VoucherNumber: z.number().int(),
+	VoucherSeries: z.string(),
+	Year: z.number().int()
+});
+
+export const VouchersResponseSchema = z.object({
+	MetaInformation: MetaInformationSchema,
+	Vouchers: z.array(VoucherListItemSchema)
+});
+
+export const VoucherRowSchema = z.object({
+	Account: z.number().int(),
+	CostCenter: z.string(),
+	Credit: z.number(),
+	Debit: z.number(),
+	Description: z.string(),
+	Project: z.string(),
+	Quantity: z.number(),
+	Removed: z.boolean(),
+	TransactionInformation: z.string()
+});
+
+// Full Voucher schema (includes VoucherRows)
+export const VoucherSchema = z.object({
+	'@url': z.string(),
+	ApprovalState: z.number().int(),
+	Comments: z.string().nullable(),
+	CostCenter: z.string(),
+	Description: z.string(),
+	Project: z.string(),
+	ReferenceNumber: z.string(),
+	ReferenceType: ReferenceTypeEnum,
+	TransactionDate: z.string(),
+	VoucherNumber: z.number().int(),
+	VoucherRows: z.array(VoucherRowSchema),
+	VoucherSeries: z.string(),
+	Year: z.number().int()
+});
+
+export const VoucherResponseSchema = z.object({
+	Voucher: VoucherSchema
+});
+
