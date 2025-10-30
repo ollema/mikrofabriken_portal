@@ -1,4 +1,4 @@
-import { getVoucher } from '$lib/server/fortnox.js';
+import { fortnox } from '$lib/server/fortnox.js';
 import { error } from '@sveltejs/kit';
 
 export async function load({ params }) {
@@ -6,7 +6,7 @@ export async function load({ params }) {
 		const series = params.series;
 		const voucherNumber = parseInt(params.voucherNumber);
 		
-		const voucher = await getVoucher(series, voucherNumber);
+		const voucher = await fortnox.getVoucher(series, voucherNumber);
 		
 		return {
 			voucher

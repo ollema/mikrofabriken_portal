@@ -1,6 +1,7 @@
 import type { z } from 'zod';
 
 import type {
+	CustomerSchema,
 	InvoiceDetailSchema,
 	InvoiceRowsSchema,
 	InvoiceSchema,
@@ -9,6 +10,7 @@ import type {
 	VoucherSchema
 } from '$lib/schemas/fortnox.js';
 
+export type Customer = z.infer<typeof CustomerSchema>;
 export type Invoice = z.infer<typeof InvoiceSchema>;
 export type InvoiceRow = z.infer<typeof InvoiceRowsSchema>;
 export type InvoiceDetail = z.infer<typeof InvoiceDetailSchema>;

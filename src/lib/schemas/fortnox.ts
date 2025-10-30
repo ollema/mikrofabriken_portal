@@ -6,7 +6,7 @@ const MetaInformationSchema = z.object({
 	'@CurrentPage': z.number()
 });
 
-const CustomerSchema = z.object({
+export const CustomerSchema = z.object({
 	Address1: z.string(),
 	Address2: z.string(),
 	City: z.string(),
