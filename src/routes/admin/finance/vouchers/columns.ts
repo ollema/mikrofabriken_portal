@@ -19,9 +19,10 @@ export const columns: Array<ColumnDef<VoucherListItem>> = [
 				title: 'Nummer'
 			}),
 		cell: ({ row }) => {
+			const financialYear = row.original.Year;
 			const series = row.original.VoucherSeries;
 			const number = row.original.VoucherNumber;
-			const href = `/admin/finance/vouchers/${series}/${number}`;
+			const href = `/admin/finance/vouchers/${financialYear}/${series}/${number}`;
 			
 			const linkSnippet = createRawSnippet<[string]>(() => {
 				return {

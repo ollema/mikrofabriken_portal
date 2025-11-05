@@ -25,18 +25,23 @@ export class FortnoxApi {
 			'Content-Type': 'application/json',
 			Authorization: this.fnpKey
 		};
+        let retriesLeft = 3;
 
-		const response = await fetch(`${this.baseUrl}${path}`, {
-			method: 'GET',
-			headers
-		});
-
-		if (!response.ok) {
-			const msg = await response.text();
-			throw new Error(`Fortnox API error: ${response.status} - ${msg}`);
-		}
-
-		return response;
+        while (true) {
+            const response = await fetch(`${this.baseUrl}${path}`, {
+                method: 'GET',
+                headers
+            });
+            if (response.ok) {
+                return response;
+            } else if (response.status === 429 && --retriesLeft > 0) {
+                console.log(`Rate limit exceeded, waiting 5.1 seconds and trying again`);
+                await new Promise(resolve => setTimeout(resolve, 5100));
+            } else {
+                const msg = await response.text();
+                throw new Error(`Fortnox API error: ${response.status} - ${msg}`);
+            }
+        }
 	}
 
 	/**
@@ -179,8 +184,8 @@ export class FortnoxApi {
 	/**
 	 * Retrieves a single voucher by number.
 	 */
-	async getVoucher(series: string, voucherNumber: number): Promise<Voucher> {
-		const data = await this.fortnoxGetJson(`/vouchers/${series}/${voucherNumber}`);
+	async getVoucher(financialYear: number, series: string, voucherNumber: number): Promise<Voucher> {
+		const data = await this.fortnoxGetJson(`/vouchers/${series}/${voucherNumber}?financialyear=${financialYear}`);
 		const validatedData = VoucherResponseSchema.parse(data);
 		return validatedData.Voucher;
 	}
