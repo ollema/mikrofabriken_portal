@@ -85,7 +85,8 @@ const ReferenceTypeEnum = z.enum([
 	'SUPPLIERPAYMENT',
 	'MANUAL',
 	'CASHINVOICE',
-	'ACCRUAL'
+	'ACCRUAL',
+	'' // The Fortnox API spec doesn't allow this, but it's returned sometimes
 ]);
 
 export const VoucherListItemSchema = z.object({
@@ -93,7 +94,7 @@ export const VoucherListItemSchema = z.object({
 	ApprovalState: z.number().int(),
 	Comments: z.string().nullable(),
 	Description: z.string(),
-	ReferenceNumber: z.string(),
+	ReferenceNumber: z.string().nullable(),
 	ReferenceType: ReferenceTypeEnum,
 	TransactionDate: z.string(),
 	VoucherNumber: z.number().int(),
@@ -126,7 +127,7 @@ export const VoucherSchema = z.object({
 	CostCenter: z.string(),
 	Description: z.string(),
 	Project: z.string(),
-	ReferenceNumber: z.string(),
+	ReferenceNumber: z.string().nullable(),
 	ReferenceType: ReferenceTypeEnum,
 	TransactionDate: z.string(),
 	VoucherNumber: z.number().int(),
