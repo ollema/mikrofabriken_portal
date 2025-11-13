@@ -9,7 +9,7 @@ type TotalsByAccount = Record<number, AccountTotals>;
 
 type TotalsByCostCenter = Record<string, TotalsByAccount>;
 
-type CostAndRevenue = {
+export type CostAndRevenue = {
 	cost: number;
 	revenue: number;
 };
