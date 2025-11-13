@@ -8,9 +8,12 @@ async function getVoucherFromListItem(fortnox: FortnoxApi, voucherListItem: Vouc
 
 export async function* getFullVouchersForCurrentYear(fortnox: FortnoxApi): AsyncGenerator<Voucher> {
 	const voucherList = await fortnox.getVouchersThisYear();
+	let count = 0;
 	for (const voucherListItem of voucherList /*.slice(0,10)*/) {
-        console.log(`Getting voucher ${voucherListItem.VoucherNumber} of ${voucherList.length}`);
 		const voucher = await getVoucherFromListItem(fortnox, voucherListItem);
+		count++;
+        console.log(`Got voucher ${voucherListItem.VoucherSeries}${voucherListItem.VoucherNumber} (${count} of ${voucherList.length})`);
+
 		yield voucher;
 	}
 }
