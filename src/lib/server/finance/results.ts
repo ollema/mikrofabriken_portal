@@ -42,7 +42,7 @@ export async function sumResults(results: TotalsByCostCenter): Promise<Record<st
                 summedResults[costCenter] = { cost: 0, revenue: 0 };
             }
             if (/^[3]/.test(account)) {
-                summedResults[costCenter].revenue += results[costCenter][account].debit - results[costCenter][account].credit;
+                summedResults[costCenter].revenue += results[costCenter][account].credit - results[costCenter][account].debit;
             } else if (/^[4567]/.test(account)) {
                 summedResults[costCenter].cost += results[costCenter][account].debit - results[costCenter][account].credit;
             }
