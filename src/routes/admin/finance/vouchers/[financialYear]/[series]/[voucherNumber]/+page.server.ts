@@ -7,6 +7,7 @@ export async function load({ params }: { params: { financialYear: number, series
 		const series = params.series;
 		const voucherNumber = params.voucherNumber;
 		
+		// TODO: Get voucher from cache instead of Fortnox API?
 		const voucher = await fortnox.getVoucher(financialYear, series, voucherNumber);
 		
 		return {

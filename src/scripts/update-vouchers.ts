@@ -1,6 +1,7 @@
 import { FortnoxApi } from '$lib/server/fortnox/fortnox-api.js';
 import { getFullVouchersForCurrentYear } from '$lib/server/fortnox/fortnox-util.js';
-import { getResultsForCurrentYear, sumResults, type CostAndRevenue } from '$lib/server/finance/results.js';
+import { replaceAllVouchers } from '$lib/server/fortnox/voucher-cache';
+
 
 //
 // Fortnox API access
@@ -20,28 +21,29 @@ function getFortnox() {
 }
 
 //
-// Process results
+// Fortnox cache
 //
 
-async function printResults(results: Record<string, CostAndRevenue>) {
-    for (const costCenter in results) {
-        const costCenterName = (costCenter || "NONE").padEnd(15);
-        const cost = results[costCenter].cost.toFixed(2).padStart(12);
-        const revenue = results[costCenter].revenue.toFixed(2).padStart(12);
-        console.log(`${costCenterName}${cost}${revenue}`);
-    }
+/**
+ * Takes the first N items from an async generator
+ */
+async function* take<T>(generator: AsyncGenerator<T>, count: number): AsyncGenerator<T> {
+	let taken = 0;
+	for await (const item of generator) {
+		if (taken >= count) break;
+		yield item;
+		taken++;
+	}
+}
+
+async function updateFortnoxCache() {
+	const fortnox = getFortnox();
+	const vouchers = await Array.fromAsync(getFullVouchersForCurrentYear(fortnox));
+	await replaceAllVouchers(vouchers);
 }
 
 //
 // Main
 //
 
-const fortnox = getFortnox();
-
-const vouchers = await Array.fromAsync(getFullVouchersForCurrentYear(fortnox));
-
-const results = await getResultsForCurrentYear(vouchers);
-console.log(results);
-
-const summedResults = await sumResults(results);
-printResults(summedResults);
+await updateFortnoxCache();

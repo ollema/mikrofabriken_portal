@@ -175,22 +175,25 @@ export class FortnoxApi {
 	/**
 	 * Retrieves voucher list for the current year.
 	 */
-	async getVouchersThisYear(): Promise<VoucherListItem[]> {
-		let allVouchers: VoucherListItem[] = [];
+	async *getVouchersThisYearAsync(): AsyncGenerator<VoucherListItem[]> {
 		let page = 1;
 		let totalPages = 1;
+		let vouchersReturned = 0;
 		let totalVouchers = 0;
 
 		do {
 			const data = await this.fortnoxGetJson(`/vouchers/sublist?page=${page}`);
 			const validatedData = VouchersResponseSchema.parse(data);
-			allVouchers = [...allVouchers, ...validatedData.Vouchers];
 			totalPages = validatedData.MetaInformation['@TotalPages'];
 			totalVouchers = validatedData.MetaInformation['@TotalResources'];
-			console.log(`Got page ${page} of ${totalPages}. Total vouchers: ${allVouchers.length} of ${totalVouchers}`);
+			vouchersReturned += validatedData.Vouchers.length;
+			console.log(`Got page ${page} of ${totalPages}. Total vouchers: ${vouchersReturned} of ${totalVouchers}`);
+			yield validatedData.Vouchers;
 		} while (page++ < totalPages);
+	}
 
-		return allVouchers;
+	async getVouchersThisYear(): Promise<VoucherListItem[]> {
+		return (await Array.fromAsync(this.getVouchersThisYearAsync())).flat();
 	}
 
 	/**

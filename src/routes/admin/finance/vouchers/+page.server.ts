@@ -1,7 +1,7 @@
-import { fortnox } from '$lib/server/fortnox/fortnox.js';
+import { getCachedVouchers } from '$lib/server/fortnox/voucher-cache.js';
 
 export async function load({ url }) {
-	const vouchers = await fortnox.getVouchersThisYear();
+	const vouchers = await getCachedVouchers();
 	return { vouchers };
 }
 
