@@ -1,9 +1,9 @@
 import { getCachedVouchers } from '$lib/server/fortnox/voucher-cache.js';
-import { getResultsForCurrentYear, sumResults } from '$lib/server/finance/results.js';
+import { getResultsByCostCenter, sumResults } from '$lib/server/finance/results.js';
 
 export async function load() {
 	const vouchers = await getCachedVouchers();
-	const results = await getResultsForCurrentYear(vouchers);
+	const results = await getResultsByCostCenter(vouchers);
 	const summedResults = await sumResults(results);
 	
 	// Convert to array format for the table

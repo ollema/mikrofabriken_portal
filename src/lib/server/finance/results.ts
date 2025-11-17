@@ -14,7 +14,7 @@ export type CostAndRevenue = {
 	revenue: number;
 };
 
-export async function getResultsForCurrentYear(vouchers: Voucher[]): Promise<TotalsByCostCenter> {
+export async function getResultsByCostCenter(vouchers: Voucher[]): Promise<TotalsByCostCenter> {
     const results: TotalsByCostCenter = {};
     for (const voucher of vouchers) {
         for (const voucherRow of voucher.VoucherRows) {
