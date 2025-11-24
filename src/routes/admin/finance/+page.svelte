@@ -3,15 +3,15 @@
 	
 	const financeLinks = [
 		{
+			title: 'Resultat',
+			description: 'Resultat per kostnadsställe',
+			href: '/admin/finance/results'
+		},
+		{
 			title: 'Verifikationer',
 			description: 'Visa verifikationer',
 			href: '/admin/finance/vouchers'
 		},
-		{
-			title: 'Budget',
-			description: 'Budgetresultat per kostnadsställe',
-			href: '/admin/finance/budget'
-		}
 	];
 </script>
 

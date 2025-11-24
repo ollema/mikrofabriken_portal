@@ -18,6 +18,17 @@
 	const formatAccountNumber = (account: number): string => {
 		return account.toString().padStart(4, '0');
 	};
+
+	/**
+	 * Generate URL for an account detail page within a cost center
+	 * @param costCenter - The cost center identifier (empty string becomes 'NONE')
+	 * @param accountNumber - The account number
+	 * @returns The URL path for the account detail page
+	 */
+	function getAccountUrl(costCenter: string, accountNumber: number): string {
+		const costCenterParam = costCenter === '' ? 'NONE' : costCenter;
+		return `/admin/finance/results/${costCenterParam}/${accountNumber}`;
+	}
 </script>
 
 <div class="mx-auto w-full min-w-0">
@@ -46,7 +57,7 @@
 						<tr class="hover:bg-muted/50 border-b">
 							<td class="px-4 py-2 font-mono text-sm">
 								<a
-									href="/admin/finance/budget/{costCenter}/{account.account.number}"
+									href={getAccountUrl(costCenter, account.account.number)}
 									class="hover:underline"
 								>
 									{formatAccountNumber(account.account.number)}

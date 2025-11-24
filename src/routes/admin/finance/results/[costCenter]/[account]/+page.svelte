@@ -17,8 +17,19 @@
 		return date.toLocaleDateString('sv-SE');
 	};
 
-	const getVoucherUrl = (row: VoucherRowWithVoucher): string => {
-		return `/admin/finance/vouchers/${row.voucher.Year}/${row.voucher.VoucherSeries}/${row.voucher.VoucherNumber}`;
+	/**
+	 * Generate URL for a voucher detail page
+	 * @param financialYear - The financial year
+	 * @param series - The voucher series
+	 * @param number - The voucher number
+	 * @returns The URL path for the voucher detail page
+	 */
+	function getVoucherUrl(financialYear: number, series: string, number: number): string {
+		return `/admin/finance/vouchers/${financialYear}/${series}/${number}`;
+	}
+
+	const getVoucherUrlFromRow = (row: VoucherRowWithVoucher): string => {
+		return getVoucherUrl(row.voucher.Year, row.voucher.VoucherSeries, row.voucher.VoucherNumber);
 	};
 
 	const totalDebit = voucherRows.reduce((sum, row) => sum + row.Debit, 0);
@@ -77,7 +88,7 @@
 							<td class="px-4 py-2 text-sm">{formatDate(row.voucher.TransactionDate)}</td>
 							<td class="px-4 py-2 text-sm">
 								<a
-									href={getVoucherUrl(row)}
+									href={getVoucherUrlFromRow(row)}
 									class="font-mono hover:underline"
 								>
 									{row.voucher.VoucherSeries}{row.voucher.VoucherNumber}

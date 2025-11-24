@@ -33,8 +33,8 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Budget</PageHeader.Title>
-			<PageHeader.Description>Budgetresultat för innevarande år per kostnadsställe</PageHeader.Description>
+			<PageHeader.Title>Resultat</PageHeader.Title>
+			<PageHeader.Description>Resultat för innevarande år per kostnadsställe</PageHeader.Description>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 

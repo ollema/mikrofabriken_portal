@@ -4,6 +4,16 @@ import { renderComponent, renderSnippet } from '$lib/components/ui/data-table/in
 import { DataTableColumnHeader } from '$lib/components/data-table/index.js';
 import { formatCurrency } from '$lib/components/finance/currency.js';
 
+/**
+ * Generate URL for a cost center results page
+ * @param costCenter - The cost center identifier (empty string becomes 'NONE')
+ * @returns The URL path for the cost center results page
+ */
+function getCostCenterUrl(costCenter: string): string {
+	const costCenterParam = costCenter === '' ? 'NONE' : costCenter;
+	return `/admin/finance/results/${costCenterParam}`;
+}
+
 export type BudgetRow = {
 	costCenter: string;
 	cost: number;
@@ -22,7 +32,7 @@ export const columns: Array<ColumnDef<BudgetRow>> = [
 			}),
 		cell: ({ row }) => {
 			const costCenter = row.original.costCenter;
-			const href = `/admin/finance/budget/${costCenter === '' ? 'NONE' : costCenter}`;
+			const href = getCostCenterUrl(costCenter);
 			
 			const linkSnippet = createRawSnippet<[string]>(() => {
 				return {
