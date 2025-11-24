@@ -61,14 +61,16 @@
 					</thead>
 					<tbody>
 						{#each voucher.VoucherRows as row}
-							<tr class="border-b">
-								<td class="px-4 py-2 text-sm">{row.Account}</td>
-								<td class="px-4 py-2 text-sm">{row.CostCenter}</td>
-								<td class="px-4 py-2 text-sm">{row.Project}</td>
-								<td class="px-4 py-2 text-sm">{row.Description}</td>
-								<td class="px-4 py-2 text-right text-sm">{row.Debit.toFixed(2)}</td>
-								<td class="px-4 py-2 text-right text-sm">{row.Credit.toFixed(2)}</td>
-							</tr>
+							{#if !row.Removed}
+								<tr class="border-b">
+									<td class="px-4 py-2 text-sm">{row.Account}</td>
+									<td class="px-4 py-2 text-sm">{row.CostCenter}</td>
+									<td class="px-4 py-2 text-sm">{row.Project}</td>
+									<td class="px-4 py-2 text-sm">{row.Description}</td>
+									<td class="px-4 py-2 text-right text-sm">{row.Debit.toFixed(2)}</td>
+									<td class="px-4 py-2 text-right text-sm">{row.Credit.toFixed(2)}</td>
+								</tr>
+							{/if}
 						{/each}
 					</tbody>
 				</table>

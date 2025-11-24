@@ -2,21 +2,13 @@ import { createRawSnippet } from 'svelte';
 import type { ColumnDef } from '@tanstack/table-core';
 import { renderComponent, renderSnippet } from '$lib/components/ui/data-table/index.js';
 import { DataTableColumnHeader } from '$lib/components/data-table/index.js';
+import { formatCurrency } from '$lib/components/finance/currency.js';
 
 export type BudgetRow = {
 	costCenter: string;
 	cost: number;
 	revenue: number;
 	net: number;
-};
-
-const formatCurrency = (value: number): string => {
-	return new Intl.NumberFormat('sv-SE', {
-		style: 'currency',
-		currency: 'SEK',
-		minimumFractionDigits: 0,
-		maximumFractionDigits: 0
-	}).format(value);
 };
 
 export const columns: Array<ColumnDef<BudgetRow>> = [
@@ -27,7 +19,19 @@ export const columns: Array<ColumnDef<BudgetRow>> = [
 			renderComponent(DataTableColumnHeader<BudgetRow, unknown>, {
 				column,
 				title: 'Kostnadsställe'
-			})
+			}),
+		cell: ({ row }) => {
+			const costCenter = row.original.costCenter;
+			const href = `/admin/finance/budget/${costCenter === '' ? 'NONE' : costCenter}`;
+			
+			const linkSnippet = createRawSnippet<[string]>(() => {
+				return {
+					render: () => `<a class="hover:underline" href=${href}>${costCenter}</a>`
+				};
+			});
+			
+			return renderSnippet(linkSnippet, href);
+		}
 	},
 	{
 		id: 'cost',

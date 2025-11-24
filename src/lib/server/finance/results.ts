@@ -1,52 +1,93 @@
 import type { Voucher } from "$lib/types/fortnox";
+import { type AccountDetails, type AccountDetailsMap, AccountType } from "$lib/server/fortnox/fortnox-util.js";
 
-type AccountTotals = {
+
+export type AccountTotal = {
 	debit: number;
 	credit: number;
+    account: AccountDetails;
 };
 
-type TotalsByAccount = Record<number, AccountTotals>;
+export type TotalsByAccount = Map<number, AccountTotal>;
 
-type TotalsByCostCenter = Record<string, TotalsByAccount>;
+export type CostCenter = string;
+
+export type TotalsByCostCenter = Map<CostCenter, TotalsByAccount>;
 
 export type CostAndRevenue = {
 	cost: number;
 	revenue: number;
 };
 
-export async function getResultsByCostCenter(vouchers: Voucher[]): Promise<TotalsByCostCenter> {
-    const results: TotalsByCostCenter = {};
+export function getTotalsByCostCenter(vouchers: Voucher[], accounts: AccountDetailsMap): TotalsByCostCenter {
+    const results: TotalsByCostCenter = new Map();
     for (const voucher of vouchers) {
         for (const voucherRow of voucher.VoucherRows) {
+            if (voucherRow.Removed) {
+                continue;
+            }
             const costCenter = voucherRow.CostCenter;
-            if (!results[costCenter]) {
-                results[costCenter] = {};
+            let totals = results.get(costCenter);
+            if (!totals) {
+                totals = new Map();
+                results.set(costCenter, totals);
             }
             const account = voucherRow.Account;
-            if (!results[costCenter][account]) {
-                results[costCenter][account] = { debit: 0, credit: 0 };
+            const accountDetails = accounts.get(account);
+            if (!accountDetails) {
+                console.error(`Account ${account} not found`);
+                continue;
             }
-            results[costCenter][account].debit += voucherRow.Debit;
-            results[costCenter][account].credit += voucherRow.Credit;
+            let accountTotals = totals.get(account);
+            if (!accountTotals) {
+                accountTotals = { debit: 0, credit: 0, account: accountDetails };
+                totals.set(account, accountTotals);
+            }
+            accountTotals.debit += voucherRow.Debit;
+            accountTotals.credit += voucherRow.Credit;
         }
     }
 	return results;
 }
 
-// Sum cost and revenue accounts
-export async function sumResults(results: TotalsByCostCenter): Promise<Record<string, CostAndRevenue>> {
-    const summedResults: Record<string, CostAndRevenue> = {};
-    for (const costCenter in results) {
-        for (const account in results[costCenter]) {
-            if (!summedResults[costCenter]) {
-                summedResults[costCenter] = { cost: 0, revenue: 0 };
-            }
-            if (/^[3]/.test(account)) {
-                summedResults[costCenter].revenue += results[costCenter][account].credit - results[costCenter][account].debit;
-            } else if (/^[4567]/.test(account)) {
-                summedResults[costCenter].cost += results[costCenter][account].debit - results[costCenter][account].credit;
-            }
+// Keeps only costs and revenue accounts
+export function keepResultAccounts(results: TotalsByAccount): TotalsByAccount {
+    const output: TotalsByAccount = new Map();
+    for (const [account, accountTotals] of results.entries()) {
+        const type = accountTotals.account.type;
+        if (type === AccountType.Revenue || type === AccountType.Costs) {
+            output.set(account, accountTotals);
         }
+    }
+    return output;
+}
+
+// Sum cost and revenue accounts
+export function sumAllResults(results: TotalsByCostCenter): Map<CostCenter, CostAndRevenue> {
+    const summedResults: Map<CostCenter, CostAndRevenue> = new Map();
+    for (const [costCenter, totals] of results.entries()) {
+        summedResults.set(costCenter, sumAllAccounts(totals));
     }
     return summedResults;
 }
+
+export function sumAllAccounts(totals: TotalsByAccount): CostAndRevenue {
+    return totals.values().reduce((acc, total) => {
+        const result = accountResult(total);
+        return {
+            cost: acc.cost + result.cost,
+            revenue: acc.revenue + result.revenue
+        };
+    }, { cost: 0, revenue: 0 });
+}
+
+export function accountResult(total: AccountTotal): CostAndRevenue {
+    if (total.account.type === AccountType.Revenue) {
+        return { cost: 0, revenue: total.credit - total.debit };
+    } else if (total.account.type === AccountType.Costs) {
+        return { cost: total.debit - total.credit, revenue: 0 };
+    } else {
+        return { cost: 0, revenue: 0 };
+    }
+}
+

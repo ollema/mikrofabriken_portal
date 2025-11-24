@@ -1,6 +1,7 @@
 import { error } from '@sveltejs/kit';
 import type { Member } from '$lib/types/members.js';
 import {
+	AccountsResponseSchema,
 	CustomersResponseSchema,
 	InvoiceResponseSchema,
 	InvoicesResponseSchema,
@@ -8,7 +9,7 @@ import {
 	VoucherResponseSchema
 } from '$lib/schemas/fortnox.js';
 
-import type { Customer, Invoice, InvoiceDetail, Voucher, VoucherListItem } from '$lib/types/fortnox';
+import type { Account, Customer, Invoice, InvoiceDetail, Voucher, VoucherListItem } from '$lib/types/fortnox';
 
 export class FortnoxApi {
 	private readonly baseUrl: string;
@@ -111,6 +112,7 @@ export class FortnoxApi {
 	 * Retrieves invoices for a member from Fortnox API.
 	 */
 	async getInvoices(member: Member) {
+		// TODO: we don't need to get all customers just to get the invoices for one member
 		const customers = await this.getCustomers();
 
 		const personalCustomer = customers.find(
@@ -203,6 +205,17 @@ export class FortnoxApi {
 		const data = await this.fortnoxGetJson(`/vouchers/${series}/${voucherNumber}?financialyear=${financialYear}`);
 		const validatedData = VoucherResponseSchema.parse(data);
 		return validatedData.Voucher;
+	}
+
+	async *listAccountsAsync(): AsyncGenerator<Account[]> {
+		let page = 1;
+		let totalPages = 1;
+		do {
+			const data = await this.fortnoxGetJson(`/accounts?page=${page}`);
+			const validatedData = AccountsResponseSchema.parse(data);
+			totalPages = validatedData.MetaInformation['@TotalPages'];
+			yield validatedData.Accounts;
+		} while (page++ < totalPages);
 	}
 }
 

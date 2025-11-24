@@ -140,3 +140,27 @@ export const VoucherResponseSchema = z.object({
 	Voucher: VoucherSchema
 });
 
+const CostCenterSettingsEnum = z.enum(['ALLOWED', 'MANDATORY', 'NOTALLOWED']);
+const ProjectSettingsEnum = z.enum(['ALLOWED', 'MANDATORY', 'NOTALLOWED']);
+
+export const AccountSchema = z.object({
+	'@url': z.string(),
+	Active: z.boolean(),
+	BalanceBroughtForward: z.number().nullable(),
+	CostCenter: z.string().nullable(),
+	CostCenterSettings: CostCenterSettingsEnum,
+	Description: z.string().min(1).max(200),
+	Number: z.number().int().min(1000).max(9999),
+	Project: z.string().nullable(),
+	ProjectSettings: ProjectSettingsEnum,
+	SRU: z.number().int().nullable(),
+	VATCode: z.string().nullable(),
+	Year: z.number().int()
+});
+
+export const AccountsResponseSchema = z.object({
+	MetaInformation: MetaInformationSchema,
+	Accounts: z.array(AccountSchema)
+});
+
+

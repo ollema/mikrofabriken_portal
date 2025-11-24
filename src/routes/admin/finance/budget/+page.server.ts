@@ -1,13 +1,15 @@
 import { getCachedVouchers } from '$lib/server/fortnox/voucher-cache.js';
-import { getResultsByCostCenter, sumResults } from '$lib/server/finance/results.js';
+import { getTotalsByCostCenter, sumAllResults } from '$lib/server/finance/results.js';
+import { getCachedAccountDetails } from '$lib/server/fortnox/fortnox-util.js';
 
 export async function load() {
 	const vouchers = await getCachedVouchers();
-	const results = await getResultsByCostCenter(vouchers);
-	const summedResults = await sumResults(results);
+	const accounts = await getCachedAccountDetails();
+	const results = getTotalsByCostCenter(vouchers, accounts);
+	const summedResults = sumAllResults(results);
 	
 	// Convert to array format for the table
-	const budgetData = Object.entries(summedResults).map(([costCenter, data]) => ({
+	const budgetData = Array.from(summedResults.entries()).map(([costCenter, data]) => ({
 		costCenter: costCenter || 'NONE',
 		cost: data.cost,
 		revenue: data.revenue,
