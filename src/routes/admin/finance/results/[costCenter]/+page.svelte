@@ -37,7 +37,7 @@
 	<PageHeader.Root>
 		<PageHeader.Heading>
 			<PageHeader.Title>Resultat - {costCenter || 'NONE'}</PageHeader.Title>
-			<PageHeader.Description>Resultat per konto för kostnadsställe</PageHeader.Description
+			<PageHeader.Description>Mikrofabriken AB: Resultat per konto för kostnadsställe</PageHeader.Description
 			>
 		</PageHeader.Heading>
 	</PageHeader.Root>
