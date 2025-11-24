@@ -1,35 +1,41 @@
 <script lang="ts">
 	import * as PageHeader from '$lib/components/page-header/index.js';
 	import { formatCurrency } from '$lib/components/finance/currency.js';
+	import { ssp, queryParameters } from 'sveltekit-search-params';
+	import type {
+		ColumnFiltersState,
+		SortingState,
+		PaginationState,
+		VisibilityState,
+		Table
+	} from '@tanstack/table-core';
+	import { DataTable, DataTablePagination } from '$lib/components/data-table/index.js';
 	import type { AccountDetails, VoucherRowWithVoucher } from '$lib/server/fortnox/fortnox-util.js';
+	import { columns } from './columns.js';
+
+	const params = queryParameters(
+		{
+			columnFilters: ssp.object<ColumnFiltersState>([]),
+			sorting: ssp.object<SortingState>([{ id: 'date', desc: true }]),
+			pagination: ssp.object<PaginationState>({
+				pageIndex: 1,
+				pageSize: 25
+			}),
+			visibility: ssp.object<VisibilityState>({})
+		},
+		{
+			debounceHistory: 500,
+			showDefaults: false
+		}
+	);
 
 	let { data } = $props();
 	const costCenter = data.costCenter;
 	const account = data.account as AccountDetails;
-	const voucherRows = data.voucherRows;
+	const voucherRows = data.voucherRows as VoucherRowWithVoucher[];
 
 	const formatAccountNumber = (account: number): string => {
 		return account.toString().padStart(4, '0');
-	};
-
-	const formatDate = (dateString: string): string => {
-		const date = new Date(dateString);
-		return date.toLocaleDateString('sv-SE');
-	};
-
-	/**
-	 * Generate URL for a voucher detail page
-	 * @param financialYear - The financial year
-	 * @param series - The voucher series
-	 * @param number - The voucher number
-	 * @returns The URL path for the voucher detail page
-	 */
-	function getVoucherUrl(financialYear: number, series: string, number: number): string {
-		return `/admin/finance/vouchers/${financialYear}/${series}/${number}`;
-	}
-
-	const getVoucherUrlFromRow = (row: VoucherRowWithVoucher): string => {
-		return getVoucherUrl(row.voucher.Year, row.voucher.VoucherSeries, row.voucher.VoucherNumber);
 	};
 
 	const totalDebit = voucherRows.reduce((sum, row) => sum + row.Debit, 0);
@@ -67,62 +73,10 @@
 		</div>
 	</div>
 
-	<!-- Voucher Rows -->
-	<div class="bg-card rounded-lg border p-6">
-		<h2 class="mb-4 text-xl font-semibold">Verifikationsrader</h2>
-		<div class="overflow-x-auto">
-			<table class="w-full">
-				<thead>
-					<tr class="border-b">
-						<th class="px-4 py-2 text-left text-sm font-medium">Datum</th>
-						<th class="px-4 py-2 text-left text-sm font-medium">Verifikation</th>
-						<th class="px-4 py-2 text-left text-sm font-medium">Beskrivning</th>
-						<th class="px-4 py-2 text-left text-sm font-medium">Projekt</th>
-						<th class="px-4 py-2 text-right text-sm font-medium">Debet</th>
-						<th class="px-4 py-2 text-right text-sm font-medium">Kredit</th>
-					</tr>
-				</thead>
-				<tbody>
-					{#each voucherRows as row}
-						<tr class="hover:bg-muted/50 border-b">
-							<td class="px-4 py-2 text-sm">{formatDate(row.voucher.TransactionDate)}</td>
-							<td class="px-4 py-2 text-sm">
-								<a
-									href={getVoucherUrlFromRow(row)}
-									class="font-mono hover:underline"
-								>
-									{row.voucher.VoucherSeries}{row.voucher.VoucherNumber}
-								</a>
-							</td>
-							<td class="px-4 py-2 text-sm">{row.Description || row.voucher.Description}</td>
-							<td class="px-4 py-2 text-sm">{row.Project || '-'}</td>
-							<td class="px-4 py-2 text-right text-sm">{formatCurrency(row.Debit)}</td>
-							<td class="px-4 py-2 text-right text-sm">{formatCurrency(row.Credit)}</td>
-						</tr>
-					{/each}
-					{#if voucherRows.length === 0}
-						<tr>
-							<td colspan="6" class="text-muted-foreground px-4 py-8 text-center text-sm">
-								Inga verifikationsrader hittades för detta konto och kostnadsställe
-							</td>
-						</tr>
-					{/if}
-				</tbody>
-				<tfoot>
-					<tr class="border-t font-semibold">
-						<td colspan="4" class="px-4 py-2 text-right text-sm">Totalt:</td>
-						<td class="px-4 py-2 text-right text-sm">{formatCurrency(totalDebit)}</td>
-						<td class="px-4 py-2 text-right text-sm">{formatCurrency(totalCredit)}</td>
-					</tr>
-					<tr class="border-t font-semibold">
-						<td colspan="4" class="px-4 py-2 text-right text-sm">Netto:</td>
-						<td colspan="2" class="px-4 py-2 text-right text-sm {net >= 0 ? 'text-green-600' : 'text-red-600'}">
-							{formatCurrency(net)}
-						</td>
-					</tr>
-				</tfoot>
-			</table>
-		</div>
-	</div>
+	<DataTable data={voucherRows} {columns} {params}>
+		{#snippet paginationControls(table: Table<VoucherRowWithVoucher>)}
+			<DataTablePagination {table} rowName="verifikationsrader" showPerPage />
+		{/snippet}
+	</DataTable>
 </div>
 
