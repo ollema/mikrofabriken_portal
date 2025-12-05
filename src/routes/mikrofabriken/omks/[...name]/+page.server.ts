@@ -25,13 +25,17 @@ export const load = async ({ locals, url, params }: { locals: any; url: URL; par
 	const { omks } = await getFormattedMembersBasedOnCommissions(members, here);
 	const omk = omks.find((omk) => omk.name === committeeName);
 
+	const thisYear = new Date().getFullYear();
+    const budgetThisYear = committee.budget && committee.budget.find((budget) => budget.budgetYear === thisYear);
+
 	if (!omk) {
 		error(404, `OMK "${committeeName}" not found`);
 	}
 
 	return {
 		committee,
-		members: omk.members
+		members: omk.members,
+		budgetThisYear
 	};
 };
 

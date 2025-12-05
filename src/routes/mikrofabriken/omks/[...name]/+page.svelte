@@ -49,35 +49,12 @@
 		bind:open
 	/>
 
-	{#if data.committee.budget && data.committee.budget.length > 0}
+	{#if data.budgetThisYear}
 		<div class="mt-8">
-			<h2 class="mb-4 text-xl font-semibold">Budget</h2>
-			<Table.Root>
-				<Table.Header>
-					<Table.Row>
-						<Table.Head>År</Table.Head>
-						<Table.Head>Period</Table.Head>
-						<Table.Head class="text-right">Investeringar</Table.Head>
-						<Table.Head class="text-right">Kostnader</Table.Head>
-						<Table.Head class="text-right">Totalt</Table.Head>
-					</Table.Row>
-				</Table.Header>
-				<Table.Body>
-					{#each data.committee.budget as budget (budget.budgetYear)}
-						<Table.Row>
-							<Table.Cell>{budget.budgetYear}</Table.Cell>
-							<Table.Cell>
-								{formatDate(budget.startDate)} - {formatDate(budget.endDate)}
-							</Table.Cell>
-							<Table.Cell class="text-right">{formatCurrency(budget.investment)}</Table.Cell>
-							<Table.Cell class="text-right">{formatCurrency(budget.expenditure)}</Table.Cell>
-							<Table.Cell class="text-right font-semibold">
-								{formatCurrency(budget.investment + budget.expenditure)}
-							</Table.Cell>
-						</Table.Row>
-					{/each}
-				</Table.Body>
-			</Table.Root>
+			<h2 class="mb-4 text-xl font-semibold">Budget för {data.budgetThisYear.budgetYear}</h2>
+			<p>Investeringar: {formatCurrency(data.budgetThisYear.investment)}</p>
+			<p>Kostnader: {formatCurrency(data.budgetThisYear.expenditure)}</p>
+			<p>Totalt: {formatCurrency(data.budgetThisYear.investment + data.budgetThisYear.expenditure)}</p>
 		</div>
 	{/if}
 </div>
