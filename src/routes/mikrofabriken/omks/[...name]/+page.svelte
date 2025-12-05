@@ -2,6 +2,8 @@
 	import * as PageHeader from '$lib/components/page-header/index.js';
 	import MemberInfoDialog from '$lib/components/mikrofabriken/member-info-dialog.svelte';
 	import MemberGrid from '$lib/components/mikrofabriken/member-grid.svelte';
+	import { Button } from '$lib/components/ui/button/index.js';
+	import ArrowLeft from '@lucide/svelte/icons/arrow-left';
 
 	let { data } = $props();
 
@@ -18,21 +20,27 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Områdeskommittéer</PageHeader.Title>
-			<PageHeader.Description>Förkortas ibland OMKs.</PageHeader.Description>
+			<PageHeader.Title>{data.omk.label}</PageHeader.Title>
+			{#if data.omk.description}
+				<PageHeader.Description>{data.omk.description}</PageHeader.Description>
+			{/if}
 		</PageHeader.Heading>
+		<PageHeader.Actions>
+			<Button href="/mikrofabriken/omks" variant="outline">
+				<ArrowLeft class="mr-2 h-4 w-4" />
+				Tillbaka till OMKs
+			</Button>
+		</PageHeader.Actions>
 	</PageHeader.Root>
 
 	<MemberInfoDialog bind:selectedMember bind:open />
 
-	{#each data.omks as { label, description, members, name } (name || label)}
-		<MemberGrid
-			{label}
-			{description}
-			{members}
-			bind:selectedMember
-			bind:open
-			href={name ? `/mikrofabriken/omks/${name}` : undefined}
-		/>
-	{/each}
+	<MemberGrid
+		label={undefined}
+		description={undefined}
+		members={data.omk.members}
+		bind:selectedMember
+		bind:open
+	/>
 </div>
+
