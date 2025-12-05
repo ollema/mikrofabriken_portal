@@ -3,6 +3,7 @@ import type { ColumnDef } from '@tanstack/table-core';
 import { renderComponent, renderSnippet } from '$lib/components/ui/data-table/index.js';
 import { DataTableColumnHeader } from '$lib/components/data-table/index.js';
 import { formatCurrency } from '$lib/components/finance/currency.js';
+import type { Committee } from '$lib/types/committees.js';
 
 /**
  * Generate URL for a cost center results page
@@ -15,6 +16,7 @@ function getCostCenterUrl(costCenter: string): string {
 }
 
 export type BudgetRow = {
+	committee?: Committee;
 	costCenter: string;
 	cost: number;
 	revenue: number;
@@ -41,6 +43,19 @@ export const columns: Array<ColumnDef<BudgetRow>> = [
 			});
 			
 			return renderSnippet(linkSnippet, href);
+		}
+	},
+	{
+		id: 'committee',
+		accessorKey: 'committee',
+		header: ({ column }) =>
+			renderComponent(DataTableColumnHeader<BudgetRow, unknown>, {
+				column,
+				title: 'OmK'
+			}),
+		cell: ({ row }) => {
+			const name = row.original?.committee?.friendlyName || '';
+			return name;
 		}
 	},
 	{
