@@ -30,7 +30,8 @@ export const load = async ({ locals, url, params }: { locals: any; url: URL; par
 	}
 
 	return {
-		omk
+		committee,
+		members: omk.members
 	};
 };
 
