@@ -9,6 +9,7 @@
 	} from '@tanstack/table-core';
 	import { DataTable, DataTablePagination } from '$lib/components/data-table/index.js';
 	import { columns } from './columns.js';
+	import DataTableToolbar from './data-table-toolbar.svelte';
 
 	const params = queryParameters(
 		{
@@ -41,6 +42,9 @@
 	</PageHeader.Root>
 
 	<DataTable data={data.vouchers} {columns} {params}>
+		{#snippet toolbar(table)}
+			<DataTableToolbar {table} />
+		{/snippet}
 		{#snippet paginationControls(table)}
 			<DataTablePagination {table} rowName="verifikationer" showPerPage />
 		{/snippet}

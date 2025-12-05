@@ -23,7 +23,10 @@ export const columns: Array<ColumnDef<VoucherListItem>> = [
 			renderComponent(DataTableColumnHeader<VoucherListItem, unknown>, {
 				column,
 				title: 'Serie'
-			})
+			}),
+		filterFn: (row, id, value) => {
+			return value.includes(row.getValue(id));
+		}
 	},
 	{
 		id: 'VoucherNumber',
