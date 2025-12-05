@@ -31,6 +31,7 @@ export async function load(): Promise<{ currentYear: number; budgetData: OmkBudg
 		
 		return {
 			committee: committee.friendlyName,
+			costCenter: costCenter,
 			investmentBudget,
 			expenditureBudget,
 			netResult,
