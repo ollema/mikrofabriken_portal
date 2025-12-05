@@ -13,7 +13,10 @@
 	const params = queryParameters(
 		{
 			columnFilters: ssp.object<ColumnFiltersState>([]),
-			sorting: ssp.object<SortingState>([{ id: 'TransactionDate', desc: true }]),
+			sorting: ssp.object<SortingState>([
+				{ id: 'VoucherSeries', desc: false },
+				{ id: 'VoucherNumber', desc: false }
+			]),
 			pagination: ssp.object<PaginationState>({
 				pageIndex: 1,
 				pageSize: 25

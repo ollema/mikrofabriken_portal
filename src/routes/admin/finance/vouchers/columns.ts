@@ -19,7 +19,11 @@ export const columns: Array<ColumnDef<VoucherListItem>> = [
 	{
 		id: 'VoucherSeries',
 		accessorKey: 'VoucherSeries',
-		header: 'Serie'
+		header: ({ column }) =>
+			renderComponent(DataTableColumnHeader<VoucherListItem, unknown>, {
+				column,
+				title: 'Serie'
+			})
 	},
 	{
 		id: 'VoucherNumber',
