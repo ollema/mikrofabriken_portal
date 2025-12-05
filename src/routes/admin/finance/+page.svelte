@@ -3,7 +3,12 @@
 	
 	const financeLinks = [
 		{
-			title: 'Resultat',
+			title: 'OmK Budget',
+			description: 'Vida budget och resultat per OMK',
+			href: '/admin/finance/omk-budget'
+		},
+		{
+			title: 'Kostnadsställen',
 			description: 'Resultat per kostnadsställe',
 			href: '/admin/finance/results'
 		},
