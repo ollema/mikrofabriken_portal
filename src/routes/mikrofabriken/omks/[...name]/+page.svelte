@@ -2,10 +2,7 @@
 	import * as PageHeader from '$lib/components/page-header/index.js';
 	import MemberInfoDialog from '$lib/components/mikrofabriken/member-info-dialog.svelte';
 	import MemberGrid from '$lib/components/mikrofabriken/member-grid.svelte';
-	import { Button } from '$lib/components/ui/button/index.js';
-	import * as Table from '$lib/components/ui/table/index.js';
 	import { formatCurrency } from '$lib/components/finance/currency.js';
-	import ArrowLeft from '@lucide/svelte/icons/arrow-left';
 
 	let { data } = $props();
 
@@ -31,12 +28,6 @@
 				<PageHeader.Description>{data.committee.description}</PageHeader.Description>
 			{/if}
 		</PageHeader.Heading>
-		<PageHeader.Actions>
-			<Button href="/mikrofabriken/omks" variant="outline">
-				<ArrowLeft class="mr-2 h-4 w-4" />
-				Tillbaka till OMKs
-			</Button>
-		</PageHeader.Actions>
 	</PageHeader.Root>
 
 	<MemberInfoDialog bind:selectedMember bind:open />
@@ -52,10 +43,23 @@
 	{#if data.budgetThisYear}
 		<div class="mt-8">
 			<h2 class="mb-4 text-xl font-semibold">Budget för {data.budgetThisYear.budgetYear}</h2>
-			<p>Investeringar: {formatCurrency(data.budgetThisYear.investment)}</p>
-			<p>Kostnader: {formatCurrency(data.budgetThisYear.expenditure)}</p>
-			<p>Totalt: {formatCurrency(data.budgetThisYear.investment + data.budgetThisYear.expenditure)}</p>
+			<p>Investeringsbudget: {formatCurrency(data.budgetThisYear.investment)}</p>
+			<p>Förbrukningsbudget: {formatCurrency(data.budgetThisYear.expenditure)}</p>
 		</div>
 	{/if}
+
+	{#if data.netResultThisYear !== null}
+		<div class="mt-8">
+			<h2 class="mb-4 text-xl font-semibold">Resultat för {new Date().getFullYear()}</h2>
+			<p>Förbrukning: {formatCurrency(data.netResultThisYear)}</p>
+			{#if data.budgetLeftThisYear !== null}
+				<p>
+					Förbrukningsbudget kvar: <span class={data.budgetLeftThisYear < 0 ? 'text-red-600' : 'text-green-600'}>{formatCurrency(data.budgetLeftThisYear)}</span>
+				</p>
+			{/if}
+		</div>
+	{/if}
+
+
 </div>
 

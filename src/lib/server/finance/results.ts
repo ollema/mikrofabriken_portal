@@ -91,3 +91,12 @@ export function accountResult(total: AccountTotal): CostAndRevenue {
     }
 }
 
+export function getNetResultForCostCenter(vouchers: Voucher[], accounts: AccountDetailsMap, costCenter: CostCenter): number {
+        const results = getTotalsByCostCenter(vouchers, accounts);
+    const summedResults = sumAllResults(results);
+    const costCenterResults = summedResults.get(costCenter);
+    if (!costCenterResults) {
+        return 0;
+    }
+    return costCenterResults.revenue - costCenterResults.cost;
+}
