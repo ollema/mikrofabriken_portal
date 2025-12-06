@@ -16,6 +16,7 @@ export const CommitteeSchema = z
 		friendlyName: z.string(),
 		description: z.string(),
 		slackLink: z.string(),
+		costCenter: z.string().optional(),
 		budget: z.array(BudgetEntrySchema).optional()
 	})
 	.strict();
