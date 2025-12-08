@@ -15,13 +15,16 @@ function getCache() {
 /**
  * Replaces all vouchers in the cache with the given list.
  */
+// eslint-disable-next-line @typescript-eslint/require-await
 export async function replaceAllVouchers(vouchers: Array<fortnoxTypes.Voucher>): Promise<void> {
 	const cache = getCache();
 	cache.setKey(CACHE_KEY, vouchers);
 	cache.save();
 }
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export async function getCachedVouchers(): Promise<Array<fortnoxTypes.Voucher>> {
 	const cache = getCache();
-	return cache.getKey(CACHE_KEY) ?? [];
+	const value = cache.get<Array<fortnoxTypes.Voucher> | undefined>(CACHE_KEY);
+	return value ?? [];
 }

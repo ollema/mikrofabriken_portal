@@ -13,7 +13,7 @@ export const load = async ({
 	url,
 	params
 }: {
-	locals: any;
+	locals: App.Locals;
 	url: URL;
 	params: { name: string | Array<string> };
 }) => {
@@ -49,7 +49,7 @@ export const load = async ({
 	}
 
 	let budgetLeftThisYear: number | null = null;
-	if (budgetThisYear && netResultThisYear !== null) {
+	if (budgetThisYear) {
 		budgetLeftThisYear = budgetThisYear.expenditure + netResultThisYear;
 	}
 

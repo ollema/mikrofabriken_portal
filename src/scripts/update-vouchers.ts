@@ -23,18 +23,6 @@ function getFortnox() {
 // Fortnox cache
 //
 
-/**
- * Takes the first N items from an async generator
- */
-async function* take<T>(generator: AsyncGenerator<T>, count: number): AsyncGenerator<T> {
-	let taken = 0;
-	for await (const item of generator) {
-		if (taken >= count) break;
-		yield item;
-		taken++;
-	}
-}
-
 async function updateFortnoxCache() {
 	const fortnox = getFortnox();
 	const vouchers = await Array.fromAsync(getFullVouchersForCurrentYear(fortnox));

@@ -18,6 +18,7 @@ export async function load({
 			voucher
 		};
 	} catch (e) {
+		console.error(e);
 		error(404, `Could not find voucher ${params.series}/${params.voucherNumber}`);
 	}
 }

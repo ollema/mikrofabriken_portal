@@ -62,7 +62,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{#each voucher.VoucherRows as row}
+						{#each voucher.VoucherRows as row, index (index)}
 							{#if !row.Removed}
 								<tr class="border-b">
 									<td class="px-4 py-2 text-sm">{row.Account}</td>

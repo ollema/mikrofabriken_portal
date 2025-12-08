@@ -4,8 +4,7 @@ import {
 	accountResult,
 	getTotalsByCostCenter,
 	keepResultAccounts,
-	sumAllAccounts,
-	sumAllResults
+	sumAllAccounts
 } from '$lib/server/finance/results.js';
 import { getCachedAccountDetails } from '$lib/server/fortnox/fortnox-util.js';
 

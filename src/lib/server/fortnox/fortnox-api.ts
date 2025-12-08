@@ -32,9 +32,7 @@ export class FortnoxApi {
 			'Content-Type': 'application/json',
 			Authorization: this.fnpKey
 		};
-		let retriesLeft = 3;
-
-		while (true) {
+		for (let retriesLeft = 3; ; ) {
 			const response = await fetch(`${this.baseUrl}${path}`, {
 				method: 'GET',
 				headers

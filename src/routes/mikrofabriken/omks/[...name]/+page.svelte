@@ -14,10 +14,6 @@
 		here: boolean;
 		commissions: string[];
 	} | null = $state(null);
-
-	function formatDate(dateString: string): string {
-		return new Date(dateString).toLocaleDateString('sv-SE');
-	}
 </script>
 
 <div class="mx-auto w-full min-w-0">

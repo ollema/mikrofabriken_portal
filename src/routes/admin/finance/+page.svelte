@@ -29,7 +29,7 @@
 	</PageHeader.Root>
 
 	<div class="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-		{#each financeLinks as link}
+		{#each financeLinks as link (link.href)}
 			<a href={link.href}>
 				<div
 					class="bg-card text-card-foreground hover:bg-accent hover:text-accent-foreground relative rounded-lg border shadow-sm transition-colors"

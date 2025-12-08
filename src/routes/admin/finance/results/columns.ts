@@ -54,7 +54,7 @@ export const columns: Array<ColumnDef<BudgetRow>> = [
 				title: 'OmK'
 			}),
 		cell: ({ row }) => {
-			const name = row.original?.committee?.friendlyName || '';
+			const name = row.original.committee?.friendlyName || '';
 			return name;
 		}
 	},
