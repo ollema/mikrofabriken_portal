@@ -23,5 +23,5 @@ export async function replaceAllVouchers(vouchers: Array<fortnoxTypes.Voucher>):
 
 export async function getCachedVouchers(): Promise<Array<fortnoxTypes.Voucher>> {
 	const cache = getCache();
-	return (cache.getKey(CACHE_KEY) ?? []);
+	return cache.getKey(CACHE_KEY) ?? [];
 }

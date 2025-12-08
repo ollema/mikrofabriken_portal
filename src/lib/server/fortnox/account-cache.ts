@@ -23,5 +23,5 @@ export async function replaceAllAccounts(accounts: Array<fortnoxTypes.Account>):
 
 export async function getCachedAccounts(): Promise<Array<fortnoxTypes.Account>> {
 	const cache = getCache();
-	return (cache.getKey(CACHE_KEY) ?? []);
+	return cache.getKey(CACHE_KEY) ?? [];
 }

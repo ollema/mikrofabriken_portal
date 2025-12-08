@@ -1,10 +1,6 @@
 import type { Voucher } from '$lib/types/fortnox';
-import type {AccountDetails, AccountDetailsMap} from '$lib/server/fortnox/fortnox-util.js';
-import {
-	
-	
-	AccountType
-} from '$lib/server/fortnox/fortnox-util.js';
+import type { AccountDetails, AccountDetailsMap } from '$lib/server/fortnox/fortnox-util.js';
+import { AccountType } from '$lib/server/fortnox/fortnox-util.js';
 
 export type AccountTotal = {
 	debit: number;

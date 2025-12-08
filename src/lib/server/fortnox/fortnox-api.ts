@@ -17,7 +17,6 @@ import {
 	VouchersResponseSchema
 } from '$lib/schemas/fortnox.js';
 
-
 export class FortnoxApi {
 	private readonly baseUrl: string;
 	private readonly fnpKey: string;

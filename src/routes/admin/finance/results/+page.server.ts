@@ -16,13 +16,15 @@ export async function load() {
 	);
 
 	// Convert to array format for the table
-	const budgetData: Array<BudgetRow> = Array.from(summedResults.entries()).map(([costCenter, data]) => ({
-		committee: costCenterToCommittee.get(costCenter),
-		costCenter: costCenter || 'NONE',
-		cost: data.cost,
-		revenue: data.revenue,
-		net: data.revenue - data.cost
-	}));
+	const budgetData: Array<BudgetRow> = Array.from(summedResults.entries()).map(
+		([costCenter, data]) => ({
+			committee: costCenterToCommittee.get(costCenter),
+			costCenter: costCenter || 'NONE',
+			cost: data.cost,
+			revenue: data.revenue,
+			net: data.revenue - data.cost
+		})
+	);
 
 	return { budgetData };
 }
