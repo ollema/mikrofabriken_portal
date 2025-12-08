@@ -50,5 +50,3 @@
 		{/snippet}
 	</DataTable>
 </div>
-
-

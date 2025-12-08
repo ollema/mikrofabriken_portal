@@ -9,7 +9,9 @@
 <div class="mx-auto w-full min-w-0">
 	<PageHeader.Root>
 		<PageHeader.Heading>
-			<PageHeader.Title>Verifikation {voucher.VoucherSeries} {voucher.VoucherNumber}</PageHeader.Title>
+			<PageHeader.Title
+				>Verifikation {voucher.VoucherSeries} {voucher.VoucherNumber}</PageHeader.Title
+			>
 			<PageHeader.Description>
 				{new Date(voucher.TransactionDate).toLocaleDateString('sv-SE')}
 			</PageHeader.Description>
@@ -18,35 +20,35 @@
 
 	<div class="mt-6 space-y-6">
 		<!-- Basic Information -->
-		<div class="rounded-lg border bg-card p-6">
-			<h2 class="text-xl font-semibold mb-4">Information</h2>
+		<div class="bg-card rounded-lg border p-6">
+			<h2 class="mb-4 text-xl font-semibold">Information</h2>
 			<dl class="grid grid-cols-2 gap-4">
 				<div>
-					<dt class="text-sm font-medium text-muted-foreground">Beskrivning</dt>
+					<dt class="text-muted-foreground text-sm font-medium">Beskrivning</dt>
 					<dd class="mt-1 text-sm">{voucher.Description}</dd>
 				</div>
 				<div>
-					<dt class="text-sm font-medium text-muted-foreground">Referenstyp</dt>
+					<dt class="text-muted-foreground text-sm font-medium">Referenstyp</dt>
 					<dd class="mt-1 text-sm">{voucher.ReferenceType}</dd>
 				</div>
 				<div>
-					<dt class="text-sm font-medium text-muted-foreground">Referensnummer</dt>
+					<dt class="text-muted-foreground text-sm font-medium">Referensnummer</dt>
 					<dd class="mt-1 text-sm">{voucher.ReferenceNumber}</dd>
 				</div>
 				<div>
-					<dt class="text-sm font-medium text-muted-foreground">Godkännande</dt>
+					<dt class="text-muted-foreground text-sm font-medium">Godkännande</dt>
 					<dd class="mt-1 text-sm">{voucher.ApprovalState}</dd>
 				</div>
 				<div class="col-span-2">
-					<dt class="text-sm font-medium text-muted-foreground">Kommentarer</dt>
+					<dt class="text-muted-foreground text-sm font-medium">Kommentarer</dt>
 					<dd class="mt-1 text-sm">{voucher.Comments || '-'}</dd>
 				</div>
 			</dl>
 		</div>
 
 		<!-- Voucher Rows -->
-		<div class="rounded-lg border bg-card p-6">
-			<h2 class="text-xl font-semibold mb-4">Verifikationsrader</h2>
+		<div class="bg-card rounded-lg border p-6">
+			<h2 class="mb-4 text-xl font-semibold">Verifikationsrader</h2>
 			<div class="overflow-x-auto">
 				<table class="w-full">
 					<thead>
@@ -78,4 +80,3 @@
 		</div>
 	</div>
 </div>
-

@@ -36,13 +36,13 @@ export const columns: Array<ColumnDef<OmkBudgetRow>> = [
 			const costCenter = row.original.costCenter;
 			const href = getCostCenterUrl(costCenter);
 			const committeeName = row.original.committee;
-			
+
 			const linkSnippet = createRawSnippet<[string]>(() => {
 				return {
 					render: () => `<a class="hover:underline" href=${href}>${committeeName}</a>`
 				};
 			});
-			
+
 			return renderSnippet(linkSnippet, href);
 		}
 	},
@@ -88,15 +88,14 @@ export const columns: Array<ColumnDef<OmkBudgetRow>> = [
 			const budgetLeft = row.original.budgetLeft;
 			const formatted = formatCurrency(budgetLeft);
 			const className = budgetLeft >= 0 ? 'text-green-600' : 'text-red-600';
-			
+
 			const budgetLeftCellSnippet = createRawSnippet<[]>(() => {
 				return {
 					render: () => `<span class="${className}">${formatted}</span>`
 				};
 			});
-			
+
 			return renderSnippet(budgetLeftCellSnippet);
 		}
-	},
+	}
 ];
-

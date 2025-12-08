@@ -2,7 +2,6 @@ import { FortnoxApi } from '$lib/server/fortnox/fortnox-api.js';
 import { getFullVouchersForCurrentYear } from '$lib/server/fortnox/fortnox-util.js';
 import { replaceAllVouchers } from '$lib/server/fortnox/voucher-cache';
 
-
 //
 // Fortnox API access
 //
@@ -16,8 +15,8 @@ function getFortnox() {
 	if (FNP_KEY) {
 		return new FortnoxApi(BASE_URL, FNP_KEY);
 	}
-    console.error("FNP_KEY is not set");
-    process.exit(1);
+	console.error('FNP_KEY is not set');
+	process.exit(1);
 }
 
 //

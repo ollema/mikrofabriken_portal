@@ -1,15 +1,22 @@
 import { error } from '@sveltejs/kit';
 import type { Member } from '$lib/types/members.js';
+import type {
+	Account,
+	Customer,
+	Invoice,
+	InvoiceDetail,
+	Voucher,
+	VoucherListItem
+} from '$lib/types/fortnox';
 import {
 	AccountsResponseSchema,
 	CustomersResponseSchema,
 	InvoiceResponseSchema,
 	InvoicesResponseSchema,
-	VouchersResponseSchema,
-	VoucherResponseSchema
+	VoucherResponseSchema,
+	VouchersResponseSchema
 } from '$lib/schemas/fortnox.js';
 
-import type { Account, Customer, Invoice, InvoiceDetail, Voucher, VoucherListItem } from '$lib/types/fortnox';
 
 export class FortnoxApi {
 	private readonly baseUrl: string;
@@ -26,23 +33,23 @@ export class FortnoxApi {
 			'Content-Type': 'application/json',
 			Authorization: this.fnpKey
 		};
-        let retriesLeft = 3;
+		let retriesLeft = 3;
 
-        while (true) {
-            const response = await fetch(`${this.baseUrl}${path}`, {
-                method: 'GET',
-                headers
-            });
-            if (response.ok) {
-                return response;
-            } else if (response.status === 429 && --retriesLeft > 0) {
-                console.log(`Rate limit exceeded, waiting 5.1 seconds and trying again`);
-                await new Promise(resolve => setTimeout(resolve, 5100));
-            } else {
-                const msg = await response.text();
-                throw new Error(`Fortnox API error: ${response.status} - ${msg}`);
-            }
-        }
+		while (true) {
+			const response = await fetch(`${this.baseUrl}${path}`, {
+				method: 'GET',
+				headers
+			});
+			if (response.ok) {
+				return response;
+			} else if (response.status === 429 && --retriesLeft > 0) {
+				console.log(`Rate limit exceeded, waiting 5.1 seconds and trying again`);
+				await new Promise((resolve) => setTimeout(resolve, 5100));
+			} else {
+				const msg = await response.text();
+				throw new Error(`Fortnox API error: ${response.status} - ${msg}`);
+			}
+		}
 	}
 
 	/**
@@ -61,7 +68,7 @@ export class FortnoxApi {
 	/**
 	 * Retrieves all customers from the Fortnox API.
 	 */
-	async getCustomers(): Promise<Customer[]> {
+	async getCustomers(): Promise<Array<Customer>> {
 		let page = 1;
 		let data = await this.fortnoxGetJson(`/customers?page=${page}`);
 		let validatedData = CustomersResponseSchema.parse(data);
@@ -83,7 +90,7 @@ export class FortnoxApi {
 	/**
 	 * Retrieves all invoices for a given customer number.
 	 */
-	async getInvoicesForCustomer(customerNumber: string): Promise<Invoice[]> {
+	async getInvoicesForCustomer(customerNumber: string): Promise<Array<Invoice>> {
 		const sortBy = 'invoicedate';
 		let page = 1;
 		let queryParams = `?page=${page}&customernumber=${customerNumber}&sortby=${sortBy}`;
@@ -155,7 +162,8 @@ export class FortnoxApi {
 		const invoice = validatedData.Invoice;
 
 		const personalInvoiceBelongsToMember = invoice.OrganisationNumber === requestedBy.crNumber;
-		const companyInvoiceBelongsToMember = invoice.OrganisationNumber === requestedBy.company?.orgNum;
+		const companyInvoiceBelongsToMember =
+			invoice.OrganisationNumber === requestedBy.company?.orgNum;
 		const invoiceBelongsToMember = personalInvoiceBelongsToMember || companyInvoiceBelongsToMember;
 
 		const allowedToViewInvoice = invoiceBelongsToMember || requestedByRole === 'admin';
@@ -177,7 +185,7 @@ export class FortnoxApi {
 	/**
 	 * Retrieves voucher list for the current year.
 	 */
-	async *getVouchersThisYearAsync(): AsyncGenerator<VoucherListItem[]> {
+	async *getVouchersThisYearAsync(): AsyncGenerator<Array<VoucherListItem>> {
 		let page = 1;
 		let totalPages = 1;
 		let vouchersReturned = 0;
@@ -189,12 +197,14 @@ export class FortnoxApi {
 			totalPages = validatedData.MetaInformation['@TotalPages'];
 			totalVouchers = validatedData.MetaInformation['@TotalResources'];
 			vouchersReturned += validatedData.Vouchers.length;
-			console.log(`Got page ${page} of ${totalPages}. Total vouchers: ${vouchersReturned} of ${totalVouchers}`);
+			console.log(
+				`Got page ${page} of ${totalPages}. Total vouchers: ${vouchersReturned} of ${totalVouchers}`
+			);
 			yield validatedData.Vouchers;
 		} while (page++ < totalPages);
 	}
 
-	async getVouchersThisYear(): Promise<VoucherListItem[]> {
+	async getVouchersThisYear(): Promise<Array<VoucherListItem>> {
 		return (await Array.fromAsync(this.getVouchersThisYearAsync())).flat();
 	}
 
@@ -202,12 +212,14 @@ export class FortnoxApi {
 	 * Retrieves a single voucher by number.
 	 */
 	async getVoucher(financialYear: number, series: string, voucherNumber: number): Promise<Voucher> {
-		const data = await this.fortnoxGetJson(`/vouchers/${series}/${voucherNumber}?financialyear=${financialYear}`);
+		const data = await this.fortnoxGetJson(
+			`/vouchers/${series}/${voucherNumber}?financialyear=${financialYear}`
+		);
 		const validatedData = VoucherResponseSchema.parse(data);
 		return validatedData.Voucher;
 	}
 
-	async *listAccountsAsync(): AsyncGenerator<Account[]> {
+	async *listAccountsAsync(): AsyncGenerator<Array<Account>> {
 		let page = 1;
 		let totalPages = 1;
 		do {

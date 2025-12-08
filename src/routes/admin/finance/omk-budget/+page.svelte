@@ -34,7 +34,9 @@
 	<PageHeader.Root>
 		<PageHeader.Heading>
 			<PageHeader.Title>OmK Budget</PageHeader.Title>
-			<PageHeader.Description>Budget och resultat per Områdeskommitté för {data.currentYear}</PageHeader.Description>
+			<PageHeader.Description
+				>Budget och resultat per Områdeskommitté för {data.currentYear}</PageHeader.Description
+			>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
@@ -44,4 +46,3 @@
 		{/snippet}
 	</DataTable>
 </div>
-

@@ -162,5 +162,3 @@ export const AccountsResponseSchema = z.object({
 	MetaInformation: MetaInformationSchema,
 	Accounts: z.array(AccountSchema)
 });
-
-

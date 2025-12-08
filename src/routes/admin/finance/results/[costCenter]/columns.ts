@@ -1,9 +1,9 @@
 import { createRawSnippet } from 'svelte';
 import type { ColumnDef } from '@tanstack/table-core';
+import type { AccountDetails } from '$lib/server/fortnox/fortnox-util.js';
 import { renderComponent, renderSnippet } from '$lib/components/ui/data-table/index.js';
 import { DataTableColumnHeader } from '$lib/components/data-table/index.js';
 import { formatCurrency } from '$lib/components/finance/currency.js';
-import type { AccountDetails } from '$lib/server/fortnox/fortnox-util.js';
 
 export type AccountBreakdownRow = {
 	account: AccountDetails;
@@ -40,13 +40,13 @@ export const createColumns = (costCenter: string): Array<ColumnDef<AccountBreakd
 			const accountNumber = row.original.account.number;
 			const href = getAccountUrl(costCenter, accountNumber);
 			const formatted = formatAccountNumber(accountNumber);
-			
+
 			const linkSnippet = createRawSnippet<[string]>(() => {
 				return {
 					render: () => `<a class="hover:underline font-mono" href=${href}>${formatted}</a>`
 				};
 			});
-			
+
 			return renderSnippet(linkSnippet, href);
 		}
 	},
@@ -92,15 +92,14 @@ export const createColumns = (costCenter: string): Array<ColumnDef<AccountBreakd
 			const net = row.original.net;
 			const formatted = formatCurrency(net);
 			const className = net >= 0 ? 'text-green-600' : 'text-red-600';
-			
+
 			const netCellSnippet = createRawSnippet<[]>(() => {
 				return {
 					render: () => `<span class="${className}">${formatted}</span>`
 				};
 			});
-			
+
 			return renderSnippet(netCellSnippet);
 		}
 	}
 ];
-

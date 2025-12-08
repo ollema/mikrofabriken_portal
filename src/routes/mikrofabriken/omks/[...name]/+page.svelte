@@ -54,12 +54,12 @@
 			<p>Förbrukning: {formatCurrency(data.netResultThisYear)}</p>
 			{#if data.budgetLeftThisYear !== null}
 				<p>
-					Förbrukningsbudget kvar: <span class={data.budgetLeftThisYear < 0 ? 'text-red-600' : 'text-green-600'}>{formatCurrency(data.budgetLeftThisYear)}</span>
+					Förbrukningsbudget kvar: <span
+						class={data.budgetLeftThisYear < 0 ? 'text-red-600' : 'text-green-600'}
+						>{formatCurrency(data.budgetLeftThisYear)}</span
+					>
 				</p>
 			{/if}
 		</div>
 	{/if}
-
-
 </div>
-

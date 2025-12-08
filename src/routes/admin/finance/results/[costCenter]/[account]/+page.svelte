@@ -56,18 +56,16 @@
 	<!-- Summary -->
 	<div class="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
 		<div class="bg-card rounded-lg border p-4">
-			<div class="text-sm text-muted-foreground">Total Debet</div>
+			<div class="text-muted-foreground text-sm">Total Debet</div>
 			<div class="text-2xl font-semibold">{formatCurrency(totalDebit)}</div>
 		</div>
 		<div class="bg-card rounded-lg border p-4">
-			<div class="text-sm text-muted-foreground">Total Kredit</div>
+			<div class="text-muted-foreground text-sm">Total Kredit</div>
 			<div class="text-2xl font-semibold">{formatCurrency(totalCredit)}</div>
 		</div>
 		<div class="bg-card rounded-lg border p-4">
-			<div class="text-sm text-muted-foreground">Netto</div>
-			<div
-				class="text-2xl font-semibold {net >= 0 ? 'text-green-600' : 'text-red-600'}"
-			>
+			<div class="text-muted-foreground text-sm">Netto</div>
+			<div class="text-2xl font-semibold {net >= 0 ? 'text-green-600' : 'text-red-600'}">
 				{formatCurrency(net)}
 			</div>
 		</div>
@@ -79,4 +77,3 @@
 		{/snippet}
 	</DataTable>
 </div>
-

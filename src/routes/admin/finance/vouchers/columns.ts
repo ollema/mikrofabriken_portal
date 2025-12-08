@@ -41,13 +41,13 @@ export const columns: Array<ColumnDef<VoucherListItem>> = [
 			const series = row.original.VoucherSeries;
 			const number = row.original.VoucherNumber;
 			const href = getVoucherUrl(financialYear, series, number);
-			
+
 			const linkSnippet = createRawSnippet<[string]>(() => {
 				return {
 					render: () => `<a class="hover:underline" href=${href}>${number}</a>`
 				};
 			});
-			
+
 			return renderSnippet(linkSnippet, href);
 		},
 		enableHiding: false
@@ -65,6 +65,5 @@ export const columns: Array<ColumnDef<VoucherListItem>> = [
 		id: 'Description',
 		accessorKey: 'Description',
 		header: 'Beskrivning'
-	},
+	}
 ];
-

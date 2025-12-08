@@ -34,7 +34,9 @@
 	<PageHeader.Root>
 		<PageHeader.Heading>
 			<PageHeader.Title>Resultat</PageHeader.Title>
-			<PageHeader.Description>Mikrofabriken AB: Resultat för innevarande år per kostnadsställe</PageHeader.Description>
+			<PageHeader.Description
+				>Mikrofabriken AB: Resultat för innevarande år per kostnadsställe</PageHeader.Description
+			>
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
@@ -44,4 +46,3 @@
 		{/snippet}
 	</DataTable>
 </div>
-

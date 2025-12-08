@@ -8,7 +8,15 @@ import { getCachedVouchers } from '$lib/server/fortnox/voucher-cache.js';
 import { getNetResultForCostCenter } from '$lib/server/finance/results.js';
 import { getCachedAccountDetails } from '$lib/server/fortnox/fortnox-util.js';
 
-export const load = async ({ locals, url, params }: { locals: any; url: URL; params: { name: string | string[] } }) => {
+export const load = async ({
+	locals,
+	url,
+	params
+}: {
+	locals: any;
+	url: URL;
+	params: { name: string | Array<string> };
+}) => {
 	getUser(locals, url);
 
 	// Handle catch-all parameter - it might be a string or array depending on SvelteKit version
@@ -29,10 +37,11 @@ export const load = async ({ locals, url, params }: { locals: any; url: URL; par
 	const omk = omks.find((omk) => omk.name === committeeName);
 
 	const thisYear = new Date().getFullYear();
-    const budgetThisYear = committee.budget && committee.budget.find((budget) => budget.budgetYear === thisYear);
+	const budgetThisYear =
+		committee.budget && committee.budget.find((budget) => budget.budgetYear === thisYear);
 
 	// Calculate net result for this year
-	let netResultThisYear: number = 0;
+	let netResultThisYear = 0;
 	if (committee.costCenter) {
 		const vouchers = await getCachedVouchers();
 		const accounts = await getCachedAccountDetails();
@@ -56,4 +65,3 @@ export const load = async ({ locals, url, params }: { locals: any; url: URL; par
 		budgetLeftThisYear
 	};
 };
-

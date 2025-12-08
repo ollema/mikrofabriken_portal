@@ -7,7 +7,11 @@ export async function load({ locals, params, url }) {
 	// Get the member being viewed (not the current user)
 	const member = getMember(params.slackID);
 
-	const invoice = await fortnox.getInvoice(params.documentNumber, member, user.role as 'admin' | 'user');
+	const invoice = await fortnox.getInvoice(
+		params.documentNumber,
+		member,
+		user.role as 'admin' | 'user'
+	);
 
 	return {
 		invoice: invoice

@@ -1,9 +1,9 @@
 import { createRawSnippet } from 'svelte';
 import type { ColumnDef } from '@tanstack/table-core';
+import type { Committee } from '$lib/types/committees.js';
 import { renderComponent, renderSnippet } from '$lib/components/ui/data-table/index.js';
 import { DataTableColumnHeader } from '$lib/components/data-table/index.js';
 import { formatCurrency } from '$lib/components/finance/currency.js';
-import type { Committee } from '$lib/types/committees.js';
 
 /**
  * Generate URL for a cost center results page
@@ -35,13 +35,13 @@ export const columns: Array<ColumnDef<BudgetRow>> = [
 		cell: ({ row }) => {
 			const costCenter = row.original.costCenter;
 			const href = getCostCenterUrl(costCenter);
-			
+
 			const linkSnippet = createRawSnippet<[string]>(() => {
 				return {
 					render: () => `<a class="hover:underline" href=${href}>${costCenter}</a>`
 				};
 			});
-			
+
 			return renderSnippet(linkSnippet, href);
 		}
 	},
@@ -68,7 +68,7 @@ export const columns: Array<ColumnDef<BudgetRow>> = [
 			}),
 		cell: ({ row }) => formatCurrency(row.original.cost)
 	},
-    {
+	{
 		id: 'revenue',
 		accessorKey: 'revenue',
 		header: ({ column }) =>
@@ -90,15 +90,14 @@ export const columns: Array<ColumnDef<BudgetRow>> = [
 			const net = row.original.net;
 			const formatted = formatCurrency(net);
 			const className = net >= 0 ? 'text-green-600' : 'text-red-600';
-			
+
 			const netCellSnippet = createRawSnippet<[]>(() => {
 				return {
 					render: () => `<span class="${className}">${formatted}</span>`
 				};
 			});
-			
+
 			return renderSnippet(netCellSnippet);
 		}
 	}
 ];
-

@@ -1,5 +1,5 @@
 import { create } from 'flat-cache';
-import * as fortnoxTypes from '$lib/types/fortnox.js';
+import type * as fortnoxTypes from '$lib/types/fortnox.js';
 
 const CACHE_DIR = 'cache';
 const CACHE_KEY = 'accounts';
@@ -15,13 +15,13 @@ function getCache() {
 /**
  * Replaces all vouchers in the cache with the given list.
  */
-export async function replaceAllAccounts(accounts: fortnoxTypes.Account[]): Promise<void> {
+export async function replaceAllAccounts(accounts: Array<fortnoxTypes.Account>): Promise<void> {
 	const cache = getCache();
 	cache.setKey(CACHE_KEY, accounts);
 	cache.save();
 }
 
-export async function getCachedAccounts(): Promise<fortnoxTypes.Account[]> {
+export async function getCachedAccounts(): Promise<Array<fortnoxTypes.Account>> {
 	const cache = getCache();
-	return (cache.getKey(CACHE_KEY) ?? []) as fortnoxTypes.Account[];
+	return (cache.getKey(CACHE_KEY) ?? []);
 }

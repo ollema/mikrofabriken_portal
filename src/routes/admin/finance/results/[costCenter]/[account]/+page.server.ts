@@ -1,7 +1,10 @@
 import { error } from '@sveltejs/kit';
 import { getCachedVouchers } from '$lib/server/fortnox/voucher-cache.js';
-import { getCachedAccountDetails, getVoucherRowsForCostCenter, compareVouchersByDateAndNumber } from '$lib/server/fortnox/fortnox-util.js';
-
+import {
+	compareVouchersByDateAndNumber,
+	getCachedAccountDetails,
+	getVoucherRowsForCostCenter
+} from '$lib/server/fortnox/fortnox-util.js';
 
 export async function load({ params }: { params: { costCenter: string; account: string } }) {
 	const costCenter = params.costCenter === 'NONE' ? '' : params.costCenter;
@@ -18,7 +21,7 @@ export async function load({ params }: { params: { costCenter: string; account: 
 		error(404, `Account ${params.account} not found`);
 	}
 
-    const vouchers = await getCachedVouchers();
+	const vouchers = await getCachedVouchers();
 	const voucherRows = getVoucherRowsForCostCenter(vouchers, costCenter, accountNumber);
 
 	// Sort by transaction date (newest first), then by voucher number
@@ -30,4 +33,3 @@ export async function load({ params }: { params: { costCenter: string; account: 
 		voucherRows
 	};
 }
-

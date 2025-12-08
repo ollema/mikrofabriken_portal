@@ -45,7 +45,7 @@
 <div class="mb-5">
 	{#if label}
 		{#if href}
-			<a href={href} class="text-foreground mb-3 text-lg font-bold hover:underline block">
+			<a {href} class="text-foreground mb-3 block text-lg font-bold hover:underline">
 				{label}
 			</a>
 		{:else}

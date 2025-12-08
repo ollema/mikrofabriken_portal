@@ -6,7 +6,11 @@ export async function load({ locals, params, url }) {
 	const user = getUser(locals, url);
 	const member = getMember(user.slackID);
 
-	const invoice = await fortnox.getInvoice(params.documentNumber, member, user.role as 'admin' | 'user');
+	const invoice = await fortnox.getInvoice(
+		params.documentNumber,
+		member,
+		user.role as 'admin' | 'user'
+	);
 
 	return {
 		invoice: invoice

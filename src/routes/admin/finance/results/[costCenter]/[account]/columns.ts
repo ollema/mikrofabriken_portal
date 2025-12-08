@@ -1,9 +1,9 @@
 import { createRawSnippet } from 'svelte';
 import type { ColumnDef } from '@tanstack/table-core';
+import type { VoucherRowWithVoucher } from '$lib/server/fortnox/fortnox-util.js';
 import { renderComponent, renderSnippet } from '$lib/components/ui/data-table/index.js';
 import { DataTableColumnHeader } from '$lib/components/data-table/index.js';
 import { formatCurrency } from '$lib/components/finance/currency.js';
-import type { VoucherRowWithVoucher } from '$lib/server/fortnox/fortnox-util.js';
 
 /**
  * Generate URL for a voucher detail page
@@ -44,13 +44,13 @@ export const columns: Array<ColumnDef<VoucherRowWithVoucher>> = [
 			const voucher = row.original.voucher;
 			const href = getVoucherUrl(voucher.Year, voucher.VoucherSeries, voucher.VoucherNumber);
 			const display = `${voucher.VoucherSeries}${voucher.VoucherNumber}`;
-			
+
 			const linkSnippet = createRawSnippet<[string]>(() => {
 				return {
 					render: () => `<a class="hover:underline font-mono" href=${href}>${display}</a>`
 				};
 			});
-			
+
 			return renderSnippet(linkSnippet, href);
 		}
 	},
@@ -95,4 +95,3 @@ export const columns: Array<ColumnDef<VoucherRowWithVoucher>> = [
 		cell: ({ row }) => formatCurrency(row.original.Credit)
 	}
 ];
-

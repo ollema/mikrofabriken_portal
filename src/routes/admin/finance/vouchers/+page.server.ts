@@ -4,4 +4,3 @@ export async function load({ url }) {
 	const vouchers = await getCachedVouchers();
 	return { vouchers };
 }
-
