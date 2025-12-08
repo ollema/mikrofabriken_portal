@@ -4,7 +4,7 @@
 	const financeLinks = [
 		{
 			title: 'OmK Budget',
-			description: 'Vida budget och resultat per OMK',
+			description: 'Budget och resultat per OMK',
 			href: '/admin/finance/omk-budget'
 		},
 		{
