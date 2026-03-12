@@ -182,7 +182,7 @@ export class FortnoxApi {
 	/**
 	 * Retrieves voucher list for the current year.
 	 */
-	async *getVouchersThisYearAsync(): AsyncGenerator<Array<VoucherListItem>> {
+	async *getVoucherPagesThisYearAsync(): AsyncGenerator<Array<VoucherListItem>> {
 		let page = 1;
 		let totalPages = 1;
 		let vouchersReturned = 0;
@@ -202,7 +202,7 @@ export class FortnoxApi {
 	}
 
 	async getVouchersThisYear(): Promise<Array<VoucherListItem>> {
-		return (await Array.fromAsync(this.getVouchersThisYearAsync())).flat();
+		return (await Array.fromAsync(this.getVoucherPagesThisYearAsync())).flat();
 	}
 
 	/**

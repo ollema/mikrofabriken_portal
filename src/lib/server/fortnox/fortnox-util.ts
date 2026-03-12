@@ -65,17 +65,11 @@ async function getVoucherFromListItem(
 }
 
 export async function* getFullVouchersForCurrentYear(fortnox: FortnoxApi): AsyncGenerator<Voucher> {
-	let count = 0;
-	let totalVouchers = 0;
-
-	for await (const voucherPage of fortnox.getVouchersThisYearAsync()) {
-		totalVouchers += voucherPage.length;
-
+	for await (const voucherPage of fortnox.getVoucherPagesThisYearAsync()) {
 		for (const voucherListItem of voucherPage) {
 			const voucher = await getVoucherFromListItem(fortnox, voucherListItem);
-			count++;
 			console.log(
-				`Got voucher ${voucherListItem.VoucherSeries}${voucherListItem.VoucherNumber} (${count} of ${totalVouchers})`
+				`Got voucher ${voucherListItem.VoucherSeries}${voucherListItem.VoucherNumber}`
 			);
 
 			yield voucher;
