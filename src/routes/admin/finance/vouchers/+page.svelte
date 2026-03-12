@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import * as PageHeader from '$lib/components/page-header/index.js';
 	import { ssp, queryParameters } from 'sveltekit-search-params';
 	import type {
@@ -10,6 +11,7 @@
 	import { DataTable, DataTablePagination } from '$lib/components/data-table/index.js';
 	import { columns } from './columns.js';
 	import DataTableToolbar from './data-table-toolbar.svelte';
+	import { getVoucherUrl } from './columns.js';
 
 	const params = queryParameters(
 		{
@@ -41,7 +43,15 @@
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
-	<DataTable data={data.vouchers} {columns} {params}>
+	<DataTable
+		data={data.vouchers}
+		{columns}
+		{params}
+		onRowClick={(row) =>
+			goto(
+				getVoucherUrl(row.original.Year, row.original.VoucherSeries, row.original.VoucherNumber)
+			)}
+	>
 		{#snippet toolbar(table)}
 			<DataTableToolbar {table} />
 		{/snippet}

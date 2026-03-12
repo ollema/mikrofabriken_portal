@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import * as PageHeader from '$lib/components/page-header/index.js';
 	import { formatCurrency } from '$lib/components/finance/currency.js';
 	import { ssp, queryParameters } from 'sveltekit-search-params';
@@ -11,7 +12,7 @@
 	} from '@tanstack/table-core';
 	import { DataTable, DataTablePagination } from '$lib/components/data-table/index.js';
 	import type { AccountDetails, VoucherRowWithVoucher } from '$lib/server/fortnox/fortnox-util.js';
-	import { columns } from './columns.js';
+	import { columns, getVoucherUrl } from './columns.js';
 
 	const params = queryParameters(
 		{
@@ -71,7 +72,15 @@
 		</div>
 	</div>
 
-	<DataTable data={voucherRows} {columns} {params}>
+	<DataTable
+		data={voucherRows}
+		{columns}
+		{params}
+		onRowClick={(row) => {
+			const v = row.original.voucher;
+			goto(getVoucherUrl(v.Year, v.VoucherSeries, v.VoucherNumber));
+		}}
+	>
 		{#snippet paginationControls(table: Table<VoucherRowWithVoucher>)}
 			<DataTablePagination {table} rowName="verifikationsrader" showPerPage />
 		{/snippet}

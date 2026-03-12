@@ -1,7 +1,6 @@
-import { createRawSnippet } from 'svelte';
 import type { ColumnDef } from '@tanstack/table-core';
 import type { VoucherRowWithVoucher } from '$lib/server/fortnox/fortnox-util.js';
-import { renderComponent, renderSnippet } from '$lib/components/ui/data-table/index.js';
+import { renderComponent } from '$lib/components/ui/data-table/index.js';
 import { DataTableColumnHeader } from '$lib/components/data-table/index.js';
 import { formatCurrency } from '$lib/components/finance/currency.js';
 
@@ -12,7 +11,7 @@ import { formatCurrency } from '$lib/components/finance/currency.js';
  * @param number - The voucher number
  * @returns The URL path for the voucher detail page
  */
-function getVoucherUrl(financialYear: number, series: string, number: number): string {
+export function getVoucherUrl(financialYear: number, series: string, number: number): string {
 	return `/admin/finance/vouchers/${financialYear}/${series}/${number}`;
 }
 
@@ -40,19 +39,8 @@ export const columns: Array<ColumnDef<VoucherRowWithVoucher>> = [
 				column,
 				title: 'Verifikation'
 			}),
-		cell: ({ row }) => {
-			const voucher = row.original.voucher;
-			const href = getVoucherUrl(voucher.Year, voucher.VoucherSeries, voucher.VoucherNumber);
-			const display = `${voucher.VoucherSeries}${voucher.VoucherNumber}`;
-
-			const linkSnippet = createRawSnippet<[string]>(() => {
-				return {
-					render: () => `<a class="hover:underline font-mono" href=${href}>${display}</a>`
-				};
-			});
-
-			return renderSnippet(linkSnippet, href);
-		}
+		cell: ({ row }) =>
+			`${row.original.voucher.VoucherSeries}${row.original.voucher.VoucherNumber}`
 	},
 	{
 		id: 'description',

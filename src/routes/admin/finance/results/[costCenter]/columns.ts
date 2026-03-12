@@ -18,7 +18,7 @@ export type AccountBreakdownRow = {
  * @param accountNumber - The account number
  * @returns The URL path for the account detail page
  */
-function getAccountUrl(costCenter: string, accountNumber: number): string {
+export function getAccountUrl(costCenter: string, accountNumber: number): string {
 	const costCenterParam = costCenter === '' ? 'NONE' : costCenter;
 	return `/admin/finance/results/${costCenterParam}/${accountNumber}`;
 }
@@ -36,19 +36,7 @@ export const createColumns = (costCenter: string): Array<ColumnDef<AccountBreakd
 				column,
 				title: 'Konto'
 			}),
-		cell: ({ row }) => {
-			const accountNumber = row.original.account.number;
-			const href = getAccountUrl(costCenter, accountNumber);
-			const formatted = formatAccountNumber(accountNumber);
-
-			const linkSnippet = createRawSnippet<[string]>(() => {
-				return {
-					render: () => `<a class="hover:underline font-mono" href=${href}>${formatted}</a>`
-				};
-			});
-
-			return renderSnippet(linkSnippet, href);
-		}
+		cell: ({ row }) => formatAccountNumber(row.original.account.number)
 	},
 	{
 		id: 'description',

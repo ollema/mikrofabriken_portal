@@ -9,7 +9,7 @@ import { formatCurrency } from '$lib/components/finance/currency.js';
  * @param costCenter - The cost center identifier (empty string becomes 'NONE')
  * @returns The URL path for the cost center results page
  */
-function getCostCenterUrl(costCenter: string): string {
+export function getCostCenterUrl(costCenter: string): string {
 	const costCenterParam = costCenter === '' ? 'NONE' : costCenter;
 	return `/admin/finance/results/${costCenterParam}`;
 }
@@ -31,20 +31,7 @@ export const columns: Array<ColumnDef<OmkBudgetRow>> = [
 			renderComponent(DataTableColumnHeader<OmkBudgetRow, unknown>, {
 				column,
 				title: 'OmK'
-			}),
-		cell: ({ row }) => {
-			const costCenter = row.original.costCenter;
-			const href = getCostCenterUrl(costCenter);
-			const committeeName = row.original.committee;
-
-			const linkSnippet = createRawSnippet<[string]>(() => {
-				return {
-					render: () => `<a class="hover:underline" href=${href}>${committeeName}</a>`
-				};
-			});
-
-			return renderSnippet(linkSnippet, href);
-		}
+			})
 	},
 	{
 		id: 'investment',

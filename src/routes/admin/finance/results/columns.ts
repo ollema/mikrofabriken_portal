@@ -10,7 +10,7 @@ import { formatCurrency } from '$lib/components/finance/currency.js';
  * @param costCenter - The cost center identifier (empty string becomes 'NONE')
  * @returns The URL path for the cost center results page
  */
-function getCostCenterUrl(costCenter: string): string {
+export function getCostCenterUrl(costCenter: string): string {
 	const costCenterParam = costCenter === '' ? 'NONE' : costCenter;
 	return `/admin/finance/results/${costCenterParam}`;
 }
@@ -31,19 +31,7 @@ export const columns: Array<ColumnDef<BudgetRow>> = [
 			renderComponent(DataTableColumnHeader<BudgetRow, unknown>, {
 				column,
 				title: 'Kostnadsställe'
-			}),
-		cell: ({ row }) => {
-			const costCenter = row.original.costCenter;
-			const href = getCostCenterUrl(costCenter);
-
-			const linkSnippet = createRawSnippet<[string]>(() => {
-				return {
-					render: () => `<a class="hover:underline" href=${href}>${costCenter}</a>`
-				};
-			});
-
-			return renderSnippet(linkSnippet, href);
-		}
+			})
 	},
 	{
 		id: 'committee',

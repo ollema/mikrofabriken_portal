@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import * as PageHeader from '$lib/components/page-header/index.js';
 	import { ssp, queryParameters } from 'sveltekit-search-params';
 	import type {
@@ -9,7 +10,7 @@
 		Table
 	} from '@tanstack/table-core';
 	import { DataTable, DataTablePagination } from '$lib/components/data-table/index.js';
-	import { createColumns, type AccountBreakdownRow } from './columns.js';
+	import { createColumns, getAccountUrl, type AccountBreakdownRow } from './columns.js';
 
 	const params = queryParameters(
 		{
@@ -43,7 +44,12 @@
 		</PageHeader.Heading>
 	</PageHeader.Root>
 
-	<DataTable data={accountBreakdown} {columns} {params}>
+	<DataTable
+		data={accountBreakdown}
+		{columns}
+		{params}
+		onRowClick={(row) => goto(getAccountUrl(costCenter, row.original.account.number))}
+	>
 		{#snippet paginationControls(table: Table<AccountBreakdownRow>)}
 			<DataTablePagination {table} rowName="konton" showPerPage />
 		{/snippet}
