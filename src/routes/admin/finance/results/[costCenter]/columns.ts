@@ -27,7 +27,7 @@ const formatAccountNumber = (account: number): string => {
 	return account.toString().padStart(4, '0');
 };
 
-export const createColumns = (costCenter: string): Array<ColumnDef<AccountBreakdownRow>> => [
+export const createColumns = (): Array<ColumnDef<AccountBreakdownRow>> => [
 	{
 		id: 'account',
 		accessorKey: 'account.number',

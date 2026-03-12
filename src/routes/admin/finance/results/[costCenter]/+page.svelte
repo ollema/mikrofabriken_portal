@@ -31,7 +31,7 @@
 	let { data } = $props();
 	const accountBreakdown = data.accountBreakdown as AccountBreakdownRow[];
 	const costCenter = data.costCenter as string;
-	const columns = createColumns(costCenter);
+	const columns = createColumns();
 </script>
 
 <div class="mx-auto w-full min-w-0">
