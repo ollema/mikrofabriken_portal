@@ -64,17 +64,31 @@ async function getVoucherFromListItem(
 	);
 }
 
-export async function* getFullVouchersForCurrentYear(fortnox: FortnoxApi): AsyncGenerator<Voucher> {
-	for await (const voucherPage of fortnox.getVoucherPagesThisYearAsync()) {
-		for (const voucherListItem of voucherPage) {
+export async function* getFullVouchersForCurrentYear(fortnox: FortnoxApi, limit: number = Infinity): AsyncGenerator<Voucher> {
+	let page = 1;
+	let totalPages = 1;
+	let vouchersRetrieved = 0;
+	let totalVouchers = 0;
+
+	do {
+		const data = await fortnox.getVoucherPageThisYearAsync(page);
+		totalPages = data.MetaInformation['@TotalPages'];
+		totalVouchers = data.MetaInformation['@TotalResources'];
+		console.log(
+			`Page ${page} of ${totalPages}. Contains vouchers ${vouchersRetrieved+1}-${vouchersRetrieved + data.Vouchers.length} of ${totalVouchers}`
+		);
+		for (const voucherListItem of data.Vouchers) {
 			const voucher = await getVoucherFromListItem(fortnox, voucherListItem);
 			console.log(
 				`Got voucher ${voucherListItem.VoucherSeries}${voucherListItem.VoucherNumber}`
 			);
-
 			yield voucher;
+			vouchersRetrieved++;
+			if (vouchersRetrieved >= limit) {
+				return;
+			}
 		}
-	}
+	} while (page++ < totalPages);
 }
 
 export function compareVouchersByDateAndNumber(a: Voucher, b: Voucher): number {

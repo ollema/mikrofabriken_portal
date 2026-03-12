@@ -1,17 +1,25 @@
+import { sql } from 'drizzle-orm';
 import type * as fortnoxTypes from '$lib/types/fortnox.js';
 import { db } from '$lib/server/db/index.js';
 import { fortnoxAccount } from '$lib/server/db/schema.js';
 
 /**
  * Replaces all accounts in the cache with the given list.
+ * Uses a prepared statement inside a transaction for performance.
  */
 export function replaceAllAccounts(accounts: Array<fortnoxTypes.Account>): void {
-	console.log("Replacing all accounts", accounts.length);
-	console.log("Replacing all accounts", accounts.length);
 	db.transaction((tx) => {
-		tx.delete(fortnoxAccount);
+		tx.delete(fortnoxAccount).run();
+		const insert = tx
+			.insert(fortnoxAccount)
+			.values({
+				year: sql.placeholder('year'),
+				number: sql.placeholder('number'),
+				data: sql.placeholder('data')
+			})
+			.prepare();
 		for (const account of accounts) {
-			tx.insert(fortnoxAccount).values({
+			insert.run({
 				year: account.Year,
 				number: account.Number,
 				data: account

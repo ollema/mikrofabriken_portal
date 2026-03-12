@@ -6,7 +6,7 @@ import type {
 	Invoice,
 	InvoiceDetail,
 	Voucher,
-	VoucherListItem
+	VouchersResponse
 } from '$lib/types/fortnox';
 import {
 	AccountsResponseSchema,
@@ -179,30 +179,10 @@ export class FortnoxApi {
 		return await this.fortnoxGetBlob(`/invoices/${documentNumber}/print`);
 	}
 
-	/**
-	 * Retrieves voucher list for the current year.
-	 */
-	async *getVoucherPagesThisYearAsync(): AsyncGenerator<Array<VoucherListItem>> {
-		let page = 1;
-		let totalPages = 1;
-		let vouchersReturned = 0;
-		let totalVouchers = 0;
-
-		do {
-			const data = await this.fortnoxGetJson(`/vouchers/sublist?page=${page}`);
-			const validatedData = VouchersResponseSchema.parse(data);
-			totalPages = validatedData.MetaInformation['@TotalPages'];
-			totalVouchers = validatedData.MetaInformation['@TotalResources'];
-			vouchersReturned += validatedData.Vouchers.length;
-			console.log(
-				`Got page ${page} of ${totalPages}. Total vouchers: ${vouchersReturned} of ${totalVouchers}`
-			);
-			yield validatedData.Vouchers;
-		} while (page++ < totalPages);
-	}
-
-	async getVouchersThisYear(): Promise<Array<VoucherListItem>> {
-		return (await Array.fromAsync(this.getVoucherPagesThisYearAsync())).flat();
+	// Gets a voucher page for the given year
+	async getVoucherPageThisYearAsync(page: number): Promise<VouchersResponse> {
+		const data = await this.fortnoxGetJson(`/vouchers/sublist?page=${page}`);
+		return VouchersResponseSchema.parse(data);
 	}
 
 	/**
