@@ -27,9 +27,7 @@ export const fortnoxAccount = sqliteTable(
 		number: integer('number').notNull(),
 		data: text('data', { mode: 'json' }).$type<Account>().notNull()
 	},
-	(table) => ({
-		pk: primaryKey({ columns: [table.year, table.number] })
-	})
+	(table) => [primaryKey({ columns: [table.year, table.number] })]
 );
 
 export const fortnoxVoucher = sqliteTable(
@@ -40,11 +38,11 @@ export const fortnoxVoucher = sqliteTable(
 		voucherNumber: integer('voucher_number').notNull(),
 		data: text('data', { mode: 'json' }).$type<Voucher>().notNull()
 	},
-	(table) => ({
-		pk: primaryKey({
+	(table) => [
+		primaryKey({
 			columns: [table.year, table.voucherSeries, table.voucherNumber]
 		})
-	})
+	]
 );
 
 export type Session = typeof session.$inferSelect;

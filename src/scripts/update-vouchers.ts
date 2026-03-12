@@ -29,10 +29,10 @@ async function updateFortnoxCache() {
 
 	console.log('Updating accounts...');
 	const accounts = (await Array.fromAsync(fortnox.listAccountsAsync())).flat();
-	await replaceAllAccounts(accounts);
+	replaceAllAccounts(accounts);
 	console.log('Updating vouchers...');
 	const vouchers = await Array.fromAsync(getFullVouchersForCurrentYear(fortnox));
-	await replaceAllVouchers(vouchers);
+	replaceAllVouchers(vouchers);
 }
 
 //

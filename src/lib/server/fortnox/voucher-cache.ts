@@ -5,7 +5,7 @@ import { fortnoxVoucher } from '$lib/server/db/schema.js';
 /**
  * Replaces all vouchers in the cache with the given list.
  */
-export async function replaceAllVouchers(vouchers: Array<fortnoxTypes.Voucher>): Promise<void> {
+export function replaceAllVouchers(vouchers: Array<fortnoxTypes.Voucher>): void {
 	db.transaction((tx) => {
 		tx.delete(fortnoxVoucher);
 		if (vouchers.length > 0) {

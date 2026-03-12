@@ -5,7 +5,7 @@ import { fortnoxAccount } from '$lib/server/db/schema.js';
 /**
  * Replaces all accounts in the cache with the given list.
  */
-export async function replaceAllAccounts(accounts: Array<fortnoxTypes.Account>): Promise<void> {
+export function replaceAllAccounts(accounts: Array<fortnoxTypes.Account>): void {
 	db.transaction((tx) => {
 		tx.delete(fortnoxAccount);
 		if (accounts.length > 0) {
