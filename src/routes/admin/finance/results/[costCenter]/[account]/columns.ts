@@ -39,8 +39,7 @@ export const columns: Array<ColumnDef<VoucherRowWithVoucher>> = [
 				column,
 				title: 'Verifikation'
 			}),
-		cell: ({ row }) =>
-			`${row.original.voucher.VoucherSeries}${row.original.voucher.VoucherNumber}`
+		cell: ({ row }) => `${row.original.voucher.VoucherSeries}${row.original.voucher.VoucherNumber}`
 	},
 	{
 		id: 'description',
