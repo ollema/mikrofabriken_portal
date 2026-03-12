@@ -1,5 +1,6 @@
-import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { integer, primaryKey, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import type { Claims } from '$lib/types/cog.js';
+import type { Account, Voucher } from '$lib/types/fortnox.js';
 
 export const user = sqliteTable('user', {
 	id: text('id').primaryKey(),
@@ -18,6 +19,33 @@ export const session = sqliteTable('session', {
 		.references(() => user.id),
 	expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull()
 });
+
+export const fortnoxAccount = sqliteTable(
+	'fortnox_account',
+	{
+		year: integer('year').notNull(),
+		number: integer('number').notNull(),
+		data: text('data', { mode: 'json' }).$type<Account>().notNull()
+	},
+	(table) => ({
+		pk: primaryKey({ columns: [table.year, table.number] })
+	})
+);
+
+export const fortnoxVoucher = sqliteTable(
+	'fortnox_voucher',
+	{
+		year: integer('year').notNull(),
+		voucherSeries: text('voucher_series').notNull(),
+		voucherNumber: integer('voucher_number').notNull(),
+		data: text('data', { mode: 'json' }).$type<Voucher>().notNull()
+	},
+	(table) => ({
+		pk: primaryKey({
+			columns: [table.year, table.voucherSeries, table.voucherNumber]
+		})
+	})
+);
 
 export type Session = typeof session.$inferSelect;
 

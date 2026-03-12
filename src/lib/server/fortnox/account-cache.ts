@@ -1,32 +1,29 @@
-import { create } from 'flat-cache';
 import type * as fortnoxTypes from '$lib/types/fortnox.js';
+import { db } from '$lib/server/db/index.js';
+import { fortnoxAccount } from '$lib/server/db/schema.js';
 
-// TODO: replace this with a peristent cache, e.g. using sqlite
-
-const CACHE_DIR = 'cache';
-const CACHE_KEY = 'accounts';
-const CACHE_NAME = 'fortnox-accounts.json';
-
-function getCache() {
-	return create({
-		cacheId: CACHE_NAME,
-		cacheDir: CACHE_DIR
+/**
+ * Replaces all accounts in the cache with the given list.
+ */
+export async function replaceAllAccounts(accounts: Array<fortnoxTypes.Account>): Promise<void> {
+	db.transaction((tx) => {
+		tx.delete(fortnoxAccount);
+		if (accounts.length > 0) {
+			tx.insert(fortnoxAccount).values(
+				accounts.map((account) => ({
+					year: account.Year,
+					number: account.Number,
+					data: account
+				}))
+			);
+		}
 	});
 }
 
-/**
- * Replaces all vouchers in the cache with the given list.
- */
-// eslint-disable-next-line @typescript-eslint/require-await
-export async function replaceAllAccounts(accounts: Array<fortnoxTypes.Account>): Promise<void> {
-	const cache = getCache();
-	cache.set(CACHE_KEY, accounts);
-	cache.save();
-}
-
-// eslint-disable-next-line @typescript-eslint/require-await
 export async function getCachedAccounts(): Promise<Array<fortnoxTypes.Account>> {
-	const cache = getCache();
-	const value = cache.get<Array<fortnoxTypes.Account> | undefined>(CACHE_KEY);
-	return value ?? [];
+	const rows = await db
+		.select({ data: fortnoxAccount.data })
+		.from(fortnoxAccount)
+		.orderBy(fortnoxAccount.year, fortnoxAccount.number);
+	return rows.map((row) => row.data);
 }

@@ -1,30 +1,34 @@
-import { create } from 'flat-cache';
 import type * as fortnoxTypes from '$lib/types/fortnox.js';
-
-const CACHE_DIR = 'cache';
-const CACHE_KEY = 'vouchers';
-const CACHE_NAME = 'fortnox-vouchers.json';
-
-function getCache() {
-	return create({
-		cacheId: CACHE_NAME,
-		cacheDir: CACHE_DIR
-	});
-}
+import { db } from '$lib/server/db/index.js';
+import { fortnoxVoucher } from '$lib/server/db/schema.js';
 
 /**
  * Replaces all vouchers in the cache with the given list.
  */
-// eslint-disable-next-line @typescript-eslint/require-await
 export async function replaceAllVouchers(vouchers: Array<fortnoxTypes.Voucher>): Promise<void> {
-	const cache = getCache();
-	cache.setKey(CACHE_KEY, vouchers);
-	cache.save();
+	db.transaction((tx) => {
+		tx.delete(fortnoxVoucher);
+		if (vouchers.length > 0) {
+			tx.insert(fortnoxVoucher).values(
+				vouchers.map((voucher) => ({
+					year: voucher.Year,
+					voucherSeries: voucher.VoucherSeries,
+					voucherNumber: voucher.VoucherNumber,
+					data: voucher
+				}))
+			);
+		}
+	});
 }
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export async function getCachedVouchers(): Promise<Array<fortnoxTypes.Voucher>> {
-	const cache = getCache();
-	const value = cache.get<Array<fortnoxTypes.Voucher> | undefined>(CACHE_KEY);
-	return value ?? [];
+	const rows = await db
+		.select({ data: fortnoxVoucher.data })
+		.from(fortnoxVoucher)
+		.orderBy(
+			fortnoxVoucher.year,
+			fortnoxVoucher.voucherSeries,
+			fortnoxVoucher.voucherNumber
+		);
+	return rows.map((row) => row.data);
 }
