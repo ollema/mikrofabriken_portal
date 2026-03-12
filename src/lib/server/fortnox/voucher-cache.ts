@@ -6,17 +6,16 @@ import { fortnoxVoucher } from '$lib/server/db/schema.js';
  * Replaces all vouchers in the cache with the given list.
  */
 export function replaceAllVouchers(vouchers: Array<fortnoxTypes.Voucher>): void {
+	console.log("Replacing all vouchers", vouchers.length);
 	db.transaction((tx) => {
 		tx.delete(fortnoxVoucher);
-		if (vouchers.length > 0) {
-			tx.insert(fortnoxVoucher).values(
-				vouchers.map((voucher) => ({
-					year: voucher.Year,
-					voucherSeries: voucher.VoucherSeries,
-					voucherNumber: voucher.VoucherNumber,
-					data: voucher
-				}))
-			);
+		for (const voucher of vouchers) {
+			tx.insert(fortnoxVoucher).values({
+				year: voucher.Year,
+				voucherSeries: voucher.VoucherSeries,
+				voucherNumber: voucher.VoucherNumber,
+				data: voucher
+			});
 		}
 	});
 }

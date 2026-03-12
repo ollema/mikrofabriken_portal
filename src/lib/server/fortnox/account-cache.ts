@@ -6,16 +6,16 @@ import { fortnoxAccount } from '$lib/server/db/schema.js';
  * Replaces all accounts in the cache with the given list.
  */
 export function replaceAllAccounts(accounts: Array<fortnoxTypes.Account>): void {
+	console.log("Replacing all accounts", accounts.length);
+	console.log("Replacing all accounts", accounts.length);
 	db.transaction((tx) => {
 		tx.delete(fortnoxAccount);
-		if (accounts.length > 0) {
-			tx.insert(fortnoxAccount).values(
-				accounts.map((account) => ({
-					year: account.Year,
-					number: account.Number,
-					data: account
-				}))
-			);
+		for (const account of accounts) {
+			tx.insert(fortnoxAccount).values({
+				year: account.Year,
+				number: account.Number,
+				data: account
+			});
 		}
 	});
 }
