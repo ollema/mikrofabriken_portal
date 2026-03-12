@@ -1,6 +1,7 @@
 import { FortnoxApi } from '$lib/server/fortnox/fortnox-api.js';
 import { getFullVouchersForCurrentYear } from '$lib/server/fortnox/fortnox-util.js';
 import { replaceAllVouchers } from '$lib/server/fortnox/voucher-cache';
+import { replaceAllAccounts } from '$lib/server/fortnox/account-cache.js';
 
 //
 // Fortnox API access
@@ -25,6 +26,11 @@ function getFortnox() {
 
 async function updateFortnoxCache() {
 	const fortnox = getFortnox();
+
+	console.log('Updating accounts...');
+	const accounts = (await Array.fromAsync(fortnox.listAccountsAsync())).flat();
+	await replaceAllAccounts(accounts);
+	console.log('Updating vouchers...');
 	const vouchers = await Array.fromAsync(getFullVouchersForCurrentYear(fortnox));
 	await replaceAllVouchers(vouchers);
 }
