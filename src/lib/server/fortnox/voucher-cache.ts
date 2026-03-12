@@ -34,10 +34,6 @@ export async function getCachedVouchers(): Promise<Array<fortnoxTypes.Voucher>> 
 	const rows = await db
 		.select({ data: fortnoxVoucher.data })
 		.from(fortnoxVoucher)
-		.orderBy(
-			fortnoxVoucher.year,
-			fortnoxVoucher.voucherSeries,
-			fortnoxVoucher.voucherNumber
-		);
+		.orderBy(fortnoxVoucher.year, fortnoxVoucher.voucherSeries, fortnoxVoucher.voucherNumber);
 	return rows.map((row) => row.data);
 }
