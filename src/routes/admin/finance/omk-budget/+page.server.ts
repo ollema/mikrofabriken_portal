@@ -1,5 +1,5 @@
 import type { OmkBudgetRow } from './columns.js';
-import { getCachedVouchers } from '$lib/server/fortnox/voucher-cache.js';
+import { getCachedVouchers } from '$lib/server/fortnox/fortnox-cache.js';
 import { getTotalsByCostCenter, sumAllResults } from '$lib/server/finance/results.js';
 import { getCachedAccountDetails } from '$lib/server/fortnox/fortnox-util.js';
 import { getCommittees } from '$lib/server/committees.js';

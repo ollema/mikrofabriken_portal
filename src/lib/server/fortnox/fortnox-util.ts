@@ -1,4 +1,4 @@
-import { getCachedAccounts } from './account-cache.js';
+import { getCachedAccounts } from './fortnox-cache.js';
 import type { FortnoxApi } from './fortnox-api.js';
 import type { Voucher, VoucherListItem, VoucherRow } from '$lib/types/fortnox.js';
 

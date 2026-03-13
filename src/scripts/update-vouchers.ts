@@ -1,7 +1,7 @@
 import { FortnoxApi } from '$lib/server/fortnox/fortnox-api.js';
 import { getFullVouchersForCurrentYear } from '$lib/server/fortnox/fortnox-util.js';
-import { replaceAllVouchers } from '$lib/server/fortnox/voucher-cache';
-import { replaceAllAccounts } from '$lib/server/fortnox/account-cache.js';
+import { replaceAllVouchers } from '$lib/server/fortnox/fortnox-cache';
+import { replaceAllAccounts } from '$lib/server/fortnox/fortnox-cache.js';
 
 //
 // Fortnox API access

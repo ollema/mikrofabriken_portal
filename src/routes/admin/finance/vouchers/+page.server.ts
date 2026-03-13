@@ -1,4 +1,4 @@
-import { getCachedVouchers } from '$lib/server/fortnox/voucher-cache.js';
+import { getCachedVouchers } from '$lib/server/fortnox/fortnox-cache';
 
 export async function load() {
 	const vouchers = await getCachedVouchers();

@@ -4,7 +4,7 @@ import { getUser } from '$lib/server/auth.js';
 import { getMembers } from '$lib/server/members.js';
 import { getPresentMembers } from '$lib/utils/cog.js';
 import { findCommittee, getCommittees } from '$lib/server/committees.js';
-import { getCachedVouchers } from '$lib/server/fortnox/voucher-cache.js';
+import { getCachedVouchers } from '$lib/server/fortnox/fortnox-cache.js';
 import { getNetResultForCostCenter } from '$lib/server/finance/results.js';
 import { getCachedAccountDetails } from '$lib/server/fortnox/fortnox-util.js';
 

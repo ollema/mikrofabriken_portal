@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit';
-import { getCachedVouchers } from '$lib/server/fortnox/voucher-cache.js';
+import { getCachedVouchers } from '$lib/server/fortnox/fortnox-cache';
 import {
 	accountResult,
 	getTotalsByCostCenter,
