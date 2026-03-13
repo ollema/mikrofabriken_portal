@@ -1,9 +1,5 @@
 import { error } from '@sveltejs/kit';
-import {
-	accountResult,
-	keepResultAccounts,
-	sumAllAccounts
-} from '$lib/server/finance/results.js';
+import { accountResult, keepResultAccounts, sumAllAccounts } from '$lib/server/finance/results.js';
 import { getTotalsByCostCenterForCurrentYear } from '$lib/server/fortnox/fortnox-util.js';
 
 export async function load({ params }: { params: { costCenter: string } }) {
