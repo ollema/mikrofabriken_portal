@@ -1,4 +1,4 @@
-import { sql } from 'drizzle-orm';
+import { and, eq, sql } from 'drizzle-orm';
 import type * as fortnoxTypes from '$lib/types/fortnox.js';
 import { db } from '$lib/server/db/index.js';
 import { fortnoxAccount, fortnoxVoucher } from '$lib/server/db/schema.js';
@@ -69,4 +69,23 @@ export async function getCachedVouchers(): Promise<Array<fortnoxTypes.Voucher>> 
 		.from(fortnoxVoucher)
 		.orderBy(fortnoxVoucher.year, fortnoxVoucher.voucherSeries, fortnoxVoucher.voucherNumber);
 	return rows.map((row) => row.data);
+}
+
+export async function getCachedVoucher(
+	year: number,
+	voucherSeries: string,
+	voucherNumber: number
+): Promise<fortnoxTypes.Voucher | undefined> {
+	const rows = await db
+		.select({ data: fortnoxVoucher.data })
+		.from(fortnoxVoucher)
+		.where(
+			and(
+				eq(fortnoxVoucher.year, year),
+				eq(fortnoxVoucher.voucherSeries, voucherSeries),
+				eq(fortnoxVoucher.voucherNumber, voucherNumber)
+			)
+		)
+		.limit(1);
+	return rows[0]?.data;
 }
