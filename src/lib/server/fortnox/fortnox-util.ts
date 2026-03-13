@@ -1,4 +1,6 @@
-import { getCachedAccounts } from './fortnox-cache.js';
+import { getTotalsByCostCenter } from '../finance/results.js';
+import { getCachedAccounts, getCachedVouchers } from './fortnox-cache.js';
+import type { TotalsByCostCenter } from '../finance/results.js';
 import type { FortnoxApi } from './fortnox-api.js';
 import type { Voucher, VoucherListItem, VoucherRow } from '$lib/types/fortnox.js';
 
@@ -114,4 +116,10 @@ export function getVoucherRowsForCostCenter(
 		}
 	}
 	return voucherRows;
+}
+
+export async function getTotalsByCostCenterForCurrentYear(): Promise<TotalsByCostCenter> {
+	const vouchers = await getCachedVouchers();
+	const accounts = await getCachedAccountDetails();
+	return getTotalsByCostCenter(vouchers, accounts);
 }

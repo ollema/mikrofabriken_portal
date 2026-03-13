@@ -1,19 +1,14 @@
 import type { OmkBudgetRow } from './columns.js';
-import { getCachedVouchers } from '$lib/server/fortnox/fortnox-cache.js';
-import { getTotalsByCostCenter, sumAllResults } from '$lib/server/finance/results.js';
-import { getCachedAccountDetails } from '$lib/server/fortnox/fortnox-util.js';
 import { getCommittees } from '$lib/server/committees.js';
+import { getTotalsByCostCenterForCurrentYear } from '$lib/server/fortnox/fortnox-util.js';
+import { sumAllResults } from '$lib/server/finance/results.js';
 
 export async function load(): Promise<{ currentYear: number; budgetData: Array<OmkBudgetRow> }> {
-	const vouchers = await getCachedVouchers();
-	const accounts = await getCachedAccountDetails();
-
 	const currentYear = new Date().getFullYear();
 
 	// Get results for current year
-	const results = getTotalsByCostCenter(vouchers, accounts);
+	const results = await getTotalsByCostCenterForCurrentYear();
 	const summedResults = sumAllResults(results);
-	console.log(summedResults);
 
 	// Get committees with a cost center
 	const committees = getCommittees();

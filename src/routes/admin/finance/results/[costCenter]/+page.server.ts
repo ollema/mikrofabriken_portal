@@ -1,19 +1,16 @@
 import { error } from '@sveltejs/kit';
-import { getCachedVouchers } from '$lib/server/fortnox/fortnox-cache';
 import {
 	accountResult,
-	getTotalsByCostCenter,
 	keepResultAccounts,
 	sumAllAccounts
 } from '$lib/server/finance/results.js';
-import { getCachedAccountDetails } from '$lib/server/fortnox/fortnox-util.js';
+import { getTotalsByCostCenterForCurrentYear } from '$lib/server/fortnox/fortnox-util.js';
 
 export async function load({ params }: { params: { costCenter: string } }) {
 	const costCenter = params.costCenter === 'NONE' ? '' : params.costCenter;
 
-	const vouchers = await getCachedVouchers();
-	const accounts = await getCachedAccountDetails();
-	const costCenterTotals = getTotalsByCostCenter(vouchers, accounts).get(costCenter);
+	const results = await getTotalsByCostCenterForCurrentYear();
+	const costCenterTotals = results.get(costCenter);
 	if (!costCenterTotals) {
 		error(404, `Kostnadsställe "${params.costCenter}" hittades inte`);
 	}

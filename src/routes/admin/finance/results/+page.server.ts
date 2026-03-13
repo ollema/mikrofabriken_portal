@@ -1,13 +1,10 @@
 import type { BudgetRow } from './columns.js';
-import { getCachedVouchers } from '$lib/server/fortnox/fortnox-cache.js';
-import { getTotalsByCostCenter, sumAllResults } from '$lib/server/finance/results.js';
-import { getCachedAccountDetails } from '$lib/server/fortnox/fortnox-util.js';
+import { sumAllResults } from '$lib/server/finance/results.js';
+import { getTotalsByCostCenterForCurrentYear } from '$lib/server/fortnox/fortnox-util.js';
 import { getCommittees } from '$lib/server/committees.js';
 
 export async function load() {
-	const vouchers = await getCachedVouchers();
-	const accounts = await getCachedAccountDetails();
-	const results = getTotalsByCostCenter(vouchers, accounts);
+	const results = await getTotalsByCostCenterForCurrentYear();
 	const summedResults = sumAllResults(results);
 
 	const committees = getCommittees();
