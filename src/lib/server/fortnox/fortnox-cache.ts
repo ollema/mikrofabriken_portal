@@ -3,8 +3,6 @@ import type * as fortnoxTypes from '$lib/types/fortnox.js';
 import { db } from '$lib/server/db/index.js';
 import { fortnoxAccount, fortnoxVoucher } from '$lib/server/db/schema.js';
 
-
-
 /**
  * Replaces all accounts in the cache with the given list.
  */
