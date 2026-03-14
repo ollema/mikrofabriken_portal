@@ -13,6 +13,7 @@
 		"prelint": "svelte-kit sync",
 		"lint": "prettier --check . && eslint .",
 		"lint:fix": "prettier --write . && eslint --fix .",
+		"update-vouchers": "vite-node src/scripts/update-vouchers.ts",
 		"db:push": "drizzle-kit push"
 	},
 	"devDependencies": {
@@ -77,8 +78,10 @@
 		"@oslojs/encoding": "^1.1.0",
 		"better-sqlite3": "^12.4.1",
 		"drizzle-orm": "^0.44.6",
+		"flat-cache": "^6.1.19",
 		"sharp": "^0.33.5",
-		"simple-git": "^3.28.0"
+		"simple-git": "^3.28.0",
+		"vite-node": "^5.1.0"
 	},
 	"engines": {
 		"pnpm": ">=10.0.0",

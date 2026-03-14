@@ -6,7 +6,7 @@ import type {
 	InvoicesResponseSchema
 } from '$lib/schemas/fortnox';
 import type { z } from 'zod';
-import { BASE_URL } from '$lib/server/fortnox';
+import { BASE_URL } from '$lib/server/fortnox/fortnox';
 
 type CustomersResponse = z.infer<typeof CustomersResponseSchema>;
 type InvoiceResponse = z.infer<typeof InvoiceResponseSchema>;

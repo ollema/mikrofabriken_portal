@@ -99,6 +99,11 @@ export const navigation: Array<Navigation> = [
 				href: '/admin/inval'
 			},
 			{
+				title: 'Finans',
+				requireAdmin: true,
+				href: '/admin/finance'
+			},
+			{
 				title: 'Produkter',
 				requireViewProducts: true,
 				href: '/admin/products'

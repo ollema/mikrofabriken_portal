@@ -19,6 +19,7 @@
 			commissions: string[];
 		} | null;
 		open?: boolean;
+		href?: string;
 	}
 
 	let {
@@ -26,7 +27,8 @@
 		description,
 		members,
 		selectedMember = $bindable(null),
-		open = $bindable(false)
+		open = $bindable(false),
+		href
 	}: Props = $props();
 
 	function selectMember(member: {
@@ -42,7 +44,13 @@
 
 <div class="mb-5">
 	{#if label}
-		<div class="text-foreground mb-3 text-lg font-bold">{label}</div>
+		{#if href}
+			<a {href} class="text-foreground mb-3 block text-lg font-bold hover:underline">
+				{label}
+			</a>
+		{:else}
+			<div class="text-foreground mb-3 text-lg font-bold">{label}</div>
+		{/if}
 	{/if}
 	{#if description}
 		<div class="text-foreground mb-3 text-sm italic">{description}</div>

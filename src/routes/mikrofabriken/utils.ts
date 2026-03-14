@@ -53,6 +53,7 @@ type FormattedCommission = {
 	label: string;
 	description?: string;
 	members: Array<FormattedMember>;
+	name?: string; // Committee name for OMKs (e.g., 'workshop/3dprint')
 };
 
 export async function getFormattedMembersBasedOnCommissions(
@@ -114,6 +115,7 @@ export async function getFormattedMembersBasedOnCommissions(
 		return {
 			label: committee.friendlyName,
 			description: committee.description,
+			name: committee.name,
 			members: await Promise.all((commissionMembers[committee.name] ?? []).map(formatMember(here)))
 		};
 	};

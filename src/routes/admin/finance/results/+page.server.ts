@@ -1,0 +1,27 @@
+import type { BudgetRow } from './columns.js';
+import { sumAllResults } from '$lib/server/finance/results.js';
+import { getTotalsByCostCenterForCurrentYear } from '$lib/server/fortnox/fortnox-util.js';
+import { getCommittees } from '$lib/server/committees.js';
+
+export async function load() {
+	const results = await getTotalsByCostCenterForCurrentYear();
+	const summedResults = sumAllResults(results);
+
+	const committees = getCommittees();
+	const costCenterToCommittee = new Map(
+		committees.map((committee) => [committee.costCenter, committee])
+	);
+
+	// Convert to array format for the table
+	const budgetData: Array<BudgetRow> = Array.from(summedResults.entries()).map(
+		([costCenter, data]) => ({
+			committee: costCenterToCommittee.get(costCenter),
+			costCenter: costCenter || 'NONE',
+			cost: data.cost,
+			revenue: data.revenue,
+			net: data.revenue - data.cost
+		})
+	);
+
+	return { budgetData };
+}

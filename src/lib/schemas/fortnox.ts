@@ -6,7 +6,7 @@ const MetaInformationSchema = z.object({
 	'@CurrentPage': z.number()
 });
 
-const CustomerSchema = z.object({
+export const CustomerSchema = z.object({
 	Address1: z.string(),
 	Address2: z.string(),
 	City: z.string(),
@@ -76,4 +76,89 @@ export const InvoiceDetailSchema = z.object({
 
 export const InvoiceResponseSchema = z.object({
 	Invoice: InvoiceDetailSchema
+});
+
+const ReferenceTypeEnum = z.enum([
+	'INVOICE',
+	'SUPPLIERINVOICE',
+	'INVOICEPAYMENT',
+	'SUPPLIERPAYMENT',
+	'MANUAL',
+	'CASHINVOICE',
+	'ACCRUAL',
+	'' // The Fortnox API spec doesn't allow this, but it's returned sometimes
+]);
+
+export const VoucherListItemSchema = z.object({
+	'@url': z.string(),
+	ApprovalState: z.number().int(),
+	Comments: z.string().nullable(),
+	Description: z.string(),
+	ReferenceNumber: z.string().nullable(),
+	ReferenceType: ReferenceTypeEnum,
+	TransactionDate: z.string(),
+	VoucherNumber: z.number().int(),
+	VoucherSeries: z.string(),
+	Year: z.number().int()
+});
+
+export const VouchersResponseSchema = z.object({
+	MetaInformation: MetaInformationSchema,
+	Vouchers: z.array(VoucherListItemSchema)
+});
+
+export const VoucherRowSchema = z.object({
+	Account: z.number().int(),
+	CostCenter: z.string(),
+	Credit: z.number(),
+	Debit: z.number(),
+	Description: z.string(),
+	Project: z.string(),
+	Quantity: z.number(),
+	Removed: z.boolean(),
+	TransactionInformation: z.string()
+});
+
+// Full Voucher schema (includes VoucherRows)
+export const VoucherSchema = z.object({
+	'@url': z.string(),
+	ApprovalState: z.number().int(),
+	Comments: z.string().nullable(),
+	CostCenter: z.string(),
+	Description: z.string(),
+	Project: z.string(),
+	ReferenceNumber: z.string().nullable(),
+	ReferenceType: ReferenceTypeEnum,
+	TransactionDate: z.string(),
+	VoucherNumber: z.number().int(),
+	VoucherRows: z.array(VoucherRowSchema),
+	VoucherSeries: z.string(),
+	Year: z.number().int()
+});
+
+export const VoucherResponseSchema = z.object({
+	Voucher: VoucherSchema
+});
+
+const CostCenterSettingsEnum = z.enum(['ALLOWED', 'MANDATORY', 'NOTALLOWED']);
+const ProjectSettingsEnum = z.enum(['ALLOWED', 'MANDATORY', 'NOTALLOWED']);
+
+export const AccountSchema = z.object({
+	'@url': z.string(),
+	Active: z.boolean(),
+	BalanceBroughtForward: z.number().nullable(),
+	CostCenter: z.string().nullable(),
+	CostCenterSettings: CostCenterSettingsEnum,
+	Description: z.string().min(1).max(200),
+	Number: z.number().int().min(1000).max(9999),
+	Project: z.string().nullable(),
+	ProjectSettings: ProjectSettingsEnum,
+	SRU: z.number().int().nullable(),
+	VATCode: z.string().nullable(),
+	Year: z.number().int()
+});
+
+export const AccountsResponseSchema = z.object({
+	MetaInformation: MetaInformationSchema,
+	Accounts: z.array(AccountSchema)
 });
