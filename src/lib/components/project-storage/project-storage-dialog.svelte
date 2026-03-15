@@ -6,6 +6,7 @@
 	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
+	import { toast } from 'svelte-sonner';
 	import { tick } from 'svelte';
 	import { fromDate, toCalendarDate, toTime } from '@internationalized/date';
 
@@ -43,6 +44,10 @@
 		return async ({ result, update }) => {
 			if (result.type === 'success') {
 				await update();
+			} else if (result.type === 'failure') {
+				toast.error(result.data?.message ?? 'Något gick fel. Försök igen senare.');
+			} else if (result.type === 'error') {
+				toast.error('Serverfel. Försök igen senare.');
 			}
 			processing = false;
 			closeDialog();

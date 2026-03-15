@@ -31,6 +31,43 @@ function headers(token: string | undefined) {
 }
 
 // ----------------------------------------------------------------------------
+// cogFetch — centralized fetch wrapper with timeout, logging, and error handling
+// ----------------------------------------------------------------------------
+async function cogFetch(
+	label: string,
+	url: string,
+	init: RequestInit,
+	opts?: { timeoutMs?: number }
+): Promise<Response> {
+	const timeoutMs = opts?.timeoutMs ?? 10_000;
+	const method = init.method ?? 'GET';
+
+	try {
+		const response = await fetch(url, {
+			...init,
+			signal: AbortSignal.timeout(timeoutMs)
+		});
+
+		if (!response.ok) {
+			const body = await response.text().catch(() => '');
+			const snippet = body.slice(0, 500);
+			console.error(
+				`[COG] ${label} failed | ${method} ${url} | status=${response.status} | body=${snippet}`
+			);
+			throw new Error(`[COG] ${label}: HTTP ${response.status}`);
+		}
+
+		return response;
+	} catch (error) {
+		if (error instanceof Error && error.message.startsWith('[COG]')) {
+			throw error;
+		}
+		console.error(`[COG] ${label} failed | ${method} ${url} | ${(error as Error).message}`);
+		throw error;
+	}
+}
+
+// ----------------------------------------------------------------------------
 // /persons/avatar
 // ----------------------------------------------------------------------------
 const cache = new LRUCache({
@@ -78,24 +115,14 @@ export async function getAvatar(crNumber: string, size = 128) {
 // ----------------------------------------------------------------------------
 export async function getClaims(token: string, crNumber: string) {
 	try {
-		const response = await Promise.race([
-			fetch(`${BASE_URL}/persons/claims/${crNumber}`, {
-				method: 'GET',
-				headers: headers(token)
-			}),
-			new Promise<Response>((_, reject) =>
-				setTimeout(() => reject(new Error('Request timeout')), 5000)
-			)
-		]);
-
-		if (!response.ok) {
-			throw new Error(`http error: ${response.status} ${response.statusText}`);
-		}
+		const url = `${BASE_URL}/persons/claims/${crNumber}`;
+		const response = await cogFetch('getClaims', url, {
+			method: 'GET',
+			headers: headers(token)
+		}, { timeoutMs: 5000 });
 
 		const data = await response.json();
-		const claims = ClaimsSchema.parse(data);
-
-		return claims;
+		return ClaimsSchema.parse(data);
 	} catch (e) {
 		console.error(`could not fetch claims for crNumber ${crNumber}: ${e}`);
 		return [];
@@ -106,10 +133,12 @@ export async function getClaims(token: string, crNumber: string) {
 // /products
 // ----------------------------------------------------------------------------
 export async function getProduct(uuid: string) {
+	const url = `${BASE_URL}/products/${uuid}`;
 	try {
-		const response = await fetch(`${BASE_URL}/products/${uuid}`, {
+		const response = await fetch(url, {
 			method: 'GET',
-			headers: headers(undefined)
+			headers: headers(undefined),
+			signal: AbortSignal.timeout(10_000)
 		});
 
 		if (response.status === 404) {
@@ -117,24 +146,29 @@ export async function getProduct(uuid: string) {
 		}
 
 		if (!response.ok) {
-			throw new Error(`http error: ${response.status} ${response.statusText}`);
+			const body = await response.text().catch(() => '');
+			const snippet = body.slice(0, 500);
+			console.error(
+				`[COG] getProduct failed | GET ${url} | status=${response.status} | body=${snippet}`
+			);
+			throw new Error(`[COG] getProduct: HTTP ${response.status}`);
 		}
 
 		const data = await response.json();
-		const product = ProductSchema.parse(data);
-
-		return product;
+		return ProductSchema.parse(data);
 	} catch (e) {
-		console.error(`could not fetch product info for ${uuid}`);
+		console.error(`[COG] getProduct failed | GET ${url} | ${(e as Error).message}`);
 		throw e;
 	}
 }
 
 export async function getProductByEan(ean: string) {
+	const url = `${BASE_URL}/products/byEan/${ean}`;
 	try {
-		const response = await fetch(`${BASE_URL}/products/byEan/${ean}`, {
+		const response = await fetch(url, {
 			method: 'GET',
-			headers: headers(undefined)
+			headers: headers(undefined),
+			signal: AbortSignal.timeout(10_000)
 		});
 
 		if (response.status === 404) {
@@ -142,337 +176,195 @@ export async function getProductByEan(ean: string) {
 		}
 
 		if (!response.ok) {
-			throw new Error(`http error: ${response.status} ${response.statusText}`);
+			const body = await response.text().catch(() => '');
+			const snippet = body.slice(0, 500);
+			console.error(
+				`[COG] getProductByEan failed | GET ${url} | status=${response.status} | body=${snippet}`
+			);
+			throw new Error(`[COG] getProductByEan: HTTP ${response.status}`);
 		}
 
 		const data = await response.json();
-		const product = ProductSchema.parse(data);
-
-		return product;
+		return ProductSchema.parse(data);
 	} catch (e) {
-		console.error(`could not fetch product info for ${ean}`);
+		console.error(`[COG] getProductByEan failed | GET ${url} | ${(e as Error).message}`);
 		throw e;
 	}
 }
 
 export async function getProducts() {
-	try {
-		const response = await fetch(`${BASE_URL}/products`, {
-			method: 'GET',
-			headers: headers(undefined)
-		});
+	const url = `${BASE_URL}/products`;
+	const response = await cogFetch('getProducts', url, {
+		method: 'GET',
+		headers: headers(undefined)
+	});
 
-		if (!response.ok) {
-			throw new Error(`http error: ${response.status} ${response.statusText}`);
-		}
-
-		const data = await response.json();
-		const products = ProductsSchema.parse(data);
-
-		return products;
-	} catch (e) {
-		console.error('could not fetch products');
-		throw e;
-	}
+	const data = await response.json();
+	return ProductsSchema.parse(data);
 }
 
 export async function updateProduct(token: string, product: Product) {
-	try {
-		const response = await fetch(`${BASE_URL}/products/${product.uuid}`, {
-			method: 'PUT',
-			headers: headers(token),
-			body: JSON.stringify(product)
-		});
-
-		if (!response.ok) {
-			throw new Error(`http error: ${response.status} ${response.statusText}`);
-		}
-	} catch (e) {
-		console.error(`could not update product ${product.uuid}`);
-		throw e;
-	}
+	const url = `${BASE_URL}/products/${product.uuid}`;
+	await cogFetch('updateProduct', url, {
+		method: 'PUT',
+		headers: headers(token),
+		body: JSON.stringify(product)
+	});
 }
 
 export async function createProduct(token: string, product: NewProduct) {
-	try {
-		const response = await fetch(`${BASE_URL}/products`, {
-			method: 'POST',
-			headers: headers(token),
-			body: JSON.stringify(product)
-		});
+	const url = `${BASE_URL}/products`;
+	const response = await cogFetch('createProduct', url, {
+		method: 'POST',
+		headers: headers(token),
+		body: JSON.stringify(product)
+	});
 
-		if (!response.ok) {
-			throw new Error(`http error: ${response.status} ${response.statusText}`);
-		}
-
-		return ProductSchema.parse(await response.json());
-	} catch (e) {
-		console.error(`could not create product`);
-		throw e;
-	}
+	return ProductSchema.parse(await response.json());
 }
 
 export async function deleteProduct(token: string, uuid: string) {
-	try {
-		const response = await fetch(`${BASE_URL}/products/${uuid}`, {
-			method: 'DELETE',
-			headers: headers(token)
-		});
-
-		if (!response.ok) {
-			throw new Error(`http error: ${response.status} ${response.statusText}`);
-		}
-	} catch (e) {
-		console.error(`could not remove product ${uuid}`);
-		throw e;
-	}
+	const url = `${BASE_URL}/products/${uuid}`;
+	await cogFetch('deleteProduct', url, {
+		method: 'DELETE',
+		headers: headers(token)
+	});
 }
 
 export async function getProductCategories() {
-	try {
-		const response = await fetch(`${BASE_URL}/products/allProductCategories`, {
-			method: 'GET',
-			headers: headers(undefined)
-		});
+	const url = `${BASE_URL}/products/allProductCategories`;
+	const response = await cogFetch('getProductCategories', url, {
+		method: 'GET',
+		headers: headers(undefined)
+	});
 
-		if (!response.ok) {
-			throw new Error(`http error: ${response.status} ${response.statusText}`);
-		}
-
-		const data = await response.json();
-		return ProductCategoriesSchema.parse(data);
-	} catch (e) {
-		console.error('could not fetch product categories');
-		throw e;
-	}
+	const data = await response.json();
+	return ProductCategoriesSchema.parse(data);
 }
 
 export async function getBillingCategories() {
-	try {
-		const response = await fetch(`${BASE_URL}/products/allBillingCategories`, {
-			method: 'GET',
-			headers: headers(undefined)
-		});
+	const url = `${BASE_URL}/products/allBillingCategories`;
+	const response = await cogFetch('getBillingCategories', url, {
+		method: 'GET',
+		headers: headers(undefined)
+	});
 
-		if (!response.ok) {
-			throw new Error(`http error: ${response.status} ${response.statusText}`);
-		}
-
-		const data = await response.json();
-		return BillingCategoriesSchema.parse(data);
-	} catch (e) {
-		console.error('could not fetch billing categories');
-		throw e;
-	}
+	const data = await response.json();
+	return BillingCategoriesSchema.parse(data);
 }
 
 export async function getUnitNames() {
-	try {
-		const response = await fetch(`${BASE_URL}/products/allUnitNames`, {
-			method: 'GET',
-			headers: headers(undefined)
-		});
+	const url = `${BASE_URL}/products/allUnitNames`;
+	const response = await cogFetch('getUnitNames', url, {
+		method: 'GET',
+		headers: headers(undefined)
+	});
 
-		if (!response.ok) {
-			throw new Error(`http error: ${response.status} ${response.statusText}`);
-		}
-
-		const data = await response.json();
-		return UnitNamesSchema.parse(data);
-	} catch (e) {
-		console.error('could not fetch unit names');
-		throw e;
-	}
+	const data = await response.json();
+	return UnitNamesSchema.parse(data);
 }
 
 export async function getVatPercentages() {
-	try {
-		const response = await fetch(`${BASE_URL}/products/allVats`, {
-			method: 'GET',
-			headers: headers(undefined)
-		});
+	const url = `${BASE_URL}/products/allVats`;
+	const response = await cogFetch('getVatPercentages', url, {
+		method: 'GET',
+		headers: headers(undefined)
+	});
 
-		if (!response.ok) {
-			throw new Error(`http error: ${response.status} ${response.statusText}`);
-		}
-
-		const data = await response.json();
-		return VatPercentagesSchema.parse(data);
-	} catch (e) {
-		console.error('could not fetch VAT percentages');
-		throw e;
-	}
+	const data = await response.json();
+	return VatPercentagesSchema.parse(data);
 }
 
 // ----------------------------------------------------------------------------
 // /purchases
 // ----------------------------------------------------------------------------
 export async function getPurchases(token: string, crNumber: string, offset = 0) {
-	try {
-		const response = await fetch(`${BASE_URL}/purchases/perUserMonth/${crNumber}/${offset}`, {
-			method: 'GET',
-			headers: headers(token)
-		});
+	const url = `${BASE_URL}/purchases/perUserMonth/${crNumber}/${offset}`;
+	const response = await cogFetch('getPurchases', url, {
+		method: 'GET',
+		headers: headers(token)
+	});
 
-		if (!response.ok) {
-			throw new Error(`http error: ${response.status} ${response.statusText}`);
-		}
-
-		const data = await response.json();
-		const purchases = HistoricPurchasesSchema.parse(data);
-
-		return purchases;
-	} catch (e) {
-		console.error(`could not fetch purchases for token ${token}`);
-		throw e;
-	}
+	const data = await response.json();
+	return HistoricPurchasesSchema.parse(data);
 }
 
 export async function purchaseProduct(token: string, purchase: Purchase) {
-	try {
-		const response = await fetch(`${BASE_URL}/purchases/product`, {
-			method: 'POST',
-			headers: headers(token),
-			body: JSON.stringify(purchase)
-		});
+	const url = `${BASE_URL}/purchases/product`;
+	await cogFetch('purchaseProduct', url, {
+		method: 'POST',
+		headers: headers(token),
+		body: JSON.stringify(purchase)
+	});
 
-		if (!response.ok) {
-			throw new Error(`http error: ${response.status} ${response.statusText}`);
-		}
-
-		// TODO: parse and return purchase json when cog supports it
-	} catch (e) {
-		console.error(`could not purchase product ${purchase.productUuid} for token ${token}`);
-		throw e;
-	}
+	// TODO: parse and return purchase json when cog supports it
 }
 
 // ----------------------------------------------------------------------------
 // /resources
 // ----------------------------------------------------------------------------
 export async function getResources(prefix: string | null = null) {
-	try {
-		const response = await fetch(`${BASE_URL}/resources${prefix ? `/prefix/${prefix}` : ''}`, {
-			method: 'GET',
-			headers: headers(undefined)
-		});
+	const url = `${BASE_URL}/resources${prefix ? `/prefix/${prefix}` : ''}`;
+	const response = await cogFetch('getResources', url, {
+		method: 'GET',
+		headers: headers(undefined)
+	});
 
-		if (!response.ok) {
-			throw new Error(`http error: ${response.status} ${response.statusText}`);
-		}
-
-		const data = await response.json();
-		return ResourcesSchema.parse(data);
-	} catch (e) {
-		console.error(
-			prefix ? `could not fetch resources with prefix ${prefix}` : 'could not fetch resources'
-		);
-		throw e;
-	}
+	const data = await response.json();
+	return ResourcesSchema.parse(data);
 }
 
 export async function getOpenPeriods(prefix: string | null = null) {
-	try {
-		const response = await fetch(
-			`${BASE_URL}/resources/periods/open${prefix ? `/${prefix}` : ''}`,
-			{
-				method: 'GET',
-				headers: headers(undefined)
-			}
-		);
+	const url = `${BASE_URL}/resources/periods/open${prefix ? `/${prefix}` : ''}`;
+	const response = await cogFetch('getOpenPeriods', url, {
+		method: 'GET',
+		headers: headers(undefined)
+	});
 
-		if (!response.ok) {
-			throw new Error(`http error: ${response.status} ${response.statusText}`);
-		}
-
-		const data = await response.json();
-		const periods = PeriodsSchema.parse(data);
-
-		return periods;
-	} catch (e) {
-		console.error(`could not fetch open periods`);
-		throw e;
-	}
+	const data = await response.json();
+	return PeriodsSchema.parse(data);
 }
 
 export async function startPeriod(token: string, period: NewHoldingPeriod) {
-	try {
-		const response = await fetch(`${BASE_URL}/resources/periods`, {
-			method: 'POST',
-			headers: headers(token),
-			body: JSON.stringify(period)
-		});
+	const url = `${BASE_URL}/resources/periods`;
+	const response = await cogFetch('startPeriod', url, {
+		method: 'POST',
+		headers: headers(token),
+		body: JSON.stringify(period)
+	});
 
-		if (!response.ok) {
-			throw new Error(`http error: ${response.status} ${response.statusText}`);
-		}
-
-		const data = await response.json();
-		return PeriodsSchema.element.parse(data);
-	} catch (e) {
-		console.error('could not start period');
-		throw e;
-	}
+	const data = await response.json();
+	return PeriodsSchema.element.parse(data);
 }
 
 export async function closePeriod(token: string, uuid: string) {
-	try {
-		const response = await fetch(`${BASE_URL}/resources/periods/${uuid}`, {
-			method: 'DELETE',
-			headers: headers(token)
-		});
-
-		if (!response.ok) {
-			throw new Error(`http error: ${response.status} ${response.statusText}`);
-		}
-	} catch (e) {
-		console.error(`could not close period ${uuid}`);
-		throw e;
-	}
+	const url = `${BASE_URL}/resources/periods/${uuid}`;
+	await cogFetch('closePeriod', url, {
+		method: 'DELETE',
+		headers: headers(token)
+	});
 }
 
 export async function getClosedPeriods(token: string, monthOffset: number, prefix: string) {
-	try {
-		const response = await fetch(`${BASE_URL}/resources/periods/closed/${monthOffset}/${prefix}`, {
-			method: 'GET',
-			headers: headers(token)
-		});
+	const url = `${BASE_URL}/resources/periods/closed/${monthOffset}/${prefix}`;
+	const response = await cogFetch('getClosedPeriods', url, {
+		method: 'GET',
+		headers: headers(token)
+	});
 
-		if (!response.ok) {
-			throw new Error(`http error: ${response.status} ${response.statusText}`);
-		}
-
-		const data = await response.json();
-		const periods = PeriodsSchema.parse(data);
-
-		return periods;
-	} catch (e) {
-		console.error(
-			`could not fetch closed periods for month offset ${monthOffset} and prefix ${prefix}`
-		);
-		throw e;
-	}
+	const data = await response.json();
+	return PeriodsSchema.parse(data);
 }
 
 export async function getMyClosedPeriods(token: string, prefix: string) {
-	try {
-		const response = await fetch(`${BASE_URL}/resources/periods/myClosed/${prefix}`, {
-			method: 'GET',
-			headers: headers(token)
-		});
+	const url = `${BASE_URL}/resources/periods/myClosed/${prefix}`;
+	const response = await cogFetch('getMyClosedPeriods', url, {
+		method: 'GET',
+		headers: headers(token)
+	});
 
-		if (!response.ok) {
-			throw new Error(`http error: ${response.status} ${response.statusText}`);
-		}
-
-		const data = await response.json();
-		const periods = PeriodsSchema.parse(data);
-
-		return periods;
-	} catch (e) {
-		console.error(`could not fetch my closed periods for prefix ${prefix}`);
-		throw e;
-	}
+	const data = await response.json();
+	return PeriodsSchema.parse(data);
 }
 
 export async function getEstimatedCost(
@@ -483,40 +375,24 @@ export async function getEstimatedCost(
 		endDate: Date;
 	}
 ) {
-	try {
-		const response = await fetch(`${BASE_URL}/resources/periods/estimatedCost`, {
-			method: 'POST',
-			headers: headers(token),
-			body: JSON.stringify(samplePeriod)
-		});
+	const url = `${BASE_URL}/resources/periods/estimatedCost`;
+	const response = await cogFetch('getEstimatedCost', url, {
+		method: 'POST',
+		headers: headers(token),
+		body: JSON.stringify(samplePeriod)
+	});
 
-		if (!response.ok) {
-			throw new Error(`http error: ${response.status} ${response.statusText}`);
-		}
-
-		const data = await response.json();
-		return PeriodCostSchema.parse(data);
-	} catch (e) {
-		console.error(`could not get estimated cost for period`);
-		throw e;
-	}
+	const data = await response.json();
+	return PeriodCostSchema.parse(data);
 }
 
 export async function getPeriodDiscount(token: string, costModel: string) {
-	try {
-		const response = await fetch(`${BASE_URL}/resources/periods/discount/${costModel}`, {
-			method: 'GET',
-			headers: headers(token)
-		});
+	const url = `${BASE_URL}/resources/periods/discount/${costModel}`;
+	const response = await cogFetch('getPeriodDiscount', url, {
+		method: 'GET',
+		headers: headers(token)
+	});
 
-		if (!response.ok) {
-			throw new Error(`http error: ${response.status} ${response.statusText}`);
-		}
-
-		const data = await response.json();
-		return PeriodDiscountSchema.parse(data);
-	} catch (e) {
-		console.error(`could not get period discount for cost model ${costModel}`);
-		throw e;
-	}
+	const data = await response.json();
+	return PeriodDiscountSchema.parse(data);
 }

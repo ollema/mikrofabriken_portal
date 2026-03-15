@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import type { Handle } from '@sveltejs/kit';
+import type { Handle, HandleServerError } from '@sveltejs/kit';
 import * as auth from '$lib/server/auth.js';
 import { hasClaim } from '$lib/utils/cog';
 import { getMember } from '$lib/server/members';
@@ -124,3 +124,11 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 };
 
 export const handle: Handle = handleAuth;
+
+export const handleError: HandleServerError = async ({ error, event, status }) => {
+	console.error(
+		`[Unhandled] ${event.request.method} ${event.url.pathname} | status=${status}:`,
+		error
+	);
+	return { message: 'Ett oväntat fel inträffade.' };
+};

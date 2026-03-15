@@ -1,4 +1,5 @@
-import { fail } from '@sveltejs/kit';
+import { error, fail } from '@sveltejs/kit';
+import type { z } from 'zod';
 import { getToken, getUser } from '$lib/server/auth.js';
 import {
 	closePeriod,
@@ -10,6 +11,7 @@ import {
 	getResources,
 	startPeriod
 } from '$lib/server/cog.js';
+import { PeriodsSchema } from '$lib/schemas/cog.js';
 import { findMember, getMembers } from '$lib/server/members.js';
 
 const shortTermStorageRows = [
@@ -29,8 +31,17 @@ export const load = async ({ locals, url }) => {
 	const members = getMembers();
 	const member = findMember(members, user.slackID);
 
-	const storageResources = await getResources('storageShortTerm');
-	const storageOpenPeriods = await getOpenPeriods('storageShortTerm');
+	let storageResources;
+	let storageOpenPeriods;
+	try {
+		[storageResources, storageOpenPeriods] = await Promise.all([
+			getResources('storageShortTerm'),
+			getOpenPeriods('storageShortTerm')
+		]);
+	} catch (e) {
+		console.error('[Storage] Failed to load short-term storage data:', e);
+		error(503, 'Kunde inte ladda schackrutor. Försök igen senare.');
+	}
 
 	const storageRows = shortTermStorageRows.map((row) =>
 		row.map((temporaryStorage) => {
@@ -97,11 +108,23 @@ export const load = async ({ locals, url }) => {
 			shortTermStorageRows.flat().includes(period.resourceName)
 	);
 
-	const memberClosedStoragePeriods = await getMyClosedPeriods(getToken(locals), 'storageShortTerm');
+	let memberClosedStoragePeriods: z.infer<typeof PeriodsSchema>;
+	try {
+		memberClosedStoragePeriods = await getMyClosedPeriods(getToken(locals), 'storageShortTerm');
+	} catch (e) {
+		console.warn('[Storage] Failed to load closed periods, defaulting to []:', e);
+		memberClosedStoragePeriods = [];
+	}
 
 	// TODO: fix this to be more robust
 	const costModel = storageResources[0]?.costModel as string;
-	const discountInfo = await getPeriodDiscount(getToken(locals), costModel);
+	let discountInfo;
+	try {
+		discountInfo = await getPeriodDiscount(getToken(locals), costModel);
+	} catch (e) {
+		console.warn('[Storage] Failed to load period discount, using defaults:', e);
+		discountInfo = { usedDiscountOpen: 0, usedDiscountClosed: 0, availableDiscount: 0 };
+	}
 
 	const memberStoragePeriods = [...memberOpenStoragePeriods, ...memberClosedStoragePeriods].sort(
 		(a, b) => b.start.getTime() - a.start.getTime()
@@ -109,20 +132,16 @@ export const load = async ({ locals, url }) => {
 
 	const periodsWithCost = await Promise.all(
 		memberStoragePeriods.map(async (period) => {
-			if (period.end) {
+			try {
 				const costInfo = await getEstimatedCost(getToken(locals), {
 					resourceName: period.resourceName,
 					startDate: period.start,
-					endDate: period.end
+					endDate: period.end ?? new Date()
 				});
 				return { ...period, cost: costInfo.cost };
-			} else {
-				const costInfo = await getEstimatedCost(getToken(locals), {
-					resourceName: period.resourceName,
-					startDate: period.start,
-					endDate: new Date()
-				});
-				return { ...period, cost: costInfo.cost };
+			} catch (e) {
+				console.warn(`[Storage] Failed to estimate cost for period=${period.uuid}:`, e);
+				return { ...period, cost: null };
 			}
 		})
 	);
@@ -149,9 +168,9 @@ export const actions = {
 				resourceName: storage
 			});
 			return { success: true };
-		} catch (error) {
-			console.error('Failed to reserve storage:', error);
-			return fail(500, { message: 'Failed to reserve storage' });
+		} catch (e) {
+			console.error(`[Storage] Reserve failed for resource=${storage}:`, e);
+			return fail(500, { message: 'Kunde inte boka schackrutan. Försök igen senare.' });
 		}
 	},
 	release: async ({ request, locals }) => {
@@ -164,9 +183,9 @@ export const actions = {
 		try {
 			await closePeriod(token, uuid);
 			return { success: true };
-		} catch (error) {
-			console.error('Failed to release storage:', error);
-			return fail(500, { message: 'Failed to release storage' });
+		} catch (e) {
+			console.error(`[Storage] Release failed for period=${uuid}:`, e);
+			return fail(500, { message: 'Kunde inte avboka schackrutan. Försök igen senare.' });
 		}
 	}
 };
