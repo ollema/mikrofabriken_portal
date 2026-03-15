@@ -1,3 +1,4 @@
+import { building } from '$app/environment';
 import { eq } from 'drizzle-orm';
 import { replaceAllAccounts, replaceAllVouchers } from './fortnox-cache.js';
 import { FortnoxApi } from './fortnox-api.js';
@@ -117,16 +118,18 @@ async function runUpdate() {
 }
 
 // Crash recovery: reset stuck 'running' status from a previous server crash
-ensureStatusRow();
-const currentStatus = db
-	.select()
-	.from(fortnoxUpdateStatus)
-	.where(eq(fortnoxUpdateStatus.id, STATUS_ROW_ID))
-	.get();
-if (currentStatus?.status === 'running') {
-	updateProgress({
-		status: 'failed',
-		error: 'Server restarted during update',
-		completedAt: new Date().toISOString()
-	});
+if (!building) {
+	ensureStatusRow();
+	const currentStatus = db
+		.select()
+		.from(fortnoxUpdateStatus)
+		.where(eq(fortnoxUpdateStatus.id, STATUS_ROW_ID))
+		.get();
+	if (currentStatus?.status === 'running') {
+		updateProgress({
+			status: 'failed',
+			error: 'Server restarted during update',
+			completedAt: new Date().toISOString()
+		});
+	}
 }
