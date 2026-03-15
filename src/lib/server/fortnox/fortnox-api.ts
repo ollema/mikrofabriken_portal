@@ -42,6 +42,8 @@ export class FortnoxApi {
 			} else if (response.status === 429 && --retriesLeft > 0) {
 				console.log(`Rate limit exceeded, waiting 5.1 seconds and trying again`);
 				await new Promise((resolve) => setTimeout(resolve, 5100));
+			} else if (response.status === 401 || response.status === 403) {
+				error(502, 'Fortnox-proxyn är inte autentiserad. Kontakta #it-system på Slack.');
 			} else {
 				const msg = await response.text();
 				throw new Error(`Fortnox API error: ${response.status} - ${msg}`);
