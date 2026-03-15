@@ -1,5 +1,6 @@
 import { error, fail } from '@sveltejs/kit';
 import type { z } from 'zod';
+import type { PeriodsSchema } from '$lib/schemas/cog.js';
 import { getToken, getUser } from '$lib/server/auth.js';
 import {
 	closePeriod,
@@ -11,7 +12,6 @@ import {
 	getResources,
 	startPeriod
 } from '$lib/server/cog.js';
-import { PeriodsSchema } from '$lib/schemas/cog.js';
 import { findMember, getMembers } from '$lib/server/members.js';
 
 const shortTermStorageRows = [

@@ -116,10 +116,15 @@ export async function getAvatar(crNumber: string, size = 128) {
 export async function getClaims(token: string, crNumber: string) {
 	try {
 		const url = `${BASE_URL}/persons/claims/${crNumber}`;
-		const response = await cogFetch('getClaims', url, {
-			method: 'GET',
-			headers: headers(token)
-		}, { timeoutMs: 5000 });
+		const response = await cogFetch(
+			'getClaims',
+			url,
+			{
+				method: 'GET',
+				headers: headers(token)
+			},
+			{ timeoutMs: 5000 }
+		);
 
 		const data = await response.json();
 		return ClaimsSchema.parse(data);

@@ -125,6 +125,7 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 
 export const handle: Handle = handleAuth;
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export const handleError: HandleServerError = async ({ error, event, status }) => {
 	console.error(
 		`[Unhandled] ${event.request.method} ${event.url.pathname} | status=${status}:`,
