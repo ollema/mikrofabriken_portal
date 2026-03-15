@@ -31,17 +31,17 @@
 	);
 
 	let { data } = $props();
-	const costCenter = data.costCenter;
-	const account = data.account as AccountDetails;
-	const voucherRows = data.voucherRows as VoucherRowWithVoucher[];
+	let costCenter = $derived(data.costCenter);
+	let account = $derived(data.account as AccountDetails);
+	let voucherRows = $derived(data.voucherRows as VoucherRowWithVoucher[]);
 
 	const formatAccountNumber = (account: number): string => {
 		return account.toString().padStart(4, '0');
 	};
 
-	const totalDebit = voucherRows.reduce((sum, row) => sum + row.Debit, 0);
-	const totalCredit = voucherRows.reduce((sum, row) => sum + row.Credit, 0);
-	const net = totalDebit - totalCredit;
+	let totalDebit = $derived(voucherRows.reduce((sum, row) => sum + row.Debit, 0));
+	let totalCredit = $derived(voucherRows.reduce((sum, row) => sum + row.Credit, 0));
+	let net = $derived(totalDebit - totalCredit);
 </script>
 
 <div class="mx-auto w-full min-w-0">
