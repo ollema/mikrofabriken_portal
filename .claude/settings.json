@@ -1,0 +1,15 @@
+{
+	"hooks": {
+		"Stop": [
+			{
+				"hooks": [
+					{
+						"type": "command",
+						"command": "cd \"$CLAUDE_PROJECT_DIR\" && pnpm format && pnpm lint && pnpm check",
+						"timeout": 120
+					}
+				]
+			}
+		]
+	}
+}

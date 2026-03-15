@@ -36,6 +36,7 @@ check_env_var "ADMINS" || exit 1
 # fortnox
 # ------------------------------------------------------------------------------
 check_env_var "FNP_KEY" || exit 1
+check_env_var "FINANCE_UPDATE_KEY" || exit 1
 
 # ------------------------------------------------------------------------------
 # gitlab

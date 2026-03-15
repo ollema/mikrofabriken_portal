@@ -45,6 +45,17 @@ export const fortnoxVoucher = sqliteTable(
 	]
 );
 
+export const fortnoxUpdateStatus = sqliteTable('fortnox_update_status', {
+	id: integer('id').primaryKey(),
+	status: text('status').notNull(),
+	phase: text('phase'),
+	current: integer('current').notNull().default(0),
+	total: integer('total').notNull().default(0),
+	startedAt: text('started_at'),
+	completedAt: text('completed_at'),
+	error: text('error')
+});
+
 export type Session = typeof session.$inferSelect;
 
 export type User = typeof user.$inferSelect;
