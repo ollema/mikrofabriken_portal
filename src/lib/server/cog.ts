@@ -350,17 +350,6 @@ export async function closePeriod(token: string, uuid: string) {
 	});
 }
 
-export async function getClosedPeriods(token: string, monthOffset: number, prefix: string) {
-	const url = `${BASE_URL}/resources/periods/closed/${monthOffset}/${prefix}`;
-	const response = await cogFetch('getClosedPeriods', url, {
-		method: 'GET',
-		headers: headers(token)
-	});
-
-	const data = await response.json();
-	return PeriodsSchema.parse(data);
-}
-
 export async function getMyClosedPeriods(token: string, prefix: string) {
 	const url = `${BASE_URL}/resources/periods/myClosed/${prefix}`;
 	const response = await cogFetch('getMyClosedPeriods', url, {

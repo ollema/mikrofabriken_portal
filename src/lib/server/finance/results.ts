@@ -2,7 +2,7 @@ import type { Voucher } from '$lib/types/fortnox';
 import type { AccountDetails, AccountDetailsMap } from '$lib/server/fortnox/fortnox-util.js';
 import { AccountType } from '$lib/server/fortnox/fortnox-util.js';
 
-export type AccountTotal = {
+type AccountTotal = {
 	debit: number;
 	credit: number;
 	account: AccountDetails;
@@ -14,7 +14,7 @@ export type CostCenter = string;
 
 export type TotalsByCostCenter = Map<CostCenter, TotalsByAccount>;
 
-export type CostAndRevenue = {
+type CostAndRevenue = {
 	cost: number;
 	revenue: number;
 };

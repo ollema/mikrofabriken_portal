@@ -1,11 +1,6 @@
 import type { z } from 'zod';
 
-import type {
-	CompanySchema,
-	InvoiceCategoryTypes,
-	MemberSchema,
-	MembersSchema
-} from '$lib/schemas/members.js';
+import type { CompanySchema, MemberSchema, MembersSchema } from '$lib/schemas/members.js';
 
 export type Members = z.infer<typeof MembersSchema>;
 export type Member = z.infer<typeof MemberSchema>;
@@ -23,14 +18,11 @@ export type ExtendedMember = Member & {
 
 export type Company = z.infer<typeof CompanySchema>;
 
-export type CompanyInvoiceCategoryType = z.infer<typeof InvoiceCategoryTypes>;
-
 export type IceContact = z.infer<typeof MembersSchema.element.shape.iceContacts.element>;
 
 export type Agreement = z.infer<typeof MembersSchema.element.shape.agreements.element>;
 export type AgreementType = Agreement['type'];
 
 export type Artifact = z.infer<typeof MembersSchema.element.shape.artifacts.element>;
-export type ArtifactType = Artifact['type'];
 
 export type Commission = z.infer<typeof MembersSchema.element.shape.commissions.element>;

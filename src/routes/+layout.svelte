@@ -47,7 +47,10 @@
 		breadcrumbs.map((breadcrumb, index) => {
 			const href = '/' + breadcrumbs.slice(0, index + 1).join('/');
 			let label: string;
-			if (breadcrumb.includes('_')) {
+			const memberName = page.data?.member?.name;
+			if (memberName && breadcrumb === page.data.member.slackID) {
+				label = memberName;
+			} else if (breadcrumb.includes('_')) {
 				label = breadcrumb.split('_').map(capitalize).join(' ');
 			} else if (breadcrumb.includes('-')) {
 				label = capitalize(breadcrumb.split('-').join(' '));

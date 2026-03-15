@@ -29,8 +29,8 @@
 	);
 
 	let { data } = $props();
-	const accountBreakdown = data.accountBreakdown as AccountBreakdownRow[];
-	const costCenter = data.costCenter as string;
+	let accountBreakdown = $derived(data.accountBreakdown as AccountBreakdownRow[]);
+	let costCenter = $derived(data.costCenter as string);
 	const columns = createColumns();
 </script>
 

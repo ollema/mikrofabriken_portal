@@ -3,7 +3,7 @@
 	import type { Voucher } from '$lib/types/fortnox.js';
 
 	let { data } = $props();
-	const voucher = data.voucher as Voucher;
+	let voucher = $derived(data.voucher as Voucher);
 </script>
 
 <div class="mx-auto w-full min-w-0">

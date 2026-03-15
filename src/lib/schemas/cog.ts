@@ -3,7 +3,7 @@ import { z } from 'zod';
 // ----------------------------------------------------------------------------
 // claims schemas
 // ----------------------------------------------------------------------------
-export const ClaimSchema = z.object({
+const ClaimSchema = z.object({
 	resource: z.string().min(1, { message: 'Resource needs to be at least 1 character long' }),
 	action: z.enum([
 		'Create',

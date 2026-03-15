@@ -47,9 +47,13 @@
 	} = $props();
 
 	let rowSelection = $state<RowSelectionState>({});
+	// svelte-ignore state_referenced_locally
 	let columnVisibility = $state<VisibilityState>(params.visibility);
+	// svelte-ignore state_referenced_locally
 	let columnFilters = $state<ColumnFiltersState>(params.columnFilters);
+	// svelte-ignore state_referenced_locally
 	let sorting = $state<SortingState>(params.sorting);
+	// svelte-ignore state_referenced_locally
 	let pagination = $state<PaginationState>({
 		pageIndex: params.pagination.pageIndex - 1,
 		pageSize: params.pagination.pageSize
@@ -76,7 +80,9 @@
 				return pagination;
 			}
 		},
-		columns,
+		get columns() {
+			return columns;
+		},
 		enableRowSelection: true,
 		onRowSelectionChange: (updater) => {
 			if (typeof updater === 'function') {

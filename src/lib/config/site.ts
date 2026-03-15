@@ -8,5 +8,3 @@ export const siteConfig = {
 	},
 	keywords: `mikrofabriken,membership,portal`
 };
-
-export type SiteConfig = typeof siteConfig;

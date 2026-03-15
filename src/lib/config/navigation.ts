@@ -1,4 +1,4 @@
-export type Navigation = {
+type Navigation = {
 	title: string;
 	requireAdmin?: boolean;
 	requireViewProducts?: boolean;
@@ -7,7 +7,7 @@ export type Navigation = {
 	items: Array<NavItem>;
 };
 
-export type NavItem = {
+type NavItem = {
 	title: string;
 	requireAdmin?: boolean;
 	requireViewProducts?: boolean;

@@ -23,6 +23,7 @@
 
 	let { data }: Props = $props();
 
+	// svelte-ignore state_referenced_locally
 	const form = superForm(data.form, {
 		validators: zod4Client(iceContactsFormSchema),
 		dataType: 'json'

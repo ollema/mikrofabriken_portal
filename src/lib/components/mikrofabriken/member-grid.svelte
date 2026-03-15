@@ -22,6 +22,7 @@
 		href?: string;
 	}
 
+	/* eslint-disable no-useless-assignment -- $bindable props propagate to parent */
 	let {
 		label,
 		description,
@@ -40,6 +41,7 @@
 		selectedMember = member;
 		open = true;
 	}
+	/* eslint-enable no-useless-assignment */
 </script>
 
 <div class="mb-5">

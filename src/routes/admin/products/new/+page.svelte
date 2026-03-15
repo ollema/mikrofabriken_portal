@@ -24,6 +24,7 @@
 
 	let { data }: Props = $props();
 
+	// svelte-ignore state_referenced_locally
 	const form = superForm(data.form, {
 		validators: zod4Client(newProductFormSchema),
 		dataType: 'json'
@@ -31,19 +32,23 @@
 
 	const { form: formData, enhance, delayed } = form;
 
+	// svelte-ignore state_referenced_locally
 	// set default category to Snacks if it exists, otherwise use the first category
 	$formData.category = data.productCategories.includes('Store')
 		? 'Store'
 		: data.productCategories[0];
 
+	// svelte-ignore state_referenced_locally
 	// set default VAT percentage to 12 if it exists, otherwise use the first VAT percentage
 	const defaultVatPercentage = data.vatPercentages.includes(12)
 		? '12'
 		: data.vatPercentages[0].toString();
 
+	// svelte-ignore state_referenced_locally
 	// set default unit name to 'pcs' if it exists, otherwise use the first unit name
 	$formData.unitName = data.unitNames.includes('pcs') ? 'pcs' : (data.unitNames[0] ?? null);
 
+	// svelte-ignore state_referenced_locally
 	// set default billing category to 'kiosk' if it exists, otherwise use the first billing category
 	$formData.billingCategory = data.billingCategories.includes('kiosk')
 		? 'kiosk'

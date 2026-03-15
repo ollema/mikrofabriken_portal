@@ -69,11 +69,6 @@ export function areMembersEqual(a: Member, b: Member): boolean {
 	return a.company === b.company;
 }
 
-export function areAllMembersEqual(a: Members, b: Members): boolean {
-	if (a.length !== b.length) return false;
-	return a.every((member, index) => areMembersEqual(member, b[index]));
-}
-
 function areArraysEqual<T>(a: Array<T>, b: Array<T>): boolean {
 	if (a.length !== b.length) return false;
 	return JSON.stringify(a) === JSON.stringify(b);
@@ -89,18 +84,7 @@ export function validateMember(member: unknown): Member {
 	return validatedMember;
 }
 
-export function validateAllMembers(members: unknown): Members {
-	const validatedMembers = MembersSchema.parse(members);
-
-	// validate dynamic fields that can not be validated by zod
-	for (const member of validatedMembers) {
-		validateMemberCommissions(member.commissions);
-	}
-
-	return validatedMembers;
-}
-
-export function validateMemberWorkPools(workPools: Array<string>) {
+function validateMemberWorkPools(workPools: Array<string>) {
 	const validWorkPools = getValidWorkPools();
 
 	for (const workPool of workPools) {
@@ -112,7 +96,7 @@ export function validateMemberWorkPools(workPools: Array<string>) {
 	return workPools;
 }
 
-export function validateMemberCommissions(commissions: Array<Commission>) {
+function validateMemberCommissions(commissions: Array<Commission>) {
 	const validCommissions = getValidCommissions();
 
 	for (const commission of commissions) {

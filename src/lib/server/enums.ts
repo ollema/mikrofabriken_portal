@@ -19,8 +19,3 @@ export function getValidWorkPools() {
 	const enums = parseEnums();
 	return enums.definitions.workPool.enum;
 }
-
-export function getValidBillingCategories() {
-	const enums = parseEnums();
-	return enums.definitions.billingCategory.enum;
-}
