@@ -1,5 +1,6 @@
 import { error, fail } from '@sveltejs/kit';
 import type { z } from 'zod';
+import type { PeriodsSchema } from '$lib/schemas/cog.js';
 import { getToken, getUser } from '$lib/server/auth.js';
 import {
 	closePeriod,
@@ -10,7 +11,6 @@ import {
 	getResources,
 	startPeriod
 } from '$lib/server/cog.js';
-import { PeriodsSchema } from '$lib/schemas/cog.js';
 import { findMember, getMembers } from '$lib/server/members.js';
 
 const mediumTermStorageRows = [
@@ -101,10 +101,7 @@ export const load = async ({ locals, url }) => {
 
 	let memberClosedStoragePeriods: z.infer<typeof PeriodsSchema>;
 	try {
-		memberClosedStoragePeriods = await getMyClosedPeriods(
-			getToken(locals),
-			'storageMediumTerm'
-		);
+		memberClosedStoragePeriods = await getMyClosedPeriods(getToken(locals), 'storageMediumTerm');
 	} catch (e) {
 		console.warn('[Storage] Failed to load closed periods, defaulting to []:', e);
 		memberClosedStoragePeriods = [];
@@ -152,7 +149,9 @@ export const actions = {
 			return { success: true };
 		} catch (e) {
 			console.error(`[Storage] Reserve failed for resource=${storage}:`, e);
-			return fail(500, { message: 'Kunde inte boka den tillfälliga projektytan. Försök igen senare.' });
+			return fail(500, {
+				message: 'Kunde inte boka den tillfälliga projektytan. Försök igen senare.'
+			});
 		}
 	},
 	release: async ({ request, locals }) => {
@@ -167,7 +166,9 @@ export const actions = {
 			return { success: true };
 		} catch (e) {
 			console.error(`[Storage] Release failed for period=${uuid}:`, e);
-			return fail(500, { message: 'Kunde inte avboka den tillfälliga projektytan. Försök igen senare.' });
+			return fail(500, {
+				message: 'Kunde inte avboka den tillfälliga projektytan. Försök igen senare.'
+			});
 		}
 	}
 };

@@ -49,6 +49,7 @@ jobs:
     name: Deploy to CapRover
     runs-on: ubuntu-latest
     needs: build
+    environment: production
     permissions: {}
     steps:
       - name: Deploy to CapRover
