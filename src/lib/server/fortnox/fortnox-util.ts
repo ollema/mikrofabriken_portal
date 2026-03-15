@@ -73,18 +73,12 @@ export async function* getFullVouchersForCurrentYear(
 	let page = 1;
 	let totalPages = 1;
 	let vouchersRetrieved = 0;
-	let totalVouchers = 0;
 
 	do {
 		const data = await fortnox.getVoucherPageThisYearAsync(page);
 		totalPages = data.MetaInformation['@TotalPages'];
-		totalVouchers = data.MetaInformation['@TotalResources'];
-		console.log(
-			`Page ${page} of ${totalPages}. Contains vouchers ${vouchersRetrieved + 1}-${vouchersRetrieved + data.Vouchers.length} of ${totalVouchers}`
-		);
 		for (const voucherListItem of data.Vouchers) {
 			const voucher = await getVoucherFromListItem(fortnox, voucherListItem);
-			console.log(`Got voucher ${voucherListItem.VoucherSeries}${voucherListItem.VoucherNumber}`);
 			yield voucher;
 			vouchersRetrieved++;
 			if (vouchersRetrieved >= limit) {
