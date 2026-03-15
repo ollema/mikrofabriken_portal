@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const IceContact = z
+const IceContact = z
 	.object({
 		name: z.string().min(1, { message: 'Name needs to be at least 1 character long' }),
 		phone: z.string().regex(/^[0-9]{8,10}$/, {
@@ -8,17 +8,6 @@ export const IceContact = z
 		})
 	})
 	.strict();
-
-export const AgreementTypes = z.enum([
-	'membership',
-	'investment',
-	'passive',
-	'asylumInside',
-	'asylumOutside',
-	'palletInside',
-	'palletOutside',
-	'externalAccess'
-]);
 
 const BaseAgreementSchema = z.object({
 	startDate: z.string(),
@@ -79,7 +68,7 @@ const ExternalAccessAgreementSchema = BaseAgreementSchema.extend({
 	type: z.literal('externalAccess')
 });
 
-export const AgreementSchema = z.discriminatedUnion('type', [
+const AgreementSchema = z.discriminatedUnion('type', [
 	MembershipAgreementSchema,
 	InvestmentAgreementSchema,
 	PassiveAgreementSchema,
@@ -89,8 +78,6 @@ export const AgreementSchema = z.discriminatedUnion('type', [
 	PalletOutsideAgreementSchema,
 	ExternalAccessAgreementSchema
 ]);
-
-export const ArtifactTypes = z.enum(['key', 'rfid']);
 
 const BaseArtifactSchema = z.object({
 	startDate: z.string(),
@@ -116,9 +103,9 @@ const RfidArtifactSchema = BaseArtifactSchema.extend({
 		.strict()
 });
 
-export const ArtifactSchema = z.discriminatedUnion('type', [KeyArtifactSchema, RfidArtifactSchema]);
+const ArtifactSchema = z.discriminatedUnion('type', [KeyArtifactSchema, RfidArtifactSchema]);
 
-export const CommissionSchema = z
+const CommissionSchema = z
 	.object({
 		type: z.string(),
 		startDate: z.string(),

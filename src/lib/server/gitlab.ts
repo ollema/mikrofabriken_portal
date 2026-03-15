@@ -15,7 +15,7 @@ import { MergeRequestSchema, MergeRequestsSchema } from '$lib/schemas/gitlab';
 /**
  * Options for suggesting a change in GitLab.
  */
-export type SuggestChangeOptions = {
+type SuggestChangeOptions = {
 	/** An array of members to suggest the change to. */
 	members: Array<Member>;
 	/** The name of the branch to create the change on. */
@@ -33,7 +33,7 @@ export type SuggestChangeOptions = {
 /**
  * Options for creating a merge request.
  */
-export type MergeRequestOptions = Pick<SuggestChangeOptions, 'branch' | 'title' | 'desc'> & {
+type MergeRequestOptions = Pick<SuggestChangeOptions, 'branch' | 'title' | 'desc'> & {
 	/**
 	 * The target branch for the merge request.
 	 */
@@ -219,7 +219,7 @@ async function createMR(projectId: string, options: MergeRequestOptions) {
  * @returns A promise that resolves to an array of filtered merge requests
  * @throws SvelteKit error with status 500 if the operation fails
  */
-export async function getPendingMergeRequests(
+async function getPendingMergeRequests(
 	filter: (mr: MergeRequest) => boolean
 ): Promise<MergeRequests> {
 	try {

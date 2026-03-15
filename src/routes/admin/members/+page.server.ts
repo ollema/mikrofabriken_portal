@@ -26,8 +26,6 @@ function getExtendedMemberProperties(member: Member) {
 	let hasPallet = false;
 	let hasAsylumInside = false;
 	let hasAsylumOutside = false;
-	let hasCompany = false;
-
 	// single pass over agreements to check for membership type and various agreements
 	for (const agreement of member.agreements) {
 		if (agreement.type === 'membership' && isAgreementActive(agreement)) {
@@ -59,7 +57,7 @@ function getExtendedMemberProperties(member: Member) {
 		}
 	}
 
-	hasCompany = member.company !== undefined;
+	const hasCompany = member.company !== undefined;
 
 	return {
 		membership: hasActivePassiveMembership ? 'passive' : hasActiveMembership ? 'active' : 'none',

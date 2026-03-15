@@ -1,4 +1,4 @@
-import FortnoxApi from './fortnox-api';
+import { FortnoxApi } from './fortnox-api';
 import { env } from '$env/dynamic/private';
 
 /**

@@ -25,7 +25,7 @@ export type VoucherRowWithVoucher = VoucherRow & {
 	voucher: Voucher;
 };
 
-export function getAccountType(account: number): AccountType {
+function getAccountType(account: number): AccountType {
 	if (/^[1]/.test(account.toString())) {
 		return AccountType.Assets;
 	} else if (/^[2]/.test(account.toString())) {
@@ -71,7 +71,7 @@ export async function* getFullVouchersForCurrentYear(
 	limit: number = Infinity
 ): AsyncGenerator<Voucher> {
 	let page = 1;
-	let totalPages = 1;
+	let totalPages: number;
 	let vouchersRetrieved = 0;
 
 	do {

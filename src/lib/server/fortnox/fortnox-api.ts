@@ -198,7 +198,7 @@ export class FortnoxApi {
 
 	async *listAccountsAsync(): AsyncGenerator<Array<Account>> {
 		let page = 1;
-		let totalPages = 1;
+		let totalPages: number;
 		do {
 			const data = await this.fortnoxGetJson(`/accounts?page=${page}`);
 			const validatedData = AccountsResponseSchema.parse(data);
@@ -207,5 +207,3 @@ export class FortnoxApi {
 		} while (page++ < totalPages);
 	}
 }
-
-export default FortnoxApi;

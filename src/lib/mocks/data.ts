@@ -71,10 +71,7 @@ export const db = factory({
  * @param count - Number of invoice rows to generate
  * @returns Array of InvoiceRow objects (as stored in db)
  */
-export const generateInvoiceRows = (
-	documentNumber: string,
-	count: number = 5
-): Array<InvoiceRow> => {
+const generateInvoiceRows = (documentNumber: string, count: number = 5): Array<InvoiceRow> => {
 	const productGenerators = [
 		faker.animal.type,
 		faker.food.vegetable,
@@ -136,7 +133,7 @@ const generateCustomer = (crNumber: string): Customer => ({
  * @param vat - VAT amount
  * @returns Detailed invoice data object
  */
-export const generateInvoiceDetail = (
+const generateInvoiceDetail = (
 	basicInvoice: Invoice,
 	customer: ReturnType<typeof generateCustomer>,
 	subtotal: number,
