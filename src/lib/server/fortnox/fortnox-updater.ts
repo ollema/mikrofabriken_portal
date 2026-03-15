@@ -1,9 +1,9 @@
-import { building } from '$app/environment';
 import { eq } from 'drizzle-orm';
 import { replaceAllAccounts, replaceAllVouchers } from './fortnox-cache.js';
 import { FortnoxApi } from './fortnox-api.js';
 import { getFullVouchersForCurrentYear } from './fortnox-util.js';
 import type { Account, Voucher } from '$lib/types/fortnox.js';
+import { building } from '$app/environment';
 import { fortnoxUpdateStatus } from '$lib/server/db/schema.js';
 import { db } from '$lib/server/db/index.js';
 import { env } from '$env/dynamic/private';
