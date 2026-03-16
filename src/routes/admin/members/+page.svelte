@@ -25,7 +25,9 @@
 				Email: false,
 				'Slack ID': false,
 				Telefonnummer: false,
-				'Medlem sedan': false
+				'Medlem sedan': false,
+				'E-faktura': false,
+				'E-faktura Företag': false
 			})
 		},
 		{
