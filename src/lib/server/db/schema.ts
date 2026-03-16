@@ -47,7 +47,7 @@ export const fortnoxVoucher = sqliteTable(
 
 export const fortnoxUpdateStatus = sqliteTable('fortnox_update_status', {
 	id: integer('id').primaryKey(),
-	status: text('status').notNull(),
+	status: text('status').notNull().$type<'idle' | 'running' | 'completed' | 'failed'>(),
 	phase: text('phase'),
 	current: integer('current').notNull().default(0),
 	total: integer('total').notNull().default(0),

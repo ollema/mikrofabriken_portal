@@ -13,7 +13,6 @@
 		"prelint": "svelte-kit sync",
 		"lint": "prettier --check . && eslint .",
 		"lint:fix": "prettier --write . && eslint --fix .",
-		"update-vouchers": "vite-node src/scripts/update-vouchers.ts",
 		"db:push": "drizzle-kit push"
 	},
 	"devDependencies": {

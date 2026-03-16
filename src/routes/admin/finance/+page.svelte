@@ -29,7 +29,7 @@
 	let status = $derived(data.updateStatus);
 	let isRunning = $derived(status?.status === 'running');
 	let percentage = $derived(
-		status?.total && status.total > 0 ? Math.round((status.current / status.total) * 100) : 0
+		status?.total && status.total > 0 ? Math.round(((status.current ?? 0) / status.total) * 100) : 0
 	);
 
 	function badgeVariant(
