@@ -24,8 +24,9 @@ export const load = async ({ locals, params }) => {
 	// const purchasesLastMonth = getPurchases(token, member.crNumber, 1);
 	// const purchasesCurrentMonth = getPurchases(token, member.crNumber, 0);
 
-    const customerDetails = await fortnox.getCustomerByOrganisationNumber(member.crNumber);
-	const eInvoiceEnabled = customerDetails?.DefaultDeliveryTypes?.['Invoice'] === 'ELECTRONICINVOICE';
+	const customerDetails = await fortnox.getCustomerByOrganisationNumber(member.crNumber);
+	const eInvoiceEnabled =
+		customerDetails?.DefaultDeliveryTypes?.['Invoice'] === 'ELECTRONICINVOICE';
 
 	return {
 		member,

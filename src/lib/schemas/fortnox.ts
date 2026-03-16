@@ -81,9 +81,7 @@ export const CustomerDetailsSchema = z.object({
 	TermsOfPayment: z.string().nullable(),
 	Type: z.enum(['PRIVATE', 'COMPANY']).nullable(),
 	VATNumber: z.string().nullable(),
-	VATType: z
-		.enum(['SEVAT', 'SEREVERSEDVAT', 'EUREVERSEDVAT', 'EUVAT', 'EXPORT'])
-		.nullable(),
+	VATType: z.enum(['SEVAT', 'SEREVERSEDVAT', 'EUREVERSEDVAT', 'EUVAT', 'EXPORT']).nullable(),
 	VisitingAddress: z.string().max(128).nullable(),
 	VisitingCity: z.string().max(128).nullable(),
 	VisitingCountry: z.string().max(128).nullable(),

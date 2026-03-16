@@ -95,9 +95,13 @@ export class FortnoxApi {
 		return CustomerDetailsSchema.parse(customerData);
 	}
 
-	async getCustomerByOrganisationNumber(organisationNumber: string): Promise<CustomerDetails | null> {
+	async getCustomerByOrganisationNumber(
+		organisationNumber: string
+	): Promise<CustomerDetails | null> {
 		const customers = await this.getCustomers();
-		const customer = customers.find((customer) => customer.OrganisationNumber === organisationNumber);
+		const customer = customers.find(
+			(customer) => customer.OrganisationNumber === organisationNumber
+		);
 		return customer ? this.getCustomer(customer.CustomerNumber) : null;
 	}
 
