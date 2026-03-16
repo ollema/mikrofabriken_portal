@@ -91,7 +91,6 @@ export class FortnoxApi {
 	async getCustomer(customerNumber: string): Promise<CustomerDetails> {
 		const data = await this.fortnoxGetJson(`/customers/${customerNumber}`);
 		const customerData = data['Customer'];
-		console.log('customerData', customerData);
 		return CustomerDetailsSchema.parse(customerData);
 	}
 
@@ -103,6 +102,15 @@ export class FortnoxApi {
 			(customer) => customer.OrganisationNumber === organisationNumber
 		);
 		return customer ? this.getCustomer(customer.CustomerNumber) : null;
+	}
+
+    isEInvoiceEnabled(customerDetails: CustomerDetails): boolean {
+        return customerDetails.DefaultDeliveryTypes?.['Invoice'] === 'ELECTRONICINVOICE';
+    }
+
+	async isEInvoiceEnabledForMember(member: Member): Promise<boolean> {
+		const customerDetails = await this.getCustomerByOrganisationNumber(member.crNumber);
+		return customerDetails ? this.isEInvoiceEnabled(customerDetails) : false;
 	}
 
 	/**

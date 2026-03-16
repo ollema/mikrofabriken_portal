@@ -2,6 +2,7 @@ import { getUser } from '$lib/server/auth.js';
 import { findMember, getMember } from '$lib/server/members.js';
 import { getPendingUpdateForMember } from '$lib/server/gitlab.js';
 import { getWorkPoolNames } from '$lib/server/workpools.js';
+import { fortnox } from '$lib/server/fortnox/fortnox.js';
 
 export const load = async ({ locals, url }) => {
 	const user = getUser(locals, url);
@@ -18,9 +19,12 @@ export const load = async ({ locals, url }) => {
 		}
 	);
 
+	const eInvoiceEnabled = await fortnox.isEInvoiceEnabledForMember(member);
+
 	return {
 		member,
 		workPoolNameMapping,
-		pending: pending
+		pending: pending,
+		eInvoiceEnabled: eInvoiceEnabled
 	};
 };
