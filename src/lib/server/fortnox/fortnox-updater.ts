@@ -1,7 +1,11 @@
 import { eq } from 'drizzle-orm';
-import { replaceAllAccounts, replaceAllVouchers } from './fortnox-cache.js';
+import { replaceAllAccounts, replaceAllCustomers, replaceAllVouchers } from './fortnox-cache.js';
 import { fortnox } from './fortnox.js';
-import { getAllAccountsForCurrentYear, getFullVouchersForCurrentYear } from './fortnox-util.js';
+import {
+	getAllAccountsForCurrentYear,
+	getAllCustomers,
+	getFullVouchersForCurrentYear
+} from './fortnox-util.js';
 import { building } from '$app/environment';
 import { fortnoxUpdateStatus } from '$lib/server/db/schema.js';
 import { db } from '$lib/server/db/index.js';
@@ -115,6 +119,11 @@ async function runUpdate() {
 		totalVouchers
 	);
 	replaceAllVouchers(vouchers);
+
+	// Phase 3: Customers
+	const totalCustomers = await fortnox.countCustomers();
+	const customers = await collectRows('customers', getAllCustomers(fortnox), totalCustomers);
+	replaceAllCustomers(customers);
 
 	updateProgress({
 		status: 'completed',

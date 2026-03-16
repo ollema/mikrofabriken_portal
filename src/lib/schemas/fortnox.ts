@@ -61,8 +61,8 @@ export const CustomerDetailsSchema = z.object({
 
 	ExternalReference: z.string().max(1024).nullable(),
 	Fax: z.string().max(1024).nullable(),
-	GLN: z.string().length(13).nullable(),
-	GLNDelivery: z.string().length(13).nullable(),
+	GLN: z.string().max(13).nullable(),
+	GLNDelivery: z.string().max(13).nullable(),
 	InvoiceAdministrationFee: z.string().nullable(),
 	InvoiceDiscount: z.number().nullable(),
 	InvoiceFreight: z.string().nullable(),

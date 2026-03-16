@@ -52,6 +52,20 @@
 		return new Date(iso).toLocaleString('sv-SE');
 	}
 
+	function phaseName(phase: string | null | undefined): string {
+		if (!phase) return '—';
+		switch (phase) {
+			case 'accounts':
+				return 'Konton';
+			case 'customers':
+				return 'Kunder';
+			case 'vouchers':
+				return 'Verifikationer';
+			default:
+				return phase;
+		}
+	}
+
 	$effect(() => {
 		if (!isRunning) return;
 		const interval = setInterval(() => {
@@ -106,7 +120,7 @@
 			<div class="max-w-md space-y-1">
 				<div class="text-muted-foreground flex justify-between text-xs">
 					<span>
-						{status?.phase === 'accounts' ? 'Konton' : 'Verifikationer'}
+						{phaseName(status?.phase)}
 						— {status?.current ?? 0} / {status?.total ?? 0}
 					</span>
 					<span>{percentage}%</span>
