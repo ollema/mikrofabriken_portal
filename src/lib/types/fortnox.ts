@@ -2,6 +2,7 @@ import type { z } from 'zod';
 
 import type {
 	AccountSchema,
+	AccountsResponseSchema,
 	CustomerDetailsSchema,
 	CustomerSchema,
 	InvoiceDetailSchema,
@@ -14,6 +15,7 @@ import type {
 } from '$lib/schemas/fortnox.js';
 
 export type Account = z.infer<typeof AccountSchema>;
+export type AccountsResponse = z.infer<typeof AccountsResponseSchema>;
 export type Customer = z.infer<typeof CustomerSchema>;
 export type CustomerDetails = z.infer<typeof CustomerDetailsSchema>;
 export type Invoice = z.infer<typeof InvoiceSchema>;

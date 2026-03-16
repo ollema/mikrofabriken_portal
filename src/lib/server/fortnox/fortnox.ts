@@ -3,7 +3,14 @@ import { env } from '$env/dynamic/private';
 
 /**
  * The base URL for the Fortnox API.
+ *
+ * TODO: this shouldn't be exported. Instead, FortnoxApi should be used everywhere
  */
 export const BASE_URL = 'https://fnp.mikrofabriken.se/proxy/3' as const;
 
-export const fortnox = new FortnoxApi(BASE_URL, env.FNP_KEY);
+function createFortnoxApi() {
+	const fnpKey = env.FNP_KEY;
+	return new FortnoxApi(BASE_URL, fnpKey);
+}
+
+export const fortnox = createFortnoxApi();
