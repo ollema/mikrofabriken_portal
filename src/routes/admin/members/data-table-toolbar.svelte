@@ -19,6 +19,7 @@
 	const asylumOutsideCol = $derived(table.getColumn('Asylum (ute)'));
 	const palletCol = $derived(table.getColumn('Pallplats'));
 	const companyCol = $derived(table.getColumn('Företag'));
+	const eInvoiceCol = $derived(table.getColumn('E-faktura'));
 </script>
 
 <div class="flex items-center justify-between">
@@ -105,6 +106,18 @@
 			<DataTableFacetedFilter
 				column={companyCol}
 				title="Företag"
+				enableSearch={false}
+				options={[
+					{ label: 'Ja', value: 'true' },
+					{ label: 'Nej', value: 'false' }
+				]}
+			/>
+		{/if}
+
+		{#if eInvoiceCol}
+			<DataTableFacetedFilter
+				column={eInvoiceCol}
+				title="E-faktura"
 				enableSearch={false}
 				options={[
 					{ label: 'Ja', value: 'true' },

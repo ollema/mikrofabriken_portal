@@ -113,12 +113,15 @@ export function replaceAllCustomers(customers: Array<fortnoxTypes.CustomerDetail
 	});
 }
 
-export async function getCachedCustomers(): Promise<Array<fortnoxTypes.CustomerDetails>> {
+/**
+ * Gets all cached customer details.
+ * @returns A map of organisation numbers to customer details.
+ */
+export async function getCachedCustomers(): Promise<Map<string, fortnoxTypes.CustomerDetails>> {
 	const rows = await db
-		.select({ data: fortnoxCustomer.data })
-		.from(fortnoxCustomer)
-		.orderBy(fortnoxCustomer.organisationNumber);
-	return rows.map((row) => row.data);
+		.select({ organisationNumber: fortnoxCustomer.organisationNumber, data: fortnoxCustomer.data })
+		.from(fortnoxCustomer);
+	return new Map(rows.map((row) => [row.organisationNumber, row.data]));
 }
 
 export async function getCachedCustomer(

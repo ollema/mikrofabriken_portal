@@ -156,7 +156,7 @@ export async function* getAllCustomers(fortnox: FortnoxApi): AsyncGenerator<Cust
 	} while (page++ < totalPages);
 }
 
-function isEInvoiceEnabled(customerDetails: CustomerDetails): boolean {
+export function isEInvoiceEnabled(customerDetails: CustomerDetails): boolean {
 	return customerDetails.DefaultDeliveryTypes?.['Invoice'] === 'ELECTRONICINVOICE';
 }
 
