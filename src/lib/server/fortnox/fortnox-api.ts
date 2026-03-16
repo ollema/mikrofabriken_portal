@@ -1,7 +1,7 @@
 import { error } from '@sveltejs/kit';
 import type { Member } from '$lib/types/members.js';
 import type {
-	Account,
+	AccountsResponse,
 	Customer,
 	Invoice,
 	InvoiceDetail,
@@ -27,6 +27,12 @@ export class FortnoxApi {
 	}
 
 	private async fortnoxGet(path: string) {
+		if (!this.baseUrl) {
+			throw new Error('Fortnox API: BASE_URL is not set');
+		}
+		if (!this.fnpKey) {
+			throw new Error('Fortnox API: FNP_KEY is not set');
+		}
 		const headers = {
 			Accept: 'application/json',
 			'Content-Type': 'application/json',
@@ -187,6 +193,11 @@ export class FortnoxApi {
 		return VouchersResponseSchema.parse(data);
 	}
 
+	async countVouchersThisYear(): Promise<number> {
+		const firstPage = await this.getVoucherPageThisYearAsync(1);
+		return firstPage.MetaInformation['@TotalResources'];
+	}
+
 	/**
 	 * Retrieves a single voucher by number.
 	 */
@@ -198,14 +209,13 @@ export class FortnoxApi {
 		return validatedData.Voucher;
 	}
 
-	async *listAccountsAsync(): AsyncGenerator<Array<Account>> {
-		let page = 1;
-		let totalPages: number;
-		do {
-			const data = await this.fortnoxGetJson(`/accounts?page=${page}`);
-			const validatedData = AccountsResponseSchema.parse(data);
-			totalPages = validatedData.MetaInformation['@TotalPages'];
-			yield validatedData.Accounts;
-		} while (page++ < totalPages);
+	async countAccountsThisYear(): Promise<number> {
+		const firstPage = await this.getAccountPageThisYearAsync(1);
+		return firstPage.MetaInformation['@TotalResources'];
+	}
+
+	async getAccountPageThisYearAsync(page: number): Promise<AccountsResponse> {
+		const data = await this.fortnoxGetJson(`/accounts?page=${page}`);
+		return AccountsResponseSchema.parse(data);
 	}
 }

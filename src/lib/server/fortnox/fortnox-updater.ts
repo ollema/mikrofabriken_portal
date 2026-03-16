@@ -1,20 +1,17 @@
 import { eq } from 'drizzle-orm';
 import { replaceAllAccounts, replaceAllVouchers } from './fortnox-cache.js';
-import { FortnoxApi } from './fortnox-api.js';
-import { getFullVouchersForCurrentYear } from './fortnox-util.js';
-import type { Account, Voucher } from '$lib/types/fortnox.js';
+import { fortnox } from './fortnox.js';
+import { getAllAccountsForCurrentYear, getFullVouchersForCurrentYear } from './fortnox-util.js';
 import { building } from '$app/environment';
 import { fortnoxUpdateStatus } from '$lib/server/db/schema.js';
 import { db } from '$lib/server/db/index.js';
-import { env } from '$env/dynamic/private';
 
-const BASE_URL = 'https://fnp.mikrofabriken.se/proxy/3' as const;
 const STATUS_ROW_ID = 1;
 
 let running = false;
 
 type StatusFields = {
-	status: string;
+	status: 'idle' | 'running' | 'completed' | 'failed';
 	phase?: string | null;
 	current?: number;
 	total?: number;
@@ -38,7 +35,7 @@ function updateProgress(fields: StatusFields) {
 	db.update(fortnoxUpdateStatus).set(fields).where(eq(fortnoxUpdateStatus.id, STATUS_ROW_ID)).run();
 }
 
-export function getStatus() {
+export function getStatus(): StatusFields | undefined {
 	ensureStatusRow();
 	return db
 		.select()
@@ -70,14 +67,27 @@ export function startUpdate(): { started: boolean; reason?: string } {
 	return { started: true };
 }
 
-async function runUpdate() {
-	const fnpKey = env.FNP_KEY;
-	if (!fnpKey) {
-		throw new Error('FNP_KEY is not set');
+async function collectRows<T>(
+	phase: string,
+	generator: AsyncGenerator<T>,
+	total: number
+): Promise<Array<T>> {
+	updateProgress({ status: 'running', phase, current: 0, total });
+	const rows: Array<T> = [];
+	let count = 0;
+	const statusUpdateInterval = Math.max(1, Math.floor(total / 100));
+	for await (const row of generator) {
+		rows.push(row);
+		if (count % statusUpdateInterval === 0) {
+			updateProgress({ status: 'running', phase, current: count, total });
+		}
+		count++;
 	}
+	updateProgress({ status: 'running', phase, current: count, total });
+	return rows;
+}
 
-	const fortnox = new FortnoxApi(BASE_URL, fnpKey);
-
+async function runUpdate() {
 	updateProgress({
 		status: 'running',
 		phase: 'accounts',
@@ -89,30 +99,27 @@ async function runUpdate() {
 	});
 
 	// Phase 1: Accounts
-	const accounts: Array<Account> = (await Array.fromAsync(fortnox.listAccountsAsync())).flat();
-	updateProgress({ status: 'running', current: accounts.length, total: accounts.length });
+	const totalAccounts = await fortnox.countAccountsThisYear();
+	const accounts = await collectRows(
+		'accounts',
+		getAllAccountsForCurrentYear(fortnox),
+		totalAccounts
+	);
 	replaceAllAccounts(accounts);
 
 	// Phase 2: Vouchers
-	const firstPage = await fortnox.getVoucherPageThisYearAsync(1);
-	const totalVouchers = firstPage.MetaInformation['@TotalResources'];
-	updateProgress({ status: 'running', phase: 'vouchers', current: 0, total: totalVouchers });
-
-	const vouchers: Array<Voucher> = [];
-	let count = 0;
-	for await (const voucher of getFullVouchersForCurrentYear(fortnox)) {
-		vouchers.push(voucher);
-		count++;
-		if (count % 10 === 0) {
-			updateProgress({ status: 'running', current: count });
-		}
-	}
+	const totalVouchers = await fortnox.countVouchersThisYear();
+	const vouchers = await collectRows(
+		'vouchers',
+		getFullVouchersForCurrentYear(fortnox),
+		totalVouchers
+	);
 	replaceAllVouchers(vouchers);
 
 	updateProgress({
 		status: 'completed',
-		current: vouchers.length,
-		total: vouchers.length,
+		current: 0,
+		total: 0,
 		completedAt: new Date().toISOString()
 	});
 }

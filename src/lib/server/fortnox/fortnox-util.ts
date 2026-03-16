@@ -2,7 +2,7 @@ import { getTotalsByCostCenter } from '../finance/results.js';
 import { getCachedAccounts, getCachedVouchers } from './fortnox-cache.js';
 import type { TotalsByCostCenter } from '../finance/results.js';
 import type { FortnoxApi } from './fortnox-api.js';
-import type { Voucher, VoucherListItem, VoucherRow } from '$lib/types/fortnox.js';
+import type { Account, Voucher, VoucherListItem, VoucherRow } from '$lib/types/fortnox.js';
 
 export enum AccountType {
 	Assets = 'assets',
@@ -66,13 +66,9 @@ async function getVoucherFromListItem(
 	);
 }
 
-export async function* getFullVouchersForCurrentYear(
-	fortnox: FortnoxApi,
-	limit: number = Infinity
-): AsyncGenerator<Voucher> {
+export async function* getFullVouchersForCurrentYear(fortnox: FortnoxApi): AsyncGenerator<Voucher> {
 	let page = 1;
 	let totalPages: number;
-	let vouchersRetrieved = 0;
 
 	do {
 		const data = await fortnox.getVoucherPageThisYearAsync(page);
@@ -80,10 +76,6 @@ export async function* getFullVouchersForCurrentYear(
 		for (const voucherListItem of data.Vouchers) {
 			const voucher = await getVoucherFromListItem(fortnox, voucherListItem);
 			yield voucher;
-			vouchersRetrieved++;
-			if (vouchersRetrieved >= limit) {
-				return;
-			}
 		}
 	} while (page++ < totalPages);
 }
@@ -116,4 +108,16 @@ export async function getTotalsByCostCenterForCurrentYear(): Promise<TotalsByCos
 	const vouchers = await getCachedVouchers();
 	const accounts = await getCachedAccountDetails();
 	return getTotalsByCostCenter(vouchers, accounts);
+}
+
+export async function* getAllAccountsForCurrentYear(fortnox: FortnoxApi): AsyncGenerator<Account> {
+	let page = 1;
+	let totalPages: number;
+	do {
+		const data = await fortnox.getAccountPageThisYearAsync(page);
+		totalPages = data.MetaInformation['@TotalPages'];
+		for (const account of data.Accounts) {
+			yield account;
+		}
+	} while (page++ < totalPages);
 }
