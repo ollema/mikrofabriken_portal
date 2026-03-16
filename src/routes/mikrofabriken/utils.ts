@@ -140,6 +140,7 @@ export async function getFormattedMembersBasedOnCommissions(
 			omkEntry('workshop/3dprint'),
 			omkEntry('workshop/asylumstorage'),
 			omkEntry('workshop/brewery'),
+			omkEntry('workshop/ceramics'),
 			omkEntry('workshop/electronics'),
 			omkEntry('workshop/vehicle'),
 			omkEntry('committee/it'),
