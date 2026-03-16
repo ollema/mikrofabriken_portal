@@ -79,10 +79,14 @@ function getExtendedMemberProperties(member: Member) {
 function getCustomerProperties(
 	member: Member,
 	customers: Map<string, CustomerDetails>
-): { hasEInvoice: string } {
+): { hasEInvoice: string; hasCompanyEInvoice: string } {
 	const customer = customers.get(member.crNumber);
 	const hasEInvoice = customer ? isEInvoiceEnabled(customer) : false;
+	const companyOrgNumber = member.company?.orgNum;
+	const companyCustomer = companyOrgNumber ? customers.get(companyOrgNumber) : undefined;
+	const hasCompanyEInvoice = companyCustomer ? isEInvoiceEnabled(companyCustomer) : false;
 	return {
-		hasEInvoice: hasEInvoice.toString()
+		hasEInvoice: hasEInvoice.toString(),
+		hasCompanyEInvoice: hasCompanyEInvoice.toString()
 	};
 }

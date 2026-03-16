@@ -15,6 +15,7 @@ export type ExtendedMember = Member & {
 	hasPallet: string;
 	hasCompany: string;
 	hasEInvoice: string;
+	hasCompanyEInvoice: string;
 };
 
 export type Company = z.infer<typeof CompanySchema>;

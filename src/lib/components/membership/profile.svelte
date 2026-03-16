@@ -20,9 +20,11 @@
 		workPoolNameMapping: Record<string, string>;
 		pending: PendingMemberUpdate;
 		eInvoiceEnabled: boolean;
+		companyEInvoiceEnabled: boolean;
 	};
 
-	let { member, pending, workPoolNameMapping, eInvoiceEnabled }: Props = $props();
+	let { member, pending, workPoolNameMapping, eInvoiceEnabled, companyEInvoiceEnabled }: Props =
+		$props();
 
 	let showPending = $state(false);
 </script>
@@ -67,6 +69,14 @@
 		<p>E-faktura är aktiverad</p>
 	{:else}
 		<p>E-faktura är inte aktiverad</p>
+	{/if}
+
+	{#if member.company}
+		{#if member.company && companyEInvoiceEnabled}
+			<p>E-faktura för företag är aktiverad</p>
+		{:else}
+			<p>E-faktura för företag är inte aktiverad</p>
+		{/if}
 	{/if}
 {/snippet}
 

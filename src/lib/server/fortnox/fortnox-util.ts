@@ -160,11 +160,14 @@ export function isEInvoiceEnabled(customerDetails: CustomerDetails): boolean {
 	return customerDetails.DefaultDeliveryTypes?.['Invoice'] === 'ELECTRONICINVOICE';
 }
 
-export async function isEInvoiceEnabledForMember(
-	fortnox: FortnoxApi,
-	member: Member
-): Promise<boolean> {
+export async function isEInvoiceEnabledForMember(member: Member): Promise<boolean> {
 	const customerDetails = await getCachedCustomer(member.crNumber);
+	return customerDetails ? isEInvoiceEnabled(customerDetails) : false;
+}
+
+export async function isCompanyEInvoiceEnabledForMember(member: Member): Promise<boolean> {
+	const companyOrgNumber = member.company?.orgNum;
+	const customerDetails = companyOrgNumber && (await getCachedCustomer(companyOrgNumber));
 	return customerDetails ? isEInvoiceEnabled(customerDetails) : false;
 }
 

@@ -169,6 +169,19 @@ export const columns: Array<ColumnDef<ExtendedMember>> = [
 		}
 	},
 	{
+		id: 'E-faktura Företag',
+		accessorKey: 'hasCompanyEInvoice',
+		header: 'E-faktura Företag',
+		cell: ({ row }) => {
+			return renderComponent(DataTableBooleanCell, {
+				value: row.original.hasCompanyEInvoice
+			});
+		},
+		filterFn: (row, id, value) => {
+			return value.includes(row.getValue(id));
+		}
+	},
+	{
 		id: 'actions',
 		cell: ({ row }) => renderComponent(DataTableRowActions, { row })
 	}
