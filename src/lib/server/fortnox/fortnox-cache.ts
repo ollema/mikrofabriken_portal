@@ -1,11 +1,12 @@
 import { and, eq, sql } from 'drizzle-orm';
 import type * as fortnoxTypes from '$lib/types/fortnox.js';
 import { db } from '$lib/server/db/index.js';
-import { fortnoxAccount, fortnoxVoucher } from '$lib/server/db/schema.js';
+import { fortnoxAccount, fortnoxCustomer, fortnoxVoucher } from '$lib/server/db/schema.js';
 
-/**
- * Replaces all accounts in the cache with the given list.
- */
+//
+// Account cache
+//
+
 export function replaceAllAccounts(accounts: Array<fortnoxTypes.Account>): void {
 	db.transaction((tx) => {
 		tx.delete(fortnoxAccount).run();
@@ -35,9 +36,10 @@ export async function getCachedAccounts(): Promise<Array<fortnoxTypes.Account>> 
 	return rows.map((row) => row.data);
 }
 
-/**
- * Replaces all vouchers in the cache with the given list.
- */
+//
+// Voucher cache
+//
+
 export function replaceAllVouchers(vouchers: Array<fortnoxTypes.Voucher>): void {
 	db.transaction((tx) => {
 		tx.delete(fortnoxVoucher).run();
@@ -84,6 +86,51 @@ export async function getCachedVoucher(
 				eq(fortnoxVoucher.voucherNumber, voucherNumber)
 			)
 		)
+		.limit(1);
+	return rows[0]?.data;
+}
+
+//
+// Customer cache
+//
+
+export function replaceAllCustomers(customers: Array<fortnoxTypes.CustomerDetails>): void {
+	db.transaction((tx) => {
+		tx.delete(fortnoxCustomer).run();
+		const insert = tx
+			.insert(fortnoxCustomer)
+			.values({
+				organisationNumber: sql.placeholder('organisationNumber'),
+				data: sql.placeholder('data')
+			})
+			.prepare();
+		for (const customer of customers) {
+			insert.run({
+				organisationNumber: customer.OrganisationNumber,
+				data: customer
+			});
+		}
+	});
+}
+
+/**
+ * Gets all cached customer details.
+ * @returns A map of organisation numbers to customer details.
+ */
+export async function getCachedCustomers(): Promise<Map<string, fortnoxTypes.CustomerDetails>> {
+	const rows = await db
+		.select({ organisationNumber: fortnoxCustomer.organisationNumber, data: fortnoxCustomer.data })
+		.from(fortnoxCustomer);
+	return new Map(rows.map((row) => [row.organisationNumber, row.data]));
+}
+
+export async function getCachedCustomer(
+	organisationNumber: string
+): Promise<fortnoxTypes.CustomerDetails | undefined> {
+	const rows = await db
+		.select({ data: fortnoxCustomer.data })
+		.from(fortnoxCustomer)
+		.where(eq(fortnoxCustomer.organisationNumber, organisationNumber))
 		.limit(1);
 	return rows[0]?.data;
 }

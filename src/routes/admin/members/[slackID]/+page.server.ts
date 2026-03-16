@@ -3,6 +3,10 @@ import { findMember, getMember } from '$lib/server/members.js';
 import { getWorkPoolNames } from '$lib/server/workpools.js';
 import { getAvatar } from '$lib/server/cog.js';
 import { getPendingUpdateForMember } from '$lib/server/gitlab.js';
+import {
+	isCompanyEInvoiceEnabledForMember,
+	isEInvoiceEnabledForMember
+} from '$lib/server/fortnox/fortnox-util.js';
 
 export const load = async ({ locals, params }) => {
 	getUser(locals);
@@ -23,10 +27,15 @@ export const load = async ({ locals, params }) => {
 	// const purchasesLastMonth = getPurchases(token, member.crNumber, 1);
 	// const purchasesCurrentMonth = getPurchases(token, member.crNumber, 0);
 
+	const eInvoiceEnabled = await isEInvoiceEnabledForMember(member);
+	const companyEInvoiceEnabled = await isCompanyEInvoiceEnabledForMember(member);
+
 	return {
 		member,
 		workPoolNameMapping,
 		avatar: await avatar,
-		pending: await pending
+		pending: await pending,
+		eInvoiceEnabled,
+		companyEInvoiceEnabled
 	};
 };

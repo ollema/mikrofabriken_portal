@@ -1,8 +1,21 @@
+import { error } from '@sveltejs/kit';
 import { getTotalsByCostCenter } from '../finance/results.js';
-import { getCachedAccounts, getCachedVouchers } from './fortnox-cache.js';
+import { getCachedAccounts, getCachedCustomer, getCachedVouchers } from './fortnox-cache.js';
 import type { TotalsByCostCenter } from '../finance/results.js';
 import type { FortnoxApi } from './fortnox-api.js';
-import type { Account, Voucher, VoucherListItem, VoucherRow } from '$lib/types/fortnox.js';
+import type {
+	Account,
+	CustomerDetails,
+	Invoice,
+	Voucher,
+	VoucherListItem,
+	VoucherRow
+} from '$lib/types/fortnox.js';
+import type { Member } from '$lib/types/members.js';
+
+//
+// Accounts
+//
 
 export enum AccountType {
 	Assets = 'assets',
@@ -54,6 +67,10 @@ export async function getCachedAccountDetails(): Promise<AccountDetailsMap> {
 		])
 	);
 }
+
+//
+// Vouchers
+//
 
 async function getVoucherFromListItem(
 	fortnox: FortnoxApi,
@@ -120,4 +137,72 @@ export async function* getAllAccountsForCurrentYear(fortnox: FortnoxApi): AsyncG
 			yield account;
 		}
 	} while (page++ < totalPages);
+}
+
+//
+// Customers
+//
+
+export async function* getAllCustomers(fortnox: FortnoxApi): AsyncGenerator<CustomerDetails> {
+	let page = 1;
+	let totalPages: number;
+	do {
+		const data = await fortnox.getCustomerPageAsync(page);
+		totalPages = data.MetaInformation['@TotalPages'];
+		for (const customer of data.Customers) {
+			const customerDetails = await fortnox.getCustomerDetails(customer.CustomerNumber);
+			yield customerDetails;
+		}
+	} while (page++ < totalPages);
+}
+
+export function isEInvoiceEnabled(customerDetails: CustomerDetails): boolean {
+	return customerDetails.DefaultDeliveryTypes?.['Invoice'] === 'ELECTRONICINVOICE';
+}
+
+export async function isEInvoiceEnabledForMember(member: Member): Promise<boolean> {
+	const customerDetails = await getCachedCustomer(member.crNumber);
+	return customerDetails ? isEInvoiceEnabled(customerDetails) : false;
+}
+
+export async function isCompanyEInvoiceEnabledForMember(member: Member): Promise<boolean> {
+	const companyOrgNumber = member.company?.orgNum;
+	const customerDetails = companyOrgNumber && (await getCachedCustomer(companyOrgNumber));
+	return customerDetails ? isEInvoiceEnabled(customerDetails) : false;
+}
+
+//
+// Invoices
+//
+
+/**
+ * Retrieves invoices for a member from Fortnox API.
+ */
+export async function getInvoices(fortnox: FortnoxApi, member: Member) {
+	const personalInvoices = await getInvoicesByOrganisationNumber(fortnox, member.crNumber);
+	const companyOrgNumber = member.company?.orgNum;
+	const companyInvoices = companyOrgNumber
+		? await getInvoicesByOrganisationNumber(fortnox, companyOrgNumber)
+		: null;
+	if (!personalInvoices && !companyInvoices) {
+		error(
+			404,
+			`No invoices found for member with ${member.crNumber}. Post in #it-system if you think that this is an error.`
+		);
+	}
+	return {
+		personal: personalInvoices,
+		company: companyInvoices
+	};
+}
+
+async function getInvoicesByOrganisationNumber(
+	fortnox: FortnoxApi,
+	organisationNumber: string
+): Promise<Array<Invoice> | null> {
+	const customer = await getCachedCustomer(organisationNumber);
+	if (!customer) {
+		return null;
+	}
+	return await fortnox.getInvoicesForCustomer(customer.CustomerNumber);
 }

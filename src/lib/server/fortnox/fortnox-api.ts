@@ -2,7 +2,8 @@ import { error } from '@sveltejs/kit';
 import type { Member } from '$lib/types/members.js';
 import type {
 	AccountsResponse,
-	Customer,
+	CustomerDetails,
+	CustomersResponse,
 	Invoice,
 	InvoiceDetail,
 	Voucher,
@@ -10,6 +11,7 @@ import type {
 } from '$lib/types/fortnox';
 import {
 	AccountsResponseSchema,
+	CustomerDetailsSchema,
 	CustomersResponseSchema,
 	InvoiceResponseSchema,
 	InvoicesResponseSchema,
@@ -70,26 +72,20 @@ export class FortnoxApi {
 		return response.blob();
 	}
 
-	/**
-	 * Retrieves all customers from the Fortnox API.
-	 */
-	async getCustomers(): Promise<Array<Customer>> {
-		let page = 1;
-		let data = await this.fortnoxGetJson(`/customers?page=${page}`);
-		let validatedData = CustomersResponseSchema.parse(data);
+	async getCustomerPageAsync(page: number): Promise<CustomersResponse> {
+		const data = await this.fortnoxGetJson(`/customers?page=${page}`);
+		return CustomersResponseSchema.parse(data);
+	}
 
-		let allCustomers = [...validatedData.Customers];
+	async countCustomers(): Promise<number> {
+		const firstPage = await this.getCustomerPageAsync(1);
+		return firstPage.MetaInformation['@TotalResources'];
+	}
 
-		while (
-			validatedData.MetaInformation['@CurrentPage'] < validatedData.MetaInformation['@TotalPages']
-		) {
-			page += 1;
-			data = await this.fortnoxGetJson(`/customers?page=${page}`);
-			validatedData = CustomersResponseSchema.parse(data);
-			allCustomers = [...allCustomers, ...validatedData.Customers];
-		}
-
-		return allCustomers;
+	async getCustomerDetails(customerNumber: string): Promise<CustomerDetails> {
+		const data = await this.fortnoxGetJson(`/customers/${customerNumber}`);
+		const customerData = data['Customer'];
+		return CustomerDetailsSchema.parse(customerData);
 	}
 
 	/**
@@ -118,40 +114,6 @@ export class FortnoxApi {
 		const filteredInvoices = allInvoices.filter((invoice) => !invoice.Cancelled).reverse();
 
 		return filteredInvoices;
-	}
-
-	/**
-	 * Retrieves invoices for a member from Fortnox API.
-	 */
-	async getInvoices(member: Member) {
-		// TODO: we don't need to get all customers just to get the invoices for one member
-		const customers = await this.getCustomers();
-
-		const personalCustomer = customers.find(
-			(customer) => customer.OrganisationNumber === member.crNumber
-		);
-		const personalInvoices = personalCustomer
-			? await this.getInvoicesForCustomer(personalCustomer.CustomerNumber)
-			: null;
-
-		const companyCustomer = customers.find(
-			(customer) => customer.OrganisationNumber === member.company?.orgNum
-		);
-		const companyInvoices = companyCustomer
-			? await this.getInvoicesForCustomer(companyCustomer.CustomerNumber)
-			: null;
-
-		if (!personalInvoices && !companyInvoices) {
-			error(
-				404,
-				`No invoices found for member with ${member.crNumber}. Post in #it-system if you think that this is an error.`
-			);
-		}
-
-		return {
-			personal: personalInvoices,
-			company: companyInvoices
-		};
 	}
 
 	/**

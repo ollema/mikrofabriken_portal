@@ -1,6 +1,6 @@
 import { integer, primaryKey, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import type { Claims } from '$lib/types/cog.js';
-import type { Account, Voucher } from '$lib/types/fortnox.js';
+import type { Account, CustomerDetails, Voucher } from '$lib/types/fortnox.js';
 
 export const user = sqliteTable('user', {
 	id: text('id').primaryKey(),
@@ -43,6 +43,15 @@ export const fortnoxVoucher = sqliteTable(
 			columns: [table.year, table.voucherSeries, table.voucherNumber]
 		})
 	]
+);
+
+export const fortnoxCustomer = sqliteTable(
+	'fortnox_customer',
+	{
+		organisationNumber: text('organisation_number').notNull().unique(),
+		data: text('data', { mode: 'json' }).$type<CustomerDetails>().notNull()
+	},
+	(table) => [primaryKey({ columns: [table.organisationNumber] })]
 );
 
 export const fortnoxUpdateStatus = sqliteTable('fortnox_update_status', {

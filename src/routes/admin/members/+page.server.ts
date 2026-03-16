@@ -1,15 +1,21 @@
 import type { ExtendedMember, Member } from '$lib/types/members.js';
+import type { CustomerDetails } from '$lib/types/fortnox.js';
 import { getUser } from '$lib/server/auth.js';
 import { getMembers } from '$lib/server/members.js';
 import { isAgreementActive } from '$lib/utils/member.js';
+import { getCachedCustomers } from '$lib/server/fortnox/fortnox-cache.js';
+import { isEInvoiceEnabled } from '$lib/server/fortnox/fortnox-util.js';
 
-export const load = ({ locals }) => {
+export const load = async ({ locals }) => {
 	getUser(locals);
 	const members = getMembers();
+	const customers = await getCachedCustomers();
+
 	const refinedMembers = members.map((member) => {
 		return {
 			...member,
-			...getExtendedMemberProperties(member)
+			...getExtendedMemberProperties(member),
+			...getCustomerProperties(member, customers)
 		} as ExtendedMember;
 	});
 
@@ -67,5 +73,20 @@ function getExtendedMemberProperties(member: Member) {
 		hasAsylumInside: hasAsylumInside.toString(),
 		hasAsylumOutside: hasAsylumOutside.toString(),
 		hasCompany: hasCompany.toString()
+	};
+}
+
+function getCustomerProperties(
+	member: Member,
+	customers: Map<string, CustomerDetails>
+): { hasEInvoice: string; hasCompanyEInvoice: string } {
+	const customer = customers.get(member.crNumber);
+	const hasEInvoice = customer ? isEInvoiceEnabled(customer) : false;
+	const companyOrgNumber = member.company?.orgNum;
+	const companyCustomer = companyOrgNumber ? customers.get(companyOrgNumber) : undefined;
+	const hasCompanyEInvoice = companyCustomer ? isEInvoiceEnabled(companyCustomer) : false;
+	return {
+		hasEInvoice: hasEInvoice.toString(),
+		hasCompanyEInvoice: hasCompanyEInvoice.toString()
 	};
 }

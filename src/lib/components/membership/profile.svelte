@@ -19,9 +19,12 @@
 		member: Member;
 		workPoolNameMapping: Record<string, string>;
 		pending: PendingMemberUpdate;
+		eInvoiceEnabled: boolean;
+		companyEInvoiceEnabled: boolean;
 	};
 
-	let { member, pending, workPoolNameMapping }: Props = $props();
+	let { member, pending, workPoolNameMapping, eInvoiceEnabled, companyEInvoiceEnabled }: Props =
+		$props();
 
 	let showPending = $state(false);
 </script>
@@ -59,6 +62,21 @@
 	{#if member.commissions.filter((commission) => isCommissionActive(commission)).length > 0}
 		{@render subtitle('Roller')}
 		<Commissions commissions={member.commissions} />
+	{/if}
+
+	{@render subtitle('E-faktura')}
+	{#if eInvoiceEnabled}
+		<p>E-faktura är aktiverad</p>
+	{:else}
+		<p>E-faktura är inte aktiverad</p>
+	{/if}
+
+	{#if member.company}
+		{#if member.company && companyEInvoiceEnabled}
+			<p>E-faktura för företag är aktiverad</p>
+		{:else}
+			<p>E-faktura för företag är inte aktiverad</p>
+		{/if}
 	{/if}
 {/snippet}
 

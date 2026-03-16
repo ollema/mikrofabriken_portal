@@ -3,7 +3,9 @@ import type { z } from 'zod';
 import type {
 	AccountSchema,
 	AccountsResponseSchema,
+	CustomerDetailsSchema,
 	CustomerSchema,
+	CustomersResponseSchema,
 	InvoiceDetailSchema,
 	InvoiceRowsSchema,
 	InvoiceSchema,
@@ -16,6 +18,8 @@ import type {
 export type Account = z.infer<typeof AccountSchema>;
 export type AccountsResponse = z.infer<typeof AccountsResponseSchema>;
 export type Customer = z.infer<typeof CustomerSchema>;
+export type CustomerDetails = z.infer<typeof CustomerDetailsSchema>;
+export type CustomersResponse = z.infer<typeof CustomersResponseSchema>;
 export type Invoice = z.infer<typeof InvoiceSchema>;
 export type InvoiceRow = z.infer<typeof InvoiceRowsSchema>;
 export type InvoiceDetail = z.infer<typeof InvoiceDetailSchema>;

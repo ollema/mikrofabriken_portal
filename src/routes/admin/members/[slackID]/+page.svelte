@@ -102,5 +102,7 @@
 		member={data.member}
 		workPoolNameMapping={data.workPoolNameMapping}
 		pending={data.pending}
+		eInvoiceEnabled={data.eInvoiceEnabled}
+		companyEInvoiceEnabled={data.companyEInvoiceEnabled}
 	/>
 </div>
