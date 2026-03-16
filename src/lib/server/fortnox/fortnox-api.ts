@@ -104,9 +104,9 @@ export class FortnoxApi {
 		return customer ? this.getCustomer(customer.CustomerNumber) : null;
 	}
 
-    isEInvoiceEnabled(customerDetails: CustomerDetails): boolean {
-        return customerDetails.DefaultDeliveryTypes?.['Invoice'] === 'ELECTRONICINVOICE';
-    }
+	isEInvoiceEnabled(customerDetails: CustomerDetails): boolean {
+		return customerDetails.DefaultDeliveryTypes?.['Invoice'] === 'ELECTRONICINVOICE';
+	}
 
 	async isEInvoiceEnabledForMember(member: Member): Promise<boolean> {
 		const customerDetails = await this.getCustomerByOrganisationNumber(member.crNumber);
