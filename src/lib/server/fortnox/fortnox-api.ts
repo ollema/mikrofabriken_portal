@@ -3,6 +3,7 @@ import type { Member } from '$lib/types/members.js';
 import type {
 	Account,
 	Customer,
+	CustomerDetails,
 	Invoice,
 	InvoiceDetail,
 	Voucher,
@@ -10,6 +11,7 @@ import type {
 } from '$lib/types/fortnox';
 import {
 	AccountsResponseSchema,
+	CustomerDetailsSchema,
 	CustomersResponseSchema,
 	InvoiceResponseSchema,
 	InvoicesResponseSchema,
@@ -84,6 +86,19 @@ export class FortnoxApi {
 		}
 
 		return allCustomers;
+	}
+
+	async getCustomer(customerNumber: string): Promise<CustomerDetails> {
+		const data = await this.fortnoxGetJson(`/customers/${customerNumber}`);
+		const customerData = data['Customer'];
+		console.log('customerData', customerData);
+		return CustomerDetailsSchema.parse(customerData);
+	}
+
+	async getCustomerByOrganisationNumber(organisationNumber: string): Promise<CustomerDetails | null> {
+		const customers = await this.getCustomers();
+		const customer = customers.find((customer) => customer.OrganisationNumber === organisationNumber);
+		return customer ? this.getCustomer(customer.CustomerNumber) : null;
 	}
 
 	/**

@@ -23,6 +23,78 @@ export const CustomersResponseSchema = z.object({
 	Customers: z.array(CustomerSchema)
 });
 
+export const CustomerDetailsSchema = z.object({
+	Active: z.boolean(),
+	Address1: z.string().max(1024).nullable(),
+	Address2: z.string().max(1024).nullable(),
+	City: z.string().max(1024).nullable(),
+	Comments: z.string().nullable(),
+	CostCenter: z.string().nullable(),
+	Country: z.string().max(1024).nullable(),
+	CountryCode: z.string().length(2).nullable(),
+	Currency: z.string().nullable(),
+	CustomerNumber: z.string(),
+
+	DefaultDeliveryTypes: z.record(z.string(), z.unknown()).nullable(),
+	DefaultTemplates: z.record(z.string(), z.unknown()).nullable(),
+	DeliveryAddress1: z.string().max(1024).nullable(),
+	DeliveryAddress2: z.string().max(1024).nullable(),
+	DeliveryCity: z.string().max(1024).nullable(),
+	DeliveryCountry: z.string().max(1024).nullable(),
+	DeliveryCountryCode: z.string().length(2).nullable(),
+	DeliveryFax: z.string().max(1024).nullable(),
+	DeliveryName: z.string().max(1024).nullable(),
+	DeliveryPhone1: z.string().max(1024).nullable(),
+	DeliveryPhone2: z.string().max(1024).nullable(),
+	DeliveryZipCode: z.string().max(10).nullable(),
+
+	Email: z.string().max(1024).nullable(),
+	EmailInvoice: z.string().max(1024).nullable(),
+	EmailInvoiceBCC: z.string().max(1024).nullable(),
+	EmailInvoiceCC: z.string().max(1024).nullable(),
+	EmailOffer: z.string().max(1024).nullable(),
+	EmailOfferBCC: z.string().max(1024).nullable(),
+	EmailOfferCC: z.string().max(1024).nullable(),
+	EmailOrder: z.string().max(1024).nullable(),
+	EmailOrderBCC: z.string().max(1024).nullable(),
+	EmailOrderCC: z.string().max(1024).nullable(),
+
+	ExternalReference: z.string().max(1024).nullable(),
+	Fax: z.string().max(1024).nullable(),
+	GLN: z.string().length(13).nullable(),
+	GLNDelivery: z.string().length(13).nullable(),
+	InvoiceAdministrationFee: z.string().nullable(),
+	InvoiceDiscount: z.number().nullable(),
+	InvoiceFreight: z.string().nullable(),
+	InvoiceRemark: z.string().max(1024).nullable(),
+
+	Name: z.string().min(1).max(1024),
+	OrganisationNumber: z.string().nullable(),
+	OurReference: z.string().max(50).nullable(),
+	Phone1: z.string().max(1024).nullable(),
+	Phone2: z.string().max(1024).nullable(),
+	PriceList: z.string().nullable(),
+	Project: z.string().nullable(),
+	SalesAccount: z.string().length(4).nullable(),
+	ShowPriceVATIncluded: z.boolean().nullable(),
+	TermsOfDelivery: z.string().nullable(),
+	TermsOfPayment: z.string().nullable(),
+	Type: z.enum(['PRIVATE', 'COMPANY']).nullable(),
+	VATNumber: z.string().nullable(),
+	VATType: z
+		.enum(['SEVAT', 'SEREVERSEDVAT', 'EUREVERSEDVAT', 'EUVAT', 'EXPORT'])
+		.nullable(),
+	VisitingAddress: z.string().max(128).nullable(),
+	VisitingCity: z.string().max(128).nullable(),
+	VisitingCountry: z.string().max(128).nullable(),
+	VisitingCountryCode: z.string().length(2).nullable(),
+	VisitingZipCode: z.string().max(10).nullable(),
+	WWW: z.string().max(128).nullable(),
+	WayOfDelivery: z.string().nullable(),
+	YourReference: z.string().max(50).nullable(),
+	ZipCode: z.string().max(10).nullable()
+});
+
 export const InvoiceSchema = z.object({
 	CustomerName: z.string(),
 	CustomerNumber: z.string(),
