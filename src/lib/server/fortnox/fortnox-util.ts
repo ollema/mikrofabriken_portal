@@ -2,7 +2,14 @@ import { getTotalsByCostCenter } from '../finance/results.js';
 import { getCachedAccounts, getCachedVouchers } from './fortnox-cache.js';
 import type { TotalsByCostCenter } from '../finance/results.js';
 import type { FortnoxApi } from './fortnox-api.js';
-import type { Account, Voucher, VoucherListItem, VoucherRow } from '$lib/types/fortnox.js';
+import type {
+	Account,
+	CustomerDetails,
+	Voucher,
+	VoucherListItem,
+	VoucherRow
+} from '$lib/types/fortnox.js';
+import type { Member } from '$lib/types/members.js';
 
 export enum AccountType {
 	Assets = 'assets',
@@ -120,4 +127,20 @@ export async function* getAllAccountsForCurrentYear(fortnox: FortnoxApi): AsyncG
 			yield account;
 		}
 	} while (page++ < totalPages);
+}
+
+//
+// Customers
+//
+
+export function isEInvoiceEnabled(customerDetails: CustomerDetails): boolean {
+	return customerDetails.DefaultDeliveryTypes?.['Invoice'] === 'ELECTRONICINVOICE';
+}
+
+export async function isEInvoiceEnabledForMember(
+	fortnox: FortnoxApi,
+	member: Member
+): Promise<boolean> {
+	const customerDetails = await fortnox.getCustomerByOrganisationNumber(member.crNumber);
+	return customerDetails ? isEInvoiceEnabled(customerDetails) : false;
 }

@@ -4,6 +4,7 @@ import { getWorkPoolNames } from '$lib/server/workpools.js';
 import { getAvatar } from '$lib/server/cog.js';
 import { getPendingUpdateForMember } from '$lib/server/gitlab.js';
 import { fortnox } from '$lib/server/fortnox/fortnox.js';
+import { isEInvoiceEnabledForMember } from '$lib/server/fortnox/fortnox-util.js';
 
 export const load = async ({ locals, params }) => {
 	getUser(locals);
@@ -24,7 +25,7 @@ export const load = async ({ locals, params }) => {
 	// const purchasesLastMonth = getPurchases(token, member.crNumber, 1);
 	// const purchasesCurrentMonth = getPurchases(token, member.crNumber, 0);
 
-	const eInvoiceEnabled = await fortnox.isEInvoiceEnabledForMember(member);
+	const eInvoiceEnabled = await isEInvoiceEnabledForMember(fortnox, member);
 
 	return {
 		member,
