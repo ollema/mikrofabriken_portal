@@ -35,7 +35,7 @@ export const columns: Array<ColumnDef<OmkBudgetRow>> = [
 	},
 	{
 		id: 'investment',
-		accessorKey: 'investment',
+		accessorKey: 'investmentBudget',
 		header: ({ column }) =>
 			renderComponent(DataTableColumnHeader<OmkBudgetRow, unknown>, {
 				column,
@@ -45,7 +45,7 @@ export const columns: Array<ColumnDef<OmkBudgetRow>> = [
 	},
 	{
 		id: 'expenditure',
-		accessorKey: 'expenditure',
+		accessorKey: 'expenditureBudget',
 		header: ({ column }) =>
 			renderComponent(DataTableColumnHeader<OmkBudgetRow, unknown>, {
 				column,
@@ -55,7 +55,7 @@ export const columns: Array<ColumnDef<OmkBudgetRow>> = [
 	},
 	{
 		id: 'result',
-		accessorKey: 'result',
+		accessorKey: 'netResult',
 		header: ({ column }) =>
 			renderComponent(DataTableColumnHeader<OmkBudgetRow, unknown>, {
 				column,
